@@ -26,7 +26,9 @@
 
 <div id="wrapper">
 
-    <div id="header"></div>
+    <div id="header">
+        <span data-bind="text: user.username"></span>
+    </div>
 
     <div id="itemWrapper" data-bind="foreach: items">
         <div class="item">
