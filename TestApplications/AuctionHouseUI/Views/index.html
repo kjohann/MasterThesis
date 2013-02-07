@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Auction House</title>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="../ExternalScripts/knockout.js"></script>
+    <script type="text/javascript" src="../ExternalScripts/jquery-1.9.1.js"></script>
+
+    <script type="text/javascript" src="../Scripts/init.js"></script>
+    <script type="text/javascript" src="../Scripts/models.js"></script>
+    <script type="text/javascript" src="../Scripts/viewModels"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="../Styles/main.css" />
+
+    <script type="text/javascript">
+
+
+
+    </script>
+
+</head>
+<body>
+
+<div id="wrapper">
+
+    <div id="header"></div>
+
+    <div id="itemWrapper" data-bind="foreach: items">
+        <div class="item">
+            <div class="itemHeader">
+                <span data-bind="text: name"></span>
+            </div>
+            <div class="itemInfo"></div>
+            <div class="itemDescription"></div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--
+<div id="Main" data-bind="foreach: items">
+    <div data-bind="text: name"></div>
+</div>
+-->
+</body>
+</html>

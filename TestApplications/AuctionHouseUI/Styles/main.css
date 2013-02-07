@@ -1,0 +1,7 @@
+#wrapper
+{
+    width: 900px;
+    min-height: 600px;
+    margin: 0 auto;
+    border: black 2px solid;
+}

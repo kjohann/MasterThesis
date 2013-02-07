@@ -1,0 +1,27 @@
+window.auction.viewModels = (function(item){
+
+    var headerViewModel = function(){
+
+    };
+
+    var itemViewModel = function(){
+        var self = this;
+
+        self.items = ko.observableArray([
+            new item("Sykkel", 1, 1000, 0),
+            new item("Bil", 2, 200000,0),
+            new item("Xbox", 3, 1500,0),
+            new item("TV", 4, 12000,0),
+            new item("Lommebok", 5, 150)
+        ]);
+    };
+
+    $(document).ready(function(){
+
+        ko.applyBindings(new itemViewModel(), document.getElementById("itemWrapper"));
+    });
+
+    return {
+        itemViewModel: itemViewModel
+    };
+})(window.auction.model.item);
