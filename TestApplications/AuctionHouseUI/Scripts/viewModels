@@ -15,17 +15,20 @@ window.auction.viewModels = (function(item, user){
         var self = this;
 
         self.items = ko.observableArray([
-            new item("Sykkel", 1, 1000, 0, new Date("5.1.2013"), descriptions[0]),
+            new item("Sykkel", 1, 1000, 200, new Date("5.1.2013"), descriptions[0], "Some dude"),
             new item("Bil", 2, 200000,0, new Date("5.1.2013"), descriptions[1]),
-            new item("Xbox", 3, 1500,0, new Date("5.1.2013"), descriptions[2]),
+            new item("Xbox", 3, 1500,500, new Date("5.1.2013"), descriptions[2], "1337User"),
             new item("TV", 4, 12000,0, new Date("5.1.2013"), descriptions[3]),
             new item("Lommebok", 5, 150,0, new Date("5.1.2013"), descriptions[0])
         ]);
-    };
 
+
+    };
+    var headerViewModelObj = new headerViewModel();
+    var itemViewModelObj = new itemViewModel();
     $(document).ready(function(){
-        ko.applyBindings(new headerViewModel(), document.getElementById("header"));
-        ko.applyBindings(new itemViewModel(), document.getElementById("itemWrapper"));
+        ko.applyBindings(headerViewModelObj, document.getElementById("header"));
+        ko.applyBindings(itemViewModelObj, document.getElementById("itemWrapper"));
     });
 
     return {

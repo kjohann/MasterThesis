@@ -1,6 +1,6 @@
 window.auction.models = (function(){
    return {
-        item: function(name, itemno, minPrice, bid, expires, description){
+        item: function(name, itemno, minPrice, bid, expires, description,highestBidder){
             var self = this;
             self.name = name;
             self.itemno = itemno;
@@ -8,6 +8,8 @@ window.auction.models = (function(){
             self.bid = bid;
             self.expires = expires.toLocaleDateString();
             self.description = description;
+            self.highestBidder = highestBidder;
+
        },
 
        user: function(userID, username, firstname, lastname, adress){
