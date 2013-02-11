@@ -91,23 +91,58 @@ body
 
 .itemInfo
 {
-    width: 25%;
-    background: yellow;
+    width: 200px;
     float: left;
+    min-height: 150px;
+    font-size: 1.1em;
+    line-height: 1.5em;
 }
 
 .itemDescription
 {
-    width: 70%;
-    background: red;
+    width: 620px;
     float: right;
+    margin-right: 25px;
+    margin-top: 5px;
+    min-height: 110px;
+}
+
+.buttonBar
+{
+    height: 30px;
+    float: right;
+    width: 620px;
+    margin-right: 25px;
+}
+
+.bidButton
+{
+    position: absolute;
+    right: 25px;
+    bottom: 15px;
 }
 
 
 /*--end Item*/
 
-h1, h2, p
+h1, h2
 {
     margin: 0;
 }
+
+label
+{
+    font-weight: bold;
+}
+
+.btn
+{
+    border-radius: 5px;
+    padding: 4px 10px 4px 10px;
+    background-color: #6297ff;
+    font-weight: bold;
+
+}
+
+
 
