@@ -1,9 +1,15 @@
+body
+{
+    background: #c6e2ee;
+}
+
 #wrapper
 {
     width: 900px;
     min-height: 600px;
     margin: 0 auto;
-    border: black 2px solid;
+    background: #f8f8ff;
+    border-radius: 10px;
 }
 
 /*Headerbar*/
@@ -12,7 +18,19 @@
 {
     width: 100%;
     height: 50px;
-    background: #add8e6;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 1px 1px 1px 1px #888887;
+}
+
+#horizontalHeaderLine
+{
+    height: 4px;
+    width: 70%;
+    background: #6297ff;
+    position: relative;
+    top: 40px;
+    left: 15%;
 }
 
 .welcome
@@ -25,12 +43,71 @@
 {
     position: relative;
     top: 1px;
+    float: left;
+    margin-left: 5px;
+}
+
+.log_in_register
+{
+    position: relative;
+    float: right;
+    margin-right: 5px;
 }
 
 
 /*--end Headerbar*/
 
-h1
+/*Item*/
+.item
+{
+    height: 200px;
+    border-radius: 2px;
+    box-shadow: 1px 1px 1px 1px #888887;
+}
+
+.itemHeader
+{
+    position: relative;
+    top: 5px;
+    left: 15px;
+}
+
+#horizontalItemHeaderLine
+{
+    background: #6297ff;
+    height: 2px;
+    width: 95%;
+    margin-top: 5px;
+}
+
+.itemContent
+{
+    position: relative;
+    height: 160px;
+    width: 880px;
+    left: 15px;
+    top: 10px;
+}
+
+.itemInfo
+{
+    width: 25%;
+    background: yellow;
+    float: left;
+}
+
+.itemDescription
+{
+    width: 70%;
+    background: red;
+    float: right;
+}
+
+
+/*--end Item*/
+
+h1, h2, p
 {
     margin: 0;
 }
+

@@ -32,15 +32,31 @@
             <span data-bind="visible: user !== undefined" class="logged_in_as_label">Logged in as:</span>
             <span data-bind="text: user.username"></span>
         </div>
+        <div class="log_in_register">
+            <a data-bind="visible: user === undefined" href="">Log in</a>
+            <br/>
+            <a data-bind="visible: user === undefined" href="">Register</a>
+        </div>
+        <div id="horizontalHeaderLine"></div>
     </div>
 
     <div id="itemWrapper" data-bind="foreach: items">
         <div class="item">
             <div class="itemHeader">
-                <span data-bind="text: name"></span>
+                <h2 data-bind="text: name"></h2>
+                <div id="horizontalItemHeaderLine"></div>
             </div>
-            <div class="itemInfo"></div>
-            <div class="itemDescription"></div>
+            <div class="itemContent">
+                <div class="itemInfo">
+                    <label>Itemnumber: </label><span data-bind="text: itemno"></span> <br/>
+                    <label>Minumum price: </label><span data-bind="text: minPrice"></span> <br/>
+                    <label>Highest bid: </label><span data-bind="text: bid, visible: bid === 0"></span> <br/>
+                    <label>Expires </label><span data-bind="text: expires"></span> <br/> f
+                </div>
+                <div class="itemDescription">
+                    <span data-bind="html: description"></span>
+                </div>
+            </div>
         </div>
     </div>
 

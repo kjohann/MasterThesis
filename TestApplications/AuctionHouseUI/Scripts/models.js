@@ -1,11 +1,13 @@
 window.auction.models = (function(){
    return {
-        item: function(name, itemno, minPrice, bid, expries){
+        item: function(name, itemno, minPrice, bid, expires, description){
             var self = this;
             self.name = name;
             self.itemno = itemno;
             self.minPrice = minPrice;
             self.bid = bid;
+            self.expires = expires.toLocaleDateString();
+            self.description = description;
        },
 
        user: function(userID, username, firstname, lastname, adress){
