@@ -54,6 +54,19 @@ body
     margin-right: 5px;
 }
 
+#log_in_button
+{
+    float: right;
+    margin-right: 50px;
+    margin-top: 10px;
+}
+
+#register_button
+{
+    float: right;
+    margin-right: 50px;
+    margin-top: 10px;
+}
 
 /*--end Headerbar*/
 
@@ -141,6 +154,11 @@ label
     padding: 4px 10px 4px 10px;
     background-color: #6297ff;
     font-weight: bold;
+}
+
+.ui-dialog-titlebar
+{
+    background: #6297ff !important;
 }
 
 
