@@ -55,7 +55,8 @@
                     <div class="itemInfo">
                         <label>Itemnumber: </label><span data-bind="text: itemno"></span> <br/>
                         <label>Minumum price: </label><span data-bind="text: minPrice"></span> <br/>
-                        <label>Highest bid: </label><span data-bind="text: bid, visible: bid === 0"></span> <br/> <!--TODO: change to !==-->
+                        <label data-bind="visible: bid !== 0">Highest bid: </label>
+                        <span data-bind="text: bid, visible: bid !== 0"></span> <br/> 
                         <label>Expires </label><span data-bind="text: expires"></span> <br/>
                         <label data-bind="visible: bid !== 0">Highest Bidder: </label> <br/>
                         <span data-bind="text: highestBidder, visible: bid !== 0"></span>
