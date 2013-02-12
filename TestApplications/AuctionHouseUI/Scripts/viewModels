@@ -22,13 +22,28 @@ window.auction.viewModels = (function(item, user){
             new item("Lommebok", 5, 150,0, new Date("5.1.2013"), descriptions[0])
         ]);
 
+        self.placeBidOptions = {
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            height: 150,
+            width: 550
+        };
+
+        self.selectedItem = ko.observable();
+
+        self.placeBid = function(currentItem)
+        {
+            self.selectedItem(currentItem);
+        }
+
 
     };
     var headerViewModelObj = new headerViewModel();
     var itemViewModelObj = new itemViewModel();
     $(document).ready(function(){
         ko.applyBindings(headerViewModelObj, document.getElementById("header"));
-        ko.applyBindings(itemViewModelObj, document.getElementById("itemWrapper"));
+        ko.applyBindings(itemViewModelObj, document.getElementById("itemViewModelWrapper"));
     });
 
     return {
