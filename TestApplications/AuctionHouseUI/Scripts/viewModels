@@ -8,15 +8,18 @@ window.auction.viewModels = (function(item, user){
     var headerViewModel = function(){
         var self = this;
 
-        //TODO: change to ko.observable();
-        self.user = new user(1, "1337User", "Kristian", "Johannessen", "123 Fakestreet");
+        self.user = ko.observable(new user(1, "1337User", "Kristian", "Johannessen", "123 Fakestreet"));
+
+        self.setUser = function(user){
+            self.user(user);
+        }
 
         //TODO: implement theese two
-        self.logIn = function(){
+        self.sendLogIn = function(){
             $("#log_in").dialog("close");
         };
 
-        self.register = function(){
+        self.sendRegister = function(){
             $("#register").dialog("close");
         };
 
@@ -53,15 +56,15 @@ window.auction.viewModels = (function(item, user){
         var self = this;
 
         self.items = ko.observableArray([
-            new item("Sykkel", 1, 1000, 200, new Date("5.1.2013"), descriptions[0], "Some dude"),
-            new item("Bil", 2, 200000,0, new Date("5.1.2013"), descriptions[1]),
-            new item("Xbox", 3, 1500,500, new Date("5.1.2013"), descriptions[2], "1337User"),
-            new item("TV", 4, 12000,0, new Date("5.1.2013"), descriptions[3]),
-            new item("Lommebok", 5, 150,0, new Date("5.1.2013"), descriptions[0])
+            new item("Sykkel", 1, 1000, new Date("5.1.2013"), descriptions[0]),
+            new item("Bil", 2, 200000, new Date("5.1.2013"), descriptions[1]),
+            new item("Xbox", 3, 1500, new Date("5.1.2013"), descriptions[2]),
+            new item("TV", 4, 12000, new Date("5.1.2013"), descriptions[3]),
+            new item("Lommebok", 5, 150, new Date("5.1.2013"), descriptions[0])
         ]);
 
         //TODO: implement
-        self.placeBid = function (){
+        self.sendPlaceBid = function (){
             $("#place_bid").dialog("close");
         };
 

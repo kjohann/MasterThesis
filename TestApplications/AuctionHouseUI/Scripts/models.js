@@ -1,15 +1,14 @@
 window.auction.models = (function(){
    return {
-        item: function(name, itemno, minPrice, bid, expires, description,highestBidder){
+        item: function(name, itemno, minPrice, expires, description){
             var self = this;
             self.name = name;
             self.itemno = itemno;
             self.minPrice = minPrice;
-            self.bid = bid;
+            self.bid = ko.observable(0);
             self.expires = expires.toLocaleDateString();
             self.description = description;
-            self.highestBidder = highestBidder;
-
+            self.highestBidder = ko.observable();
        },
 
        user: function(userID, username, firstname, lastname, adress){
