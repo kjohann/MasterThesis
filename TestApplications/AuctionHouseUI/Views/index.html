@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 
     <!--Templates-->
-    <script type="text/html" id="templ">
+    <script type="text/html" id="placeBidTemplate">
         <label for="bid">Place your bid: </label>
         <input type="number" id="bid" min="0" step="10"/>
     </script>
@@ -56,7 +56,7 @@
                         <label>Itemnumber: </label><span data-bind="text: itemno"></span> <br/>
                         <label>Minumum price: </label><span data-bind="text: minPrice"></span> <br/>
                         <label data-bind="visible: bid !== 0">Highest bid: </label>
-                        <span data-bind="text: bid, visible: bid !== 0"></span> <br/> 
+                        <span data-bind="text: bid, visible: bid !== 0"></span> <br/>
                         <label>Expires </label><span data-bind="text: expires"></span> <br/>
                         <label data-bind="visible: bid !== 0">Highest Bidder: </label> <br/>
                         <span data-bind="text: highestBidder, visible: bid !== 0"></span>
@@ -72,7 +72,7 @@
         </div>
 
         <div id="details" data-bind="jqDialog: placeBidOptions,
-             template: { name: 'templ', data: selectedItem, if: selectedItem }, openDialog: selectedItem">
+             template: { name: 'placeBidTemplate', data: selectedItem, if: selectedItem }, openDialog: selectedItem">
         </div>
 
     </div>
