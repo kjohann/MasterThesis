@@ -9,7 +9,7 @@ window.auction.viewModels = (function(item, user){
             self.user(user);
         }
 
-        //TODO: implement theese two
+        //TODO: implement these two
         self.sendLogIn = function(){
             $("#log_in").dialog("close");
         };
@@ -63,8 +63,14 @@ window.auction.viewModels = (function(item, user){
             });
         };
 
-        //TODO: implement
         self.sendPlaceBid = function (){
+
+            //TODO: replace with logic for sending to server
+            //This shows that the bindings work properly
+            var bid = parseInt($("#bid").val()); bid = bid > self.selectedItem().bid() ? bid : self.selectedItem().bid();
+            if(bid >= self.selectedItem().minPrice)
+                self.placeBid(self.selectedItem().itemno, bid, headerViewModelObj.user())
+
             $("#place_bid").dialog("close");
         };
 

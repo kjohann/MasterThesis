@@ -23,7 +23,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Views/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="47" selection-start="4178" selection-end="4178" vertical-scroll-proportion="-53.73077">
+            <state line="24" column="82" selection-start="1156" selection-end="1156" vertical-scroll-proportion="-5.6923075">
               <folding />
             </state>
           </provider>
@@ -32,7 +32,7 @@
       <file leaf-file-name="customBindings.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/customBindings.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="28" selection-start="912" selection-end="912" vertical-scroll-proportion="0.0">
+            <state line="22" column="56" selection-start="883" selection-end="883" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -50,7 +50,7 @@
       <file leaf-file-name="models.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/models.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="48" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0">
+            <state line="6" column="25" selection-start="229" selection-end="237" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -59,7 +59,7 @@
       <file leaf-file-name="viewModels.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Scripts/viewModels.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="48" selection-start="1862" selection-end="1862" vertical-scroll-proportion="-0.24874792">
+            <state line="70" column="21" selection-start="1939" selection-end="1939" vertical-scroll-proportion="0.70951587">
               <folding />
             </state>
           </provider>
@@ -102,10 +102,10 @@
         <option value="$PROJECT_DIR$/Styles/main.css" />
         <option value="$PROJECT_DIR$/Scripts/viewModels" />
         <option value="$PROJECT_DIR$/Scripts/models.js" />
-        <option value="$PROJECT_DIR$/Views/index.html" />
-        <option value="$PROJECT_DIR$/Scripts/customBindings.js" />
-        <option value="$PROJECT_DIR$/Scripts/viewModels.js" />
         <option value="$PROJECT_DIR$/Scripts/dummyserver.js" />
+        <option value="$PROJECT_DIR$/Scripts/customBindings.js" />
+        <option value="$PROJECT_DIR$/Views/index.html" />
+        <option value="$PROJECT_DIR$/Scripts/viewModels.js" />
       </list>
     </option>
   </component>
@@ -240,8 +240,8 @@
     <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../.gitignore" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -404,9 +404,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/init.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="5" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="4" column="5" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/models.js">
@@ -444,9 +442,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/init.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="5" selection-start="89" selection-end="89" vertical-scroll-proportion="0.11352254">
-          <folding />
-        </state>
+        <state line="4" column="5" selection-start="89" selection-end="89" vertical-scroll-proportion="0.11352254" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Styles/main.css">
@@ -458,14 +454,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/customBindings.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="28" selection-start="912" selection-end="912" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Views/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="47" selection-start="4178" selection-end="4178" vertical-scroll-proportion="-53.73077">
+        <state line="22" column="56" selection-start="883" selection-end="883" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -479,14 +468,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/models.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="48" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0">
+        <state line="6" column="25" selection-start="229" selection-end="237" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Views/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="82" selection-start="1156" selection-end="1156" vertical-scroll-proportion="-5.6923075">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/viewModels.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="48" selection-start="1862" selection-end="1862" vertical-scroll-proportion="-0.24874792">
+        <state line="70" column="21" selection-start="1939" selection-end="1939" vertical-scroll-proportion="0.70951587">
           <folding />
         </state>
       </provider>

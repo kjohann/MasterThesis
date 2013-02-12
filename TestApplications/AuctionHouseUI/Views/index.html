@@ -22,7 +22,7 @@
     <!--Templates-->
     <script type="text/html" id="placeBidTemplate">
         <label for="bid">Place your bid: </label>
-        <input type="number" id="bid" min="0" step="10"/>
+        <input type="number" id="bid" min="0" step="10" data-bind="value: bid() >= minPrice ? bid() : minPrice"/>
         <button id="place_bid_button" class="btn" data-bind="click: $root.sendPlaceBid">Place bid</button>
     </script>
 
