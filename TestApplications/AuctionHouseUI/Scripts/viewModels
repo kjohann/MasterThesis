@@ -8,7 +8,10 @@ window.auction.viewModels = (function(item, user){
     var headerViewModel = function(){
         var self = this;
 
+        //TODO: chagne to ko.observable();
         self.user = new user(1, "1337User", "Kristian", "Johannessen", "123 Fakestreet");
+
+        self.newUser = ko.observable();
     };
 
     var itemViewModel = function(){

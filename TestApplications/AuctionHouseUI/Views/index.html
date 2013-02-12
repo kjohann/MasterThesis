@@ -36,9 +36,9 @@
             <span data-bind="text: user.username"></span>
         </div>
         <div class="log_in_register">
-            <a data-bind="visible: user === undefined" href="">Log in</a>
+            <a data-bind="visible: user !== undefined" href="">Log in</a>
             <br/>
-            <a data-bind="visible: user === undefined" href="">Register</a>
+            <a data-bind="visible: user !== undefined" href="">Register</a>
         </div>
         <div id="horizontalHeaderLine"></div>
     </div>

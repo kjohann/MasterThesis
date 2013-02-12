@@ -20,10 +20,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Views/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="48" selection-start="3230" selection-end="3230" vertical-scroll-proportion="0.55497384">
+            <state line="40" column="41" selection-start="1569" selection-end="1569" vertical-scroll-proportion="-11.576923">
               <folding />
             </state>
           </provider>
@@ -56,10 +56,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="viewModels" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="viewModels" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Scripts/viewModels">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="23" selection-start="2528" selection-end="2528" vertical-scroll-proportion="0.0">
+            <state line="10" column="42" selection-start="1781" selection-end="1781" vertical-scroll-proportion="0.2901024">
               <folding />
             </state>
           </provider>
@@ -94,8 +94,8 @@
         <option value="$PROJECT_DIR$/Scripts/models.js" />
         <option value="$PROJECT_DIR$/Templates/placeBid.html" />
         <option value="$PROJECT_DIR$/Scripts/CustomBindings.js" />
-        <option value="$PROJECT_DIR$/Scripts/viewModels" />
         <option value="$PROJECT_DIR$/Views/index.html" />
+        <option value="$PROJECT_DIR$/Scripts/viewModels" />
       </list>
     </option>
   </component>
@@ -438,16 +438,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/viewModels">
+    <entry file="file://$PROJECT_DIR$/Views/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="23" selection-start="2528" selection-end="2528" vertical-scroll-proportion="0.0">
+        <state line="40" column="41" selection-start="1569" selection-end="1569" vertical-scroll-proportion="-11.576923">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Views/index.html">
+    <entry file="file://$PROJECT_DIR$/Scripts/viewModels">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="48" selection-start="3230" selection-end="3230" vertical-scroll-proportion="0.55497384">
+        <state line="10" column="42" selection-start="1781" selection-end="1781" vertical-scroll-proportion="0.2901024">
           <folding />
         </state>
       </provider>
