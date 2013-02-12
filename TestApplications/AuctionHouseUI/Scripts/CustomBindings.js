@@ -21,7 +21,8 @@ ko.bindingHandlers.openDialog = {
             var title = value.itemno    ? "Place bid on item: " + value.name + "(itemno: " + value.itemno + ")"
                                         : (value.what === "log_in" ? "Log in" : "Register");
             $(element).dialog("option", "title", title);
-            $("#bid").attr("value", value.bid).attr("min", value.bid);
+            if(value.itemno)
+                $("#bid").attr("value", value.bid()).attr("min", value.bid());
             $(element).dialog("open");
         } else {
             $(element).dialog("close");

@@ -20,10 +20,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Views/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="52" selection-start="637" selection-end="637" vertical-scroll-proportion="0.41535777">
+            <state line="93" column="47" selection-start="4178" selection-end="4178" vertical-scroll-proportion="-53.73077">
               <folding />
             </state>
           </provider>
@@ -32,7 +32,7 @@
       <file leaf-file-name="customBindings.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/customBindings.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="46" selection-start="536" selection-end="536" vertical-scroll-proportion="0.0">
+            <state line="23" column="28" selection-start="912" selection-end="912" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -56,10 +56,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="viewModels" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Scripts/viewModels">
+      <file leaf-file-name="viewModels.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Scripts/viewModels.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="75" selection-start="3300" selection-end="3300" vertical-scroll-proportion="0.0">
+            <state line="71" column="48" selection-start="1862" selection-end="1862" vertical-scroll-proportion="-0.24874792">
               <folding />
             </state>
           </provider>
@@ -68,7 +68,7 @@
       <file leaf-file-name="dummyserver.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/dummyserver.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="22" column="6" selection-start="2332" selection-end="2332" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -90,8 +90,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/ViewModels/itemViewModel.js" />
         <option value="$PROJECT_DIR$/Styles/test" />
         <option value="$PROJECT_DIR$/ExternalScripts/jquery-1.9.1.js" />
         <option value="$PROJECT_DIR$/Scripts/Models.js" />
@@ -104,8 +102,10 @@
         <option value="$PROJECT_DIR$/Styles/main.css" />
         <option value="$PROJECT_DIR$/Scripts/viewModels" />
         <option value="$PROJECT_DIR$/Scripts/models.js" />
-        <option value="$PROJECT_DIR$/Scripts/dummyserver.js" />
         <option value="$PROJECT_DIR$/Views/index.html" />
+        <option value="$PROJECT_DIR$/Scripts/customBindings.js" />
+        <option value="$PROJECT_DIR$/Scripts/viewModels.js" />
+        <option value="$PROJECT_DIR$/Scripts/dummyserver.js" />
       </list>
     </option>
   </component>
@@ -114,6 +114,28 @@
     <option name="y" value="-8" />
     <option name="width" value="1382" />
     <option name="height" value="784" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>General</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Annotator</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -373,7 +395,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/viewModels">
+    <entry file="file://$PROJECT_DIR$/Scripts/viewModels.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="24" selection-start="153" selection-end="153" vertical-scroll-proportion="0.0">
           <folding />
@@ -436,7 +458,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/customBindings.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="46" selection-start="536" selection-end="536" vertical-scroll-proportion="0.0">
+        <state line="23" column="28" selection-start="912" selection-end="912" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Views/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="47" selection-start="4178" selection-end="4178" vertical-scroll-proportion="-53.73077">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scripts/dummyserver.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="6" selection-start="2332" selection-end="2332" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -448,23 +484,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/viewModels">
+    <entry file="file://$PROJECT_DIR$/Scripts/viewModels.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="75" selection-start="3300" selection-end="3300" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/dummyserver.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Views/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="52" selection-start="637" selection-end="637" vertical-scroll-proportion="0.41535777">
+        <state line="71" column="48" selection-start="1862" selection-end="1862" vertical-scroll-proportion="-0.24874792">
           <folding />
         </state>
       </provider>
