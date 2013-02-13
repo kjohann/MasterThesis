@@ -59,12 +59,9 @@
         <input type="password" id="password"/> <br/>
         <button id="register_button" class="btn" data-bind="click: $root.sendRegister">Register</button>
     </script>
-
 </head>
 <body>
-
 <div id="wrapper">
-
     <div id="header">
         <h1 class="welcome">Welcome to 1337 Auctions!</h1>
         <div class="logged_in_as"  data-bind="visible: $root.user() !== undefined">
@@ -77,18 +74,13 @@
             <a data-bind="visible: user() === undefined, click: openRegister.bind($data, 'register')" href="">Register</a>
         </div>
         <div id="horizontalHeaderLine"></div>
-
         <div id="log_in" data-bind="jqDialog: log_in_options,
              template: { name: 'loginTemplate', data: log_in_action, if: log_in_action }, openDialog: log_in_action">
         </div>
-
         <div id="register" data-bind="jqDialog: register_options,
              template: { name: 'registerTemplate', data: register_action, if: register_action }, openDialog: register_action">
         </div>
-
-
     </div>
-
     <div id="itemViewModelWrapper">
         <button id="addItemButton" class="btn" data-bind="click: openNewItem">Add item</button>
         <div id="additem" data-bind="jqDialog: {autoOpen: false, modal: true, width: 350},
@@ -119,15 +111,10 @@
                 </div>
             </div>
         </div>
-
         <div id="place_bid" data-bind="jqDialog: placeBidOptions,
              template: { name: 'placeBidTemplate', data: selectedItem, if: selectedItem }, openDialog: selectedItem">
         </div>
-
     </div>
-
-
 </div>
-
 </body>
 </html>
