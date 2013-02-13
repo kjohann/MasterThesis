@@ -19,7 +19,8 @@ ko.bindingHandlers.openDialog = {
         var value = ko.utils.unwrapObservable(valueAccessor());
         if (value) {
             var title = value.itemno    ? "Place bid on item: " + value.name + "(itemno: " + value.itemno + ")"
-                                        : (value.what === "log_in" ? "Log in" : "Register");
+                                        : (value.what === "log_in" ? "Log in"
+                                        : (value.what === "register" ? "Register" : "Add new item"));
             $(element).dialog("option", "title", title);
             $(element).dialog("open");
         } else {

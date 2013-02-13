@@ -1,4 +1,4 @@
-window.auction.viewModels = (function(item, user){
+window.auction.viewModels = (function(item, user){ //TODO: does this need parameters?
 
     var headerViewModel = function(){
         var self = this;
@@ -56,6 +56,20 @@ window.auction.viewModels = (function(item, user){
             self.items.push(item);
         };
 
+        self.sendAddItem = function(){
+            var itemname = $("#itemname").val();
+            var minprice = parseInt($("#minprice").val());
+            var expires = new Date($("#expires").val());
+            var description = $("#description").val();
+
+            //TODO: remove and send to server instead
+            var itemno = self.items()[self.items().length - 1].itemno + 1;
+            self.addItem(new item(itemname, itemno, minprice, expires, description));
+
+            $("#additem").dialog("close");
+        };
+
+        //TODO: need this? Out of scope?
         self.removeItem = function(itemno)
         {
             self.items.remove(function(item){
@@ -91,6 +105,12 @@ window.auction.viewModels = (function(item, user){
             height: 150,
             width: 550
         };
+
+        self.newItem = ko.observable();
+
+        self.openNewItem = function(){
+            self.newItem({what: "new", random: Math.random()});  //Ugly hack to get the dialog to reopen if closed
+        }
 
         self.selectedItem = ko.observable();
 

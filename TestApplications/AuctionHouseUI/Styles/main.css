@@ -71,6 +71,24 @@ body
 /*--end Headerbar*/
 
 /*Item*/
+#itemViewModelWrapper
+{
+    position: relative;
+}
+
+#addItemButton
+{
+    position: absolute;
+    right: 30px;
+    z-index: 1337;
+}
+
+#addButton
+{
+    float: right;
+    margin-right: 10px;
+}
+
 .item
 {
     height: 200px;

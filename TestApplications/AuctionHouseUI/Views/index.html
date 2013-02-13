@@ -26,6 +26,18 @@
         <button id="place_bid_button" class="btn" data-bind="click: $root.sendPlaceBid">Place bid</button>
     </script>
 
+    <script type="text/html" id="addItemTemplate">
+        <label for="itemname">Name: </label> <br/>
+        <input type="text" id="itemname" size="30"/> <br/>
+        <label for="minprice">Minimum price: </label> <br/>
+        <input type="number" min="0" step="10" id="minprice"/>  <br/>
+        <label for="expires">Expires: </label> <br/>
+        <input type="date" id="expires"/> <br/>
+        <label for="description">Description: </label> <br/>
+        <textarea rows="10" cols="31" id="description"></textarea>
+        <button id="addButton" class="btn" data-bind="click: $root.sendAddItem">Add</button>
+    </script>
+
     <script type="text/html" id="loginTemplate">
         <label for="log_usern">Username: </label>
         <input type="text" id="log_usern" /> <br/>
@@ -60,10 +72,9 @@
             <span data-bind="text: user().username"></span>
         </div>
         <div class="log_in_register">
-            <!--TODO: change to === here and the next a-->
-            <a data-bind="visible: user() !== undefined, click: openLogin.bind($data, 'log_in')" href="">Log in</a>
+            <a data-bind="visible: user() === undefined, click: openLogin.bind($data, 'log_in')" href="">Log in</a>
             <br/>
-            <a data-bind="visible: user() !== undefined, click: openRegister.bind($data, 'register')" href="">Register</a>
+            <a data-bind="visible: user() === undefined, click: openRegister.bind($data, 'register')" href="">Register</a>
         </div>
         <div id="horizontalHeaderLine"></div>
 
@@ -79,7 +90,10 @@
     </div>
 
     <div id="itemViewModelWrapper">
-
+        <button id="addItemButton" class="btn" data-bind="click: openNewItem">Add item</button>
+        <div id="additem" data-bind="jqDialog: {autoOpen: false, modal: true, width: 350},
+                template: {name: 'addItemTemplate', data: newItem, if: newItem}, openDialog: newItem">
+        </div>
         <div id="itemWrapper" data-bind="foreach: items">
             <div class="item">
                 <div class="itemHeader">

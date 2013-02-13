@@ -6,7 +6,7 @@ window.auction.models = (function(){
             self.itemno = itemno;
             self.minPrice = minPrice;
             self.bid = ko.observable(0);
-            self.expires = expires.toLocaleDateString();
+            self.expires = expires ? expires.toLocaleDateString() : new Date().toLocaleDateString();
             self.description = description;
             self.highestBidder = ko.observable();
        },
