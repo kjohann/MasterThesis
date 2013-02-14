@@ -11,6 +11,8 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
 
         //TODO: implement these two
         self.sendLogIn = function(){
+            var username = $("#log_usern").val();
+            self.setUser(new user(1, username, "Random", "Randomsen", "Randomstreet"));
             $("#log_in").dialog("close");
         };
 
@@ -123,9 +125,15 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
     };
     var headerViewModelObj = new headerViewModel();
     var itemViewModelObj = new itemViewModel();
+
+    var viewModel = {
+        headerView: headerViewModelObj,
+        itemView: itemViewModelObj
+    }
     $(document).ready(function(){
-        ko.applyBindings(headerViewModelObj, document.getElementById("header"));
-        ko.applyBindings(itemViewModelObj, document.getElementById("itemViewModelWrapper"));
+//        ko.applyBindings(headerViewModelObj, document.getElementById("header"));
+//        ko.applyBindings(itemViewModelObj, document.getElementById("itemViewModelWrapper"));
+        ko.applyBindings(viewModel);
     });
 
     return {

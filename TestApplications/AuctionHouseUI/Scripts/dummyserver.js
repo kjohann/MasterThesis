@@ -4,7 +4,7 @@
         "This is a longer description containing breaks with escapes \r\n This is a longer description contai This is a longer description containing breaks with escapes \r\n This is a longer description contai This is a longer description containing breaks with escapes \r\n This is a longer description contai This is a longer description containing breaks with escapes \r\n This is a longer description contai This is a longer description containing breaks with escapes \r\n This is a longer description contai",
         "This is a longer description containing breaks with br-tags <br/> This is a longer description containing b This is a longer description containing breaks with br-tags <br/> This is a longer description containing b This is a longer description containing breaks with br-tags <br/> This is a longer description containing b This is a longer description containing breaks with br-tags <br/> This is a longer description containing b This is a longer description containing breaks with br-tags <br/> This is a longer description containing b"];
 
-        headerViewModel.setUser(new user(1, "1337User", "Kristian", "Johannessen", "123 Fakestreet"));
+        //headerViewModel.setUser(new user(1, "1337User", "Kristian", "Johannessen", "123 Fakestreet"));
 
     var items = [
         new item("Sykkel", 1, 1000, new Date("5.1.2013"), descriptions[0]),

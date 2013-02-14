@@ -23,7 +23,7 @@
     <script type="text/html" id="placeBidTemplate">
         <label for="bid">Place your bid: </label>
         <input type="number" id="bid" min="0" step="10" data-bind="value: bid() >= minPrice ? bid() : minPrice"/>
-        <button id="place_bid_button" class="btn" data-bind="click: $root.sendPlaceBid">Place bid</button>
+        <button id="place_bid_button" class="btn" data-bind="click: $parent.sendPlaceBid">Place bid</button>
     </script>
 
     <script type="text/html" id="addItemTemplate">
@@ -35,7 +35,7 @@
         <input type="date" id="expires"/> <br/>
         <label for="description">Description: </label> <br/>
         <textarea rows="10" cols="31" id="description"></textarea>
-        <button id="addButton" class="btn" data-bind="click: $root.sendAddItem">Add</button>
+        <button id="addButton" class="btn" data-bind="click: $parent.sendAddItem">Add</button>
     </script>
 
     <script type="text/html" id="loginTemplate">
@@ -43,7 +43,7 @@
         <input type="text" id="log_usern" /> <br/>
         <label for="log_pass">Password: </label>
         <input type="password" id="log_pass"/>
-        <button id="log_in_button" class="btn" data-bind="click: $root.sendLogIn">Log_in</button>
+        <button id="log_in_button" class="btn" data-bind="click: $parent.sendLogIn">Log_in</button>
     </script>
 
     <script type="text/html" id="registerTemplate">
@@ -57,34 +57,34 @@
         <input type="text" id="username"/> <br/>
         <label for="password">Password: </label>
         <input type="password" id="password"/> <br/>
-        <button id="register_button" class="btn" data-bind="click: $root.sendRegister">Register</button>
+        <button id="register_button" class="btn" data-bind="click: $parent.sendRegister">Register</button>
     </script>
 </head>
 <body>
 <div id="wrapper">
-    <div id="header">
+    <div id="header" data-bind="with: headerView">
         <h1 class="welcome">Welcome to 1337 Auctions!</h1>
-        <div class="logged_in_as"  data-bind="visible: $root.user() !== undefined">
+        <div class="logged_in_as"  data-bind="if: user() !== undefined,visible: user() !== undefined">
             <span class="logged_in_as_label">Logged in as:</span> <br/>
             <span data-bind="text: user().username"></span>
         </div>
         <div class="log_in_register">
-            <a data-bind="visible: user() === undefined, click: openLogin.bind($data, 'log_in')" href="">Log in</a>
+            <a data-bind="visible: user() === undefined, click: $data.openLogin.bind($data, 'log_in')" href="">Log in</a>
             <br/>
-            <a data-bind="visible: user() === undefined, click: openRegister.bind($data, 'register')" href="">Register</a>
+            <a data-bind="visible: user() === undefined, click: $data.openRegister.bind($data, 'register')" href="">Register</a>
         </div>
         <div id="horizontalHeaderLine"></div>
-        <div id="log_in" data-bind="jqDialog: log_in_options,
-             template: { name: 'loginTemplate', data: log_in_action, if: log_in_action }, openDialog: log_in_action">
+        <div id="log_in" data-bind="jqDialog: $data.log_in_options,
+             template: { name: 'loginTemplate', data: $data.log_in_action, if: $data.log_in_action }, openDialog: $data.log_in_action">
         </div>
-        <div id="register" data-bind="jqDialog: register_options,
-             template: { name: 'registerTemplate', data: register_action, if: register_action }, openDialog: register_action">
+        <div id="register" data-bind="jqDialog: $data.register_options,
+             template: { name: 'registerTemplate', data: $data.register_action, if: $data.register_action }, openDialog: $data.register_action">
         </div>
     </div>
-    <div id="itemViewModelWrapper">
+    <div id="itemViewModelWrapper" data-bind="with: itemView">
         <button id="addItemButton" class="btn" data-bind="click: openNewItem">Add item</button>
         <div id="additem" data-bind="jqDialog: {autoOpen: false, modal: true, width: 350},
-                template: {name: 'addItemTemplate', data: newItem, if: newItem}, openDialog: newItem">
+                template: {name: 'addItemTemplate', data: $data.newItem, if: $data.newItem}, openDialog: $data.newItem">
         </div>
         <div id="itemWrapper" data-bind="foreach: items">
             <div class="item">
@@ -106,13 +106,13 @@
                         <span data-bind="html: description"></span>
                     </div>
                     <div class="buttonBar">
-                        <button class="bidButton btn" data-bind="click: $root.openPlaceBid">Place bid</button>
+                        <button class="bidButton btn" data-bind="click: $parent.openPlaceBid">Place bid</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="place_bid" data-bind="jqDialog: placeBidOptions,
-             template: { name: 'placeBidTemplate', data: selectedItem, if: selectedItem }, openDialog: selectedItem">
+        <div id="place_bid" data-bind="jqDialog: $data.placeBidOptions,
+             template: { name: 'placeBidTemplate', data: $data.selectedItem, if: $data.selectedItem }, openDialog: $data.selectedItem">
         </div>
     </div>
 </div>
