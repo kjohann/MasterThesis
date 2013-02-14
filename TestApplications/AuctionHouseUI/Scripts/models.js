@@ -1,6 +1,6 @@
 window.auction.models = (function(){
    return {
-        item: function(name, itemno, minPrice, expires, description){
+        item: function(name, itemno, minPrice, expires, description, addedByID){
             var self = this;
             self.name = name;
             self.itemno = itemno;
@@ -9,6 +9,7 @@ window.auction.models = (function(){
             self.expires = expires ? expires.toLocaleDateString() : new Date().toLocaleDateString();
             self.description = description;
             self.highestBidder = ko.observable();
+            self.addedByID = addedByID;
        },
 
        user: function(userID, username, firstname, lastname, adress){

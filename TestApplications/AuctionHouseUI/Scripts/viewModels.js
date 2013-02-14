@@ -3,7 +3,7 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
     var headerViewModel = function(){
         var self = this;
 
-        self.user = ko.observable();
+        self.user = ko.observable({});
 
         self.setUser = function(user){
             self.user(user);
@@ -66,12 +66,11 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
 
             //TODO: remove and send to server instead
             var itemno = self.items()[self.items().length - 1].itemno + 1;
-            self.addItem(new item(itemname, itemno, minprice, expires, description));
+            self.addItem(new item(itemname, itemno, minprice, expires, description,headerViewModelObj.user().userID));
 
             $("#additem").dialog("close");
         };
 
-        //TODO: need this? Out of scope?
         self.removeItem = function(itemno)
         {
             self.items.remove(function(item){
@@ -100,12 +99,11 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
         };
 
         //Dialog handling
-        self.placeBidOptions = {
+        self.newItemOptions = {
             autoOpen: false,
-            resizable: false,
             modal: true,
-            height: 150,
-            width: 550
+            resizable: false,
+            width: 350
         };
 
         self.newItem = ko.observable();
@@ -116,9 +114,35 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
 
         self.selectedItem = ko.observable();
 
+        self.placeBidOptions = {
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            height: 150,
+            width: 550
+        };
+
         self.openPlaceBid = function(currentItem){
             self.selectedItem(currentItem);
         };
+
+        self.viewItemsOptions = {
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            width: 400
+        };
+
+        self.viewItems = ko.observable();
+
+        self.openItemView = function(){
+            var username = headerViewModelObj.user().username;
+            var bidItems = ko.utils.arrayFilter(self.items(), function(item){
+                return item.highestBidder() === username;
+            });
+
+            self.viewItems({bidItems: bidItems});
+        }
         //--end dialog handling
 
 
