@@ -21,7 +21,7 @@ ko.bindingHandlers.openDialog = {
             var title = value.itemno    ? "Place bid on item: " + value.name + "(itemno: " + value.itemno + ")"
                                         : (value.what === "log_in" ? "Log in"
                                         : (value.what === "register" ? "Register"
-                                        : (value.bidItems !== undefined ? "You currently lead these items" : "Add new item")));
+                                        : (value.bidItems !== undefined ? "You currently have bids on these items" : "Add new item")));
             $(element).dialog("option", "title", title);
             $(element).dialog("open");
         } else {
