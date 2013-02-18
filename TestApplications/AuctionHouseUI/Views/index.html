@@ -13,7 +13,6 @@
     <script type="text/javascript" src="../Scripts/models.js"></script>
     <script type="text/javascript" src="../Scripts/viewModels.js"></script>
     <script type="text/javascript" src="../Scripts/customBindings.js"></script>
-    <script type="text/javascript" src="../Scripts/dummyserver.js"></script>
 
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="../Styles/main.css" />
@@ -76,7 +75,7 @@
 <body>
 <div id="wrapper">
     <div id="header" data-bind="with: headerView">
-        <h1 class="welcome">Welcome to 1337 Auctions!</h1>
+        <h1 class="welcome">Welcome to Master Auctions!</h1>
         <div class="logged_in_as"  data-bind="visible: user().userID">
             <span class="logged_in_as_label">Logged in as:</span> <br/>
             <a data-bind="text: user().username, click: $root.itemView.openItemView" href=""></a> <!--TODO: action on this link: see bids-->
@@ -124,7 +123,7 @@
                     <div class="buttonBar" data-bind="visible: $root.headerView.user().userID">
                         <button class="bidButton btn" data-bind="click: $parent.openPlaceBid">Place bid</button>
                         <button class="removeButton btn" data-bind="visible: addedByID === $root.headerView.user().userID,
-                        click: $parent.removeItem.bind($data, $data.itemno)">
+                        click: $parent.sendRemoveItem.bind($data, $data.itemno)">
                             Remove
                         </button>
                     </div>

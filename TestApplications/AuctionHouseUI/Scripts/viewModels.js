@@ -9,14 +9,15 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
             self.user(user);
         }
 
-        //TODO: implement these two
+        //TODO: send log in info to server
         self.sendLogIn = function(){
-            var username = $("#log_usern").val();
-            self.setUser(new user(1, username, "Random", "Randomsen", "Randomstreet"));
+            //Send to server
             $("#log_in").dialog("close");
         };
 
+        //TODO: send register info to server
         self.sendRegister = function(){
+            //Send to server
             $("#register").dialog("close");
         };
 
@@ -64,28 +65,27 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
             var expires = new Date($("#expires").val());
             var description = $("#description").val();
 
-            //TODO: remove and send to server instead
-            var itemno = self.items()[self.items().length - 1].itemno + 1;
-            self.addItem(new item(itemname, itemno, minprice, expires, description,headerViewModelObj.user().userID));
+            //TODO: Apply logic for sending to server
+            //Send to server
 
             $("#additem").dialog("close");
         };
 
-        self.removeItem = function(itemno)
-        {
+        //TODO: Send removeinfo to server
+        self.sendRemoveItem = function(itemno){
+            //Send to server
+        };
+
+        self.removeItem = function(itemno){
             self.items.remove(function(item){
                 return item.itemno === itemno;
             });
         };
 
+        //TODO: Send to server
         self.sendPlaceBid = function (){
-
-            //TODO: replace with logic for sending to server
-            //This shows that the bindings work properly
-            var bid = parseInt($("#bid").val()); bid = bid > self.selectedItem().bid() ? bid : self.selectedItem().bid();
-            if(bid >= self.selectedItem().minPrice)
-                self.placeBid(self.selectedItem().itemno, bid, headerViewModelObj.user())
-
+            var bid = parseInt($("#bid").val());
+            //Send to server
             $("#place_bid").dialog("close");
         };
 
@@ -135,13 +135,11 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
 
         self.viewItems = ko.observable();
 
+        //TODO: Get list from server
         self.openItemView = function(){
-            var username = headerViewModelObj.user().username;
-            var bidItems = ko.utils.arrayFilter(self.items(), function(item){
-                return item.highestBidder() === username;
-            });
+            //Get from server
 
-            self.viewItems({bidItems: bidItems});
+            //self.viewItems({bidItems: bidItems}); put in function that receives from server
         }
         //--end dialog handling
 
@@ -155,8 +153,6 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
         itemView: itemViewModelObj
     }
     $(document).ready(function(){
-//        ko.applyBindings(headerViewModelObj, document.getElementById("header"));
-//        ko.applyBindings(itemViewModelObj, document.getElementById("itemViewModelWrapper"));
         ko.applyBindings(viewModel);
     });
 

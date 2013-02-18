@@ -23,7 +23,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Views/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="67" selection-start="5170" selection-end="5170" vertical-scroll-proportion="-66.03846">
+            <state line="77" column="45" selection-start="3450" selection-end="3450" vertical-scroll-proportion="20.307692">
               <folding />
             </state>
           </provider>
@@ -50,7 +50,7 @@
       <file leaf-file-name="models.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scripts/models.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="30" selection-start="477" selection-end="477" vertical-scroll-proportion="0.0">
+            <state line="23" column="1" selection-start="841" selection-end="841" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -59,16 +59,7 @@
       <file leaf-file-name="viewModels.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Scripts/viewModels.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="27" selection-start="3166" selection-end="3180" vertical-scroll-proportion="-0.5392321">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dummyserver.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Scripts/dummyserver.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="4" selection-start="1710" selection-end="1710" vertical-scroll-proportion="0.0">
+            <state line="154" column="33" selection-start="4180" selection-end="4180" vertical-scroll-proportion="1.4257095">
               <folding />
             </state>
           </provider>
@@ -240,8 +231,8 @@
     <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../.gitignore" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -445,16 +436,16 @@
         <state line="4" column="5" selection-start="89" selection-end="89" vertical-scroll-proportion="0.11352254" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scripts/dummyserver.js">
+    <entry file="file://$PROJECT_DIR$/Styles/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="4" selection-start="1710" selection-end="1710" vertical-scroll-proportion="0.0">
+        <state line="159" column="17" selection-start="1981" selection-end="1981" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Views/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="67" selection-start="5170" selection-end="5170" vertical-scroll-proportion="-66.03846">
+        <state line="77" column="45" selection-start="3450" selection-end="3450" vertical-scroll-proportion="20.307692">
           <folding />
         </state>
       </provider>
@@ -466,23 +457,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Styles/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="159" column="17" selection-start="1981" selection-end="1981" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/models.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="30" selection-start="477" selection-end="477" vertical-scroll-proportion="0.0">
+        <state line="23" column="1" selection-start="841" selection-end="841" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Scripts/viewModels.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="27" selection-start="3166" selection-end="3180" vertical-scroll-proportion="-0.5392321">
+        <state line="154" column="33" selection-start="4180" selection-end="4180" vertical-scroll-proportion="1.4257095">
           <folding />
         </state>
       </provider>
