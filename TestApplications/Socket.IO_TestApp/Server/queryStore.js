@@ -1,11 +1,11 @@
-function getLogInUser(username, password){
+function getVerifyLogInQuery(username, password){
     var query = 'SELECT * FROM auctionhouse.user ' +
         'WHERE Username = \"' + username + '\"' +
         ' AND Password = \"' + password + '\";';
     return query;
 }
 
-function getBidsByUser(userId){
+function getBidsByUserQuery(userId){
     var query = 'SELECT DISTINCT item.itemno, name, price, expires, description, MAX(value) ' +
         'FROM auctionhouse.item ' +
         'INNER JOIN auctionhouse.bid ' +
@@ -14,13 +14,13 @@ function getBidsByUser(userId){
     return query;
 }
 
-function placeBid(itemno, userId, value){
+function getPlaceBidQuery(itemno, userId, value){
     var query = 'INSERT INTO auctionhouse.bid ' +
         '(itemno, userID, value) VALUES (\"' + itemno + '\", \"' + userId + '\", \"' + value + '\");';
     return query;
 }
 
-function registerUser(username, firstname, lastname, adress, password){
+function getRegisterUserQuery(username, firstname, lastname, adress, password){
     var query = 'INSERT INTO auctionhouse.user ' +
         '(Username, Firstname, Lastname, Adress, Password) '+
         'VALUES (\"' + username + '\", \"' + firstname + '\", \"' + lastname +
@@ -28,13 +28,13 @@ function registerUser(username, firstname, lastname, adress, password){
     return query;
 }
 
-function registerItem(name, price, expires, description, addedByID){
+function getRegisterItemQuery(name, price, expires, description, addedByID){
     var query = 'INSERT INTO auctionhouse.item (name, price, expires, description, addedByID) ' +
         'VALUES (\"' + name + '\", \"' + price + '\", \"' + expires + '\", \"' + description + '\" , \"' + addedByID +'\");';
     return query;
 }
 
-function deleteItem(itemno){
+function getDeleteItemQuery(itemno){
     var query = 'DELETE FROM auctionhouse.bid ' +
         'WHERE itemno = \"' + itemno + '\"; ' +
 
@@ -43,7 +43,7 @@ function deleteItem(itemno){
     return query;
 }
 
-function getAllItems(){
+function getAllItemsQuery(){
     var query = 'SELECT u.username as highestbidder, b.itemno, i.name, i.price, UNIX_TIMESTAMP(i.expires) as expiredate, i.description, b.value as bid, i.addedByID ' +
         'FROM auctionhouse.item i ' +
         'INNER JOIN auctionhouse.bid b ' +
@@ -61,17 +61,23 @@ function getAllItems(){
     return query;
 }
 
-function getLatestBid(bidID){
+function getLatestBidQuery(bidID){
     var query = 'SELECT * FROM auctionhouse.bid WHERE bidID = \"' + bidID + '\";';
     return query;
 }
 
-exports.getLogInUser = getLogInUser;
-exports.getBidsByUser = getBidsByUser;
-exports.placeBid = placeBid;
-exports.registerUser = registerUser;
-exports.registerItem = registerItem;
-exports.deleteItem = deleteItem;
-exports.getAllItems = getAllItems;
-exports.getLatestBid = getLatestBid;
+function getLatestItemQuery(itemno){
+    var query = 'SELECT * FROM auctionhouse.item WHERE itemno = \"' + itemno + '\";';
+    return query;
+}
+
+exports.getLogInUserQuery = getVerifyLogInQuery;
+exports.getBidsByUserQuery = getBidsByUserQuery;
+exports.placeBidQuery = getPlaceBidQuery;
+exports.registerUserQuery = getRegisterUserQuery;
+exports.registerItemQuery = getRegisterItemQuery;
+exports.deleteItemQuery = getDeleteItemQuery;
+exports.getAllItemsQuery = getAllItemsQuery;
+exports.getLatestBidQuery = getLatestBidQuery;
+exports.getLatestItemQuery = getLatestItemQuery;
 
