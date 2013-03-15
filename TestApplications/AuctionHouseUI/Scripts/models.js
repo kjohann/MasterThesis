@@ -6,10 +6,13 @@ window.auction.models = (function(){
             self.itemno = itemno;
             self.minPrice = minPrice;
             self.bid = ko.observable(0);
-            self.expires = expires ? expires.toLocaleDateString() : new Date().toLocaleDateString();
+            self.expires = expires;
             self.description = description;
             self.highestBidder = ko.observable();
             self.addedByID = addedByID;
+            self.expireDate = ko.computed(function(){
+                return self.expires.toLocaleDateString();
+            }, self);
        },
 
        user: function(userID, username, firstname, lastname, adress){
