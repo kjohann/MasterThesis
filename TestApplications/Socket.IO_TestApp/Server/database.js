@@ -1,3 +1,13 @@
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'n5user',
+    password: 'n5pass',
+    database: 'test'
+});
+
+connection.connect();
+
 function verifyLogIn(username, password){
 
 }
