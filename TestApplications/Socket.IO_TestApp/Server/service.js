@@ -1,27 +1,45 @@
 var database = require('./database')
 
 function verifyLogIn(username, password){
-    database.verifyLogIn(username, password);
+    if(username && password)
+        database.verifyLogIn(username, password);
+    else
+        console.error("Verification failed: verifyLogIn of " + username + ", " + password);
 }
 
 function getBidsByUser(userId){
-    database.getBidsByUser(userId);
+    if(userId)
+        database.getBidsByUser(userId);
+    else
+        console.error("GetBids failed: getBidsByUser of " + userId);
 }
 
 function placeBid(itemno, userId, value){
-    database.placeBid(itemno, userId, value);
+    if(itemno && userId && value)
+        database.placeBid(itemno, userId, value);
+    else
+        console.error("Placing bid failed: placeBid with " + itemno + ", " + userId + ", " + value);
 }
 
 function registerUser(username, firstname, lastname, adress, password){
-    database.registerUser(username, firstname, lastname, adress, password);
+    if(username && firstname && lastname && adress && password)
+        database.registerUser(username, firstname, lastname, adress, password);
+    else
+        console.error("Registration failed: registerUser with " + username + ", " + firstname + ", " + lastname + ", " + adress + ", " + password);
 }
 
 function registerItem(name, price, expires, description, addedById){
-    database.registerItem(name, price, expires, description, addedById)
+    if(name && price && expires && description && addedById)
+        database.registerItem(name, price, expires, description, addedById)
+    else
+        console.error("Registration failed: registerItem with " + name + ", " + price + ", " + expires + ", " + description + ", " + addedById);
 }
 
 function deleteItem(itemno){
-    database.deleteItem(itemno);
+    if(itemno)
+        database.deleteItem(itemno);
+    else
+        console.error("Failed to delete item: deleteItem with " + itemno);
 }
 
 function getAllItems(){
@@ -29,11 +47,17 @@ function getAllItems(){
 }
 
 function getLatestBid(bidId){
-    database.getLatestBid(bidId);
+    if(bidId)
+        database.getLatestBid(bidId);
+    else
+        console.error("Failed to get latest: getLatestBid with " + bidId);
 }
 
 function getLatestItem(itemno){
-    database.getLatestItem((itemno));
+    if(itemno)
+        database.getLatestItem((itemno));
+    else
+        console.error("Failed to get latest: getLatestItem with " + itemno);
 }
 
 exports.verifyLogIn = verifyLogIn;
