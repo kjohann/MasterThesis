@@ -1,4 +1,6 @@
-var mysql = require('mysql');
+var mysql = require('mysql'),
+    responses = require('./responses'),
+    queryStore = require('./queryStore');
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'n5user',
@@ -9,7 +11,15 @@ var connection = mysql.createConnection({
 connection.connect();
 
 function verifyLogIn(username, password){
+    var q = queryStore.getLogInUserQuery(username, password);
+    connection.query(q, function(err, rows, fields){
+        if(err)
+            console.error("Failed to verifyLogIn with database: verifyLogIn with error code " + err.code);
 
+        var success = rows.length === 1;
+        responses.logInResponse(success);
+
+    });
 }
 
 function getBidsByUser(userID){
