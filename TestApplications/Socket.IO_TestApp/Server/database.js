@@ -50,23 +50,60 @@ function placeBid(itemno, userId, value){
 }
 
 function registerUser(username, firstname, lastname, adress, password){
-
+    var q = queryStore.registerUserQuery(username, firstname, lastname, adress, password);
+    connection.query(q, function(err, result){
+        if(err){
+            console.error("Failed to register user in database: registerUser with error code " + err.code);
+        }else{
+            responses.registerUserResponse(true);
+        }
+    });
 }
 
 function registerItem(name, price, expires, description, addedByID){
-
+    var q = queryStore.registerItemQuery(name, price, expires,description, addedByID);
+    connection.query(q, function(err, result){
+        if(err){
+            console.error("Failed to register item in database: registerItem with error code " + err.code);
+        }else{
+            responses.registerItemResponse(result.insertId);
+        }
+    });
 }
 
 function deleteItem(itemno){
-
+    var q = queryStore.deleteItemQuery(itemno);
+    connection.query(q, function(err, result){
+        if(err){
+            console.error("Failed to delete item from database: deleteItem with error code " + err.code);
+        }else{
+            responses.registerItemResponse(itemno); //Not sure if this works, but crude testing indicates that it does..
+        }
+    });
 }
 
 function getAllItems(){
-
+    var q = queryStore.getAllItemsQuery();
+    connection.query(q, function(err, rows, fields){
+        if(err){
+            console.error("Failed to get items at inital load from database: getALlItems with error code " + err.code);
+        }else{
+            responses.getAllItemsResponse(rows);
+        }
+    });
 }
 
 function getLatestBid(bidID){
-
+    var q = queryStore.getLatestBidQuery(bidID);
+    connection.query(q, function(err, rows, fields){
+        if(err){
+            console.error("Failed to get latest bid: getLatestBid with error code " + err.code);
+        }else if(rows.length > 1){
+            console.error("Database may be corrupt: getLatestBid returned more than one row!");
+        }else{
+            responses.getLatestBidResponse(rows[0]);
+        }
+    });
 }
 
 function getLatestItem(itemno){

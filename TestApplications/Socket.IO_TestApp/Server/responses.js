@@ -17,27 +17,34 @@ function placeBidResponse(bidId){
 }
 
 function registerUserResponse(success){
-    //send value of success to
+    //send to client - no need really, but can show success with an alert
 }
 
-function registerItemResponse(itemId){
-
+function registerItemResponse(itemno){
+    //send Id to client - client will then initiate broadcast of new item
 }
 
-function deleteItemResponse(){
-
+function deleteItemResponse(itemno){
+    //send to clients
 }
 
-function getAllItemsResponse(){
-
+function getAllItemsResponse(rows){
+    var items = rows.map(function(row){
+        var expires = new Date(rows.expiredate * 1000);
+        return new models.prettyItem(row.itemno, row.name, row.price, expires, row.description, row.addedByID, row.highestbidder, row.bid);
+    });
+    //send to client
 }
 
 function getLatestBidResponse(bid){
-
+    var bid = new models.bid(bid.bidID, bid.itemno, bid.userID, bid.value); //I need username as well don't I?
+    //send to clients
 }
 
 function getLatestItemResponse(item){
-
+    var expires = new Date(item.expireDate * 1000);
+    var item = new models.prettyItem(item.itemno, item.name, item.price, expires, item.description, item.addedByID, null, 0);
+    // send to clients
 }
 
 exports.logInResponse = logInResponse;

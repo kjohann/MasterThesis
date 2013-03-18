@@ -8,7 +8,7 @@ function item(itemno, name, price, expires, description, addedByID){
     self.addedByID = addedByID;
 }
 
-function prettyItem(itemno, name, price, expires, description, addedByID, highestBidder, currentBid){
+function prettyItem(itemno, name, price, expires, description, addedByID, highestBidder, value){
     var self = this;
     self.itemno = itemno;
     self.name = name;
@@ -17,7 +17,7 @@ function prettyItem(itemno, name, price, expires, description, addedByID, highes
     self.description = description;
     self.addedByID = addedByID;
     self.highestBidderId = highestBidder;
-    self.currentBid = currentBid;
+    self.value = value;
 }
 
 function user(userId, username, firstname, lastname, adress, password){
@@ -40,5 +40,6 @@ function bid(bidId, itemno, userId, value){
 }
 
 exports.item = item;
+exports.prettyItem = prettyItem;
 exports.user = user;
 exports.bid = bid;

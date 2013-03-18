@@ -67,7 +67,8 @@ function getLatestBidQuery(bidID){
 }
 
 function getLatestItemQuery(itemno){
-    var query = 'SELECT * FROM auctionhouse.item WHERE itemno = \"' + itemno + '\";';
+    var query = 'SELECT itemno, name, price, UNIX_TIMESTAMP(expires) as expireDate, description, addedByID' +
+                'FROM auctionhouse.item WHERE itemno = \"' + itemno + '\";';
     return query;
 }
 
