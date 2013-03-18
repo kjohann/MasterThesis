@@ -38,8 +38,8 @@ function getBidsByUser(userID){
     });
 }
 
-function placeBid(itemno, userId, value){
-    var q = queryStore.placeBidQuery(itemno, userId, value);
+function placeBid(itemno, userId, value, username){
+    var q = queryStore.placeBidQuery(itemno, userId, value, username);
     connection.query(q, function(err, result){
         if(err){
             console.error("Failed to place bid in database: placeBid with error code " + err.code);
@@ -60,7 +60,7 @@ function registerUser(username, firstname, lastname, adress, password){
     });
 }
 
-function registerItem(name, price, expires, description, addedByID){
+function registerItem(name, price, expires, description, addedByID){              //Assume expires to be a formatted string: dd-MM-yyyy
     var q = queryStore.registerItemQuery(name, price, expires,description, addedByID);
     connection.query(q, function(err, result){
         if(err){
@@ -107,7 +107,16 @@ function getLatestBid(bidID){
 }
 
 function getLatestItem(itemno){
-
+    var q = queryStore.getLatestItemQuery(itemno);
+    connection.query(q, function(err, rows, fields){
+        if(err){
+            console.error("Failed to get latest item: getLatestItem with error code " + err.code);
+        }else if(rows.length > 1){
+            console.error("Database may be corrupt: getLatestItem returned more than one row!");
+        }else{
+            responses.getLatestItemResponse(rows[0]);
+        }
+    });
 }
 
 exports.verifyLogIn = verifyLogIn;
