@@ -1,20 +1,26 @@
+var models = require('./models');
+
 function logInResponse(row){
-
+    var user = new models.user(row.userID, row.Username, row.Firstname, row.Lastname, row.Adress, row.Password);
+    //send to client
 }
 
-function usersBidsResponse(rows, error){
-
+function usersBidsResponse(rows){
+    var bids = rows.map(function(row){
+        return new models.bid(row.bidID, row.itemno, row.userID, row.value);
+    });
+    //send to client
 }
 
-function placeBidResponse(bidId, error){
-
+function placeBidResponse(bidId){
+    //send id to client
 }
 
-function registerUserResponse(success, error){
-
+function registerUserResponse(success){
+    //send value of success to
 }
 
-function registerItemResponse(itemId, error){
+function registerItemResponse(itemId){
 
 }
 
@@ -26,11 +32,11 @@ function getAllItemsResponse(){
 
 }
 
-function getLatestBidResponse(bid, error){
+function getLatestBidResponse(bid){
 
 }
 
-function getLatestItemResponse(item, error){
+function getLatestItemResponse(item){
 
 }
 
