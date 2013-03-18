@@ -17,7 +17,7 @@ function verifyLogIn(username, password){
             console.error("Failed to verifyLogIn with database: verifyLogIn with error code " + err.code);
 
         var success = rows.length === 1;
-        responses.logInResponse(success);
+        responses.logInResponse(rows[0]);
 
     });
 }

@@ -1,4 +1,4 @@
-function logInResponse(success){
+function logInResponse(row){
 
 }
 
