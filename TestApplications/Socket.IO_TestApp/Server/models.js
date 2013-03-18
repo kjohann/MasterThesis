@@ -31,7 +31,7 @@ function user(userId, username, firstname, lastname, adress, password){
 
 }
 
-function bid(bidId, itemno, userId, value){
+function bid(bidId, itemno, userId, value, username){
     var self = this;
     self.bidId = bidId;
     self.itemno = itemno;

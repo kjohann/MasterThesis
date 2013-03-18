@@ -14,11 +14,11 @@ function getBidsByUser(userId){
         console.error("GetBids failed: getBidsByUser of " + userId);
 }
 
-function placeBid(itemno, userId, value){
-    if(itemno && userId && value)
-        database.placeBid(itemno, userId, value);
+function placeBid(itemno, userId, value, username){
+    if(itemno && userId && value && username)
+        database.placeBid(itemno, userId, value, username);
     else
-        console.error("Placing bid failed: placeBid with " + itemno + ", " + userId + ", " + value);
+        console.error("Placing bid failed: placeBid with " + itemno + ", " + userId + ", " + value + " " + username);
 }
 
 function registerUser(username, firstname, lastname, adress, password){

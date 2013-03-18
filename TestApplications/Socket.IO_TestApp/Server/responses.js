@@ -37,7 +37,7 @@ function getAllItemsResponse(rows){
 }
 
 function getLatestBidResponse(bid){
-    var bid = new models.bid(bid.bidID, bid.itemno, bid.userID, bid.value); //I need username as well don't I?
+    var bid = new models.bid(bid.bidID, bid.itemno, bid.userID, bid.value, bid.username); //I need username as well don't I?
     //send to clients
 }
 
