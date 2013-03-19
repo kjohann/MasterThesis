@@ -1,8 +1,8 @@
 var database = require('./database')
 
-function verifyLogIn(username, password){
+function verifyLogIn(username, password, socket){
     if(username && password)
-        database.verifyLogIn(username, password);
+        database.verifyLogIn(username, password, socket);
     else
         console.error("Verification failed: verifyLogIn of " + username + ", " + password);
 }

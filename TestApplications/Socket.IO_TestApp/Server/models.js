@@ -20,14 +20,13 @@ function prettyItem(itemno, name, price, expires, description, addedByID, highes
     self.value = value;
 }
 
-function user(userId, username, firstname, lastname, adress, password){
+function user(userID, username, firstname, lastname, adress){
     var self = this;
-    self.userId = userId;
+    self.userID = userID;
     self.username = username;
     self.firstname = firstname;
     self.lastname = lastname;
     self.adress = adress;
-    self.password = password;
 
 }
 

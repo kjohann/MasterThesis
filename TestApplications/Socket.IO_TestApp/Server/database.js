@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-function verifyLogIn(username, password){
+function verifyLogIn(username, password, socket){
     var q = queryStore.getLogInUserQuery(username, password);
     connection.query(q, function(err, rows, fields){
         if(err){
@@ -19,7 +19,7 @@ function verifyLogIn(username, password){
 
             var success = rows.length === 1;
             if(success){
-                responses.logInResponse(rows[0]);
+                responses.logInResponse(rows[0], socket);
             }else{
                 console.error("Failed to verifyLogIn: verifyLogIn returned more that one user - check db");
             }
