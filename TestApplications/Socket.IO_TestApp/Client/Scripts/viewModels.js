@@ -15,9 +15,17 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
             $("#log_in").dialog("close");
         };
 
-        //TODO: send register info to server
         self.sendRegister = function(){
-            //Send to server
+            var user = {
+                username: $("#username").val(),
+                firstname: $("#firstname").val(),
+                lastname: $("#lastname").val(),
+                adress: $("#adress").val(),
+                password: $("#password").val()
+            }
+
+            socket.emit('registerUser', user);
+
             $("#register").dialog("close");
         };
 
@@ -60,13 +68,21 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
         };
 
         self.sendAddItem = function(){
-            var itemname = $("#itemname").val();
-            var minprice = parseInt($("#minprice").val());
-            var expires = new Date($("#expires").val());
-            var description = $("#description").val();
+            var item = {
+                name: $("#itemname").val(),
+                price: parseInt($("#minprice").val()),
+                expires: new Date($("#expires").val()),
+                description: $("#description").val(),
+                addedByID: viewModel.headerView.user().userID
+            }
+            var year = item.expires.getFullYear();
+            var month = item.expires.getMonth() + 1;
+            var day = item.expires.getDate();
+            var datestring = year + "-" + month + "-" + day;
 
-            //TODO: Apply logic for sending to server
-            //Send to server
+            item.expires = datestring;
+
+            socket.emit('registerItem', item);
 
             $("#additem").dialog("close");
         };

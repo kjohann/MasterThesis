@@ -16,24 +16,23 @@ function placeBidResponse(bidId){
     //send id to client
 }
 
-function registerUserResponse(success){
-    //send to client - no need really, but can show success with an alert
+function registerUserResponse(success, socket){
+    socket.emit('registerUserResponse', success);
 }
 
-function registerItemResponse(itemno){
-    //send Id to client - client will then initiate broadcast of new item
+function registerItemResponse(itemno, socket){
+    socket.emit('registerItemResponse', itemno);
 }
 
 function deleteItemResponse(itemno){
     //send to clients
 }
 
-function getAllItemsResponse(rows){
+function getAllItemsResponse(rows, socket){
     var items = rows.map(function(row){
-        var expires = new Date(rows.expiredate * 1000);
-        return new models.prettyItem(row.itemno, row.name, row.price, expires, row.description, row.addedByID, row.highestbidder, row.bid);
+        return new models.prettyItem(row.itemno, row.name, row.price, row.expiredate, row.description, row.addedByID, row.highestbidder, row.bid);
     });
-    //send to client
+    socket.emit('allItems', items);
 }
 
 function getLatestBidResponse(bid){
@@ -41,10 +40,10 @@ function getLatestBidResponse(bid){
     //send to clients
 }
 
-function getLatestItemResponse(item){
+function getLatestItemResponse(item, socket){
     var expires = new Date(item.expireDate * 1000);
-    var item = new models.prettyItem(item.itemno, item.name, item.price, expires, item.description, item.addedByID, null, 0);
-    // send to clients
+    var prettyitem = new models.prettyItem(item.itemno, item.name, item.price, expires, item.description, item.addedByID, null, 0);
+    socket.emit('latestItemResponse', prettyitem);
 }
 
 exports.logInResponse = logInResponse;

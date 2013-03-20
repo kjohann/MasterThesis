@@ -35,11 +35,8 @@ function getRegisterItemQuery(name, price, expires, description, addedByID){
 }
 
 function getDeleteItemQuery(itemno){
-    var query = 'DELETE FROM auctionhouse.bid ' +
-        'WHERE itemno = \"' + itemno + '\"; ' +
-
-        'DELETE FROM auctionhouse.item ' +
-        'WHERE itemno = \"' + itemno + '\";';
+    var query = 'DELETE FROM auctionhouse.item ' +
+                'WHERE itemno = \"' + itemno + '\";';
     return query;
 }
 
@@ -66,9 +63,11 @@ function getLatestBidQuery(bidID){
     return query;
 }
 
-function getLatestItemQuery(itemno){
-    var query = 'SELECT itemno, name, price, UNIX_TIMESTAMP(expires) as expireDate, description, addedByID' +
-                'FROM auctionhouse.item WHERE itemno = \"' + itemno + '\";';
+function getLatestItemQuery(itemno, userId, username){ //Also places bid of 0 on the item - ugly hack to prevent too much database traffic
+    var query = 'SELECT itemno, name, price, UNIX_TIMESTAMP(expires) as expireDate, description, addedByID ' +
+                'FROM auctionhouse.item WHERE itemno = \"' + itemno + '\"; ' +
+                'INSERT INTO auctionhouse.bid ' +
+                '(itemno, userID, value, username) VALUES (\"' + itemno + '\", \"' + userId + '\", \"' + 0 + '\", \"' + username + '\");';
     return query;
 }
 

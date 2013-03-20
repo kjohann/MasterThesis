@@ -21,16 +21,23 @@ function placeBid(itemno, userId, value, username){
         console.error("Placing bid failed: placeBid with " + itemno + ", " + userId + ", " + value + " " + username);
 }
 
-function registerUser(username, firstname, lastname, adress, password){
+function registerUser(username, firstname, lastname, adress, password, socket){
     if(username && firstname && lastname && adress && password)
-        database.registerUser(username, firstname, lastname, adress, password);
+        database.registerUser(username, firstname, lastname, adress, password, socket);
     else
         console.error("Registration failed: registerUser with " + username + ", " + firstname + ", " + lastname + ", " + adress + ", " + password);
 }
 
-function registerItem(name, price, expires, description, addedById){
-    if(name && price && expires && description && addedById)
-        database.registerItem(name, price, expires, description, addedById)
+function registerItem(name, price, expires, description, addedById, socket){
+    if(name && price && expires && addedById){
+        var descr;
+        if(!description){
+            descr = "";
+        }else{
+            descr = description;
+        }
+        database.registerItem(name, price, expires, descr, addedById, socket);
+    }
     else
         console.error("Registration failed: registerItem with " + name + ", " + price + ", " + expires + ", " + description + ", " + addedById);
 }
@@ -42,8 +49,8 @@ function deleteItem(itemno){
         console.error("Failed to delete item: deleteItem with " + itemno);
 }
 
-function getAllItems(){
-    database.getAllItems();
+function getAllItems(socket){
+    database.getAllItems(socket);
 }
 
 function getLatestBid(bidId){
@@ -53,9 +60,9 @@ function getLatestBid(bidId){
         console.error("Failed to get latest: getLatestBid with " + bidId);
 }
 
-function getLatestItem(itemno){
+function getLatestItem(itemno, userId, username, socket){
     if(itemno)
-        database.getLatestItem((itemno));
+        database.getLatestItem(itemno, userId, username, socket);
     else
         console.error("Failed to get latest: getLatestItem with " + itemno);
 }

@@ -12,12 +12,12 @@ function prettyItem(itemno, name, price, expires, description, addedByID, highes
     var self = this;
     self.itemno = itemno;
     self.name = name;
-    self.price = price;
+    self.minPrice = price;
     self.expires = expires;
     self.description = description;
     self.addedByID = addedByID;
-    self.highestBidderId = highestBidder;
-    self.value = value;
+    self.highestBidder = highestBidder;
+    self.bid = value;
 }
 
 function user(userID, username, firstname, lastname, adress){

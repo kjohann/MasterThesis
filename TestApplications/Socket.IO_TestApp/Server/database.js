@@ -5,7 +5,8 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'n5user',
     password: 'n5pass',
-    database: 'test'
+    database: 'auctionhouse',
+    multipleStatements: true //For the sake of testapp, this is ok...
 });
 
 connection.connect();
@@ -20,8 +21,10 @@ function verifyLogIn(username, password, socket){
             var success = rows.length === 1;
             if(success){
                 responses.logInResponse(rows[0], socket);
-            }else{
+            }else if(rows.length > 1){
                 console.error("Failed to verifyLogIn: verifyLogIn returned more that one user - check db");
+            }else{
+                console.error("Failed to verifyLogin: verifyLogIn with " + username + ", " + password);
             }
         }
     });
@@ -49,24 +52,24 @@ function placeBid(itemno, userId, value, username){
     });
 }
 
-function registerUser(username, firstname, lastname, adress, password){
+function registerUser(username, firstname, lastname, adress, password, socket){
     var q = queryStore.registerUserQuery(username, firstname, lastname, adress, password);
     connection.query(q, function(err, result){
         if(err){
             console.error("Failed to register user in database: registerUser with error code " + err.code);
         }else{
-            responses.registerUserResponse(true);
+            responses.registerUserResponse(true, socket);
         }
     });
 }
 
-function registerItem(name, price, expires, description, addedByID){              //Assume expires to be a formatted string: dd-MM-yyyy
+function registerItem(name, price, expires, description, addedByID, socket){  //Assume expires to be a formatted string: dd-MM-yyyy
     var q = queryStore.registerItemQuery(name, price, expires,description, addedByID);
     connection.query(q, function(err, result){
         if(err){
             console.error("Failed to register item in database: registerItem with error code " + err.code);
         }else{
-            responses.registerItemResponse(result.insertId);
+            responses.registerItemResponse(result.insertId, socket);
         }
     });
 }
@@ -82,13 +85,13 @@ function deleteItem(itemno){
     });
 }
 
-function getAllItems(){
+function getAllItems(socket){
     var q = queryStore.getAllItemsQuery();
     connection.query(q, function(err, rows, fields){
         if(err){
             console.error("Failed to get items at inital load from database: getALlItems with error code " + err.code);
         }else{
-            responses.getAllItemsResponse(rows);
+            responses.getAllItemsResponse(rows, socket);
         }
     });
 }
@@ -106,15 +109,15 @@ function getLatestBid(bidID){
     });
 }
 
-function getLatestItem(itemno){
-    var q = queryStore.getLatestItemQuery(itemno);
-    connection.query(q, function(err, rows, fields){
+function getLatestItem(itemno, userId, username, socket){
+    var q = queryStore.getLatestItemQuery(itemno, userId, username);
+    connection.query(q, function(err, result){
         if(err){
             console.error("Failed to get latest item: getLatestItem with error code " + err.code);
-        }else if(rows.length > 1){
+        }else if(result[0].length > 1){
             console.error("Database may be corrupt: getLatestItem returned more than one row!");
         }else{
-            responses.getLatestItemResponse(rows[0]);
+            responses.getLatestItemResponse((result[0])[0], socket);
         }
     });
 }
