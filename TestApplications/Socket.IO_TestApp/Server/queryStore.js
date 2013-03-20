@@ -6,11 +6,21 @@ function getVerifyLogInQuery(username, password){
 }
 
 function getBidsByUserQuery(userId){
-    var query = 'SELECT DISTINCT item.itemno, name, price, expires, description, MAX(value) ' +
-        'FROM auctionhouse.item ' +
-        'INNER JOIN auctionhouse.bid ' +
-        'ON auctionhouse.item.itemno = auctionhouse.bid.itemno ' +
-        'WHERE userID = \"' + userId + '\" GROUP BY item.itemno;';
+    var query = 'SELECT b.itemno, b.value, i.name ' +
+                'FROM auctionhouse.item i ' +
+                'INNER JOIN auctionhouse.bid b ' +
+                'ON b.itemno = i.itemno ' +
+                'INNER JOIN auctionhouse.user u ' +
+                'ON b.userID = u.userID ' +
+                'INNER JOIN ' +
+                '(' +
+                'SELECT bid.itemno, MAX(value) AS max ' +
+                'FROM auctionhouse.bid ' +
+                'GROUP BY bid.itemno ' +
+                ') x ' +
+                'ON b.itemno = x.itemno AND ' +
+                'b.value = x.max ' +
+                'WHERE u.userID = \"' + userId + '\" AND b.value != \"' + 0 + '\";';
     return query;
 }
 

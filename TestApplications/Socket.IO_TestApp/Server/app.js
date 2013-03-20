@@ -42,4 +42,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('placeBid', function(data){
         service.placeBid(data.itemno, data.userId, data.value, data.username, io.sockets);
     });
+
+    socket.on('getUsersBids', function(userId){
+        service.getBidsByUser(userId, socket);
+    });
 });

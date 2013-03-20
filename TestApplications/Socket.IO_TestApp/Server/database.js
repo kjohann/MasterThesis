@@ -30,13 +30,13 @@ function verifyLogIn(username, password, socket){
     });
 }
 
-function getBidsByUser(userID){
+function getBidsByUser(userID, socket){
     var q = queryStore.getBidsByUserQuery(userID);
     connection.query(q, function(err, rows, fields){
         if(err){
             console.error("Failed to get bids from database: getBidsByUser with error code " + err.code);
         }else{
-            responses.usersBidsResponse(rows);
+            responses.usersBidsResponse(rows, socket);
         }
     });
 }

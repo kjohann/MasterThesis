@@ -5,11 +5,12 @@ function logInResponse(row, socket){
     socket.emit('logInResponse', user);
 }
 
-function usersBidsResponse(rows){
+function usersBidsResponse(rows, socket){
     var bids = rows.map(function(row){
-        return new models.bid(row.bidID, row.itemno, row.userID, row.value);
+        return new models.viewBid(row.name, row.itemno, row.value);
     });
-    //send to client
+
+    socket.emit('usersBidsResponse', bids);
 }
 
 function placeBidResponse(itemno, userId, value, username, socket){

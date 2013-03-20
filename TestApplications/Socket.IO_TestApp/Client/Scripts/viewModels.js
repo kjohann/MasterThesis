@@ -1,4 +1,4 @@
-window.auction.viewModels = (function(item, user, socket){ //TODO: does this need parameters?
+window.auction.viewModels = (function(item, user, socket){
 
     var headerViewModel = function(){
         var self = this;
@@ -99,7 +99,6 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
             });
         };
 
-        //TODO: Send to server
         self.sendPlaceBid = function (){
             var bid = parseInt($("#bid").val());
             var itemno = this.itemno;
@@ -159,15 +158,16 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
 
         self.viewItems = ko.observable();
 
-        //TODO: Get list from server
-        self.openItemView = function(){
-            //Get from server
-
-            //self.viewItems({bidItems: bidItems}); put in function that receives from server
+        self.setViewItems = function(items){
+            var biditems = {bidItems: items};
+            self.viewItems(biditems);
         }
+
+        self.openItemView = function(){
+            socket.emit('getUsersBids', viewModel.headerView.user().userID);
+        }
+
         //--end dialog handling
-
-
     };
     var headerViewModelObj = new headerViewModel();
     var itemViewModelObj = new itemViewModel();

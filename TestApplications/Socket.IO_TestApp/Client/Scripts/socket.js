@@ -47,6 +47,10 @@
         socket.on('placeBidResponse', function(bid){
             itemView.placeBid(bid.itemno, bid.value, bid.username);
         });
+
+        socket.on('usersBidsResponse', function(bids){
+            itemView.setViewItems(bids);
+        });
     });
 
 

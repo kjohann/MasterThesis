@@ -7,9 +7,9 @@ function verifyLogIn(username, password, socket){
         console.error("Verification failed: verifyLogIn of " + username + ", " + password);
 }
 
-function getBidsByUser(userId){
+function getBidsByUser(userId, socket){
     if(userId)
-        database.getBidsByUser(userId);
+        database.getBidsByUser(userId, socket);
     else
         console.error("GetBids failed: getBidsByUser of " + userId);
 }

@@ -39,7 +39,15 @@ function bid(bidId, itemno, userId, value, username){
     self.username = username;
 }
 
+function viewBid(name, itemno, value){
+    var self = this;
+    self.name = name;
+    self.itemno = itemno;
+    self.value = value;
+}
+
 exports.item = item;
 exports.prettyItem = prettyItem;
 exports.user = user;
 exports.bid = bid;
+exports.viewBid = viewBid;
