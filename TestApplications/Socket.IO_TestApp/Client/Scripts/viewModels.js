@@ -1,4 +1,4 @@
-window.auction.viewModels = (function(item, user){ //TODO: does this need parameters?
+window.auction.viewModels = (function(item, user, socket){ //TODO: does this need parameters?
 
     var headerViewModel = function(){
         var self = this;
@@ -9,9 +9,9 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
             self.user(user);
         }
 
-        //TODO: send log in info to server
+
         self.sendLogIn = function(){
-            window.auction.socket.emit('logIn', {username: $("#log_usern").val(), password: $("#log_pass").val()});
+            socket.emit('logIn', {username: $("#log_usern").val(), password: $("#log_pass").val()});
             $("#log_in").dialog("close");
         };
 
@@ -154,14 +154,10 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
     }
     $(document).ready(function(){
         ko.applyBindings(viewModel);
-        window.auction.socket.on('logInResponse', function(user){
-            viewModel.headerView.setUser(user);
-        });
-        //var socket = io.connect('http://localhost');
     });
 
     return {
         itemViewModel: itemViewModelObj,
         headerViewModel: headerViewModelObj
     };
-})(window.auction.models.item, window.auction.models.user);
+})(window.auction.models.item, window.auction.models.user, window.auction.socket);

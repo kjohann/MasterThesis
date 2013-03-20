@@ -2,7 +2,7 @@ var models = require('./models');
 
 function logInResponse(row, socket){
     var user = new models.user(row.UserID, row.Username, row.Firstname, row.Lastname, row.Adress);
-    socket.emit("logInResponse", user);
+    socket.emit('logInResponse', user);
 }
 
 function usersBidsResponse(rows){
