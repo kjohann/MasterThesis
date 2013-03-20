@@ -14,9 +14,9 @@ function getBidsByUser(userId){
         console.error("GetBids failed: getBidsByUser of " + userId);
 }
 
-function placeBid(itemno, userId, value, username){
+function placeBid(itemno, userId, value, username, socket){
     if(itemno && userId && value && username)
-        database.placeBid(itemno, userId, value, username);
+        database.placeBid(itemno, userId, value, username, socket);
     else
         console.error("Placing bid failed: placeBid with " + itemno + ", " + userId + ", " + value + " " + username);
 }
@@ -42,9 +42,9 @@ function registerItem(name, price, expires, description, addedById, socket){
         console.error("Registration failed: registerItem with " + name + ", " + price + ", " + expires + ", " + description + ", " + addedById);
 }
 
-function deleteItem(itemno){
+function deleteItem(itemno, socket){
     if(itemno)
-        database.deleteItem(itemno);
+        database.deleteItem(itemno, socket);
     else
         console.error("Failed to delete item: deleteItem with " + itemno);
 }

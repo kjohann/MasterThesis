@@ -16,7 +16,7 @@ function getBidsByUserQuery(userId){
 
 function getPlaceBidQuery(itemno, userId, value, username){
     var query = 'INSERT INTO auctionhouse.bid ' +
-        '(itemno, userID, value) VALUES (\"' + itemno + '\", \"' + userId + '\", \"' + value + '\", \"' + username + '\");';
+        '(itemno, userID, value, username) VALUES (\"' + itemno + '\", \"' + userId + '\", \"' + value + '\", \"' + username + '\");';
     return query;
 }
 

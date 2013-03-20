@@ -41,13 +41,13 @@ function getBidsByUser(userID){
     });
 }
 
-function placeBid(itemno, userId, value, username){
+function placeBid(itemno, userId, value, username, socket){
     var q = queryStore.placeBidQuery(itemno, userId, value, username);
     connection.query(q, function(err, result){
         if(err){
             console.error("Failed to place bid in database: placeBid with error code " + err.code);
         }else{
-            responses.placeBidResponse(result.insertId);
+            responses.placeBidResponse(itemno, userId, value, username, socket);
         }
     });
 }
@@ -74,13 +74,13 @@ function registerItem(name, price, expires, description, addedByID, socket){  //
     });
 }
 
-function deleteItem(itemno){
+function deleteItem(itemno, socket){
     var q = queryStore.deleteItemQuery(itemno);
     connection.query(q, function(err, result){
         if(err){
             console.error("Failed to delete item from database: deleteItem with error code " + err.code);
         }else{
-            responses.registerItemResponse(itemno); //Not sure if this works, but crude testing indicates that it does..
+            responses.deleteItemResponse(itemno, socket); //Not sure if this works, but crude testing indicates that it does..
         }
     });
 }

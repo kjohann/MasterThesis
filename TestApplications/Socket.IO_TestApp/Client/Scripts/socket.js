@@ -39,6 +39,14 @@
             i.bid(prettyItem.bid);
             itemView.addItem(i);
         });
+
+        socket.on('deleteItemResponse', function(itemno){
+            itemView.removeItem(itemno);
+        });
+
+        socket.on('placeBidResponse', function(bid){
+            itemView.placeBid(bid.itemno, bid.value, bid.username);
+        });
     });
 
 

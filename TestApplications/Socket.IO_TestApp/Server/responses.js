@@ -12,8 +12,9 @@ function usersBidsResponse(rows){
     //send to client
 }
 
-function placeBidResponse(bidId){
-    //send id to client
+function placeBidResponse(itemno, userId, value, username, socket){
+    var bid = new models.bid(0, itemno, userId, value, username);
+    socket.emit('placeBidResponse', bid);
 }
 
 function registerUserResponse(success, socket){
@@ -24,8 +25,8 @@ function registerItemResponse(itemno, socket){
     socket.emit('registerItemResponse', itemno);
 }
 
-function deleteItemResponse(itemno){
-    //send to clients
+function deleteItemResponse(itemno, socket){
+    socket.emit('deleteItemResponse', itemno);
 }
 
 function getAllItemsResponse(rows, socket){

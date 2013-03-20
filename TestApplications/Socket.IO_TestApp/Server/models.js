@@ -36,6 +36,7 @@ function bid(bidId, itemno, userId, value, username){
     self.itemno = itemno;
     self.userId = userId;
     self.value = value;
+    self.username = username;
 }
 
 exports.item = item;

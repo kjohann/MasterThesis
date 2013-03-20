@@ -34,4 +34,12 @@ io.sockets.on('connection', function (socket) {
     socket.on('getLatestItem', function(data){
         service.getLatestItem(data.itemno, data.userId, data.username, io.sockets);
     });
+
+    socket.on('deleteItem', function(itemno){
+        service.deleteItem(itemno, io.sockets);
+    });
+
+    socket.on('placeBid', function(data){
+        service.placeBid(data.itemno, data.userId, data.value, data.username, io.sockets);
+    });
 });

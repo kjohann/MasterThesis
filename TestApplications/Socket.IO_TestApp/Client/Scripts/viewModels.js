@@ -68,6 +68,8 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
         };
 
         self.sendAddItem = function(){
+            if(!$("#expires").val())
+                return;
             var item = {
                 name: $("#itemname").val(),
                 price: parseInt($("#minprice").val()),
@@ -87,9 +89,8 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
             $("#additem").dialog("close");
         };
 
-        //TODO: Send removeinfo to server
         self.sendRemoveItem = function(itemno){
-            //Send to server
+            socket.emit('deleteItem', itemno);
         };
 
         self.removeItem = function(itemno){
@@ -101,17 +102,24 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
         //TODO: Send to server
         self.sendPlaceBid = function (){
             var bid = parseInt($("#bid").val());
-            //Send to server
+            var itemno = this.itemno;
+            var data = {
+                itemno: itemno,
+                userId: viewModel.headerView.user().userID,
+                value: bid,
+                username: viewModel.headerView.user().username
+            };
+            socket.emit("placeBid", data);
             $("#place_bid").dialog("close");
         };
 
-        self.placeBid = function(itemno, bid, user){
+        self.placeBid = function(itemno, bid, username){
             var item = ko.utils.arrayFirst(self.items(), function(i){
                 return i.itemno === itemno;
             });
 
             item.bid(bid);
-            item.highestBidder(user.username);
+            item.highestBidder(username);
         };
 
         //Dialog handling
