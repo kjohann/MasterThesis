@@ -29,14 +29,22 @@ function registerUser(username, firstname, lastname, adress, password, socket){
 }
 
 function registerItem(name, price, expires, description, addedById, socket){
-    if(name && price && expires && addedById){
+    if(name && price >= 0 && expires && addedById){
         var descr;
         if(!description){
             descr = "";
         }else{
             descr = description;
         }
-        database.registerItem(name, price, expires, descr, addedById, socket);
+
+        var expiredate = new Date(expires);
+        var year = expiredate.getFullYear();
+        var month = expiredate.getMonth() + 1;
+        var day = expiredate.getDate();
+
+        var datestring = year + "-" + month + "-" + day;
+
+        database.registerItem(name, price, datestring, descr, addedById, socket);
     }
     else
         console.error("Registration failed: registerItem with " + name + ", " + price + ", " + expires + ", " + description + ", " + addedById);

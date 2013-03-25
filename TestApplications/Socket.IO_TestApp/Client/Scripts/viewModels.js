@@ -70,19 +70,20 @@ window.auction.viewModels = (function(item, user, socket){
         self.sendAddItem = function(){
             if(!$("#expires").val())
                 return;
+            var dateparams = $("#expires").val().split("-");
+            dateparams = dateparams.map(function(param){
+                return parseInt(param);
+            });
+            var date = new Date();
+            date.setFullYear(dateparams[0], dateparams[1] - 1, dateparams[2]);
+
             var item = {
                 name: $("#itemname").val(),
                 price: parseInt($("#minprice").val()),
-                expires: new Date($("#expires").val()),
+                expires: date,
                 description: $("#description").val(),
                 addedByID: viewModel.headerView.user().userID
             }
-            var year = item.expires.getFullYear();
-            var month = item.expires.getMonth() + 1;
-            var day = item.expires.getDate();
-            var datestring = year + "-" + month + "-" + day;
-
-            item.expires = datestring;
 
             socket.emit('registerItem', item);
 

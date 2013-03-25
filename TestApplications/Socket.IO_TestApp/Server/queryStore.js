@@ -51,7 +51,7 @@ function getDeleteItemQuery(itemno){
 }
 
 function getAllItemsQuery(){
-    var query = 'SELECT u.username as highestbidder, b.itemno, i.name, i.price, UNIX_TIMESTAMP(i.expires) as expiredate, i.description, b.value as bid, i.addedByID ' +
+    var query = 'SELECT u.username as highestbidder, b.itemno, i.name, i.price, i.expires as expiredate, i.description, b.value as bid, i.addedByID ' +
         'FROM auctionhouse.item i ' +
         'INNER JOIN auctionhouse.bid b ' +
         'ON b.itemno = i.itemno ' +

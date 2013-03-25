@@ -5,7 +5,7 @@
         socket.on('allItems', function(items){
             var clientItems = items.map(function(i){
                 var expires = new Date(parseInt(i.expires) * 1000);
-                var prettyItem = new item(i.name, i.itemno, i.minPrice, expires, i.description, i.addedByID);
+                var prettyItem = new item(i.name, i.itemno, i.minPrice, new Date(i.expires), i.description, i.addedByID);
                 prettyItem.highestBidder(i.highestBidder);
                 prettyItem.bid(i.bid);
                 return prettyItem;
@@ -33,7 +33,7 @@
         });
 
         socket.on('latestItemResponse', function(prettyItem){
-            var expires = new Date(parseInt(prettyItem.expires) * 1000);
+            var expires = new Date(prettyItem.expires);
             var i = new item(prettyItem.name, prettyItem.itemno, prettyItem.minPrice, expires, prettyItem.description, prettyItem.addedByID);
             i.highestBidder(prettyItem.highestBidder);
             i.bid(prettyItem.bid);
