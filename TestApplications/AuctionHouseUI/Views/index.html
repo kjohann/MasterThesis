@@ -68,7 +68,7 @@
             <label>Itemno: </label>
             <span data-bind="text: itemno"></span> <br/>
             <label>Bid: </label>
-            <span data-bind="text: bid()"></span> <br/><br/>
+            <span data-bind="text: value"></span> <br/><br/>
         </div>
     </script>
 </head>
@@ -113,7 +113,7 @@
                         <label>Minumum price: </label><span data-bind="text: minPrice"></span> <br/>
                         <label data-bind="visible: bid() !== 0">Highest bid: </label>
                         <span data-bind="text: bid(), visible: bid() !== 0"></span> <br/>
-                        <label>Expires </label><span data-bind="text: expires"></span> <br/>
+                        <label>Expires </label><span data-bind="text: expireDate"></span> <br/>
                         <label data-bind="visible: bid() !== 0">Highest Bidder: </label> <br/>
                         <span data-bind="text: highestBidder(), visible: bid() !== 0"></span>
                     </div>

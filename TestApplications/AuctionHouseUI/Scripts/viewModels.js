@@ -89,13 +89,13 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
             $("#place_bid").dialog("close");
         };
 
-        self.placeBid = function(itemno, bid, user){
+        self.placeBid = function(itemno, bid, username){
             var item = ko.utils.arrayFirst(self.items(), function(i){
                 return i.itemno === itemno;
             });
 
             item.bid(bid);
-            item.highestBidder(user.username);
+            item.highestBidder(username);
         };
 
         //Dialog handling
@@ -135,11 +135,13 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
 
         self.viewItems = ko.observable();
 
+        self.setViewItems = function(items){
+            var biditems = {bidItems: items};
+            self.viewItems(biditems);
+
         //TODO: Get list from server
         self.openItemView = function(){
             //Get from server
-
-            //self.viewItems({bidItems: bidItems}); put in function that receives from server
         }
         //--end dialog handling
 
