@@ -1,6 +1,6 @@
 package data.database;
 
-import data.database.resultGenerators.ResultGeneratorCollection;
+import data.database.resultGenerators.ResultGeneratorFactory;
 import database.connector.ResultGenerator;
 
 public class MySQLDatabaseHandler implements DatabaseHandler {
