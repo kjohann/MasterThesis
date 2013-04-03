@@ -32,7 +32,7 @@ public class ServiceProvider {
 		
 		ArrayList<Row> result = dbHandler.verifyLogIn(logInUser.getUsername(), logInUser.getPassword());
 		
-		if(result == null || result.size() > 1) //Should only return one user
+		if(result == null || result.size() > 1) //Should only return one user.
 			return null;
 		
 		Row row = result.get(0);
@@ -45,5 +45,32 @@ public class ServiceProvider {
 		int userId = id.getFieldAsInt();
 		
 		return new User(userId, username, firstname, lastname, adress, null); //password is not relevant to client
-	}			
+	}
+	
+	public ArrayList<ViewBid> getUsersBids(String json) {
+		User user = jsonHandler.userFromJSON(json);
+		if(user == null) {
+			System.err.println("Error while getting usersBids - corrupt data received");
+			return null;
+		}
+		
+		ArrayList<Row> result = dbHandler.getBidsByUser(user.getUserID());
+		
+		if(result == null || result.size() == 0) //User has no leading bids.
+			return null;
+		
+		ArrayList<ViewBid> viewBids = new ArrayList<>();
+		String name = null;
+		int value = 0, itemno = 0;
+		ViewBid viewBid = null;
+		for(Row row : result) {			
+			name = row.getField("name").getFieldAsString();
+			value = row.getField("value").getFieldAsInt();
+			itemno = row.getField("itemno").getFieldAsInt();
+			viewBid = new ViewBid(name, itemno, value);
+			viewBids.add(viewBid);
+		}
+		
+		return viewBids;
+	}
 }
