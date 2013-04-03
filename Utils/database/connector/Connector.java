@@ -20,29 +20,18 @@ public interface Connector {
 	public abstract boolean tearDown();
 
 	/**
-	 * @param table Name of the table in which to insert.
-	 * @param valuenames An array containing the names of each value.
-	 * @param values An array containing the matching values for the names.
-	 * @return The insertId if insertion went well. Else -1.
+	 * @param insertQuery A query string of the form INSERT INTO table...
+	 * @return The ID of the inserted object.
 	 * 
-	 * NB: This method works only for tables with an int primary key with autoincrement set to true!
-	 * The table variable and the valuenames- and values arrays are used to make an insertquery of the form:
-	 * INSERT INTO table (valuenames[0], valuenames[1], ... valuenames[n]) VALUES ('values[0]', 'values[1]', ... 'values[n]'
-	 * It is therefore crucial that the indexes of the arrays match. The method has no way of knowing wheter this is the case! 
+	 * NB! This method only works with tables that have an autoincrement primarykey!
 	 */
-	public abstract long insert(String table, String[] valuenames,
-			String[] values);
+	public abstract long insert(String insertQuery);
 
 	/**
-	 * @param table Name of the table to delete from.
-	 * @param valuename Name of the value that should be deleted.
-	 * @param value The concrete value that should be deleted.
-	 * @return True if deletion was successful.
-	 * 
-	 * The table-, valuename- and value-variables are used to construct a deletequery like this:
-	 * DELETE FROM table WHERE valuename='value'
+	 * @param deleteQuery A query string of the form DELETE FROM table...
+	 * @return True if no error occured.
 	 */
-	public abstract boolean delete(String table, String valuename, String value);
+	public abstract boolean delete(String deleteQuery);
 
 	/**
 	 * @param queryString A SQL SELECT query

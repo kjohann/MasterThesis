@@ -17,9 +17,6 @@ public class MySQLConnector implements Connector {
 	private Connection conn;
     private String dbName;
     private final String connectionStringPrefix = "jdbc:mysql://localhost:3306/";
-    private final String insertPrefix = "INSERT INTO ";
-    private final String deletePrefix = "DELETE FROM ";
-
 
     private MySQLConnector(String dbName) {
     	this.dbName = dbName;
@@ -64,14 +61,11 @@ public class MySQLConnector implements Connector {
   	}
 
   	@Override
-	public long insert(String table, String[] valuenames, String[] values) {
+	public long insert(String insertQuery) {
   		long insertId = 0;
-  		if (valuenames.length != values.length)
-  			throw new IllegalArgumentException("Valuenames length != values length. These must match!");
   		try {
-  			Statement statement = this.conn.createStatement();
-  			String insertquery = insertPrefix + table + " " + createInsertStringSuffix(valuenames, values);
-  			statement.executeUpdate(insertquery, Statement.RETURN_GENERATED_KEYS);
+  			Statement statement = this.conn.createStatement();  			
+  			statement.executeUpdate(insertQuery, Statement.RETURN_GENERATED_KEYS);
   			ResultSet keys = statement.getGeneratedKeys();  		
   			if(keys.next()) {
   				insertId = keys.getLong(1);
@@ -86,11 +80,10 @@ public class MySQLConnector implements Connector {
   	}
 
   	@Override
-	public boolean delete(String table, String valuename, String value) {
+	public boolean delete(String deleteQuery) {
   		try {
   			Statement statement = this.conn.createStatement();
-  			String querystring = deletePrefix + table + " WHERE " + valuename + "='" + value + "'";
-  			statement.executeUpdate(querystring);
+  			statement.executeUpdate(deleteQuery);
   			statement.close();
   		} catch (SQLException e) {
   			e.printStackTrace();
@@ -119,18 +112,5 @@ public class MySQLConnector implements Connector {
   		}
 
   		return rows.size() > 0 ? rows : null;
-  	}
-
-  	private String createInsertStringSuffix(String[] valuenames, String[] values) {
-  		String suffix = ""; String part1 = "("; String part2 = "VALUES (";
-
-  		for (int i = 0; i < values.length; i++) {
-  			part1 = part1 + (i == values.length - 1 ? valuenames[i] + ") " : new StringBuilder(String.valueOf(valuenames[i])).append(", ").toString());
-  			part2 = part2 + (i == values.length - 1 ? "'" + values[i] + "')" : new StringBuilder("'").append(values[i]).append("', ").toString());
-  		}
-
-  		suffix = part1 + part2;
-
-  		return suffix;
   	}
 }
