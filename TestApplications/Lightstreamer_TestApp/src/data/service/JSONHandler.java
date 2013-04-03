@@ -21,6 +21,10 @@ public class JSONHandler {
 		return validateUser(user) ? user : null;
 	}
 	
+	public String userToJSON(User user) {
+		return gson.toJson(user);
+	}
+	
 	public Item itemFromJSON(String json) {
 		Item item =  gson.fromJson(json, Item.class);
 		return validateItem(item) ? item : null;
