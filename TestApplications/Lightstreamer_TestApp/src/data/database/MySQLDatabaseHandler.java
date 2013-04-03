@@ -6,13 +6,18 @@ import data.database.resultGenerators.ResultGeneratorFactory;
 import database.connector.*;
 
 public class MySQLDatabaseHandler implements DatabaseHandler {
+	private static MySQLDatabaseHandler instance;
 	private Connector mysqlConnector; //See Utils folder
 	private ResultGeneratorFactory generatorFactory;
 	
-	public MySQLDatabaseHandler(String dbName, String user, String password) {
+	private MySQLDatabaseHandler(String dbName, String user, String password) {
 		mysqlConnector = MySQLConnector.getInstance(dbName);
 		mysqlConnector.init(user, password);
 		generatorFactory = ResultGeneratorFactory.getInstance();
+	}
+	
+	public static MySQLDatabaseHandler getInstance(String dbName, String user, String password) {
+		return instance == null ? new MySQLDatabaseHandler(dbName, user, password) : instance;
 	}
 
 	@Override

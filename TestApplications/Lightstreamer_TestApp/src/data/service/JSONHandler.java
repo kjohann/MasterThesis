@@ -5,14 +5,14 @@ import models.*;
 import com.google.gson.Gson;
 
 public class JSONHandler {
-	private JSONHandler instance;
+	private static JSONHandler instance;
 	private Gson gson;
 	
 	private JSONHandler() {
 		gson = new Gson();
 	}
 	
-	public JSONHandler getInstance() {
+	public static JSONHandler getInstance() {
 		return instance == null ? new JSONHandler() : instance;
 	}
 	
