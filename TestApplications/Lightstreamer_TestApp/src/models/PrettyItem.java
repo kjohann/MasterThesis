@@ -4,10 +4,11 @@ import java.sql.Date;
 
 public class PrettyItem {
 	private String name, description, highestBidder;
-	private int price, bid, addedByID;
+	private int price, bid, addedByID, itemno;
 	private Date expires;
 	
-	public PrettyItem(String name, String description, String highestBidder, int price, int bid, int addedByID, Date expires) {
+	public PrettyItem(int itemno, String name, String description, String highestBidder, int price, int bid, int addedByID, Date expires) {
+		this.itemno = itemno;
 		this.name = name;
 		this.description = description;
 		this.highestBidder = highestBidder;
@@ -15,6 +16,14 @@ public class PrettyItem {
 		this.bid = bid;
 		this.addedByID = addedByID;
 		this.expires = expires;
+	}
+
+	public int getItemno() {
+		return itemno;
+	}
+
+	public void setItemno(int itemno) {
+		this.itemno = itemno;
 	}
 
 	public String getName() {
