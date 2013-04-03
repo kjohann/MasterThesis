@@ -27,13 +27,13 @@ public class MySQLDatabaseHandler implements DatabaseHandler {
 	}
 
 	@Override
-	public ArrayList<Row> getBidsByUser(String userId) {
+	public ArrayList<Row> getBidsByUser(int userId) {
 		String query = QueryStore.getBidsByUserQuery(userId);
 		return mysqlConnector.select(query, generatorFactory.getBidsByUserGenerator());
 	}
 
 	@Override
-	public long placeBid(String itemno, String userId, String value, String username) {
+	public long placeBid(int itemno, int userId, int value, String username) {
 		String query = QueryStore.getPlaceBidQuery(itemno, userId, value, username);
 		return mysqlConnector.insert(query);
 	}
@@ -45,13 +45,13 @@ public class MySQLDatabaseHandler implements DatabaseHandler {
 	}
 
 	@Override
-	public long registerItem(String name, String price, String expires, String description, String addedByID) {
+	public long registerItem(String name, int price, String expires, String description, int addedByID) {
 		String query = QueryStore.getRegisterItemQuery(name, price, expires, description, addedByID);
 		return mysqlConnector.insert(query);
 	}
 
 	@Override
-	public boolean deleteItem(String itemno) {
+	public boolean deleteItem(int itemno) {
 		String query = QueryStore.getDeleteItemQuery(itemno);
 		return mysqlConnector.delete(query);
 	}

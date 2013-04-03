@@ -5,7 +5,7 @@ public class QueryStore {
 	private QueryStore(){
 		//No need
 	}
-	/*I will most likely operate on Strings. Will refactor if necessary */
+	
 	public static String getVerifyLogInQuery(String username, String password){
 	    String query = "SELECT * FROM auctionhouse.user " +
 	            "WHERE Username = \"" + username + "\"" +
@@ -13,7 +13,7 @@ public class QueryStore {
 	    return query;
 	}
 	
-	public static String getBidsByUserQuery(String userId) {
+	public static String getBidsByUserQuery(int userId) {
 	    String query = "SELECT b.itemno, b.value, i.name " +
                 "FROM auctionhouse.item i " +
                 "INNER JOIN auctionhouse.bid b " +
@@ -32,7 +32,7 @@ public class QueryStore {
 	    return query;
 	}
 	
-	public static String getPlaceBidQuery(String itemno, String userId, String value, String username){
+	public static String getPlaceBidQuery(int itemno, int userId, int value, String username){
 		String query = "INSERT INTO auctionhouse.bid " +
 				"(itemno, userID, value, username) VALUES (\"" + itemno + "\", \"" + userId + "\", \"" + value + "\", \"" + username + "\");";
 		return query;
@@ -46,13 +46,13 @@ public class QueryStore {
 	    return query;
 	}
 	
-	public static String getRegisterItemQuery(String name, String price, String expires, String description, String addedByID){
+	public static String getRegisterItemQuery(String name, int price, String expires, String description, int addedByID){
 		 String query = "INSERT INTO auctionhouse.item (name, price, expires, description, addedByID) " +
 			        "VALUES (\"" + name + "\", \"" + price + "\", \"" + expires + "\", \"" + description + "\" , \"" + addedByID +"\");";
 			    return query;
 	}
 	
-	public static String getDeleteItemQuery(String itemno){
+	public static String getDeleteItemQuery(int itemno){
 	    String query = "DELETE FROM auctionhouse.item " +
                 "WHERE itemno = \"" + itemno + "\";";
 	    return query;
@@ -76,7 +76,7 @@ public class QueryStore {
 		 return query;
 	}
 	/*Not sure if I'll need these two in Java*/
-	public static String getLatestBidQuery(String bidID){
+	public static String getLatestBidQuery(int bidID){
 		String query = "SELECT * FROM auctionhouse.bid WHERE bidID = \"" + bidID + "\";";
 	    return query;
 	}
