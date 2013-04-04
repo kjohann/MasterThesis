@@ -6,9 +6,12 @@ public class Item {
 	private int itemno, price, addedByID;
 	private String name, description;
 	private Date expires;
-	public Item(int itemno, int price, int addedByID, String name,
-			String description, Date expires) {
-		super();
+	
+	public Item(int itemno) {
+		this(itemno, Integer.MAX_VALUE, Integer.MAX_VALUE,"Deleting", "Delete item", null);
+	}
+	
+	public Item(int itemno, int price, int addedByID, String name, String description, Date expires) {
 		this.itemno = itemno;
 		this.price = price;
 		this.addedByID = addedByID;

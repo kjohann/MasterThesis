@@ -3,13 +3,14 @@ package data.service;
 import models.*;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class JSONHandler {
 	private static JSONHandler instance;
 	private Gson gson;
 	
 	private JSONHandler() {
-		gson = new Gson();
+		gson = new GsonBuilder().serializeNulls().create();
 	}
 	
 	public static JSONHandler getInstance() {
@@ -30,9 +31,17 @@ public class JSONHandler {
 		return validateItem(item) ? item : null;
 	}
 	
+	public String itemToJSON(Item item) {
+		return gson.toJson(item);
+	}
+	
 	public Bid bidFromJSON(String json) {
 		Bid bid = gson.fromJson(json, Bid.class);
 		return validateBid(bid) ? bid : null;
+	}
+	
+	public String bidToJSON(Bid bid) {
+		return gson.toJson(bid);
 	}
 	
 	private boolean validateUser(User user) {
