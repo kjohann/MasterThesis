@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Auction House</title>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="../ExternalScripts/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../ExternalScripts/jqueryUI-1.10.0.js"></script>
+    <script type="text/javascript" src="../ExternalScripts/require.js"></script>
+    <script type="text/javascript" src="../ExternalScripts/lightstreamer.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="../Styles/main.css" />
+    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+</head>
+<body>
+<div id="wrapper">
+    <div id="header">
+        <h1 class="welcome">Welcome to Master Auctions!</h1>
+        <div class="logged_in_as">
+            <span class="logged_in_as_label">Logged in as:</span> <br/>
+            <a href=""></a> <!--TODO: link opens viewBids in jqdialog-->
+        </div>
+        <div id="bidItems"></div>
+        <div class="log_in_register">
+            <a href="">Log in</a>
+            <br/>
+            <a href="">Register</a>
+        </div>
+        <div id="horizontalHeaderLine"></div>
+        <!--TODO: remember jqdialogs-->
+    </div>
+    <div id="itemViewModelWrapper">
+        <button id="addItemButton" class="btn">Add item</button>
+        <!--TODO: jqdialog here-->
+        <div id="itemWrapper">
+            <div class="item">
+                <div class="itemHeader">
+                    <h2></h2>
+                    <div id="horizontalItemHeaderLine"></div>
+                </div>
+                <div class="itemContent">
+                    <div class="itemInfo">
+                        <label>Itemnumber: </label><span></span> <br/>
+                        <label>Minumum price: </label><></span> <br/>
+                        <label>Highest bid: </label> <!--TODO: only visible when bid > 0-->
+                        <span></span> <br/>
+                        <label>Expires </label><span></span> <br/> <!--TODO: format like localeString-->
+                        <label>Highest Bidder: </label> <br/>
+                        <span></span> <!--TODO: only visible when bid > 0-->
+                    </div>
+                    <div class="itemDescription">
+                        <span></span>
+                    </div>
+                    <div class="buttonBar"> <!--TODO: Only visible when logged in-->
+                        <button class="bidButton btn">Place bid</button>
+                        <button class="removeButton btn">Remove</button>
+                        <!--TODO: only visible if item was added by logged in user-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--TODO: jqdialog for placing bid-->
+    </div>
+</div>
+</body>
+</html>
