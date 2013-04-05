@@ -22,7 +22,6 @@
             <span class="logged_in_as_label">Logged in as:</span> <br/>
             <a href=""></a> <!--TODO: link opens viewBids in jqdialog-->
         </div>
-        <div id="bidItems"></div>
         <div class="log_in_register">
             <a href="">Log in</a>
             <br/>
@@ -34,24 +33,27 @@
     <div id="itemViewModelWrapper">
         <button id="addItemButton" class="btn">Add item</button>
         <!--TODO: jqdialog here-->
-        <div id="itemWrapper">
+        <div id="itemWrapper" data-source="lightstreamer">
             <div class="item">
                 <div class="itemHeader">
-                    <h2></h2>
+                    <h2><span data-source="lightstreamer" data-field="name"></span></h2>
                     <div id="horizontalItemHeaderLine"></div>
                 </div>
                 <div class="itemContent">
                     <div class="itemInfo">
-                        <label>Itemnumber: </label><span></span> <br/>
-                        <label>Minumum price: </label><></span> <br/>
-                        <label>Highest bid: </label> <!--TODO: only visible when bid > 0-->
-                        <span></span> <br/>
-                        <label>Expires </label><span></span> <br/> <!--TODO: format like localeString-->
+                        <label>Itemnumber: </label><span data-source="lightstreamer" data-field="itemno"></span> <br/>
+                        <label>Minumum price: </label><span data-source="lightstreamer" data-field="price"></span>
+                        <br/>
+                        <label>Highest bid: </label> <!--TODO: only visible when bid > 0 - onVisualUpdate??-->
+                        <span data-source="lightstreamer" data-field="bid"></span> <br/>
+                        <label>Expires </label><span data-source="lightstreamer" data-field="expires"></span> <br/>
+                        <!--TODO: format like localeString-->
                         <label>Highest Bidder: </label> <br/>
-                        <span></span> <!--TODO: only visible when bid > 0-->
+                        <span data-source="lightstreamer" data-field="highestbidder"></span>
+                        <!--TODO: only visible when bid > 0-->
                     </div>
                     <div class="itemDescription">
-                        <span></span>
+                        <span data-source="lightstreamer" data-field="description"></span>
                     </div>
                     <div class="buttonBar"> <!--TODO: Only visible when logged in-->
                         <button class="bidButton btn">Place bid</button>
