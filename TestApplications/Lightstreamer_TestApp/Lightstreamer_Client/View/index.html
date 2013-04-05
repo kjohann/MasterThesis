@@ -57,6 +57,7 @@
                     </div>
                     <div class="buttonBar"> <!--TODO: Only visible when logged in-->
                         <button class="bidButton btn">Place bid</button>
+                        <span class="hidden" data-source="lightstreamer" data-field="addedByID"></span>
                         <button class="removeButton btn">Remove</button>
                         <!--TODO: only visible if item was added by logged in user-->
                     </div>
@@ -66,5 +67,10 @@
         <!--TODO: jqdialog for placing bid-->
     </div>
 </div>
+
+<script type="text/javascript" src="../Scripts/init.js"></script>
+<script type="text/javascript" src="../Scripts/messageHandler.js"></script>
+<script type="text/javascript" src="../Scripts/subscriptionHandler.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<adapters_conf id="AUCTION">
+    <metadata_provider>
+        <adapter_class>adapters.AuctionMetadataAdapter</adapter_class>
+    </metadata_provider>
+    <data_provider>
+        <adapter_class>adapters.AuctionDataAdapter</adapter_class>
+    </data_provider>
+</adapters_conf>
