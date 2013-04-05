@@ -106,7 +106,7 @@ public class ResultGeneratorFactory {
 					itemno = new Field("itemno", res.getObject("itemno"));
 					name = new Field("name", res.getObject("name"));
 					price = new Field("price", res.getObject("price"));
-					expiredate = new Field("expriedate", res.getObject("expiredate"));
+					expiredate = new Field("expiredate", res.getObject("expiredate"));
 					description = new Field("description", res.getObject("description"));
 					bid = new Field("bid", res.getObject("bid"));
 					addedByID = new Field("addedByID", res.getObject("addedByID"));
