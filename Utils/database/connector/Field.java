@@ -1,6 +1,7 @@
 package database.connector;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * @author Kristian
@@ -33,13 +34,15 @@ public class Field {
 	 * @return Data as an Integer if the stored data is of that type.
 	 */
 	public Integer getFieldAsInt() {
-		return this.data instanceof Integer ? (Integer)this.data : null;
+		return this.data instanceof Integer ? (Integer)this.data 
+											: this.data instanceof Long ? Integer.parseInt(String.valueOf((Long) data)) : null;
 	}
 
 	/**
 	 * @return Data as a java.sql.Date if the stored data is of that type.
 	 */
 	public Date getFieldAsDate() {
-		return this.data instanceof Date ? (Date)this.data : null;
+		return this.data instanceof Date ? (Date)this.data 
+										 :this.data instanceof Timestamp ? new Date(((Timestamp)data).getTime()) : null;
 	}
 }
