@@ -57,9 +57,11 @@
                     </div>
                     <div class="buttonBar"> <!--TODO: Only visible when logged in-->
                         <button class="bidButton btn">Place bid</button>
-                        <span class="hidden" data-source="lightstreamer" data-field="addedByID"></span>
-                        <div class="removeButton btn" onclick="window.auction.message.sendDeleteItem(this)"
-                             data-source="lightstreamer" data-field="rmID" data-update="id">Remove</div>
+                        <div data-source="lightstreamer" data-field="remVisible" data-update="style">
+                            <span class="hidden" data-source="lightstreamer" data-field="addedByID"></span>
+                            <div class="removeButton btn" onclick="window.auction.message.sendDeleteItem(this)"
+                                 data-source="lightstreamer" data-field="rmID" data-update="id">Remove</div>
+                        </div>
                         <!--TODO: only visible if item was added by logged in user-->
                     </div>
                 </div>

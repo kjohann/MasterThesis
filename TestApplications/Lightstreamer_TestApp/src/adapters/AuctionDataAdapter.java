@@ -84,6 +84,7 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		update.put("highestbidder", item.getHighestBidder());
 		update.put("description", item.getDescription());
 		update.put("addedByID", String.valueOf(item.getAddedByID()));
+		update.put("remVisible", "display: none"); //TODO: make method to supply visibility status
 		
 		listener.smartUpdate(handle, update, snapshot);
 	}
