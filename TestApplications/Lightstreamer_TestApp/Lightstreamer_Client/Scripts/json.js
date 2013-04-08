@@ -13,7 +13,12 @@ window.auction.json = (function(){
         return JSON.stringify(jsonItem);
     }
 
+    var bidToJson = function(jsonBid) {
+        return JSON.stringify(jsonBid);
+    }
+
     return {
-        itemToJson: itemToJson
+        itemToJson: itemToJson,
+        bidToJson: bidToJson
     }
 })();

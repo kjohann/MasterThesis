@@ -56,12 +56,14 @@
                         <span data-source="lightstreamer" data-field="description"></span>
                     </div>
                     <div class="buttonBar"> <!--TODO: Only visible when logged in-->
-                        <button class="bidButton btn">Place bid</button>
+                        <div class="bidButton btn" onclick="window.auction.message.openPlaceBid(this)"
+                             data-source="lightstreamer" data-field="rmID" data-update="id">Place bid</div>
                         <div data-source="lightstreamer" data-field="remVisible" data-update="style">
-                            <span class="hidden" data-source="lightstreamer" data-field="addedByID"></span>
                             <div class="removeButton btn" onclick="window.auction.message.sendDeleteItem(this)"
                                  data-source="lightstreamer" data-field="rmID" data-update="id">Remove</div>
                         </div>
+                        <span style="display: none" class="hidden" data-source="lightstreamer"
+                              data-field="addedByID"></span>  <!--TODO: might not need this one-->
                         <!--TODO: only visible if item was added by logged in user-->
                     </div>
                 </div>
@@ -83,7 +85,11 @@
     <button id="addButton" class="btn" onclick="window.auction.message.sendAddItem()">Add</button>
 </div>
 
-
+<div id="placeBidDialog">
+    <label for="bid">Place your bid: </label>
+    <input type="number" id="bid" min="0" step="10" />
+    <button id="place_bid_button" class="btn" onclick="window.auction.message.placeBid()">Place bid</button>
+</div>
 
 <script type="text/javascript" src="../Scripts/init.js"></script>
 <script type="text/javascript" src="../Scripts/models.js"></script>

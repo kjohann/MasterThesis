@@ -34,11 +34,14 @@ public class AuctionMetadataAdapter extends LiteralBasedProvider {
 	
 	private void handleMessage(String message) {
 		String[] parts = message.split("\\|");
-		if(parts[0].equals("ADD")){
+		if(parts[0].equals("ADD")) {
 			subscription.addItem(parts[1]);
 		}
-		else if(parts[0].equals("DELETE")){
+		else if(parts[0].equals("DELETE")) {
 			subscription.deleteItem(parts[1]);
+		}
+		else if(parts[0].equals("BID")) {
+			subscription.placeBid(parts[1]);
 		}
 	}
 

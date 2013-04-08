@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import models.Bid;
 import models.Item;
 import models.PrettyItem;
 
@@ -98,6 +99,17 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		listener.smartUpdate(handle, update, false);
 	}
 	
+	private void placeBid(Object handle, Bid bid) {
+		HashMap<String, String> update = new HashMap<String, String>();
+		
+		update.put("key", String.valueOf(bid.getItemno()));
+		update.put("command", "UPDATE");
+		update.put("bid", String.valueOf(bid.getValue()));
+		update.put("highestbidder", bid.getUsername());
+		
+		listener.smartUpdate(handle, update, false);
+	}
+	
 	private class AuctionItemsSubscriptionListener implements ItemsSubscriptionListener {
 		private Object handle;
 		
@@ -124,6 +136,11 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		@Override
 		public void onDelete(int itemno) {
 			delete(handle, String.valueOf(itemno));
+		}
+		
+		@Override
+		public void onBid(Bid bid) {
+			placeBid(handle, bid);
 		}
 		
 	}

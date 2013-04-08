@@ -87,6 +87,26 @@ public class ItemsSubscription {
 		executor.execute(task);
 	}
 	
+	public synchronized void placeBid(String json) {
+		final ItemsSubscriptionListener localListener = listener;
+		Bid result = provider.placeBid(json);
+		
+		if(result == null) {
+			System.err.println("Error placing bid with data " + json);
+			return;
+		}
+		
+		final Bid bid = result;
+		
+		Runnable task = new Runnable() {		
+			public void run() {
+				localListener.onBid(bid);
+			}
+		};
+		
+		executor.execute(task);
+	}
+	
 	public synchronized void setListener(ItemsSubscriptionListener listener) {
 		this.listener = listener;
 	}

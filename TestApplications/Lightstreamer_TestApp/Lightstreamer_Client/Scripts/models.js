@@ -9,6 +9,14 @@ window.auction.models = (function(){
             self.description = description;
             self.expires = expires;
             self.username = username;
+        },
+        bid: function(bidID, itemno, userId, value, username) {
+            var self = this;
+            self.bidID = bidID;
+            self.itemno = itemno;
+            self.userId = userId;
+            self.value = value;
+            self.username = username;
         }
     }
 })();
