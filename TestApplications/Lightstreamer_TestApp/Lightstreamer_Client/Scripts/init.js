@@ -3,3 +3,7 @@ define("lsClient", ["LightstreamerClient"], function(LightstreamerClient){
     lsClient.connect();
     return lsClient;
 });
+
+if(!window.auction){
+    window.auction = {};
+}

@@ -92,7 +92,7 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		update.put("itemno", String.valueOf(item.getItemno()));
 		update.put("price", String.valueOf(item.getPrice()));
 		update.put("bid", String.valueOf(item.getBid()));
-		update.put("expires", item.getExpires().toLocaleString());
+		update.put("expires", item.getFormattedExpires());
 		update.put("highestbidder", item.getHighestBidder());
 		update.put("description", item.getDescription());
 		update.put("addedByID", String.valueOf(item.getAddedByID()));

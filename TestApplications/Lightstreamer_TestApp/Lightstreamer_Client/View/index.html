@@ -31,7 +31,7 @@
         <!--TODO: remember jqdialogs-->
     </div>
     <div id="itemViewModelWrapper">
-        <button id="addItemButton" class="btn">Add item</button>
+        <button id="addItemButton" class="btn" onclick="window.auction.message.openAddItem()">Add item</button>
         <!--TODO: jqdialog here-->
         <div id="itemWrapper" data-source="lightstreamer">
             <div class="item">
@@ -68,7 +68,24 @@
     </div>
 </div>
 
+<div id="addItemDialog">
+    <label for="itemname">Name: </label> <br/>
+    <input type="text" id="itemname" size="30"/> <br/>
+    <label for="minprice">Minimum price: </label> <br/>
+    <input type="number" min="0" step="10" id="minprice"/>  <br/>
+    <label for="expires">Expires: </label> <br/>
+    <input type="date" id="expires"/> <br/>
+    <label for="description">Description: </label> <br/>
+    <textarea rows="10" cols="31" id="description"></textarea>
+    <button id="addButton" class="btn" onclick="window.auction.message.sendAddItem()">Add</button>
+</div>
+
+
+
 <script type="text/javascript" src="../Scripts/init.js"></script>
+<script type="text/javascript" src="../Scripts/models.js"></script>
+<script type="text/javascript" src="../Scripts/json.js"></script>
+<script type="text/javascript" src="../Scripts/dialogs.js"></script>
 <script type="text/javascript" src="../Scripts/messageHandler.js"></script>
 <script type="text/javascript" src="../Scripts/subscriptionHandler.js"></script>
 

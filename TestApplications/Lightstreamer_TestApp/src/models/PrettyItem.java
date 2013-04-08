@@ -82,5 +82,12 @@ public class PrettyItem {
 		this.expires = expires;
 	}
 	
+	public String getFormattedExpires() {
+		String[] dateSplit = this.expires.toString().split("-");
+		
+		return dateSplit[1] + "." + dateSplit[2] + "." + dateSplit[0];
+		
+	}
+	
 	
 }
