@@ -4,20 +4,21 @@ import java.sql.Date;
 
 public class Item {
 	private int itemno, price, addedByID;
-	private String name, description;
+	private String name, description, username;
 	private Date expires;
 	
 	public Item(int itemno) {
-		this(itemno, Integer.MAX_VALUE, Integer.MAX_VALUE,"Deleting", "Delete item", null);
+		this(itemno, Integer.MAX_VALUE, Integer.MAX_VALUE,"Deleting", "Delete item", null, "DeleteUser");
 	}
-	
-	public Item(int itemno, int price, int addedByID, String name, String description, Date expires) {
+
+	public Item(int itemno, int price, int addedByID, String name, String description, Date expires, String username) {
 		this.itemno = itemno;
 		this.price = price;
 		this.addedByID = addedByID;
 		this.name = name;
 		this.description = description;
 		this.expires = expires;
+		this.username = username;
 	}
 	public int getItemno() {
 		return itemno;
@@ -54,5 +55,13 @@ public class Item {
 	}
 	public void setExpires(Date expires) {
 		this.expires = expires;
-	}		
+	}	
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 }

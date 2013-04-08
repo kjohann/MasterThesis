@@ -1,4 +1,4 @@
-window.auction.json = (function(item){
+window.auction.json = (function(){
     var formatDateString = function(string) {
         var months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"];
         var dateparts = string.split("-");
@@ -6,12 +6,14 @@ window.auction.json = (function(item){
     }
 
     var itemToJson = function(jsonItem) {
-        var expires = formatDateString(jsonItem.expires);
-        jsonItem.expires = expires;
+        if(jsonItem.expires) {
+            var expires = formatDateString(jsonItem.expires);
+            jsonItem.expires = expires;
+        }
         return JSON.stringify(jsonItem);
     }
 
     return {
         itemToJson: itemToJson
     }
-})(window.auction.models.item);
+})();

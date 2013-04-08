@@ -49,7 +49,7 @@ public class JSONHandler {
 	}
 	
 	private boolean validateItem(Item item) {
-		return item.getAddedByID() > 0; //Because addedByID will always be set for a new item.
+		return item.getAddedByID() > 0 || item.getItemno() > 0 && item.getName() == null && item.getAddedByID() == 0; //Add/delete looks different
 	}
 	
 	private boolean validateBid(Bid bid) {

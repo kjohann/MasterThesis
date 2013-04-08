@@ -52,9 +52,9 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 	private void populateItems() {
 		items = new ArrayList<>();
 		
-		Item i1 = new Item(1, 2000, 3, "Item1", "Test item", new Date(2015-1900, 2, 27));
-		Item i2 = new Item(2, 4000, 2, "Item2", "Test item", new Date(2014-1900, 4, 14));
-		Item i3 = new Item(3, 300, 1, "Item3", "Test item", new Date(2016-1900, 12, 2));
+		Item i1 = new Item(1, 2000, 3, "Item1", "Test item", new Date(2015-1900, 2, 27), "User3");
+		Item i2 = new Item(2, 4000, 2, "Item2", "Test item", new Date(2014-1900, 4, 14), "User2");
+		Item i3 = new Item(3, 300, 1, "Item3", "Test item", new Date(2016-1900, 12, 2), "User1");
 		
 		items.add(i1); items.add(i2); items.add(i3);		
 	}
@@ -169,7 +169,7 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 			return -1; //Will cast SQLException if wrong dateformat is allowed through or addedByID is of non-existing User.
 		String [] exp = expires.split("-");
 		int year = Integer.parseInt(exp[0]), month = Integer.parseInt(exp[1]) - 1, day = Integer.parseInt(exp[2]);
-		Item item = new Item(nextItem++, price, addedByID, name, description, new Date(year - 1900, month, day));
+		Item item = new Item(nextItem++, price, addedByID, name, description, new Date(year - 1900, month, day), "");
 		items.add(item);
 		return item.getItemno();
 	}

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import models.Item;
 import models.PrettyItem;
 
 import com.lightstreamer.interfaces.data.DataProviderException;
@@ -23,7 +24,7 @@ import data.service.subscriptions.ItemsSubscriptionListener;
 public class AuctionDataAdapter implements SmartDataProvider {
 	private ItemEventListener listener;
 	private final ConcurrentHashMap<String, Object> subscriptions = new ConcurrentHashMap<String, Object>(); //need?
-	private ItemsSubscription subscription;
+	private static ItemsSubscription subscription;
 	private ServiceProvider provider;
 	private DatabaseHandler dbHandler;
 	
@@ -64,23 +65,10 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		AuctionItemsSubscriptionListener listener = new AuctionItemsSubscriptionListener(handle);
 		subscription.setListener(listener);
 		subscription.prepareSnapShot();
-		
-		/*HashMap<String, String> update = new HashMap<String, String>();
-		
-		update.put("key", "1");
-		update.put("command", "ADD");
-		update.put("name", "Test");
-		update.put("itemno", "1");
-		update.put("price", "1337");
-		update.put("bid", "1337");
-		update.put("expires", "27.03.2014");
-		update.put("highestbidder", "LeetUzr");
-		update.put("description", "I rules!");
-		update.put("addedByID", "1");
-		
-		listener.smartUpdate(handle, update, true);
-		listener.smartEndOfSnapshot(true);
-*/
+	}
+	
+	public static ItemsSubscription getItemsSubscripton(){
+		return subscription;
 	}
 	
 	private void add(PrettyItem item, Object handle, boolean snapshot) {
@@ -89,7 +77,7 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		update.put("key", String.valueOf(item.getItemno()));
 		update.put("command", "ADD");
 		update.put("name", item.getName());
-		update.put("itemno", String.valueOf(item.getItemno()));
+		update.put("rmID", "r." + String.valueOf(item.getItemno()));
 		update.put("price", String.valueOf(item.getPrice()));
 		update.put("bid", String.valueOf(item.getBid()));
 		update.put("expires", item.getFormattedExpires());
@@ -98,6 +86,15 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		update.put("addedByID", String.valueOf(item.getAddedByID()));
 		
 		listener.smartUpdate(handle, update, snapshot);
+	}
+	
+	private void delete(Object handle, String itemno){
+		HashMap<String, String> update = new HashMap<String, String>();
+		
+		update.put("key", itemno);
+		update.put("command", "DELETE");
+		
+		listener.smartUpdate(handle, update, false);
 	}
 	
 	private class AuctionItemsSubscriptionListener implements ItemsSubscriptionListener {
@@ -114,6 +111,18 @@ public class AuctionDataAdapter implements SmartDataProvider {
 			}
 			
 			listener.smartEndOfSnapshot(handle);
+		}
+
+		@Override
+		public void onAdd(Item item) {
+			PrettyItem prettyItem = new PrettyItem(item.getItemno(), item.getName(), item.getDescription(), item.getUsername(), item.getPrice(), 0, item.getAddedByID(), item.getExpires());
+			add(prettyItem, handle, false);
+			
+		}
+		
+		@Override
+		public void onDelete(int itemno) {
+			delete(handle, String.valueOf(itemno));
 		}
 		
 	}

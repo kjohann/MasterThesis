@@ -131,7 +131,7 @@ public class ServiceProviderTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void registerItem() {
-		Item item = new Item(0, 1337, 1, "InsertItem", "Test insert", new java.sql.Date(2013-1900, 7, 23));
+		Item item = new Item(0, 1337, 1, "InsertItem", "Test insert", new java.sql.Date(2013-1900, 7, 23), "");
 		String json = jsonHandler.itemToJSON(item);
 		int nrBefore = dbHandler.items.size();
 		Item result = provider.registerItem(json);

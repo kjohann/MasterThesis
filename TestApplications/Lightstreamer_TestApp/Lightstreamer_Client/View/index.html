@@ -41,7 +41,7 @@
                 </div>
                 <div class="itemContent">
                     <div class="itemInfo">
-                        <label>Itemnumber: </label><span data-source="lightstreamer" data-field="itemno"></span> <br/>
+                        <label>Itemnumber: </label><span data-source="lightstreamer" data-field="key"></span> <br/>
                         <label>Minumum price: </label><span data-source="lightstreamer" data-field="price"></span>
                         <br/>
                         <label>Highest bid: </label> <!--TODO: only visible when bid > 0 - onVisualUpdate??-->
@@ -58,7 +58,8 @@
                     <div class="buttonBar"> <!--TODO: Only visible when logged in-->
                         <button class="bidButton btn">Place bid</button>
                         <span class="hidden" data-source="lightstreamer" data-field="addedByID"></span>
-                        <button class="removeButton btn">Remove</button>
+                        <div class="removeButton btn" onclick="window.auction.message.sendDeleteItem(this)"
+                             data-source="lightstreamer" data-field="rmID" data-update="id">Remove</div>
                         <!--TODO: only visible if item was added by logged in user-->
                     </div>
                 </div>

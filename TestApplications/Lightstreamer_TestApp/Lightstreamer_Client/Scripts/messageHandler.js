@@ -10,16 +10,23 @@ window.auction.message = (function(dialogs, jsonHandler, item){
         dialogs.open("#addItemDialog");
     }
 
-    var sendAddItem = function(){
+    var sendAddItem = function() {
         var itemname = $("#itemname").val();
         var minprice = parseInt($("#minprice").val());
         var expires = $("#expires").val();
         var description = $("#description").val();
         var addedByID = 1; //TODO: need to store logged on user in global object
+        var username = "User1"; //TODO: userdata...
 
-        var json = jsonHandler.itemToJson(new item(0, minprice, addedByID, itemname, description, expires));
-        client.sendMessage(json, "newItem", null, 30000);
+        var json = jsonHandler.itemToJson(new item(0, minprice, addedByID, itemname, description, expires, username));
+        client.sendMessage("ADD|"+json, "newItem", null, 30000);
         dialogs.close("#addItemDialog");
+    }
+
+    var sendDeleteItem = function(itemDOM) {
+        var itemno = itemDOM.id.split(".")[1];
+        var json = jsonHandler.itemToJson(new item(parseInt(itemno)));
+        client.sendMessage("DELETE|"+json, "remItem", null, 30000);
     }
 
     $(document).ready(function(){
@@ -34,6 +41,7 @@ window.auction.message = (function(dialogs, jsonHandler, item){
 
     return {
         openAddItem: openAddItem,
-        sendAddItem: sendAddItem
+        sendAddItem: sendAddItem,
+        sendDeleteItem: sendDeleteItem
     };
 })(window.auction.dialogs, window.auction.json, window.auction.models.item);

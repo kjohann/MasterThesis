@@ -1,6 +1,6 @@
 window.auction.models = (function(){
     return {
-        item: function(itemno, price, addedByID, name, description, expires) {
+        item: function(itemno, price, addedByID, name, description, expires, username) {
             var self = this;
             self.itemno = itemno;
             self.price = price;
@@ -8,9 +8,7 @@ window.auction.models = (function(){
             self.name = name;
             self.description = description;
             self.expires = expires;
-            self.toJson = function(){
-                return JSON.stringify(self);
-            }
+            self.username = username;
         }
     }
 })();
