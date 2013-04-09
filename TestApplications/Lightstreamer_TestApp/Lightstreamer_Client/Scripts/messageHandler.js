@@ -48,7 +48,13 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
     }
 
     $(document).ready(function(){
-        var addItemOptions = {
+        var loginOptions = {
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            height: 230
+            },
+            addItemOptions = {
                 autoOpen: false,
                 modal: true,
                 resizable: false,
@@ -62,6 +68,7 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
                 width: 550
             };
 
+        dialogs.init("#loginDialog", loginOptions);
         dialogs.init("#addItemDialog", addItemOptions);
         dialogs.init("#placeBidDialog", placeBidOptions);
     });

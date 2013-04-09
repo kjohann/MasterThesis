@@ -5,6 +5,10 @@ window.auction.json = (function(){
         return months[(parseInt(dateparts[1]) - 1)] + " " + dateparts[2] + ", " + dateparts[0];
     }
 
+    var userToJson = function(jsonUser) {
+        return JSON.stringify(jsonUser);
+    }
+
     var itemToJson = function(jsonItem) {
         if(jsonItem.expires) {
             var expires = formatDateString(jsonItem.expires);
@@ -18,6 +22,7 @@ window.auction.json = (function(){
     }
 
     return {
+        userToJson: userToJson,
         itemToJson: itemToJson,
         bidToJson: bidToJson
     }

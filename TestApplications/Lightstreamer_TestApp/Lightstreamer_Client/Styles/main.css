@@ -39,7 +39,7 @@ body
     margin-left: 260px;
 }
 
-.logged_in_as
+#logged_in_as
 {
     position: relative;
     top: 1px;
@@ -47,7 +47,12 @@ body
     margin-left: 5px;
 }
 
-.log_in_register
+.logged_in_as_label
+{
+    display: none;
+}
+
+#log_in_register
 {
     position: relative;
     float: right;

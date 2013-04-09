@@ -18,12 +18,16 @@
 <div id="wrapper">
     <div id="header">
         <h1 class="welcome">Welcome to Master Auctions!</h1>
-        <div class="logged_in_as">
+        <div id="logged_in_as">
             <span class="logged_in_as_label">Logged in as:</span> <br/>
-            <a href=""></a> <!--TODO: link opens viewBids in jqdialog-->
+            <div id="logg_wrap" data-source="lightstreamer" style="position: absolute; top: 20px;">
+                <a href="" onclick="">     <!--TODO: link opens viewBids in jqdialog-->
+                    <span id="logged_in_as_link" data-source="lightstreamer" data-field="username"></span>
+                </a>
+            </div>
         </div>
-        <div class="log_in_register">
-            <a href="">Log in</a>
+        <div id="log_in_register">
+            <a href="" onclick="window.auction.dialogs.openLogin(); return false;">Log in</a>
             <br/>
             <a href="">Register</a>
         </div>
@@ -31,7 +35,8 @@
         <!--TODO: remember jqdialogs-->
     </div>
     <div id="itemViewModelWrapper">
-        <button id="addItemButton" class="btn" onclick="window.auction.message.openAddItem()">Add item</button>
+        <button id="addItemButton" class="btn" onclick="window.auction.message.openAddItem()"
+                style="display: none;">Add item</button>
         <!--TODO: jqdialog here-->
         <div id="itemWrapper" data-source="lightstreamer">
             <div class="item">
@@ -57,7 +62,8 @@
                     </div>
                     <div class="buttonBar"> <!--TODO: Only visible when logged in-->
                         <div class="bidButton btn" onclick="window.auction.message.openPlaceBid(this)"
-                             data-source="lightstreamer" data-field="rmID" data-update="id">Place bid</div>
+                             data-source="lightstreamer" data-field="rmID" data-update="id"
+                             style="display: none;">Place bid</div>
                         <div data-source="lightstreamer" data-field="remVisible" data-update="style">
                             <div class="removeButton btn" onclick="window.auction.message.sendDeleteItem(this)"
                                  data-source="lightstreamer" data-field="rmID" data-update="id">Remove</div>
@@ -71,6 +77,14 @@
         </div>
         <!--TODO: jqdialog for placing bid-->
     </div>
+</div>
+
+<div id="loginDialog">
+    <label for="log_usern">Username: </label>
+    <input type="text" id="log_usern" /> <br/>
+    <label for="log_pass">Password: </label>
+    <input type="password" id="log_pass"/>
+    <button id="log_in_button" class="btn" onclick="window.auction.user.login()">Log_in</button>
 </div>
 
 <div id="addItemDialog">

@@ -47,7 +47,7 @@ public class ServiceProviderTest {
 		String json = jsonHandler.userToJSON(loginUser);
 		User user = provider.verifyLogIn(json);
 		
-		assertNull(user);
+		assertEquals(0,user.getUserID());
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ public class ServiceProviderTest {
 		User user = provider.verifyLogIn(json);
 		
 		
-		assertNull(user);
+		assertEquals(0,user.getUserID());
 	}
 	
 	/*Gather all relevant test in one method from here*/

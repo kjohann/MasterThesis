@@ -9,9 +9,11 @@ import com.lightstreamer.interfaces.metadata.MetadataProviderException;
 import com.lightstreamer.interfaces.metadata.NotificationException;
 
 import data.service.subscriptions.ItemsSubscription;
+import data.service.subscriptions.UserSubscription;
 
 public class AuctionMetadataAdapter extends LiteralBasedProvider {
-	private volatile ItemsSubscription subscription;
+	private volatile ItemsSubscription itemSubscription;
+	private volatile UserSubscription userSubscription;
 	
 	@Override
 	public void init(Map arg0, File arg1) throws MetadataProviderException {
@@ -21,10 +23,17 @@ public class AuctionMetadataAdapter extends LiteralBasedProvider {
 
 	@Override
 	public void notifyUserMessage(String user, String sessionID, String message) throws CreditsException, NotificationException {
-		if(this.subscription == null){
-			this.subscription = AuctionDataAdapter.getItemsSubscripton();
-			if(this.subscription == null) {
-				System.err.println("Error loading subscription object!");
+		if(this.itemSubscription == null) {
+			this.itemSubscription = AuctionDataAdapter.getItemsSubscripton();
+			if(this.itemSubscription == null) {
+				System.err.println("Error loading items subscription object!");
+				return;
+			}
+		}
+		if(this.userSubscription == null) {
+			this.userSubscription = AuctionDataAdapter.getUserSubscription();
+			if(this.userSubscription == null) {
+				System.err.println("Error loading user subscription object!");
 				return;
 			}
 		}
@@ -35,13 +44,16 @@ public class AuctionMetadataAdapter extends LiteralBasedProvider {
 	private void handleMessage(String message) {
 		String[] parts = message.split("\\|");
 		if(parts[0].equals("ADD")) {
-			subscription.addItem(parts[1]);
+			itemSubscription.addItem(parts[1]);
 		}
 		else if(parts[0].equals("DELETE")) {
-			subscription.deleteItem(parts[1]);
+			itemSubscription.deleteItem(parts[1]);
 		}
 		else if(parts[0].equals("BID")) {
-			subscription.placeBid(parts[1]);
+			itemSubscription.placeBid(parts[1]);
+		}
+		else if(parts[0].equals("LOGIN")) {
+			userSubscription.login(parts[1]);
 		}
 	}
 

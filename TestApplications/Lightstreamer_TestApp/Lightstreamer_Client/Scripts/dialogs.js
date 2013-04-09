@@ -15,10 +15,18 @@ window.auction.dialogs = (function (){
         $(id).dialog("option", optionName, optionValue);
     }
 
+    //Open dialogs functions
+
+    var openLogin = function() {
+        addOption("#loginDialog", "title", "Log in");
+        open("#loginDialog");
+    }
+
     return {
-        init: init,
+        init: init, //TODO: make private
         open: open,
         close: close,
-        addOption: addOption
+        addOption: addOption,
+        openLogin: openLogin
     }
 })();

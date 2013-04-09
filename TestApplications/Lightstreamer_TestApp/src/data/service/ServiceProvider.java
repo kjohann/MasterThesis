@@ -34,7 +34,7 @@ public class ServiceProvider {
 		ArrayList<Row> result = dbHandler.verifyLogIn(logInUser.getUsername(), logInUser.getPassword());
 		
 		if(result == null || result.size() > 1) //Should only return one user.
-			return null;
+			return new User(0, logInUser.getUsername(), null, null, null, null); //For errorhandling
 		
 		Row row = result.get(0);
 		Field userN = row.getField("Username"); Field id = row.getField("UserID");

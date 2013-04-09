@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
 
 import models.Bid;
 import models.Item;
 import models.PrettyItem;
+import models.User;
+import models.ViewBid;
 
 import com.lightstreamer.interfaces.data.DataProviderException;
 import com.lightstreamer.interfaces.data.FailureException;
@@ -21,11 +24,15 @@ import data.database.MySQLDatabaseHandler;
 import data.service.ServiceProvider;
 import data.service.subscriptions.ItemsSubscription;
 import data.service.subscriptions.ItemsSubscriptionListener;
+import data.service.subscriptions.UserSubscription;
+import data.service.subscriptions.UserSubscriptionListener;
 
 public class AuctionDataAdapter implements SmartDataProvider {
 	private ItemEventListener listener;
-	private final ConcurrentHashMap<String, Object> subscriptions = new ConcurrentHashMap<String, Object>(); //need?
-	private static ItemsSubscription subscription;
+	private final ConcurrentHashMap<String, Object> loggedUsers = new ConcurrentHashMap<String, Object>(); 
+	private Object handleMutex = new Object();
+	private static ItemsSubscription itemSubscription;
+	private static UserSubscription userSubscription;
 	private ServiceProvider provider;
 	private DatabaseHandler dbHandler;
 	
@@ -35,14 +42,14 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		//TODO: find use?
 		dbHandler = MySQLDatabaseHandler.getInstance("auctionhouse", "n5user", "n5pass");
 		provider = ServiceProvider.getInstance(dbHandler);
-		subscription = new ItemsSubscription(provider);
+		itemSubscription = new ItemsSubscription(provider);
+		userSubscription = new UserSubscription(provider);
 	}
 
 	@Override
-	public boolean isSnapshotAvailable(String arg0)
+	public boolean isSnapshotAvailable(String item)
 			throws SubscriptionException {
-		// TODO: relplace with check of available items?
-		return true;
+		return item.equals("items");
 	}
 
 	@Override
@@ -51,8 +58,8 @@ public class AuctionDataAdapter implements SmartDataProvider {
 	}
 
 	@Override
-	public void unsubscribe(String arg0) throws SubscriptionException, FailureException {
-		// TODO Auto-generated method stub
+	public void unsubscribe(String user) throws SubscriptionException, FailureException {
+		loggedUsers.remove(user);	
 	}
 
 	@Override
@@ -61,15 +68,29 @@ public class AuctionDataAdapter implements SmartDataProvider {
 	}
 
 	@Override
-	public void subscribe(String subscriptionId, Object handle, boolean arg2) throws SubscriptionException, FailureException {
-		//TODO: replace with method that does this for each Item in getAllItems from the db.
-		AuctionItemsSubscriptionListener listener = new AuctionItemsSubscriptionListener(handle);
-		subscription.setListener(listener);
-		subscription.prepareSnapShot();
+	public void subscribe(String subscriptionId, Object handle, boolean arg2) throws SubscriptionException, FailureException {		
+		if(subscriptionId.equals("items")) {
+			AuctionItemsSubscriptionListener listener = new AuctionItemsSubscriptionListener(handle);
+			itemSubscription.setListener(listener);
+			itemSubscription.prepareSnapShot();
+		}else {
+			//Add item to map, in logg in message handling, if not approved, remove again, if success, pass username and id to client
+			if(!userSubscription.hasListener()) {
+				AuctionUserSubscriptionListener listener = new AuctionUserSubscriptionListener();
+				userSubscription.setListener(listener);
+			}
+			synchronized (handleMutex) {
+				loggedUsers.put(subscriptionId, handle);
+			}
+		}
 	}
 	
-	public static ItemsSubscription getItemsSubscripton(){
-		return subscription;
+	public static ItemsSubscription getItemsSubscripton() {
+		return itemSubscription;
+	}
+	
+	public static UserSubscription getUserSubscription() {
+		return userSubscription;
 	}
 	
 	private void add(PrettyItem item, Object handle, boolean snapshot) {
@@ -110,6 +131,15 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		listener.smartUpdate(handle, update, false);
 	}
 	
+	private void login(Object handle, User user) {
+		HashMap<String, String> update = new HashMap<String, String>();
+		
+		update.put("userId", String.valueOf(user.getUserID()));
+		update.put("username", user.getUsername());
+		
+		listener.smartUpdate(handle, update, false);
+	}
+	
 	private class AuctionItemsSubscriptionListener implements ItemsSubscriptionListener {
 		private Object handle;
 		
@@ -141,6 +171,32 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		@Override
 		public void onBid(Bid bid) {
 			placeBid(handle, bid);
+		}
+		
+	}
+	
+	private class AuctionUserSubscriptionListener implements UserSubscriptionListener {
+		
+		@Override
+		public void onLogin(User user) {
+			if(user.getUserID() == 0){
+				synchronized (handleMutex) {
+					Object handle = loggedUsers.remove(user.getUsername());	
+					login(handle, user);
+				}
+			} else {
+				synchronized (handleMutex) {
+					Object handle = loggedUsers.get(user.getUsername());
+					login(handle, user);
+				}
+			}
+			
+		}
+
+		@Override
+		public void onViewBids(ArrayList<ViewBid> viewBids) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}
