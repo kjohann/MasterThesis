@@ -29,7 +29,8 @@ import data.service.subscriptions.UserSubscriptionListener;
 
 public class AuctionDataAdapter implements SmartDataProvider {
 	private ItemEventListener listener;
-	private final ConcurrentHashMap<String, Object> loggedUsers = new ConcurrentHashMap<String, Object>(); 
+	private final ConcurrentHashMap<String, Object> loggedUsers = new ConcurrentHashMap<String, Object>();
+	private final ConcurrentHashMap<String, Integer> itemsAddedById = new ConcurrentHashMap<String, Integer>();
 	private Object handleMutex = new Object();
 	private static ItemsSubscription itemSubscription;
 	private static UserSubscription userSubscription;
@@ -106,7 +107,7 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		update.put("highestbidder", item.getHighestBidder());
 		update.put("description", item.getDescription());
 		update.put("addedByID", String.valueOf(item.getAddedByID()));
-		update.put("remVisible", "display: none"); //TODO: make method to supply visibility status
+		update.put("bID", "b." + String.valueOf(item.getItemno()));
 		
 		listener.smartUpdate(handle, update, snapshot);
 	}
@@ -131,7 +132,7 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		listener.smartUpdate(handle, update, false);
 	}
 	
-	private void login(Object handle, User user) {
+	private void login(Object handle, User user, String items) {
 		HashMap<String, String> update = new HashMap<String, String>();
 		
 		update.put("userId", String.valueOf(user.getUserID()));
@@ -159,12 +160,14 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		@Override
 		public void onAdd(Item item) {
 			PrettyItem prettyItem = new PrettyItem(item.getItemno(), item.getName(), item.getDescription(), item.getUsername(), item.getPrice(), 0, item.getAddedByID(), item.getExpires());
+			itemsAddedById.put(String.valueOf(item.getItemno()), item.getAddedByID());
 			add(prettyItem, handle, false);
 			
 		}
 		
 		@Override
 		public void onDelete(int itemno) {
+			itemsAddedById.remove(String.valueOf(itemno));
 			delete(handle, String.valueOf(itemno));
 		}
 		
@@ -182,12 +185,16 @@ public class AuctionDataAdapter implements SmartDataProvider {
 			if(user.getUserID() == 0){
 				synchronized (handleMutex) {
 					Object handle = loggedUsers.remove(user.getUsername());	
-					login(handle, user);
+					login(handle, user, "");
 				}
 			} else {
 				synchronized (handleMutex) {
 					Object handle = loggedUsers.get(user.getUsername());
-					login(handle, user);
+					ArrayList<Item> itemsList = new ArrayList<>();
+					for(String key : itemsAddedById.keySet()) {
+						
+					}
+					login(handle, user, "");
 				}
 			}
 			

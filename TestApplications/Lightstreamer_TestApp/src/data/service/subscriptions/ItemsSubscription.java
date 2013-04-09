@@ -107,6 +107,10 @@ public class ItemsSubscription {
 		executor.execute(task);
 	}
 	
+	public synchronized String getItemsAsJson(Item[] items) {
+		return handler.itemsToJSON(items);
+	}
+	
 	public synchronized void setListener(ItemsSubscriptionListener listener) {
 		this.listener = listener;
 	}

@@ -39,6 +39,7 @@ public class UserSubscription {
 		executor.execute(task);
 	}
 	
+	
 	public synchronized void setListener(UserSubscriptionListener listener) {
 		this.listener = listener;
 	}

@@ -22,8 +22,8 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
         var minprice = parseInt($("#minprice").val());
         var expires = $("#expires").val();
         var description = $("#description").val();
-        var addedByID = 1; //TODO: need to store logged on user in global object
-        var username = "User1"; //TODO: userdata...
+        var addedByID = window.auction.user.current.userId;
+        var username = window.auction.user.current.username;
 
         var json = jsonHandler.itemToJson(new item(0, minprice, addedByID, itemname, description, expires, username));
         client.sendMessage("ADD|"+json, "newItem", null, 30000);
@@ -38,9 +38,9 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
 
     var placeBid = function() {
         var itemno = parseInt(putBid);
-        var userId = 2 //TODO: userdata...
+        var userId = window.auction.user.current.userId;
         var value = parseInt($("#bid").val());
-        var username = "User2" //TODO: userdata...
+        var username = window.auction.user.current.username;
 
         var json = jsonHandler.bidToJson(new bid(0, itemno, userId, value, username));
         client.sendMessage("BID|"+json, "bidItem", null, 30000);

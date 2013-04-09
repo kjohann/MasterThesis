@@ -44,6 +44,10 @@ public class JSONHandler {
 		return gson.toJson(bid);
 	}
 	
+	public String itemsToJSON(Item[] items) {
+		return gson.toJson(items);
+	}
+	
 	private boolean validateUser(User user) {
 		return user.getUsername() != null && !user.getUsername().equals(""); //Because username will always be set.
 	}

@@ -1,17 +1,26 @@
-var itemFieldList = ["key", "command", "name", "rmID", "price", "bid", "expires", "highestbidder", "description", "addedByID", "remVisible"];
-var userFieldList = ["userId", "username"]
+var itemFieldList = ["key", "command", "name", "rmID", "price", "bid", "expires", "highestbidder", "description", "addedByID", "bID"];
+var userFieldList = ["userId", "username", "itemsJson"]
 
 require(["lsClient", "Subscription", "DynaGrid"], function(lsClient, Subscription, DynaGrid){
     var itemGrid = new DynaGrid("itemWrapper", true);
     itemGrid.setAutoCleanBehavior(true, false);
 
     var itemSubscription = new Subscription("COMMAND", "items", itemFieldList);
+    itemSubscription.addListener({
+        onItemUpdate: function(item) {
+            if(!window.auction.user.current) {
+                return;
+            }
+            window.auction.util.setRemoveVisibility(window.auction.user.current);
+            $(".bidButton").css({"display": "block"});
+        }
+    });
     itemSubscription.addListener(itemGrid);
 
     lsClient.subscribe(itemSubscription);
 });
 
-window.auction.user = (function(jsonHandler){
+window.auction.user = (function(jsonHandler, util){
     var login = function() {
         require(["lsClient", "DynaGrid", "Subscription"], function(lsClient, DynaGrid, Subscription) {
             var userGrid = new DynaGrid("logg_wrap", true);
@@ -47,6 +56,7 @@ window.auction.user = (function(jsonHandler){
                         username: user.getValue("username"),
                         userId: user.getValue("userId")
                     }
+                    util.setRemoveVisibility(window.auction.user.current);
                 }
             });
 
@@ -58,4 +68,4 @@ window.auction.user = (function(jsonHandler){
     return {
         login: login
     }
-})(window.auction.json);
+})(window.auction.json, window.auction.util);

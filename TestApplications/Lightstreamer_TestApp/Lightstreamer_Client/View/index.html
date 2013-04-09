@@ -62,12 +62,11 @@
                     </div>
                     <div class="buttonBar"> <!--TODO: Only visible when logged in-->
                         <div class="bidButton btn" onclick="window.auction.message.openPlaceBid(this)"
-                             data-source="lightstreamer" data-field="rmID" data-update="id"
+                             data-source="lightstreamer" data-field="bID" data-update="id"
                              style="display: none;">Place bid</div>
-                        <div data-source="lightstreamer" data-field="remVisible" data-update="style">
-                            <div class="removeButton btn" onclick="window.auction.message.sendDeleteItem(this)"
-                                 data-source="lightstreamer" data-field="rmID" data-update="id">Remove</div>
-                        </div>
+                        <div class="removeButton btn" onclick="window.auction.message.sendDeleteItem(this)"
+                                 data-source="lightstreamer" data-field="rmID" data-update="id"
+                                style="display:none">Remove</div>
                         <span style="display: none" class="hidden" data-source="lightstreamer"
                               data-field="addedByID"></span>  <!--TODO: might not need this one-->
                         <!--TODO: only visible if item was added by logged in user-->
@@ -108,6 +107,7 @@
 <script type="text/javascript" src="../Scripts/init.js"></script>
 <script type="text/javascript" src="../Scripts/models.js"></script>
 <script type="text/javascript" src="../Scripts/json.js"></script>
+<script type="text/javascript" src="../Scripts/util.js"></script>
 <script type="text/javascript" src="../Scripts/dialogs.js"></script>
 <script type="text/javascript" src="../Scripts/messageHandler.js"></script>
 <script type="text/javascript" src="../Scripts/subscriptionHandler.js"></script>
