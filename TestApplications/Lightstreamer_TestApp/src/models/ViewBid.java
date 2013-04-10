@@ -1,14 +1,26 @@
 package models;
 
 public class ViewBid {
-	private String name;
+	private String name, userId;
 	private int itemno, value;
 	public ViewBid(String name, int itemno, int value) {
-		super();
+		this(name, itemno, value, null);
+	}
+	
+	public ViewBid(String name, int itemno, int value, String userId) {
 		this.name = name;
 		this.itemno = itemno;
 		this.value = value;
+		this.userId = userId;
 	}
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 	public String getName() {
 		return name;
 	}

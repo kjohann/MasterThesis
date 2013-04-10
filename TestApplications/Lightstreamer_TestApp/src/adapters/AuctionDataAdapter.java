@@ -30,6 +30,7 @@ import data.service.subscriptions.UserSubscriptionListener;
 public class AuctionDataAdapter implements SmartDataProvider {
 	private ItemEventListener listener;
 	private final ConcurrentHashMap<String, Object> loggedUsers = new ConcurrentHashMap<String, Object>();
+	private final ConcurrentHashMap<String, Object> viewBidUsers = new ConcurrentHashMap<String, Object>();
 	private Object handleMutex = new Object();
 	private static ItemsSubscription itemSubscription;
 	private static UserSubscription userSubscription;
@@ -73,7 +74,7 @@ public class AuctionDataAdapter implements SmartDataProvider {
 			AuctionItemsSubscriptionListener listener = new AuctionItemsSubscriptionListener(handle);
 			itemSubscription.setListener(listener);
 			itemSubscription.prepareSnapShot();
-		}else {
+		}else if(!subscriptionId.substring(0,1).equals("b")) {
 			//Add item to map, in logg in message handling, if not approved, remove again, if success, pass username and id to client
 			if(!userSubscription.hasListener()) {
 				AuctionUserSubscriptionListener listener = new AuctionUserSubscriptionListener();
@@ -84,6 +85,11 @@ public class AuctionDataAdapter implements SmartDataProvider {
 					loggedUsers.put(subscriptionId, handle);
 				}
 			}
+		} else {
+			//userSubscribtion will always be initialized at this point
+			String[] pieces = subscriptionId.split("\\|");
+			viewBidUsers.put(pieces[1], handle);
+			userSubscription.getViewBids(pieces[2]);
 		}
 	}
 	
@@ -133,11 +139,23 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		listener.smartUpdate(handle, update, false);
 	}
 	
-	private void login(Object handle, User user, String items) {
+	private void login(Object handle, User user) {
 		HashMap<String, String> update = new HashMap<String, String>();
 		
 		update.put("userId", String.valueOf(user.getUserID()));
 		update.put("username", user.getUsername());
+		
+		listener.smartUpdate(handle, update, false);
+	}
+	
+	private void sendViewBid(String command, Object handle, ViewBid bid) {
+		HashMap<String, String> update = new HashMap<String, String>();
+		
+		update.put("key", String.valueOf(bid.getItemno()));
+		update.put("command", command);
+		update.put("viewName", bid.getName());
+		update.put("viewItemno", String.valueOf(bid.getItemno()));
+		update.put("viewBid", String.valueOf(bid.getValue()));
 		
 		listener.smartUpdate(handle, update, false);
 	}
@@ -184,20 +202,23 @@ public class AuctionDataAdapter implements SmartDataProvider {
 			if(user.getUserID() == 0){
 				synchronized (handleMutex) {
 					Object handle = loggedUsers.remove(user.getUsername());	
-					login(handle, user, "");
+					login(handle, user);
 				}
 			} else {
 				synchronized (handleMutex) {
 					Object handle = loggedUsers.get(user.getUsername());					
-					login(handle, user, "");
+					login(handle, user);
 				}
 			}			
 		}			
 		
 		@Override
 		public void onViewBids(ArrayList<ViewBid> viewBids) {
-			// TODO Auto-generated method stub
-			
+			Object handle = null;
+			for(ViewBid bid : viewBids) {
+				handle = viewBidUsers.get(bid.getUserId());
+				sendViewBid("ADD", handle, bid);
+			}		
 		}		
 	}
 

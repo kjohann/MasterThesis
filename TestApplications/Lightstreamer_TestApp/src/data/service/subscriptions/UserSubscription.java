@@ -1,9 +1,11 @@
 package data.service.subscriptions;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import models.User;
+import models.ViewBid;
 
 import data.service.JSONHandler;
 import data.service.ServiceProvider;
@@ -47,6 +49,26 @@ public class UserSubscription {
 		System.out.println("Registered new user!");
 	}
 	
+	public synchronized void getViewBids(String json) {
+		final UserSubscriptionListener localListener = listener;
+		
+		ArrayList<ViewBid> viewBids = provider.getUsersBids(json);
+		
+		if(viewBids == null) {
+			System.out.println("User had no bids"); //not an error
+			return;
+		}
+		
+		final ArrayList<ViewBid> finalBids = viewBids;
+		
+		Runnable task = new Runnable() {			
+			public void run() {
+				localListener.onViewBids(finalBids);
+			}
+		};
+		
+		executor.execute(task);	
+	}
 	
 	public synchronized void setListener(UserSubscriptionListener listener) {
 		this.listener = listener;

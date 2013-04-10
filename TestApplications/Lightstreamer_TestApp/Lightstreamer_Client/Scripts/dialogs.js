@@ -27,12 +27,18 @@ window.auction.dialogs = (function (){
         open("#registerDialog");
     }
 
+    var openViewBids = function() {
+        addOption("#viewBidsDialog", "title", "You currently have bids on these items");
+        open("#viewBidsDialog");
+    }
+
     return {
         init: init, //TODO: make private
         open: open,
         close: close,
         addOption: addOption,
         openLogin: openLogin,
-        openRegister: openRegister
+        openRegister: openRegister,
+        openViewBids: openViewBids
     }
 })();

@@ -1,5 +1,6 @@
 var itemFieldList = ["key", "command", "name", "rmID", "price", "bid", "expires", "highestbidder", "description", "addedByID", "bID"];
-var userFieldList = ["userId", "username", "itemsJson"]
+var userFieldList = ["userId", "username", "itemsJson"];
+var viewBidsList = ["key", "command", "viewName", "viewItemno", "viewBid"];
 
 require(["lsClient", "Subscription", "DynaGrid"], function(lsClient, Subscription, DynaGrid){
     var itemGrid = new DynaGrid("itemWrapper", true);
@@ -69,6 +70,22 @@ window.auction.user = (function(jsonHandler, util){
                         userId: user.getValue("userId")
                     }
                     util.setRemoveVisibility(window.auction.user.current);
+
+                    var viewBidGrid = new DynaGrid("viewBidWrapper", true);
+                    viewBidGrid.setAutoCleanBehavior(true, false);
+                    var bidUser = {
+                        username: user.getValue("username"),
+                        userID: parseInt(user.getValue("userId"))
+                    };
+                    viewBidsSubscription = new Subscription("COMMAND", "b|" + bidUser.userID + "|" + jsonHandler.userToJson(bidUser), viewBidsList);
+                    viewBidsSubscription.addListener({
+                        onItemUpdate: function(bid) {
+                            var a = 2;
+                        }
+                    });
+                    viewBidsSubscription.addListener(viewBidGrid);
+
+                    lsClient.subscribe(viewBidsSubscription);
                 }
             });
 

@@ -21,7 +21,8 @@
         <div id="logged_in_as">
             <span class="logged_in_as_label">Logged in as:</span> <br/>
             <div id="logg_wrap" data-source="lightstreamer" style="position: absolute; top: 20px;">
-                <a href="" onclick="">     <!--TODO: link opens viewBids in jqdialog-->
+                <a href="" onclick="window.auction.dialogs.openViewBids(); return false;">
+                    <!--TODO: link opens viewBids in jqdialog-->
                     <span id="logged_in_as_link" data-source="lightstreamer" data-field="username"></span>
                 </a>
             </div>
@@ -116,6 +117,19 @@
     <label for="bid">Place your bid: </label>
     <input type="number" id="bid" min="0" step="10" />
     <button id="place_bid_button" class="btn" onclick="window.auction.message.placeBid()">Place bid</button>
+</div>
+
+<div id="viewBidsDialog">
+    <div id="viewBidWrapper" data-source="lightstreamer">
+        <div>
+            <label>Name: </label>
+            <span data-source="lightstreamer" data-field="viewName"></span> <br/>
+            <label>Itemno: </label>
+            <span data-source="lightstreamer" data-field="viewItemno"></span> <br/>
+            <label>Bid: </label>
+            <span data-source="lightstreamer" data-field="viewBid"></span> <br/><br/>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript" src="../Scripts/init.js"></script>

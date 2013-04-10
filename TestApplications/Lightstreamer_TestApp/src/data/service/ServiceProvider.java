@@ -68,7 +68,7 @@ public class ServiceProvider {
 			name = row.getField("name").getFieldAsString();
 			value = row.getField("value").getFieldAsInt();
 			itemno = row.getField("itemno").getFieldAsInt();
-			viewBid = new ViewBid(name, itemno, value);
+			viewBid = new ViewBid(name, itemno, value, String.valueOf(user.getUserID()));
 			viewBids.add(viewBid);
 		}
 		

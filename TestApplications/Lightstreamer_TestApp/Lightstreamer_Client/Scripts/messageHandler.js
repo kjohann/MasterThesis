@@ -72,12 +72,19 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
                 modal: true,
                 height: 150,
                 width: 550
+            },
+            viewBidOptions = {
+                autoOpen: false,
+                modal: true,
+                resizable: true,
+                width: 400
             };
 
         dialogs.init("#loginDialog", loginOptions);
         dialogs.init("#registerDialog", registerOptions);
         dialogs.init("#addItemDialog", addItemOptions);
         dialogs.init("#placeBidDialog", placeBidOptions);
+        dialogs.init("#viewBidsDialog", viewBidOptions);
     });
 
     return {
