@@ -55,6 +55,9 @@ public class AuctionMetadataAdapter extends LiteralBasedProvider {
 		else if(parts[0].equals("LOGIN")) {
 			userSubscription.login(parts[1]);
 		}
+		else if(parts[0].equals("REG")) {
+			userSubscription.register(parts[1]);
+		}
 	}
 
 }

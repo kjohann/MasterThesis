@@ -29,7 +29,7 @@
         <div id="log_in_register">
             <a href="" onclick="window.auction.dialogs.openLogin(); return false;">Log in</a>
             <br/>
-            <a href="">Register</a>
+            <a href="" onclick="window.auction.dialogs.openRegister(); return false;">Register</a>
         </div>
         <div id="horizontalHeaderLine"></div>
         <!--TODO: remember jqdialogs-->
@@ -84,6 +84,20 @@
     <label for="log_pass">Password: </label>
     <input type="password" id="log_pass"/>
     <button id="log_in_button" class="btn" onclick="window.auction.user.login()">Log_in</button>
+</div>
+
+<div id="registerDialog">
+    <label for="firstname">Firstname: </label>
+    <input type="text" id="firstname"/> <br/>
+    <label for="lastname">Lastname: </label>
+    <input type="text" id="lastname"/> <br/>
+    <label for="adress">Adress: </label>
+    <input type="text" id="adress"/> <br/>
+    <label for="username">Username: </label>
+    <input type="text" id="username"/> <br/>
+    <label for="password">Password: </label>
+    <input type="password" id="password"/> <br/>
+    <button id="register_button" class="btn" onclick="window.auction.user.register()">Register</button>
 </div>
 
 <div id="addItemDialog">

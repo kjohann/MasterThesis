@@ -12,12 +12,10 @@ public class UserSubscription {
 	private UserSubscriptionListener listener;
 	private final ExecutorService executor;
 	private ServiceProvider provider;
-	private JSONHandler handler;
 	
 	public UserSubscription(ServiceProvider provider) {
 		executor = Executors.newSingleThreadExecutor();
 		this.provider = provider;
-		this.handler = JSONHandler.getInstance();
 	}
 	
 	public synchronized void login(String json) {
@@ -37,6 +35,16 @@ public class UserSubscription {
 		};
 		
 		executor.execute(task);
+	}
+	
+	public synchronized void register(String json) {		
+		boolean result = provider.registerUser(json);
+		if(!result) {
+			System.err.println("Error registering user with data " + json);
+			return;
+		}
+		
+		System.out.println("Registered new user!");
 	}
 	
 	

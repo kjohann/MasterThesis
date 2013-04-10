@@ -22,11 +22,17 @@ window.auction.dialogs = (function (){
         open("#loginDialog");
     }
 
+    var openRegister = function() {
+        addOption("#registerDialog", "title", "Register");
+        open("#registerDialog");
+    }
+
     return {
         init: init, //TODO: make private
         open: open,
         close: close,
         addOption: addOption,
-        openLogin: openLogin
+        openLogin: openLogin,
+        openRegister: openRegister
     }
 })();

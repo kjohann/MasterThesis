@@ -77,7 +77,24 @@ window.auction.user = (function(jsonHandler, util){
         });
     }
 
+    var register = function() {
+        require(["lsClient"], function(lsClient){
+            var user = {
+                username: $("#username").val(),
+                firstname: $("#firstname").val(),
+                lastname: $("#lastname").val(),
+                adress: $("#adress").val(),
+                password: $("#password").val()
+            }
+
+            var json = jsonHandler.userToJson(user);
+            lsClient.sendMessage("REG|"+json,"login", null, 30000);
+            $("#registerDialog").close();
+        });
+    }
+
     return {
-        login: login
+        login: login,
+        register: register
     }
 })(window.auction.json, window.auction.util);

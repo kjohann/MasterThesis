@@ -30,7 +30,6 @@ import data.service.subscriptions.UserSubscriptionListener;
 public class AuctionDataAdapter implements SmartDataProvider {
 	private ItemEventListener listener;
 	private final ConcurrentHashMap<String, Object> loggedUsers = new ConcurrentHashMap<String, Object>();
-	private final ConcurrentHashMap<String, Integer> itemsAddedById = new ConcurrentHashMap<String, Integer>();
 	private Object handleMutex = new Object();
 	private static ItemsSubscription itemSubscription;
 	private static UserSubscription userSubscription;
@@ -81,7 +80,9 @@ public class AuctionDataAdapter implements SmartDataProvider {
 				userSubscription.setListener(listener);
 			}
 			synchronized (handleMutex) {
-				loggedUsers.put(subscriptionId, handle);
+				if(!loggedUsers.containsKey(subscriptionId)) {
+					loggedUsers.put(subscriptionId, handle);
+				}
 			}
 		}
 	}
@@ -160,14 +161,12 @@ public class AuctionDataAdapter implements SmartDataProvider {
 		@Override
 		public void onAdd(Item item) {
 			PrettyItem prettyItem = new PrettyItem(item.getItemno(), item.getName(), item.getDescription(), item.getUsername(), item.getPrice(), 0, item.getAddedByID(), item.getExpires());
-			itemsAddedById.put(String.valueOf(item.getItemno()), item.getAddedByID());
 			add(prettyItem, handle, false);
 			
 		}
 		
 		@Override
 		public void onDelete(int itemno) {
-			itemsAddedById.remove(String.valueOf(itemno));
 			delete(handle, String.valueOf(itemno));
 		}
 		
@@ -189,23 +188,17 @@ public class AuctionDataAdapter implements SmartDataProvider {
 				}
 			} else {
 				synchronized (handleMutex) {
-					Object handle = loggedUsers.get(user.getUsername());
-					ArrayList<Item> itemsList = new ArrayList<>();
-					for(String key : itemsAddedById.keySet()) {
-						
-					}
+					Object handle = loggedUsers.get(user.getUsername());					
 					login(handle, user, "");
 				}
-			}
-			
-		}
-
+			}			
+		}			
+		
 		@Override
 		public void onViewBids(ArrayList<ViewBid> viewBids) {
 			// TODO Auto-generated method stub
 			
-		}
-		
+		}		
 	}
 
 }
