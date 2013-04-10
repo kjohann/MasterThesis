@@ -4,6 +4,18 @@ var userFieldList = ["userId", "username", "itemsJson"]
 require(["lsClient", "Subscription", "DynaGrid"], function(lsClient, Subscription, DynaGrid){
     var itemGrid = new DynaGrid("itemWrapper", true);
     itemGrid.setAutoCleanBehavior(true, false);
+    itemGrid.addListener({
+        onVisualUpdate: function(key, info, domNode) {
+            var current = window.auction.user.current;
+            if(current){
+                var addedByID = info.getCellValue("addedByID");
+                $(domNode).find(".bidButton").css({"display": "block"});
+                if(addedByID == current.userId); {
+                    $(domNode).find(".removeButton").css({"display": "block"});
+                }
+            }
+        }
+    });
 
     var itemSubscription = new Subscription("COMMAND", "items", itemFieldList);
     itemSubscription.addListener({
