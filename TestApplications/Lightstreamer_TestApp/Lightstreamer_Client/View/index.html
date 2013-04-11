@@ -21,7 +21,7 @@
         <div id="logged_in_as">
             <span class="logged_in_as_label">Logged in as:</span> <br/>
             <div id="logg_wrap" data-source="lightstreamer" style="position: absolute; top: 20px;">
-                <a href="" onclick="window.auction.dialogs.openViewBids(); return false;">
+                <a href="" onclick="window.auction.user.getViewBids(); return false;">
                     <!--TODO: link opens viewBids in jqdialog-->
                     <span id="logged_in_as_link" data-source="lightstreamer" data-field="username"></span>
                 </a>
@@ -131,6 +131,7 @@
         </div>
     </div>
 </div>
+
 
 <script type="text/javascript" src="../Scripts/init.js"></script>
 <script type="text/javascript" src="../Scripts/models.js"></script>

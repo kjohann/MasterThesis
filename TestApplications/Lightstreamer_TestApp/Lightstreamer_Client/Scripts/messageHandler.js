@@ -2,7 +2,7 @@ var client;
 var putBid;
 
 require(["lsClient"], function(lsClient){
-   client = lsClient;
+    client = lsClient;
 });
 
 window.auction.message = (function(dialogs, jsonHandler, item, bid){
@@ -49,10 +49,10 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
 
     $(document).ready(function(){
         var loginOptions = {
-            autoOpen: false,
-            modal: true,
-            resizable: false,
-            height: 230
+                autoOpen: false,
+                modal: true,
+                resizable: false,
+                height: 230
             },
             registerOptions = {
                 autoOpen: false,
@@ -77,7 +77,16 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
                 autoOpen: false,
                 modal: true,
                 resizable: true,
-                width: 400
+                width: 400,
+                close: function(){
+                    require(["lsClient", "Subscription"], function(lsClient, Subscription) {
+                        var subscribtions = lsClient.getSubscriptions();
+                        lsClient.unsubscribe(subscribtions[2]);
+                        $("#viewBidsDialog").dialog("destroy");
+                        dialogs.init("#viewBidsDialog", viewBidOptions);
+                        window.auction.util.resetViewBidDialog();
+                    });
+                }
             };
 
         dialogs.init("#loginDialog", loginOptions);

@@ -71,26 +71,38 @@ window.auction.user = (function(jsonHandler, util){
                     }
                     util.setRemoveVisibility(window.auction.user.current);
 
-                    var viewBidGrid = new DynaGrid("viewBidWrapper", true);
-                    viewBidGrid.setAutoCleanBehavior(true, false);
-                    var bidUser = {
-                        username: user.getValue("username"),
-                        userID: parseInt(user.getValue("userId"))
-                    };
-                    viewBidsSubscription = new Subscription("COMMAND", "b|" + bidUser.userID + "|" + jsonHandler.userToJson(bidUser), viewBidsList);
-                    viewBidsSubscription.addListener({
-                        onItemUpdate: function(bid) {
-                            var a = 2;
-                        }
-                    });
-                    viewBidsSubscription.addListener(viewBidGrid);
 
-                    lsClient.subscribe(viewBidsSubscription);
                 }
             });
 
             userSubscription.addListener(userGrid);
             lsClient.subscribe(userSubscription);
+        });
+    }
+
+    var getViewBids = function() {
+        require(["lsClient", "DynaGrid", "Subscription"], function(lsClient, DynaGrid, Subscription) {
+            var viewBidGrid = new DynaGrid("viewBidWrapper", true);
+            viewBidGrid.setAutoCleanBehavior(true, false);
+            viewBidGrid.addListener({
+                onVisualUpdate: function(key, info, domNode) {
+                    $(domNode).css({"display": "block"});
+                }
+            });
+            var bidUser = {
+                username: window.auction.user.current.username,
+                userID: parseInt(window.auction.user.current.userId)
+            };
+            var viewBidsSubscription = new Subscription("COMMAND", "b|" + bidUser.userID + "|" + jsonHandler.userToJson(bidUser), viewBidsList);
+            viewBidsSubscription.addListener({
+                onItemUpdate: function(bid) {
+                    var a = 2;
+                }
+            });
+            viewBidsSubscription.addListener(viewBidGrid);
+
+            lsClient.subscribe(viewBidsSubscription);
+            window.auction.dialogs.openViewBids();
         });
     }
 
@@ -112,6 +124,7 @@ window.auction.user = (function(jsonHandler, util){
 
     return {
         login: login,
-        register: register
+        register: register,
+        getViewBids: getViewBids
     }
 })(window.auction.json, window.auction.util);

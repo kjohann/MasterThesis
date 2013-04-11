@@ -10,6 +10,13 @@ window.auction.util = (function(){
                      $(obj).css({"display": "none"});
                  }
              });
+         },
+         resetViewBidDialog: function() {
+             $("#viewBidsDialog").children().each(function(i){
+                 if(this.id != "viewBidWrapper") {
+                     $(this).remove();
+                 }
+             });
          }
      }
 })();
