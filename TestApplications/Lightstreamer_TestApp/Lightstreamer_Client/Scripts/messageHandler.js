@@ -47,10 +47,25 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
         dialogs.close("#loginDialog");
     }
 
+    var sendRegister = function() {
+        var user = {
+            username: $("#username").val(),
+            firstname: $("#firstname").val(),
+            lastname: $("#lastname").val(),
+            adress: $("#adress").val(),
+            password: $("#password").val()
+        }
+
+        var json = jsonHandler.userToJson(user);
+        client.sendMessage("REG|"+json,"login", null, 30000);
+        dialogs.close("#registerDialog");
+    }
+
     return {
         sendAddItem: sendAddItem,
         sendDeleteItem: sendDeleteItem,
         placeBid: placeBid,
-        sendLogin: sendLogin
+        sendLogin: sendLogin,
+        sendRegister: sendRegister
     };
 })(window.auction.dialogs, window.auction.json, window.auction.models.item, window.auction.models.bid);

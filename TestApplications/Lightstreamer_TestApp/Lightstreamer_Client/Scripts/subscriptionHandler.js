@@ -19,7 +19,7 @@ var viewBidsList = ["key", "command", "viewName", "viewItemno", "viewBid"];
     });
 })(window.auction.util);
 
-window.auction.user = (function(jsonHandler, util, message){
+window.auction.user = (function(jsonHandler, util, message, dialogs){
     var login = function() {
         require(["lsClient", "DynaGrid", "Subscription"], function(lsClient, DynaGrid, Subscription) {
             var userGrid = new DynaGrid("logg_wrap", true);
@@ -75,7 +75,7 @@ window.auction.user = (function(jsonHandler, util, message){
             viewBidGrid.setAutoCleanBehavior(true, false);
             viewBidGrid.addListener({
                 onVisualUpdate: function(key, info, domNode) {
-                    $(domNode).css({"display": "block"});
+                    util.setDisplay(domNode, "block");
                 }
             });
             var bidUser = {
@@ -83,37 +83,15 @@ window.auction.user = (function(jsonHandler, util, message){
                 userID: parseInt(window.auction.user.current.userId)
             };
             var viewBidsSubscription = new Subscription("COMMAND", "b|" + bidUser.userID + "|" + jsonHandler.userToJson(bidUser), viewBidsList);
-            viewBidsSubscription.addListener({
-                onItemUpdate: function(bid) {
-                    var a = 2;
-                }
-            });
             viewBidsSubscription.addListener(viewBidGrid);
 
             lsClient.subscribe(viewBidsSubscription);
-            window.auction.dialogs.openViewBids();
-        });
-    }
-
-    var register = function() {
-        require(["lsClient"], function(lsClient){
-            var user = {
-                username: $("#username").val(),
-                firstname: $("#firstname").val(),
-                lastname: $("#lastname").val(),
-                adress: $("#adress").val(),
-                password: $("#password").val()
-            }
-
-            var json = jsonHandler.userToJson(user);
-            lsClient.sendMessage("REG|"+json,"login", null, 30000);
-            $("#registerDialog").close();
+            dialogs.openViewBids();
         });
     }
 
     return {
         login: login,
-        register: register,
         getViewBids: getViewBids
     }
-})(window.auction.json, window.auction.util, window.auction.message);
+})(window.auction.json, window.auction.util, window.auction.message, window.auction.dialogs);
