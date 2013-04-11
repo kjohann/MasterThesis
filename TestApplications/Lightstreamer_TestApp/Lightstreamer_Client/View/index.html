@@ -36,7 +36,7 @@
         <!--TODO: remember jqdialogs-->
     </div>
     <div id="itemViewModelWrapper">
-        <button id="addItemButton" class="btn" onclick="window.auction.message.openAddItem()"
+        <button id="addItemButton" class="btn" onclick="window.auction.dialogs.openAddItem();"
                 style="display: none;">Add item</button>
         <!--TODO: jqdialog here-->
         <div id="itemWrapper" data-source="lightstreamer">
@@ -62,7 +62,7 @@
                         <span data-source="lightstreamer" data-field="description"></span>
                     </div>
                     <div class="buttonBar"> <!--TODO: Only visible when logged in-->
-                        <div class="bidButton btn" onclick="window.auction.message.openPlaceBid(this)"
+                        <div class="bidButton btn" onclick="window.auction.dialogs.openPlaceBid(this)"
                              data-source="lightstreamer" data-field="bID" data-update="id"
                              style="display: none;">Place bid</div>
                         <div class="removeButton btn" onclick="window.auction.message.sendDeleteItem(this)"

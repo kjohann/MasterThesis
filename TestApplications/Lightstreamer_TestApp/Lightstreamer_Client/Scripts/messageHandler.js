@@ -1,22 +1,10 @@
 var client;
-var putBid;
 
 require(["lsClient"], function(lsClient){
     client = lsClient;
 });
 
 window.auction.message = (function(dialogs, jsonHandler, item, bid){
-    var openAddItem = function() {
-        dialogs.addOption("#addItemDialog", "title", "Add new item");
-        dialogs.open("#addItemDialog");
-    }
-
-    var openPlaceBid = function(itemDOM) {
-        putBid = itemDOM.id.split(".")[1];
-        dialogs.addOption("#placeBidDialog", "title", "Place bid on item");
-        dialogs.open("#placeBidDialog");
-    }
-
     var sendAddItem = function() {
         var itemname = $("#itemname").val();
         var minprice = parseInt($("#minprice").val());
@@ -37,7 +25,8 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
     }
 
     var placeBid = function() {
-        var itemno = parseInt(putBid);
+        var activeItem = window.auction.dialogs.activeItem;
+        var itemno = parseInt(activeItem.id.split(".")[1]);
         var userId = window.auction.user.current.userId;
         var value = parseInt($("#bid").val());
         var username = window.auction.user.current.username;
@@ -47,58 +36,7 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
         dialogs.close("#placeBidDialog");
     }
 
-    $(document).ready(function(){
-        var loginOptions = {
-                autoOpen: false,
-                modal: true,
-                resizable: false,
-                height: 230
-            },
-            registerOptions = {
-                autoOpen: false,
-                modal: true,
-                resizable: false,
-                height: 420
-            },
-            addItemOptions = {
-                autoOpen: false,
-                modal: true,
-                resizable: false,
-                width: 350
-            },
-            placeBidOptions = {
-                autoOpen: false,
-                resizable: false,
-                modal: true,
-                height: 150,
-                width: 550
-            },
-            viewBidOptions = {
-                autoOpen: false,
-                modal: true,
-                resizable: true,
-                width: 400,
-                close: function(){
-                    require(["lsClient", "Subscription"], function(lsClient, Subscription) {
-                        var subscribtions = lsClient.getSubscriptions();
-                        lsClient.unsubscribe(subscribtions[2]);
-                        $("#viewBidsDialog").dialog("destroy");
-                        dialogs.init("#viewBidsDialog", viewBidOptions);
-                        window.auction.util.resetViewBidDialog();
-                    });
-                }
-            };
-
-        dialogs.init("#loginDialog", loginOptions);
-        dialogs.init("#registerDialog", registerOptions);
-        dialogs.init("#addItemDialog", addItemOptions);
-        dialogs.init("#placeBidDialog", placeBidOptions);
-        dialogs.init("#viewBidsDialog", viewBidOptions);
-    });
-
     return {
-        openAddItem: openAddItem,
-        openPlaceBid: openPlaceBid,
         sendAddItem: sendAddItem,
         sendDeleteItem: sendDeleteItem,
         placeBid: placeBid

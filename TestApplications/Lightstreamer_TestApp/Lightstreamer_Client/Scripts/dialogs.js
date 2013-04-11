@@ -1,4 +1,45 @@
 window.auction.dialogs = (function (){
+    var loginOptions = {
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            height: 230
+        },
+        registerOptions = {
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            height: 420
+        },
+        addItemOptions = {
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            width: 350
+        },
+        placeBidOptions = {
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            height: 150,
+            width: 550
+        },
+        viewBidOptions = {
+            autoOpen: false,
+            modal: true,
+            resizable: true,
+            width: 400,
+            close: function(){
+                require(["lsClient", "Subscription"], function(lsClient, Subscription) {
+                    var subscribtions = lsClient.getSubscriptions();
+                    lsClient.unsubscribe(subscribtions[2]);
+                    $("#viewBidsDialog").dialog("destroy");
+                    init("#viewBidsDialog", viewBidOptions);
+                    window.auction.util.resetViewBidDialog();
+                });
+            }
+        };
+
     var init = function(id, options) {
          $(id).dialog(options);
     }
@@ -32,13 +73,31 @@ window.auction.dialogs = (function (){
         open("#viewBidsDialog");
     }
 
+    var openAddItem = function() {
+        addOption("#addItemDialog", "title", "Add new item");
+        open("#addItemDialog");
+    }
+
+    var openPlaceBid = function(itemDOM) {
+        window.auction.dialogs.activeItem = itemDOM;
+        addOption("#placeBidDialog", "title", "Place bid on item");
+        open("#placeBidDialog");
+    }
+
+    $(document).ready(function(){
+        init("#loginDialog", loginOptions);
+        init("#registerDialog", registerOptions);
+        init("#addItemDialog", addItemOptions);
+        init("#placeBidDialog", placeBidOptions);
+        init("#viewBidsDialog", viewBidOptions);
+    });
+
     return {
-        init: init, //TODO: make private
-        open: open,
         close: close,
-        addOption: addOption,
         openLogin: openLogin,
         openRegister: openRegister,
-        openViewBids: openViewBids
+        openViewBids: openViewBids,
+        openAddItem: openAddItem,
+        openPlaceBid: openPlaceBid
     }
 })();
