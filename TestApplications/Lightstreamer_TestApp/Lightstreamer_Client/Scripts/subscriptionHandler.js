@@ -9,6 +9,7 @@ var viewBidsList = ["key", "command", "viewName", "viewItemno", "viewBid"];
         itemGrid.addListener({
             onVisualUpdate: function(key, info, domNode) {
                 util.setButtonVisibilityOnNewItem(info, domNode);
+                util.setBidLabelVisibility(info, domNode);
             }
         });
 

@@ -22,7 +22,6 @@
             <span class="logged_in_as_label">Logged in as:</span> <br/>
             <div id="logg_wrap" data-source="lightstreamer" style="position: absolute; top: 20px;">
                 <a href="" onclick="window.auction.user.getViewBids(); return false;">
-                    <!--TODO: link opens viewBids in jqdialog-->
                     <span class="userId" data-source="lightstreamer" data-field="userId" style="display: none"></span>
                     <span class="logged_in_as_link" data-source="lightstreamer" data-field="username"></span>
                 </a>
@@ -34,12 +33,10 @@
             <a href="" onclick="window.auction.dialogs.openRegister(); return false;">Register</a>
         </div>
         <div id="horizontalHeaderLine"></div>
-        <!--TODO: remember jqdialogs-->
     </div>
     <div id="itemViewModelWrapper">
         <button id="addItemButton" class="btn" onclick="window.auction.dialogs.openAddItem();"
                 style="display: none;">Add item</button>
-        <!--TODO: jqdialog here-->
         <div id="itemWrapper" data-source="lightstreamer">
             <div class="item">
                 <div class="itemHeader">
@@ -51,18 +48,21 @@
                         <label>Itemnumber: </label><span data-source="lightstreamer" data-field="key"></span> <br/>
                         <label>Minumum price: </label><span data-source="lightstreamer" data-field="price"></span>
                         <br/>
-                        <label>Highest bid: </label> <!--TODO: only visible when bid > 0 - onVisualUpdate??-->
-                        <span data-source="lightstreamer" data-field="bid"></span> <br/>
+                        <div class="highBidWrapper">
+                            <label>Highest bid: </label> <!--TODO: only visible when bid > 0 - onVisualUpdate??-->
+                            <span data-source="lightstreamer" data-field="bid"></span>
+                        </div>
                         <label>Expires </label><span data-source="lightstreamer" data-field="expires"></span> <br/>
-                        <!--TODO: format like localeString-->
-                        <label>Highest Bidder: </label> <br/>
-                        <span data-source="lightstreamer" data-field="highestbidder"></span>
+                        <div class="highestBidderWrapper">
+                            <label>Highest Bidder: </label> <br/>
+                            <span data-source="lightstreamer" data-field="highestbidder"></span>
+                        </div>
                         <!--TODO: only visible when bid > 0-->
                     </div>
                     <div class="itemDescription">
                         <span data-source="lightstreamer" data-field="description"></span>
                     </div>
-                    <div class="buttonBar"> <!--TODO: Only visible when logged in-->
+                    <div class="buttonBar">
                         <div class="bidButton btn" onclick="window.auction.dialogs.openPlaceBid(this)"
                              data-source="lightstreamer" data-field="bID" data-update="id"
                              style="display: none;">Place bid</div>
@@ -70,16 +70,15 @@
                                  data-source="lightstreamer" data-field="rmID" data-update="id"
                                 style="display:none">Remove</div>
                         <span style="display: none" class="hidden" data-source="lightstreamer"
-                              data-field="addedByID"></span>  <!--TODO: might not need this one-->
-                        <!--TODO: only visible if item was added by logged in user-->
+                              data-field="addedByID"></span>
                     </div>
                 </div>
             </div>
         </div>
-        <!--TODO: jqdialog for placing bid-->
     </div>
 </div>
 
+<!--Dialogs-->
 <div id="loginDialog">
     <label for="log_usern">Username: </label>
     <input type="text" id="log_usern" /> <br/>
@@ -133,7 +132,7 @@
     </div>
 </div>
 
-
+<!--Scripts-->
 <script type="text/javascript" src="../Scripts/init.js"></script>
 <script type="text/javascript" src="../Scripts/models.js"></script>
 <script type="text/javascript" src="../Scripts/json.js"></script>

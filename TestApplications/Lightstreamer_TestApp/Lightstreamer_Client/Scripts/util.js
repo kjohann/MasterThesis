@@ -30,6 +30,16 @@ window.auction.util = (function(){
          },
          setDisplay: function(selector, display) {
             $(selector).css({"display": ""+display});
+         },
+         setBidLabelVisibility: function(info, domNode) {
+             if(info.getCellValue("bid") == 0) {
+                 $(domNode).find(".highBidWrapper").css({"display":"none"});
+                 $(domNode).find(".highestBidderWrapper").css({"display":"none"});
+             }
+             else {
+                 $(domNode).find(".highBidWrapper").css({"display":"block"});
+                 $(domNode).find(".highestBidderWrapper").css({"display":"block"});
+             }
          }
      }
 })();
