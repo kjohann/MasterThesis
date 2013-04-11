@@ -36,9 +36,21 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
         dialogs.close("#placeBidDialog");
     }
 
+    var sendLogin = function(usern, pass) {
+        var user = {
+            username: usern,
+            password: pass
+        };
+
+        var json = jsonHandler.userToJson(user);
+        client.sendMessage("LOGIN|"+json,"login", null, 30000);
+        dialogs.close("#loginDialog");
+    }
+
     return {
         sendAddItem: sendAddItem,
         sendDeleteItem: sendDeleteItem,
-        placeBid: placeBid
+        placeBid: placeBid,
+        sendLogin: sendLogin
     };
 })(window.auction.dialogs, window.auction.json, window.auction.models.item, window.auction.models.bid);

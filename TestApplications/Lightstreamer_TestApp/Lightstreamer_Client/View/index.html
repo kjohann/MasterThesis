@@ -23,7 +23,8 @@
             <div id="logg_wrap" data-source="lightstreamer" style="position: absolute; top: 20px;">
                 <a href="" onclick="window.auction.user.getViewBids(); return false;">
                     <!--TODO: link opens viewBids in jqdialog-->
-                    <span id="logged_in_as_link" data-source="lightstreamer" data-field="username"></span>
+                    <span class="userId" data-source="lightstreamer" data-field="userId" style="display: none"></span>
+                    <span class="logged_in_as_link" data-source="lightstreamer" data-field="username"></span>
                 </a>
             </div>
         </div>
