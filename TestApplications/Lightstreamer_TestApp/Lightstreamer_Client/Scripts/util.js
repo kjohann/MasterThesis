@@ -23,7 +23,7 @@ window.auction.util = (function(){
              if(current){
                  var addedByID = info.getCellValue("addedByID");
                  $(domNode).find(".bidButton").css({"display": "block"});
-                 if(addedByID == current.userId); {
+                 if(addedByID === current.userId) {
                      $(domNode).find(".removeButton").css({"display": "block"});
                  }
              }
