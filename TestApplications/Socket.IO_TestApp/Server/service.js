@@ -69,6 +69,12 @@ function registerItem(name, price, expires, description, addedById, callback){
         }
 
         var expiredate = new Date(expires);
+
+        if(isNaN(expiredate)) {
+                callback(null, "Error parsing date");
+            return;
+        }
+
         var year = expiredate.getFullYear();
         var month = expiredate.getMonth() + 1;
         var day = expiredate.getDate();
@@ -82,7 +88,7 @@ function registerItem(name, price, expires, description, addedById, callback){
         }, null);
     }
     else
-        callback("Registration failed: registerItem with " + name + ", " + price + ", " + expires + ", " + description + ", " + addedById);
+        callback(null, "Registration failed: registerItem with " + name + ", " + price + ", " + expires + ", " + description + ", " + addedById);
 }
 
 function deleteItem(itemno, callback){
