@@ -1,6 +1,10 @@
-var database = require('./database'),
-    promise = require("promised-io/promise"),
-    models = require('./models.js');
+var promise = require("promised-io/promise"),
+    models = require('./models.js'),
+    database = null;
+
+function init(db) {
+    database = db;
+}
 
 function verifyLogIn(username, password, callback){
     if(username && password) {
@@ -118,7 +122,7 @@ function getLatestItem(itemno, userId, username, callback){
         callback(null, "Failed to get latest: getLatestItem with " + itemno);
     }
 }
-
+exports.init = init;
 exports.verifyLogIn = verifyLogIn;
 exports.getBidsByUser = getBidsByUser;
 exports.placeBid = placeBid;
