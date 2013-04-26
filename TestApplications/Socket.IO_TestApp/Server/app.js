@@ -3,7 +3,7 @@ var express = require('express')
     , server = require('http').createServer(app)
     , io = require('socket.io').listen(server)
     , service = require('./service')
-    , database = require('./database.js')
+    , database = require('./database.js');
 
 service.init(database);
 server.listen(80);
