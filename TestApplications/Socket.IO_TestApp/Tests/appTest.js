@@ -50,7 +50,7 @@ describe('app', function () {
             connection.end();
         });
     });
-    describe('app', function(){
+    describe('io.socket', function(){
         it('should receive all items', function (done) {
             socket.on('allItems', function (items) {
                 should.exist(items);
