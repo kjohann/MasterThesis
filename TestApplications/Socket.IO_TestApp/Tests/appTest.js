@@ -37,7 +37,7 @@ describe('app', function () {
         });
 
     });
-    after(function(){
+    after(function(done){
         var fileContent = fs.readFileSync('./dbRefresh.sql', 'utf8');
         connection.query(fileContent, function(err, result) {
             if(!err) {
