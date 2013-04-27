@@ -3,12 +3,78 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
-    </head>
+	<head>
+	    <meta charset="UTF-8">
+	    <title>@title</title>
+	
+	    <!-- Scripts -->
+	    <script type="text/javascript" src="@routes.Assets.at("javascripts/ExternalScripts/knockout.js")"></script>
+	    <script type="text/javascript" src="@routes.Assets.at("javascripts/ExternalScripts/jquery-1.9.1.js")"></script>
+	    <script type="text/javascript" src="@routes.Assets.at("javascripts/ExternalScripts/jqueryUI-1.10.0.js")"></script>
+	
+	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/init.js")"></script>
+	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/models.js")"></script>
+	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/viewModels.js")"></script>
+	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/customBindings.js")"></script>
+	
+	    <!-- Styles -->
+	    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/auction.css")" />
+	    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+	
+	    <!--Templates-->
+	    <script type="text/html" id="placeBidTemplate">
+	        <label for="bid">Place your bid: </label>
+	        <input type="number" id="bid" min="0" step="10" data-bind="value: bid() >= minPrice ? bid() : minPrice"/>
+	        <button id="place_bid_button" class="btn" data-bind="click: $parent.sendPlaceBid">
+	            Place bid
+	        </button>
+	    </script>
+	
+	    <script type="text/html" id="addItemTemplate">
+	        <label for="itemname">Name: </label> <br/>
+	        <input type="text" id="itemname" size="30"/> <br/>
+	        <label for="minprice">Minimum price: </label> <br/>
+	        <input type="number" min="0" step="10" id="minprice"/>  <br/>
+	        <label for="expires">Expires: </label> <br/>
+	        <input type="date" id="expires"/> <br/>
+	        <label for="description">Description: </label> <br/>
+	        <textarea rows="10" cols="31" id="description"></textarea>
+	        <button id="addButton" class="btn" data-bind="click: $parent.sendAddItem">Add</button>
+	    </script>
+	
+	    <script type="text/html" id="loginTemplate">
+	        <label for="log_usern">Username: </label>
+	        <input type="text" id="log_usern" /> <br/>
+	        <label for="log_pass">Password: </label>
+	        <input type="password" id="log_pass"/>
+	        <button id="log_in_button" class="btn" data-bind="click: $parent.sendLogIn">Log_in</button>
+	    </script>
+	
+	    <script type="text/html" id="registerTemplate">
+	        <label for="firstname">Firstname: </label>
+	        <input type="text" id="firstname"/> <br/>
+	        <label for="lastname">Lastname: </label>
+	        <input type="text" id="lastname"/> <br/>
+	        <label for="adress">Adress: </label>
+	        <input type="text" id="adress"/> <br/>
+	        <label for="username">Username: </label>
+	        <input type="text" id="username"/> <br/>
+	        <label for="password">Password: </label>
+	        <input type="password" id="password"/> <br/>
+	        <button id="register_button" class="btn" data-bind="click: $parent.sendRegister">Register</button>
+	    </script>
+	
+	    <script type="text/html" id="viewBidsTemplate">
+	        <div data-bind="foreach: $data.bidItems">
+	            <label>Name: </label>
+	            <span data-bind="text: name"></span> <br/>
+	            <label>Itemno: </label>
+	            <span data-bind="text: itemno"></span> <br/>
+	            <label>Bid: </label>
+	            <span data-bind="text: value"></span> <br/><br/>
+	        </div>
+	    </script>
+	</head>    
     <body>
         @content
     </body>
