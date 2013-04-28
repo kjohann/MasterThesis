@@ -19,7 +19,10 @@ public class ResultGeneratorFactory {
 	}
 	
 	public static ResultGeneratorFactory getInstance() {
-		return instance == null ? new ResultGeneratorFactory() : instance;
+		if(instance == null) {
+			instance = new ResultGeneratorFactory();
+		}
+		return instance;
 	}
 	
 	public VerifyLogInResultGenerator getVerifyLogInGenerator() {

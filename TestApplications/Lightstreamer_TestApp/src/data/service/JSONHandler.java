@@ -14,7 +14,10 @@ public class JSONHandler {
 	}
 	
 	public static JSONHandler getInstance() {
-		return instance == null ? new JSONHandler() : instance;
+		if(instance == null) {
+			instance = new JSONHandler();
+		}
+		return instance;
 	}
 	
 	public User userFromJSON(String json) {

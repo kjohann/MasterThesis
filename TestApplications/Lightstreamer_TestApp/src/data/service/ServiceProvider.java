@@ -21,7 +21,10 @@ public class ServiceProvider {
 	}
 	
 	public static ServiceProvider getInstance(DatabaseHandler dbHandler) {
-		return instance == null ? new ServiceProvider(dbHandler) : instance;
+		if(instance == null) {
+			instance = new ServiceProvider(dbHandler);
+		}
+		return instance;
 	}
 	
 	public User verifyLogIn(String json) {

@@ -17,7 +17,10 @@ public class MySQLDatabaseHandler implements DatabaseHandler {
 	}
 	
 	public static MySQLDatabaseHandler getInstance(String dbName, String user, String password) {
-		return instance == null ? new MySQLDatabaseHandler(dbName, user, password) : instance;
+		if(instance == null) {
+			instance = new MySQLDatabaseHandler(dbName, user, password);
+		}
+		return instance;
 	}
 
 	@Override
