@@ -26,15 +26,24 @@ public class ResultGeneratorFactory {
 	}
 	
 	public VerifyLogInResultGenerator getVerifyLogInGenerator() {
-		return verifyLogInGenerator == null ? new VerifyLogInResultGenerator() : verifyLogInGenerator;
+		if(verifyLogInGenerator == null) {
+			verifyLogInGenerator = new VerifyLogInResultGenerator();
+		}
+		return verifyLogInGenerator;
 	}
 	
 	public BidsByUserResultGenerator getBidsByUserGenerator() {
-		return bidsByUserGenerator == null ? new BidsByUserResultGenerator() : bidsByUserGenerator;
+		if(bidsByUserGenerator == null) {
+			bidsByUserGenerator = new BidsByUserResultGenerator();
+		}
+		return bidsByUserGenerator;
 	}
 	
 	public AllItemsResultGenerator getAllItemsGenerator() {
-		return allItemsResultGenerator == null ? new AllItemsResultGenerator() : allItemsResultGenerator;
+		if(allItemsResultGenerator == null) {
+			allItemsResultGenerator = new AllItemsResultGenerator();
+		}
+		return allItemsResultGenerator;
 	}
 	
 	private class VerifyLogInResultGenerator implements ResultGenerator {
