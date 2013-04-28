@@ -19,3 +19,4 @@ dist
 *.min.*
 /.target/*
 /public/images/*
+/conf/evolutions/*
