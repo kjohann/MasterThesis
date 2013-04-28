@@ -1,4 +1,6 @@
-@main("Auction House") {
+@(hasWS: Boolean)
+
+@main("Auction House", hasWS) {
     <div id="wrapper">
     <div id="header" data-bind="with: headerView">
         <h1 class="welcome">Welcome to Master Auctions!</h1>

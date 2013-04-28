@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, hasWS: Boolean)(content: Html)
 
 <!DOCTYPE html>
 
@@ -14,6 +14,9 @@
 	
 	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/init.js")"></script>
 	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/models.js")"></script>
+	    @if(hasWS) {	   	
+	   		<script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/wsHandler.js")"></script>
+	   	}
 	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/viewModels.js")"></script>
 	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/customBindings.js")"></script>
 	
@@ -73,7 +76,7 @@
 	            <label>Bid: </label>
 	            <span data-bind="text: value"></span> <br/><br/>
 	        </div>
-	    </script>
+	    </script>	    
 	</head>    
     <body>
         @content
