@@ -1,4 +1,4 @@
-window.auction.viewModels = (function(item, user){ //TODO: does this need parameters?
+window.auction.viewModels = (function(item, user, socket){ //TODO: does this need parameters?
 
     var headerViewModel = function(){
         var self = this;
@@ -163,4 +163,4 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
         itemViewModel: itemViewModelObj,
         headerViewModel: headerViewModelObj
     };
-})(window.auction.models.item, window.auction.models.user);
+})(window.auction.models.item, window.auction.models.user, window.auction.socket);

@@ -57,11 +57,10 @@ public class AuctionHouse extends UntypedActor {
 		WebSocketJoin join = (WebSocketJoin) message;
 		if(message instanceof WebSocketJoin) {
 			if(!members.containsKey(join.userId)) {
-				members.put(join.userId, new WebSocketWrapper(join.channel));
-				ObjectNode event = Json.newObject();
-				event.put("id", join.userId);
-				join.channel.write(event);
-				getSender().tell("ok");
+				WebSocketWrapper socket = new WebSocketWrapper(join.channel);
+				members.put(join.userId, socket);
+				socket.sendConnectionId(join.userId);
+				getSender().tell("ok", getSender());
 			}
 		}
 	}

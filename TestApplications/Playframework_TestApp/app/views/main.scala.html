@@ -15,10 +15,13 @@
 	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/init.js")"></script>
 	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/models.js")"></script>
 	    @if(hasWS) {	   	
-	   		<script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/wsHandler.js")"></script>
+	   	<script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/wsInit.js")"></script>
 	   	}
 	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/viewModels.js")"></script>
 	    <script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/customBindings.js")"></script>
+	    @if(hasWS) {
+	   	<script type="text/javascript" src="@routes.Assets.at("javascripts/Scripts/websocket.js")"></script>
+	   	}
 	
 	    <!-- Styles -->
 	    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/auction.css")" />
