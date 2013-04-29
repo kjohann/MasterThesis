@@ -20,7 +20,7 @@ public class Item extends Model{
 	private Timestamp expires;
 	@Column(name="price")
 	private int price;
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="addedByID")
 	private User addedByID;
 	
@@ -29,10 +29,20 @@ public class Item extends Model{
 		this.description = description;
 		this.expires = expires;
 		this.price = price;
-		this.addedByID = User.find.ref(addedByID);
+		this.addedByID = User.find.byId(addedByID);
 	}
 
-	public static Finder<Long,Item> find = new Finder<Long,Item>(Long.class, Item.class);
+	public static Finder<Integer,Item> find = new Finder<Integer,Item>(Integer.class, Item.class);
+	
+	public boolean add() {
+		this.save();
+		if(itemno > 0) {
+			Bid bid = new Bid(itemno, addedByID.getUserID(), 0, addedByID.getUsername());
+			bid.save();
+			return bid.getBidID() > 0;
+		}
+		return itemno > 0;
+	}
 	
 	public int getItemno() {
 		return itemno;

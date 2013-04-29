@@ -117,4 +117,12 @@ public class WebSocketWrapper implements Socket {
 		event.put("item", itemNode);
 		channel.write(event);		
 	}
+
+	@Override
+	public void sendDeleteItem(int itemno) {
+		ObjectNode event = Json.newObject();
+		event.put("message", "removeItem");
+		event.put("itemno", itemno);
+		channel.write(event);
+	}
 }

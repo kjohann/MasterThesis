@@ -62,8 +62,12 @@ public class AuctionHouse extends UntypedActor {
             			   addedByID = event.get("addedByID").asInt();
             		   Timestamp expires = new Timestamp(event.get("expires").asLong());
             		   AddItem addItem = messages.newAddItem(cid, name, description, price, addedByID, expires);
-            		   instance.tell(addItem, instance);
-            		   
+            		   instance.tell(addItem, instance);            		   
+            	   } else if(type.equalsIgnoreCase("removeItem")) {
+            		   String cid = event.get("cid").asText();
+            		   int itemno = event.get("itemno").asInt();
+            		   RemoveItem removeItem = messages.newRemoveItem(cid, itemno);
+            		   instance.tell(removeItem, instance);
             	   }
                } 
             });
@@ -103,14 +107,18 @@ public class AuctionHouse extends UntypedActor {
 			Socket socket = members.get(register.cid);
 			socket.registerUser(register.user);
 		} else if(message instanceof AddItem) {
-			AddItem addItem = (AddItem) message;
-			addItem.item.save();
-			Bid bid = new Bid(addItem.item.getItemno(), addItem.item.getAddedByID().getUserID(), 0, addItem.item.getAddedByID().getUsername());
-			bid.save();
-			if(addItem.item.getItemno() > 0) {
+			AddItem addItem = (AddItem) message;			
+			if(addItem.item.add()) {
 				for(Socket socket : members.values()) {
 					socket.sendNewItem(addItem.item);
 				}
+			}
+		} else if(message instanceof RemoveItem) {
+			RemoveItem removeItem = (RemoveItem) message;
+			Item item = Item.find.ref(removeItem.itemno);
+			item.delete();
+			for(Socket socket : members.values()) {
+				socket.sendDeleteItem(removeItem.itemno);
 			}
 		}
 	}

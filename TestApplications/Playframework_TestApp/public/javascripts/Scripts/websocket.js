@@ -35,6 +35,9 @@
             i.bid(prettyItem.bid);
             itemView.addItem(i);
 		}
+		if(data.message === "removeItem") {
+			itemView.removeItem(data.itemno);
+		}
 	}	
 })(window.auction.models.item,
    window.auction.viewModels.headerViewModel,

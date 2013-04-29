@@ -11,10 +11,10 @@ public class Bid extends Model{
 	@Id
 	@Column(name="bidID")
 	private int bidID;
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="itemno")
 	private Item itemno;
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="userID")
 	private User userID;
 	@Column(name="value")
@@ -22,9 +22,9 @@ public class Bid extends Model{
 	@Column(name="username")
 	private String username;
 	
-	public Bid(long itemno, long userID, int value, String username) {
-		this.itemno = Item.find.ref(itemno);
-		this.userID = User.find.ref(userID);
+	public Bid(int itemno, long userID, int value, String username) {
+		this.itemno = Item.find.byId(itemno);
+		this.userID = User.find.byId(userID);
 		this.value = value;
 		this.username = username;
 	}

@@ -99,16 +99,19 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
 
             var json = JSON.stringify(itemmessage);
             socket.send(json);
-
-            //TODO: Apply logic for sending to server
-            //Send to server
-
             $("#additem").dialog("close");
         };
 
         //TODO: Send removeinfo to server
         self.sendRemoveItem = function(itemno){
-            //Send to server
+            var message = {
+                type: "removeItem",
+                cid: window.auction.cid,
+                itemno: itemno
+            }
+
+            var json = JSON.stringify(message);
+            socket.send(json);
         };
 
         self.removeItem = function(itemno){

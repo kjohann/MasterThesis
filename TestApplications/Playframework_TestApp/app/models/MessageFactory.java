@@ -39,6 +39,10 @@ public class MessageFactory {
 		return new AddItem(cid, item);
 	}
 	
+	public RemoveItem newRemoveItem(String cid, int itemno) {
+		return new RemoveItem(cid, itemno);
+	}
+	
 	public class WebSocketJoin {
 		final String userId;
         final WebSocket.Out<JsonNode> channel;
@@ -84,6 +88,16 @@ public class MessageFactory {
 		public AddItem(String cid, Item item) {
 			this.cid = cid;
 			this.item = item;
+		}
+	}
+	
+	public class RemoveItem {
+		final String cid;
+		final int itemno;
+		
+		public RemoveItem(String cid, int itemno) {
+			this.cid = cid;
+			this.itemno = itemno;
 		}
 	}
 
