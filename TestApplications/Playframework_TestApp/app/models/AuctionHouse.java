@@ -39,6 +39,10 @@ public class AuctionHouse extends UntypedActor {
             		   Login login = messages.newLogin(user, cid);
             		   instance.tell(login, instance);
             		   
+            	   } else if(type.equalsIgnoreCase("allItems")) {
+            		   String cid = event.get("cid").asText();
+            		   AllItems allItems = messages.newAllItems(cid);
+            		   instance.tell(allItems, instance);
             	   }
                } 
             });
@@ -65,11 +69,14 @@ public class AuctionHouse extends UntypedActor {
 				socket.sendConnectionId(join.userId);
 				getSender().tell("ok", getSender());
 			}
-		}
-		if(message instanceof Login) {
+		} else if(message instanceof Login) {
 			Login login = (Login) message;
 			Socket socket = members.get(login.cid);
 			socket.sendLogInResponse(login.user);
+		} else if(message instanceof AllItems) {
+			AllItems allItems = (AllItems) message;
+			Socket socket = members.get(allItems.cid);
+			socket.sendAllItemsResponse();
 		}
 	}
 }

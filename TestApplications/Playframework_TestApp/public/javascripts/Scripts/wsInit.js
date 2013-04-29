@@ -7,6 +7,7 @@ window.auction.socket = (function(){
 		var data = JSON.parse(event.data);
 		if(data.message === "cid") {
 			window.auction.cid = data.cid
+			socket.send(JSON.stringify({type: "allItems", cid: data.cid}));
 		}
 	}
 	
