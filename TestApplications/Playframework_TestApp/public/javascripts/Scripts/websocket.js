@@ -10,7 +10,6 @@
 		}
 		if(data.message === "allItems") {
 			var clientItems = data.items.map(function(i) {
-                var expires = new Date(parseInt(i.expires) * 1000); //which one?
                 var prettyItem = new item(i.name, i.itemno, i.minPrice, new Date(i.expires), i.description, i.addedByID);
                 prettyItem.highestBidder(i.highestBidder);
                 prettyItem.bid(i.bid);
@@ -27,6 +26,14 @@
 			} else {
 				alert("Error registering!");
 			}
+		}
+		if(data.message === "addItem") {
+			var prettyItem = data.item;
+			var expires = new Date(prettyItem.expires);
+            var i = new item(prettyItem.name, prettyItem.itemno, prettyItem.minPrice, expires, prettyItem.description, prettyItem.addedByID);
+            i.highestBidder(prettyItem.highestBidder);
+            i.bid(prettyItem.bid);
+            itemView.addItem(i);
 		}
 	}	
 })(window.auction.models.item,

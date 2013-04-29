@@ -13,6 +13,8 @@ import scala.concurrent.*;
 import scala.concurrent.duration.*;
 import sun.security.jgss.LoginConfigImpl;
 import static akka.pattern.Patterns.ask;
+
+import java.sql.Timestamp;
 import java.util.*;
 
 public class AuctionHouse extends UntypedActor {
@@ -52,6 +54,16 @@ public class AuctionHouse extends UntypedActor {
             				  Password = event.get("password").asText();
             		   Register register = messages.newRegister(cid, Firstname, Lastname, Adress, Username, Password);
             		   instance.tell(register, instance);
+            	   } else if(type.equalsIgnoreCase("addItem")) {
+            		   String cid = event.get("cid").asText();
+            		   String name = event.get("name").asText(),
+            				  description = event.get("description").asText();
+            		   int price = event.get("price").asInt(),
+            			   addedByID = event.get("addedByID").asInt();
+            		   Timestamp expires = new Timestamp(event.get("expires").asLong());
+            		   AddItem addItem = messages.newAddItem(cid, name, description, price, addedByID, expires);
+            		   instance.tell(addItem, instance);
+            		   
             	   }
                } 
             });
@@ -79,7 +91,7 @@ public class AuctionHouse extends UntypedActor {
 				getSender().tell("ok", getSender());
 			}
 		} else if(message instanceof Login) {
-			Login login = (Login) message;
+			Login login = (Login) message; 
 			Socket socket = members.get(login.cid);
 			socket.sendLogInResponse(login.user);
 		} else if(message instanceof AllItems) {
@@ -90,6 +102,16 @@ public class AuctionHouse extends UntypedActor {
 			Register register = (Register) message;
 			Socket socket = members.get(register.cid);
 			socket.registerUser(register.user);
+		} else if(message instanceof AddItem) {
+			AddItem addItem = (AddItem) message;
+			addItem.item.save();
+			Bid bid = new Bid(addItem.item.getItemno(), addItem.item.getAddedByID().getUserID(), 0, addItem.item.getAddedByID().getUsername());
+			bid.save();
+			if(addItem.item.getItemno() > 0) {
+				for(Socket socket : members.values()) {
+					socket.sendNewItem(addItem.item);
+				}
+			}
 		}
 	}
 }

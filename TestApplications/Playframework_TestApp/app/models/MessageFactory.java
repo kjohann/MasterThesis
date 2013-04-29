@@ -1,5 +1,7 @@
 package models;
 
+import java.sql.Timestamp;
+
 import play.mvc.*;
 import org.codehaus.jackson.JsonNode;
 
@@ -30,6 +32,11 @@ public class MessageFactory {
 	public Register newRegister(String cid, String Firstname, String Lastname, String Adress, String Username, String Password) {
 		User user = new User(Username, Password, Firstname, Lastname, Adress);
 		return new Register(cid, user);
+	}
+	
+	public AddItem newAddItem(String cid, String name, String description, int price, int addedByID, Timestamp expires) {
+		Item item = new Item(name, description, expires, price, addedByID);
+		return new AddItem(cid, item);
 	}
 	
 	public class WebSocketJoin {
@@ -67,6 +74,16 @@ public class MessageFactory {
 		public Register(String cid, User user) {
 			this.cid = cid;
 			this.user = user;
+		}
+	}
+	
+	public class AddItem {
+		final String cid;
+		final Item item;
+		
+		public AddItem(String cid, Item item) {
+			this.cid = cid;
+			this.item = item;
 		}
 	}
 

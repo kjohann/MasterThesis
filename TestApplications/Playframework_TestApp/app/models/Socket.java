@@ -5,5 +5,6 @@ public interface Socket {
 	public abstract boolean sendLogInResponse(User user);
 	public abstract boolean sendAllItemsResponse();
 	public abstract boolean registerUser(User user);
+	public abstract void sendNewItem(Item item);
 
 }

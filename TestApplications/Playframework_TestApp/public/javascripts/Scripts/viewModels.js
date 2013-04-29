@@ -23,9 +23,7 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
             socket.send(json);
         };
 
-        //TODO: send register info to server
         self.sendRegister = function(){
-            //Send to server
             $("#register").dialog("close");
             var usermessage = {
                 type: "register",
@@ -80,10 +78,27 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
         };
 
         self.sendAddItem = function(){
-            var itemname = $("#itemname").val();
-            var minprice = parseInt($("#minprice").val());
-            var expires = new Date($("#expires").val());
-            var description = $("#description").val();
+            if(!$("#expires").val())
+                return;
+            var dateparams = $("#expires").val().split("-");
+            dateparams = dateparams.map(function(param){
+                return parseInt(param);
+            });
+            var date = new Date();
+            date.setFullYear(dateparams[0], dateparams[1] - 1, dateparams[2]);
+
+            var itemmessage = {
+                type: "addItem",
+                cid: window.auction.cid,
+                name: $("#itemname").val(),
+                price: parseInt($("#minprice").val()),
+                expires: date.getTime(),
+                description: $("#description").val(),
+                addedByID: viewModel.headerView.user().userID
+            }
+
+            var json = JSON.stringify(itemmessage);
+            socket.send(json);
 
             //TODO: Apply logic for sending to server
             //Send to server

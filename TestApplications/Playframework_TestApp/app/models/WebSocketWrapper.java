@@ -60,8 +60,7 @@ public class WebSocketWrapper implements Socket {
 			ObjectMapper om = new ObjectMapper(factory);
 			ArrayNode itemsNode = om.createArrayNode();
 			for(PrettyItem item : items) {
-				ObjectNode itemNode = Json.newObject();
-				//(String name, String description, String highestBidder, int price, int bid, int addedByID, int itemno, Timestamp expires
+				ObjectNode itemNode = Json.newObject();				
 				itemNode.put("name", item.getName());
 				itemNode.put("description", item.getDescription());
 				itemNode.put("highestBidder", item.getHighestBidder());
@@ -98,5 +97,24 @@ public class WebSocketWrapper implements Socket {
 			return false;
 		}
 
+	}
+
+	@Override
+	public void sendNewItem(Item item) {
+		PrettyItem prettyItem = new PrettyItem(item.getName(), item.getDescription(), item.getAddedByID().getUsername(),
+											item.getPrice(), 0, item.getAddedByID().getUserID(), item.getItemno(), item.getExpires());
+		ObjectNode event = Json.newObject();
+		event.put("message", "addItem");
+		ObjectNode itemNode = Json.newObject();
+		itemNode.put("itemno", prettyItem.getItemno());
+		itemNode.put("name", prettyItem.getName());
+		itemNode.put("minPrice", prettyItem.getPrice());
+		itemNode.put("description", prettyItem.getDescription());
+		itemNode.put("expires", prettyItem.getExpires().getTime());
+		itemNode.put("addedByID", prettyItem.getAddedByID());
+		itemNode.put("highestBidder", prettyItem.getHighestBidder());
+		itemNode.put("bid", prettyItem.getBid());
+		event.put("item", itemNode);
+		channel.write(event);		
 	}
 }
