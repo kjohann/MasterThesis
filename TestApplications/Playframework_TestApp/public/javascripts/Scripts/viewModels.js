@@ -13,6 +13,16 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
         self.sendLogIn = function(){
             //Send to server
             $("#log_in").dialog("close");
+            var username = $("#log_usern").val();
+            var password = $("#log_pass").val();
+            var message = {
+                type: "login",
+                cid: window.auction.cid,
+                username: username,
+                password: password
+            };
+            var json = JSON.stringify(message);
+            socket.send(json);
         };
 
         //TODO: send register info to server

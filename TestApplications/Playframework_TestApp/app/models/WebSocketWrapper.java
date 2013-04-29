@@ -20,4 +20,27 @@ public class WebSocketWrapper implements Socket {
 		event.put("cid", cid);
 		channel.write(event);
 	}
+
+	@Override
+	public boolean sendLogInResponse(User user) {
+		if(user != null) {
+			ObjectNode event = Json.newObject();
+			event.put("message", "login");
+			ObjectNode userNode = Json.newObject();
+			userNode.put("userID", user.getUserID());
+			userNode.put("username", user.getUsername());
+			userNode.put("firstname", user.getFirstname());
+			userNode.put("lastname", user.getLastname());
+			userNode.put("adress", user.getAdress());
+			//Password not needed by client..
+			event.put("user", userNode);
+			channel.write(event);
+			return true;
+		}
+		else {
+			System.err.println("Error logging in");
+			return false;
+		}
+		
+	}
 }

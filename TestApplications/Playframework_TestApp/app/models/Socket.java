@@ -2,5 +2,6 @@ package models;
 
 public interface Socket {
 	public abstract void sendConnectionId(String cid);
+	public abstract boolean sendLogInResponse(User user);
 
 }

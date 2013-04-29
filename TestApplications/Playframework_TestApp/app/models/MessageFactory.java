@@ -19,6 +19,10 @@ public class MessageFactory {
 		return new WebSocketJoin(userId, channel);
 	}
 	
+	public Login newLogin(User user, String cid) {
+		return new Login(user, cid);
+	}
+	
 	public class WebSocketJoin {
 		final String userId;
         final WebSocket.Out<JsonNode> channel;
@@ -27,6 +31,16 @@ public class MessageFactory {
             this.userId = userId;
             this.channel = channel;
         }
+	}
+	
+	public class Login {
+		final User user;
+		final String cid;
+		
+		public Login(User user, String cid) {
+			this.user = user;
+			this.cid = cid;
+		}
 	}
 
 }

@@ -30,6 +30,9 @@ public class User extends Model{
 	public static Finder<Long,User> find = new Finder<Long,User>(Long.class, User.class);
 
 	public static User logIn(String username, String password) {
+		if(username == null || password == null) {
+			return null;
+		}
 		return find.where().eq("Username", username).eq("Password", password).findUnique();
 	}
 	
