@@ -76,9 +76,27 @@ public class WebSocketWrapper implements Socket {
 			channel.write(event);
 			return true;
 		} else {
-			System.err.println("Error logging in");
+			System.err.println("Error getting all items");
 			return false;
 		}
 		
+	}
+
+	@Override
+	public boolean registerUser(User user) {
+		user.save();
+		ObjectNode event = Json.newObject();
+		event.put("message", "register");
+		if(user.getUserID() > 0) {
+			event.put("success", true);
+			channel.write(event);
+			return true;
+		} else {
+			event.put("success", false);
+			channel.write(event);
+			System.err.println("Error registering new user");
+			return false;
+		}
+
 	}
 }

@@ -27,6 +27,11 @@ public class MessageFactory {
 		return new AllItems(cid);
 	}
 	
+	public Register newRegister(String cid, String Firstname, String Lastname, String Adress, String Username, String Password) {
+		User user = new User(Username, Password, Firstname, Lastname, Adress);
+		return new Register(cid, user);
+	}
+	
 	public class WebSocketJoin {
 		final String userId;
         final WebSocket.Out<JsonNode> channel;
@@ -52,6 +57,16 @@ public class MessageFactory {
 		
 		public AllItems(String cid) {
 			this.cid = cid;
+		}
+	}
+	
+	public class Register {
+		final String cid;
+		final User user;
+		
+		public Register(String cid, User user) {
+			this.cid = cid;
+			this.user = user;
 		}
 	}
 

@@ -9,9 +9,7 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
             self.user(user);
         }
 
-        //TODO: send log in info to server
         self.sendLogIn = function(){
-            //Send to server
             $("#log_in").dialog("close");
             var username = $("#log_usern").val();
             var password = $("#log_pass").val();
@@ -29,6 +27,18 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
         self.sendRegister = function(){
             //Send to server
             $("#register").dialog("close");
+            var usermessage = {
+                type: "register",
+                cid: window.auction.cid,
+                username: $("#username").val(),
+                firstname: $("#firstname").val(),
+                lastname: $("#lastname").val(),
+                adress: $("#adress").val(),
+                password: $("#password").val()
+            }
+
+            var json = JSON.stringify(usermessage);
+            socket.send(json);
         };
 
         //Dialog handling

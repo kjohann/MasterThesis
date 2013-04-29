@@ -43,6 +43,15 @@ public class AuctionHouse extends UntypedActor {
             		   String cid = event.get("cid").asText();
             		   AllItems allItems = messages.newAllItems(cid);
             		   instance.tell(allItems, instance);
+            	   } else if(type.equalsIgnoreCase("register")) {
+            		   String cid = event.get("cid").asText();
+            		   String Username = event.get("username").asText(),
+            				  Firstname = event.get("firstname").asText(),
+            				  Lastname = event.get("lastname").asText(),
+            				  Adress = event.get("adress").asText(),
+            				  Password = event.get("password").asText();
+            		   Register register = messages.newRegister(cid, Firstname, Lastname, Adress, Username, Password);
+            		   instance.tell(register, instance);
             	   }
                } 
             });
@@ -77,6 +86,10 @@ public class AuctionHouse extends UntypedActor {
 			AllItems allItems = (AllItems) message;
 			Socket socket = members.get(allItems.cid);
 			socket.sendAllItemsResponse();
+		} else if(message instanceof Register) {
+			Register register = (Register) message;
+			Socket socket = members.get(register.cid);
+			socket.registerUser(register.user);
 		}
 	}
 }

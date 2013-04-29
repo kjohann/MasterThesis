@@ -21,6 +21,13 @@
                 itemView.addItem(item);
             });
 		}
+		if(data.message === "register") {
+			if(data.success) {
+				alert("Registered new user! \nTry logging in ;)");
+			} else {
+				alert("Error registering!");
+			}
+		}
 	}	
 })(window.auction.models.item,
    window.auction.viewModels.headerViewModel,
