@@ -44,6 +44,10 @@ public class Item extends Model{
 		return itemno > 0;
 	}
 	
+	public static void remove(int itemno) {
+		find.ref(itemno).delete();
+	}
+	
 	public int getItemno() {
 		return itemno;
 	}

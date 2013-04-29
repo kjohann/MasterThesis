@@ -125,4 +125,15 @@ public class WebSocketWrapper implements Socket {
 		event.put("itemno", itemno);
 		channel.write(event);
 	}
+
+	@Override
+	public void sendPlaceBid(Bid bid) {
+		ObjectNode event = Json.newObject();
+		event.put("message", "placeBid");
+		event.put("itemno", bid.getItemno().getItemno());
+		event.put("value", bid.getValue());
+		event.put("username", bid.getUsername());
+		channel.write(event);
+		
+	}
 }

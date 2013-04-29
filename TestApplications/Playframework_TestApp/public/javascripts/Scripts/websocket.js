@@ -38,6 +38,9 @@
 		if(data.message === "removeItem") {
 			itemView.removeItem(data.itemno);
 		}
+		if(data.message === "placeBid") {
+			itemView.placeBid(data.itemno, data.value, data.username);
+		}
 	}	
 })(window.auction.models.item,
    window.auction.viewModels.headerViewModel,

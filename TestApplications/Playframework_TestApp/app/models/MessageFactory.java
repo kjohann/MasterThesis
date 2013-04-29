@@ -43,6 +43,10 @@ public class MessageFactory {
 		return new RemoveItem(cid, itemno);
 	}
 	
+	public PlaceBid newPlaceBid(String cid, int itemno, int value, String username, int userId) {
+		return new PlaceBid(cid, value, itemno, username, userId);
+	}
+	
 	public class WebSocketJoin {
 		final String userId;
         final WebSocket.Out<JsonNode> channel;
@@ -100,5 +104,17 @@ public class MessageFactory {
 			this.itemno = itemno;
 		}
 	}
-
+	
+	public class PlaceBid {
+		final String cid, username;
+		final int value, itemno, userId;
+		
+		public PlaceBid(String cid, int value, int itemno, String username, int userId) {
+			this.cid = cid;
+			this.value = value;
+			this.itemno = itemno;
+			this.username = username;
+			this.userId = userId;
+		}
+	}
 }

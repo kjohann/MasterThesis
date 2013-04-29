@@ -7,5 +7,6 @@ public interface Socket {
 	public abstract boolean registerUser(User user);
 	public abstract void sendNewItem(Item item);
 	public abstract void sendDeleteItem(int itemno);
+	public abstract void sendPlaceBid(Bid bid);
 
 }

@@ -68,6 +68,14 @@ public class AuctionHouse extends UntypedActor {
             		   int itemno = event.get("itemno").asInt();
             		   RemoveItem removeItem = messages.newRemoveItem(cid, itemno);
             		   instance.tell(removeItem, instance);
+            	   } else if(type.equalsIgnoreCase("placeBid")) {
+            		   String cid = event.get("cid").asText();
+            		   int itemno = event.get("itemno").asInt();
+            		   int value = event.get("value").asInt();
+            		   int userID = event.get("userId").asInt();
+            		   String username = event.get("username").asText();
+            		   PlaceBid placeBid = messages.newPlaceBid(cid, itemno, value, username, userID);
+            		   instance.tell(placeBid, instance);
             	   }
                } 
             });
@@ -115,11 +123,19 @@ public class AuctionHouse extends UntypedActor {
 			}
 		} else if(message instanceof RemoveItem) {
 			RemoveItem removeItem = (RemoveItem) message;
-			Item item = Item.find.ref(removeItem.itemno);
-			item.delete();
+			Item.remove(removeItem.itemno);
 			for(Socket socket : members.values()) {
 				socket.sendDeleteItem(removeItem.itemno);
 			}
+		} else if(message instanceof PlaceBid) {
+			PlaceBid placeBid = (PlaceBid) message;
+			Bid bid = new Bid(placeBid.itemno, placeBid.userId, placeBid.value, placeBid.username);
+			if(bid.add()) {
+				for(Socket socket : members.values()) {
+					socket.sendPlaceBid(bid);
+				}
+			}
+			
 		}
 	}
 }

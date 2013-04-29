@@ -102,7 +102,6 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
             $("#additem").dialog("close");
         };
 
-        //TODO: Send removeinfo to server
         self.sendRemoveItem = function(itemno){
             var message = {
                 type: "removeItem",
@@ -123,7 +122,19 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
         //TODO: Send to server
         self.sendPlaceBid = function (){
             var bid = parseInt($("#bid").val());
-            //Send to server
+            var itemno = this.itemno;
+            var bidmessage = {
+                cid: window.auction.cid,
+                type: "placeBid",
+                itemno: itemno,
+                userId: viewModel.headerView.user().userID,
+                value: bid,
+                username: viewModel.headerView.user().username
+            };
+
+            var json = JSON.stringify(bidmessage);
+            socket.send(json);
+            
             $("#place_bid").dialog("close");
         };
 
