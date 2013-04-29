@@ -5,6 +5,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 import play.libs.Akka;
+import play.libs.Comet;
 import play.libs.Json;
 import play.libs.F.*;
 import play.mvc.WebSocket;
@@ -19,11 +20,21 @@ import java.util.*;
 
 public class AuctionHouse extends UntypedActor {
 	
-	private static ActorRef instance = Akka.system().actorOf(new Props(AuctionHouse.class));
+	public static ActorRef instance = Akka.system().actorOf(new Props(AuctionHouse.class));
 	private static MessageFactory messages = MessageFactory.getInstance();		
 	Map<String, Socket> members = new HashMap<String, Socket>();
 	
-	public static void webSocketJoin(String userId, WebSocket.In<JsonNode> in, WebSocket.Out<JsonNode> out) throws Exception{
+	public static void cometJoin(String cid, Comet socket) throws Exception {
+		CometJoin join = messages.newCometJoin(cid, socket);
+		
+		String result = (String)Await.result(ask(instance, join, 1000), Duration.create(1, java.util.concurrent.TimeUnit.SECONDS));
+		
+		if(result.equalsIgnoreCase("ok")) {
+			
+		}
+	}
+	
+	public static void webSocketJoin(String userId, WebSocket.In<JsonNode> in, WebSocket.Out<JsonNode> out) throws Exception {
 		WebSocketJoin join = messages.newWSJoin(userId, out);
 		
 		String result = (String)Await.result(ask(instance, join, 1000), Duration.create(1, java.util.concurrent.TimeUnit.SECONDS));
@@ -106,7 +117,15 @@ public class AuctionHouse extends UntypedActor {
 				socket.sendConnectionId(join.userId);
 				getSender().tell("ok", getSender());
 			}
-		} else if(message instanceof Login) {
+		} else if(message instanceof CometJoin){
+			CometJoin join = (CometJoin) message;
+			if(!members.containsKey(join.cid)) {
+				CometWrapper socket = new CometWrapper(join.channel);
+				members.put(join.cid, socket);
+				socket.sendConnectionId(join.cid);
+				getSender().tell("ok", getSender());
+			}
+		}else if(message instanceof Login) {
 			Login login = (Login) message; 
 			Socket socket = members.get(login.cid);
 			socket.sendLogInResponse(login.user);

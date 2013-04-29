@@ -186,5 +186,7 @@ label
     background: #6297ff !important;
 }
 
-
+#comet {
+    display: none;
+}
 

@@ -1,5 +1,5 @@
 package models;
-
+//TODO: make in to abstract class?
 public interface Socket {
 	public abstract void sendConnectionId(String cid);
 	public abstract boolean sendLogInResponse(User user);

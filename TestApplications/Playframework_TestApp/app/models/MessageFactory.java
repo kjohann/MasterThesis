@@ -2,6 +2,7 @@ package models;
 
 import java.sql.Timestamp;
 
+import play.libs.Comet;
 import play.mvc.*;
 import org.codehaus.jackson.JsonNode;
 
@@ -15,6 +16,10 @@ public class MessageFactory {
 			instance = new MessageFactory();
 		}
 		return instance;
+	}
+	
+	public CometJoin newCometJoin(String cid, Comet channel) {
+		return new CometJoin(cid, channel);
 	}
 	
 	public WebSocketJoin newWSJoin(String userId, WebSocket.Out<JsonNode> channel) {
@@ -49,6 +54,16 @@ public class MessageFactory {
 	
 	public ViewBids newViewBids(String cid, int userId) {
 		return new ViewBids(cid, userId);
+	}
+	
+	public class CometJoin {
+		final String cid;
+		final Comet channel;
+		
+		public CometJoin(String cid, Comet channel) {
+			this.cid = cid;
+			this.channel = channel;
+		}
 	}
 	
 	public class WebSocketJoin {
