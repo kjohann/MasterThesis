@@ -47,6 +47,10 @@ public class MessageFactory {
 		return new PlaceBid(cid, value, itemno, username, userId);
 	}
 	
+	public ViewBids newViewBids(String cid, int userId) {
+		return new ViewBids(cid, userId);
+	}
+	
 	public class WebSocketJoin {
 		final String userId;
         final WebSocket.Out<JsonNode> channel;
@@ -114,6 +118,16 @@ public class MessageFactory {
 			this.value = value;
 			this.itemno = itemno;
 			this.username = username;
+			this.userId = userId;
+		}
+	}
+	
+	public class ViewBids {
+		final String cid;
+		final int userId;
+		
+		public ViewBids(String cid, int userId) {
+			this.cid = cid;
 			this.userId = userId;
 		}
 	}

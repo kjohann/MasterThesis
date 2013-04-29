@@ -136,4 +136,29 @@ public class WebSocketWrapper implements Socket {
 		channel.write(event);
 		
 	}
+
+	@Override
+	public boolean sendViewBids(int userId) {
+		List<ViewBid> viewBids = ViewBid.get(userId);
+		if(viewBids != null && viewBids.size() > 0) {
+			ObjectNode event = Json.newObject();
+			event.put("message", "viewBids");
+			JsonFactory factory = new JsonFactory();
+			ObjectMapper om = new ObjectMapper(factory);
+			ArrayNode viewBidsNode = om.createArrayNode();
+			for(ViewBid bid : viewBids) {
+				ObjectNode bidNode = Json.newObject();
+				bidNode.put("name", bid.getName());
+				bidNode.put("itemno", bid.getItemno());
+				bidNode.put("value", bid.getValue());
+				viewBidsNode.add(bidNode);
+			}
+			event.put("bids", viewBidsNode);
+			channel.write(event);
+			return true;
+		} else {
+			System.err.println("Error getting viewBids");
+			return false;
+		}
+	}
 }

@@ -189,9 +189,12 @@ window.auction.viewModels = (function(item, user, socket){ //TODO: does this nee
             self.viewItems(biditems);
         }
 
-        //TODO: Get list from server
         self.openItemView = function(){
-            //Get from server
+            socket.send(JSON.stringify({
+                cid: window.auction.cid,
+                type: "viewBids",
+                userId: viewModel.headerView.user().userID
+            }));               
         }
         //--end dialog handling
 

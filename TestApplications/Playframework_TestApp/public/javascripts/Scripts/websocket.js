@@ -41,6 +41,9 @@
 		if(data.message === "placeBid") {
 			itemView.placeBid(data.itemno, data.value, data.username);
 		}
+		if(data.message === "viewBids") {
+			itemView.setViewItems(data.bids);
+		}
 	}	
 })(window.auction.models.item,
    window.auction.viewModels.headerViewModel,

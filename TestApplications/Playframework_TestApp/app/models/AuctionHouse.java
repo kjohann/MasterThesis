@@ -31,7 +31,6 @@ public class AuctionHouse extends UntypedActor {
 		if(result.equalsIgnoreCase("ok")) {
             in.onMessage(new Callback<JsonNode>() {
                public void invoke(JsonNode event) {
-            	   //Handle different messages: Login, Register, Additem, Place Bid, Get bids, Remove item
             	   String type = event.get("type").asText();
             	   if(type.equalsIgnoreCase("login")) {
             		   String username = event.get("username").asText();
@@ -76,6 +75,11 @@ public class AuctionHouse extends UntypedActor {
             		   String username = event.get("username").asText();
             		   PlaceBid placeBid = messages.newPlaceBid(cid, itemno, value, username, userID);
             		   instance.tell(placeBid, instance);
+            	   } else if(type.equalsIgnoreCase("viewBids")) {
+            		   String cid = event.get("cid").asText();
+            		   int userId = event.get("userId").asInt();
+            		   ViewBids viewBids = messages.newViewBids(cid, userId);
+            		   instance.tell(viewBids, instance);
             	   }
                } 
             });
@@ -134,8 +138,11 @@ public class AuctionHouse extends UntypedActor {
 				for(Socket socket : members.values()) {
 					socket.sendPlaceBid(bid);
 				}
-			}
-			
+			}			
+		} else if(message instanceof ViewBids) {
+			ViewBids viewbids = (ViewBids) message;
+			Socket socket = members.get(viewbids.cid);
+			socket.sendViewBids(viewbids.userId);
 		}
 	}
 }

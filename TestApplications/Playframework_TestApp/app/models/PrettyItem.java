@@ -18,9 +18,7 @@ public class PrettyItem extends Model {
 	private String name, description, highestBidder;
 	private int price, bid, addedByID, itemno;
 	private Timestamp expires;
-	
-	
-	
+		
 	public PrettyItem(String name, String description, String highestBidder, int price, int bid, int addedByID, int itemno, Timestamp expires) {
 		this.name = name;
 		this.description = description;

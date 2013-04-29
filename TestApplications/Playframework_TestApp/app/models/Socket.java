@@ -8,5 +8,5 @@ public interface Socket {
 	public abstract void sendNewItem(Item item);
 	public abstract void sendDeleteItem(int itemno);
 	public abstract void sendPlaceBid(Bid bid);
-
+	public abstract boolean sendViewBids(int userId);
 }
