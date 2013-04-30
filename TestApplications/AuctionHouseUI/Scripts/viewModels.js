@@ -138,6 +138,7 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
         self.setViewItems = function(items){
             var biditems = {bidItems: items};
             self.viewItems(biditems);
+        }
 
         //TODO: Get list from server
         self.openItemView = function(){
