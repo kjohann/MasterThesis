@@ -1,9 +1,12 @@
-package models;
+package utils;
 
 import java.sql.Timestamp;
 
 import play.libs.Comet;
 import play.mvc.*;
+import models.Item;
+import models.User;
+
 import org.codehaus.jackson.JsonNode;
 
 public class MessageFactory {
@@ -55,10 +58,10 @@ public class MessageFactory {
 	public ViewBids newViewBids(String cid, int userId) {
 		return new ViewBids(cid, userId);
 	}
-	
+	//These are wrappers, so the use of public fields are mainly for convenience
 	public class CometJoin {
-		final String cid;
-		final Comet channel;
+		public final String cid;
+		public final Comet channel;
 		
 		public CometJoin(String cid, Comet channel) {
 			this.cid = cid;
@@ -67,8 +70,8 @@ public class MessageFactory {
 	}
 	
 	public class WebSocketJoin {
-		final String userId;
-        final WebSocket.Out<JsonNode> channel;
+		public final String userId;
+		public final WebSocket.Out<JsonNode> channel;
         
         public WebSocketJoin(String userId, WebSocket.Out<JsonNode> channel) {
             this.userId = userId;
@@ -77,8 +80,8 @@ public class MessageFactory {
 	}
 	
 	public class Login {
-		final User user;
-		final String cid;
+		public final User user;
+		public final String cid;
 		
 		public Login(User user, String cid) {
 			this.user = user;
@@ -87,7 +90,7 @@ public class MessageFactory {
 	}
 	
 	public class AllItems {
-		final String cid;
+		public final String cid;
 		
 		public AllItems(String cid) {
 			this.cid = cid;
@@ -95,8 +98,8 @@ public class MessageFactory {
 	}
 	
 	public class Register {
-		final String cid;
-		final User user;
+		public final String cid;
+		public final User user;
 		
 		public Register(String cid, User user) {
 			this.cid = cid;
@@ -105,8 +108,8 @@ public class MessageFactory {
 	}
 	
 	public class AddItem {
-		final String cid;
-		final Item item;
+		public final String cid;
+		public final Item item;
 		
 		public AddItem(String cid, Item item) {
 			this.cid = cid;
@@ -115,8 +118,8 @@ public class MessageFactory {
 	}
 	
 	public class RemoveItem {
-		final String cid;
-		final int itemno;
+		public final String cid;
+		public final int itemno;
 		
 		public RemoveItem(String cid, int itemno) {
 			this.cid = cid;
@@ -125,8 +128,8 @@ public class MessageFactory {
 	}
 	
 	public class PlaceBid {
-		final String cid, username;
-		final int value, itemno, userId;
+		public final String cid, username;
+		public final int value, itemno, userId;
 		
 		public PlaceBid(String cid, int value, int itemno, String username, int userId) {
 			this.cid = cid;
@@ -138,8 +141,8 @@ public class MessageFactory {
 	}
 	
 	public class ViewBids {
-		final String cid;
-		final int userId;
+		public final String cid;
+		public final int userId;
 		
 		public ViewBids(String cid, int userId) {
 			this.cid = cid;

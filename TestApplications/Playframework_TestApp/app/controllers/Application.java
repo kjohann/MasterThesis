@@ -1,11 +1,9 @@
 package controllers;
 
-import models.*;
+import models.actors.AuctionHouse;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
-
-import akka.actor.ActorRef;
 
 import play.*;
 import play.libs.Comet;

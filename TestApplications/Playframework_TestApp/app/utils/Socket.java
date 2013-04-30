@@ -1,28 +1,21 @@
-package models;
+package utils;
 
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
-import play.mvc.WebSocket;
-import utils.JsonProvider;
+import models.*;
 
-public class WebSocketWrapper implements Socket {
-	private WebSocket.Out<JsonNode> channel;
-	
-	public WebSocketWrapper(WebSocket.Out<JsonNode> channel) {
-		this.channel = channel;
-	}
+//TODO: make in to abstract class?
+public abstract class Socket {
+	public abstract void sendMessage(ObjectNode event);
 
-	@Override
 	public void sendConnectionId(String cid) {		
 		ObjectNode event = JsonProvider.getConnectionIdJson(cid);
-		channel.write(event);
+		sendMessage(event);
 	}
 
-	@Override
 	public boolean sendLogInResponse(User user) {
 		ObjectNode event = JsonProvider.getLoginJson(user);
 		if(event != null) {			
-			channel.write(event);
+			sendMessage(event);
 			return true;
 		}
 		else {
@@ -31,11 +24,10 @@ public class WebSocketWrapper implements Socket {
 		}		
 	}
 
-	@Override
 	public boolean sendAllItemsResponse() {
 		ObjectNode event = JsonProvider.getAllItemsJson();
 		if(event != null) {			
-			channel.write(event);
+			sendMessage(event);
 			return true;
 		} else {
 			System.err.println("Error getting all items");
@@ -43,42 +35,37 @@ public class WebSocketWrapper implements Socket {
 		}		
 	}
 
-	@Override
 	public boolean registerUser(User user) {
 		ObjectNode event = JsonProvider.getRegisterJson(user);
 		if(event.get("success").asBoolean()) {
-			channel.write(event);
+			sendMessage(event);
 			return true;
 		} else {
-			channel.write(event);
+			sendMessage(event);
 			System.err.println("Error registering new user");
 			return false;
 		}
 	}
 
-	@Override
 	public void sendNewItem(Item item) {
 		ObjectNode event = JsonProvider.getNewItemJson(item);
-		channel.write(event);		
+		sendMessage(event);		
 	}
 
-	@Override
 	public void sendDeleteItem(int itemno) {
 		ObjectNode event = JsonProvider.getDeleteItemJson(itemno);
-		channel.write(event);
+		sendMessage(event);
 	}
 
-	@Override
 	public void sendPlaceBid(Bid bid) {
 		ObjectNode event = JsonProvider.getPlaceBidJson(bid);
-		channel.write(event);		
+		sendMessage(event);		
 	}
 
-	@Override
 	public boolean sendViewBids(int userId) {
 		ObjectNode event = JsonProvider.getViewBidsJson(userId);
 		if(event != null) {
-			channel.write(event);
+			sendMessage(event);
 			return true;
 		} else {
 			System.err.println("Error getting viewBids");

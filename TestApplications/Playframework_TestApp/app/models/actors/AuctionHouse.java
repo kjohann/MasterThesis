@@ -1,6 +1,5 @@
-package models;
+package models.actors;
 
-import models.MessageFactory.*;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 
@@ -12,11 +11,15 @@ import play.mvc.WebSocket;
 import akka.actor.*;
 import scala.concurrent.*;
 import scala.concurrent.duration.*;
-import sun.security.jgss.LoginConfigImpl;
+import utils.CometWrapper;
+import utils.MessageFactory;
+import utils.Socket;
+import utils.WebSocketWrapper;
+import utils.MessageFactory.*;
 import static akka.pattern.Patterns.ask;
-
 import java.sql.Timestamp;
 import java.util.*;
+import models.*;
 
 public class AuctionHouse extends UntypedActor {
 	
