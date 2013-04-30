@@ -14,14 +14,14 @@ var onmessage = function(data) {
 		headerView.setUser(data.user);
 	}
 	if(data.message === "allItems") {
-		var clientItems = data.items.map(function(i) {
+		var clientItems = $.map(data.items,function(i) {
             var prettyItem = new item(i.name, i.itemno, i.minPrice, new Date(i.expires), i.description, i.addedByID);
             prettyItem.highestBidder(i.highestBidder);
             prettyItem.bid(i.bid);
             return prettyItem;
         });
 
-        clientItems.forEach(function(item){
+        $.each(clientItems, function(i, item){
             itemView.addItem(item);
         });
 	}

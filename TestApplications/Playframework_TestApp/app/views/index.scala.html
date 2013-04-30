@@ -9,7 +9,7 @@
             <a data-bind="text: user().username, click: $root.itemView.openItemView" href=""></a> <!--TODO: action on this link: see bids-->
         </div>
         <div id="bidItems" data-bind="jqDialog: $root.itemView.viewItemsOptions,
-        template: {name: 'viewBidsTemplate', data: $root.itemView.viewItems, if: $root.itemView.viewItems()}, openDialog: $root.itemView.viewItems">
+        template: {name: 'viewBidsTemplate', data: $root.itemView.viewItems, 'if': $root.itemView.viewItems()}, openDialog: $root.itemView.viewItems">
         </div>
         <div class="log_in_register">
             <a data-bind="visible: !user().userID, click: $data.openLogin.bind($data, 'log_in')" href="">Log in</a>
@@ -18,16 +18,16 @@
         </div>
         <div id="horizontalHeaderLine"></div>
         <div id="log_in" data-bind="jqDialog: $data.log_in_options,
-             template: { name: 'loginTemplate', data: $data.log_in_action, if: $data.log_in_action }, openDialog: $data.log_in_action">
+             template: { name: 'loginTemplate', data: $data.log_in_action, 'if': $data.log_in_action }, openDialog: $data.log_in_action">
         </div>
         <div id="register" data-bind="jqDialog: $data.register_options,
-             template: { name: 'registerTemplate', data: $data.register_action, if: $data.register_action }, openDialog: $data.register_action">
+             template: { name: 'registerTemplate', data: $data.register_action, 'if': $data.register_action }, openDialog: $data.register_action">
         </div>
     </div>
     <div id="itemViewModelWrapper" data-bind="with: itemView">
         <button id="addItemButton" class="btn" data-bind="click: openNewItem, visible: $root.headerView.user().userID">Add item</button>
         <div id="additem" data-bind="jqDialog: $data.newItemOptions,
-                template: {name: 'addItemTemplate', data: $data.newItem, if: $data.newItem}, openDialog: $data.newItem">
+                template: {name: 'addItemTemplate', data: $data.newItem, 'if': $data.newItem}, openDialog: $data.newItem">
         </div>
         <div id="itemWrapper" data-bind="foreach: items">
             <div class="item">
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div id="place_bid" data-bind="jqDialog: $data.placeBidOptions,
-             template: { name: 'placeBidTemplate', data: $data.selectedItem, if: $data.selectedItem }, openDialog: $data.selectedItem">
+             template: { name: 'placeBidTemplate', data: $data.selectedItem, 'if': $data.selectedItem }, openDialog: $data.selectedItem">
         </div>
     </div>
 </div>
