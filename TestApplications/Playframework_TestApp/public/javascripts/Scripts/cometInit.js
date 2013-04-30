@@ -5,14 +5,8 @@ window.auction.socket = (function(){
   			type:"POST",
   			data:json,
   			contentType:"application/json; charset=utf-8",
-  			dataType:"json",
-  			success: function(){
-    			//ignore
-  			},
-  			error: function () {
-  				alert("Error posting data!")
-  			}
-})
+  			dataType:"json"
+		});
 	}
 
 	return {
