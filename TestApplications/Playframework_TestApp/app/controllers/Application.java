@@ -3,11 +3,13 @@ package controllers;
 import models.*;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 import akka.actor.ActorRef;
 
 import play.*;
 import play.libs.Comet;
+import play.libs.Json;
 import play.mvc.*;
 
 import views.html.*;
@@ -49,8 +51,16 @@ public class Application extends Controller {
         });   	
     }
     
-    public static Result cometMessage(String json) {
-    	return ok();
+    public static Result cometMessage() {
+    	JsonNode event = request().body().asJson();
+    	if(event == null) {
+    		return badRequest("Expecting json data");
+    	} else {
+    		AuctionHouse.onCometMessage(event);
+    	}
+    	ObjectNode responseJson = Json.newObject();
+    	responseJson.put("success", true);
+    	return ok(responseJson);
     }
   
 }

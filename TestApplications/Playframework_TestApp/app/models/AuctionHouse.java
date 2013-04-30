@@ -29,9 +29,15 @@ public class AuctionHouse extends UntypedActor {
 		
 		String result = (String)Await.result(ask(instance, join, 1000), Duration.create(1, java.util.concurrent.TimeUnit.SECONDS));
 		
-		if(result.equalsIgnoreCase("ok")) {
-			
+		if(!result.equalsIgnoreCase("ok")) {
+            ObjectNode error = Json.newObject();
+            error.put("error", result);
+            socket.sendMessage(error);
 		}
+	}
+	
+	public static void onCometMessage(JsonNode event) {
+		handleEvent(event);
 	}
 	
 	public static void webSocketJoin(String userId, WebSocket.In<JsonNode> in, WebSocket.Out<JsonNode> out) throws Exception {
@@ -42,56 +48,7 @@ public class AuctionHouse extends UntypedActor {
 		if(result.equalsIgnoreCase("ok")) {
             in.onMessage(new Callback<JsonNode>() {
                public void invoke(JsonNode event) {
-            	   String type = event.get("type").asText();
-            	   if(type.equalsIgnoreCase("login")) {
-            		   String username = event.get("username").asText();
-            		   String password = event.get("password").asText();
-            		   User user = User.logIn(username, password);
-            		   String cid = event.get("cid").asText();
-            		   Login login = messages.newLogin(user, cid);
-            		   instance.tell(login, instance);
-            		   
-            	   } else if(type.equalsIgnoreCase("allItems")) {
-            		   String cid = event.get("cid").asText();
-            		   AllItems allItems = messages.newAllItems(cid);
-            		   instance.tell(allItems, instance);
-            	   } else if(type.equalsIgnoreCase("register")) {
-            		   String cid = event.get("cid").asText();
-            		   String Username = event.get("username").asText(),
-            				  Firstname = event.get("firstname").asText(),
-            				  Lastname = event.get("lastname").asText(),
-            				  Adress = event.get("adress").asText(),
-            				  Password = event.get("password").asText();
-            		   Register register = messages.newRegister(cid, Firstname, Lastname, Adress, Username, Password);
-            		   instance.tell(register, instance);
-            	   } else if(type.equalsIgnoreCase("addItem")) {
-            		   String cid = event.get("cid").asText();
-            		   String name = event.get("name").asText(),
-            				  description = event.get("description").asText();
-            		   int price = event.get("price").asInt(),
-            			   addedByID = event.get("addedByID").asInt();
-            		   Timestamp expires = new Timestamp(event.get("expires").asLong());
-            		   AddItem addItem = messages.newAddItem(cid, name, description, price, addedByID, expires);
-            		   instance.tell(addItem, instance);            		   
-            	   } else if(type.equalsIgnoreCase("removeItem")) {
-            		   String cid = event.get("cid").asText();
-            		   int itemno = event.get("itemno").asInt();
-            		   RemoveItem removeItem = messages.newRemoveItem(cid, itemno);
-            		   instance.tell(removeItem, instance);
-            	   } else if(type.equalsIgnoreCase("placeBid")) {
-            		   String cid = event.get("cid").asText();
-            		   int itemno = event.get("itemno").asInt();
-            		   int value = event.get("value").asInt();
-            		   int userID = event.get("userId").asInt();
-            		   String username = event.get("username").asText();
-            		   PlaceBid placeBid = messages.newPlaceBid(cid, itemno, value, username, userID);
-            		   instance.tell(placeBid, instance);
-            	   } else if(type.equalsIgnoreCase("viewBids")) {
-            		   String cid = event.get("cid").asText();
-            		   int userId = event.get("userId").asInt();
-            		   ViewBids viewBids = messages.newViewBids(cid, userId);
-            		   instance.tell(viewBids, instance);
-            	   }
+            	   handleEvent(event);
                } 
             });
             
@@ -163,5 +120,58 @@ public class AuctionHouse extends UntypedActor {
 			Socket socket = members.get(viewbids.cid);
 			socket.sendViewBids(viewbids.userId);
 		}
+	}
+	
+	private static void handleEvent(JsonNode event) {
+ 	   String type = event.get("type").asText();
+ 	   if(type.equalsIgnoreCase("login")) {
+ 		   String username = event.get("username").asText();
+ 		   String password = event.get("password").asText();
+ 		   User user = User.logIn(username, password);
+ 		   String cid = event.get("cid").asText();
+ 		   Login login = messages.newLogin(user, cid);
+ 		   instance.tell(login, instance);
+ 		   
+ 	   } else if(type.equalsIgnoreCase("allItems")) {
+ 		   String cid = event.get("cid").asText();
+ 		   AllItems allItems = messages.newAllItems(cid);
+ 		   instance.tell(allItems, instance);
+ 	   } else if(type.equalsIgnoreCase("register")) {
+ 		   String cid = event.get("cid").asText();
+ 		   String Username = event.get("username").asText(),
+ 				  Firstname = event.get("firstname").asText(),
+ 				  Lastname = event.get("lastname").asText(),
+ 				  Adress = event.get("adress").asText(),
+ 				  Password = event.get("password").asText();
+ 		   Register register = messages.newRegister(cid, Firstname, Lastname, Adress, Username, Password);
+ 		   instance.tell(register, instance);
+ 	   } else if(type.equalsIgnoreCase("addItem")) {
+ 		   String cid = event.get("cid").asText();
+ 		   String name = event.get("name").asText(),
+ 				  description = event.get("description").asText();
+ 		   int price = event.get("price").asInt(),
+ 			   addedByID = event.get("addedByID").asInt();
+ 		   Timestamp expires = new Timestamp(event.get("expires").asLong());
+ 		   AddItem addItem = messages.newAddItem(cid, name, description, price, addedByID, expires);
+ 		   instance.tell(addItem, instance);            		   
+ 	   } else if(type.equalsIgnoreCase("removeItem")) {
+ 		   String cid = event.get("cid").asText();
+ 		   int itemno = event.get("itemno").asInt();
+ 		   RemoveItem removeItem = messages.newRemoveItem(cid, itemno);
+ 		   instance.tell(removeItem, instance);
+ 	   } else if(type.equalsIgnoreCase("placeBid")) {
+ 		   String cid = event.get("cid").asText();
+ 		   int itemno = event.get("itemno").asInt();
+ 		   int value = event.get("value").asInt();
+ 		   int userID = event.get("userId").asInt();
+ 		   String username = event.get("username").asText();
+ 		   PlaceBid placeBid = messages.newPlaceBid(cid, itemno, value, username, userID);
+ 		   instance.tell(placeBid, instance);
+ 	   } else if(type.equalsIgnoreCase("viewBids")) {
+ 		   String cid = event.get("cid").asText();
+ 		   int userId = event.get("userId").asInt();
+ 		   ViewBids viewBids = messages.newViewBids(cid, userId);
+ 		   instance.tell(viewBids, instance);
+ 	   }		
 	}
 }

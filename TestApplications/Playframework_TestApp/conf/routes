@@ -6,7 +6,7 @@
 GET     /                           controllers.Application.index()
 GET		/wsAuction					controllers.Application.wsAuction()
 GET		/cometAuction				controllers.Application.cometAuction()
-POST	/cometMessage/:json			controllers.Application.cometMessage(json: String)
+POST	/cometMessage				controllers.Application.cometMessage()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
