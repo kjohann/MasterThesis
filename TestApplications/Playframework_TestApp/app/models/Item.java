@@ -37,6 +37,8 @@ public class Item extends Model{
 	public boolean add() {
 		this.save();
 		if(itemno > 0) {
+			if(this.addedByID == null)
+				return false;
 			Bid bid = new Bid(itemno, addedByID.getUserID(), 0, addedByID.getUsername());
 			bid.save();
 			return bid.getBidID() > 0;

@@ -32,6 +32,8 @@ public class Bid extends Model{
 	public static Finder<Long,Bid> find = new Finder<Long,Bid>(Long.class, Bid.class);
 	
 	public boolean add() {
+		if(this.userID == null || this.itemno == null)
+			return false;
 		this.save();
 		return this.bidID > 0;
 	}
