@@ -58,6 +58,11 @@ public class MessageFactory {
 	public ViewBids newViewBids(String cid, int userId) {
 		return new ViewBids(cid, userId);
 	}
+	
+	public Disconnect newDisconnect(String cid) {
+		return new Disconnect(cid);
+	}
+	
 	//These are wrappers, so the use of public fields are mainly for convenience
 	public class CometJoin {
 		public final String cid;
@@ -147,6 +152,14 @@ public class MessageFactory {
 		public ViewBids(String cid, int userId) {
 			this.cid = cid;
 			this.userId = userId;
+		}
+	}
+	
+	public class Disconnect {
+		public final String cid;
+		
+		public Disconnect(String cid) {
+			this.cid = cid;
 		}
 	}
 }

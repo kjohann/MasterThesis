@@ -29,10 +29,11 @@ public class AuctionHouse extends UntypedActor {
 	
 	public static void cometJoin(String cid, Comet socket) throws Exception {
 		CometJoin join = messages.newCometJoin(cid, socket);
-		
 		String result = (String)Await.result(ask(instance, join, 1000), Duration.create(1, java.util.concurrent.TimeUnit.SECONDS));
 		
-		if(!result.equalsIgnoreCase("ok")) {
+		if(result.equalsIgnoreCase("ok")) {
+			System.out.println("Comet browser connected!");
+		} else {
             ObjectNode error = Json.newObject();
             error.put("error", result);
             socket.sendMessage(error);
@@ -45,19 +46,21 @@ public class AuctionHouse extends UntypedActor {
 	
 	public static void webSocketJoin(String userId, WebSocket.In<JsonNode> in, WebSocket.Out<JsonNode> out) throws Exception {
 		WebSocketJoin join = messages.newWSJoin(userId, out);
-		
+		final String cid = userId;
 		String result = (String)Await.result(ask(instance, join, 1000), Duration.create(1, java.util.concurrent.TimeUnit.SECONDS));
 		
 		if(result.equalsIgnoreCase("ok")) {
-            in.onMessage(new Callback<JsonNode>() {
+            System.out.println("Websocket browser connected!");
+			in.onMessage(new Callback<JsonNode>() {
                public void invoke(JsonNode event) {
             	   handleEvent(event);
                } 
             });
             
             in.onClose(new Callback0() {
-               public void invoke() {                                    
-                   
+               public void invoke() { 
+            	   System.out.println("Websocket browser disconnected!");
+            	   instance.tell(messages.newDisconnect(cid), instance);
                }
             });
 			
@@ -79,12 +82,20 @@ public class AuctionHouse extends UntypedActor {
 			}
 		} else if(message instanceof CometJoin){
 			CometJoin join = (CometJoin) message;
+			final Comet comet = join.channel;
+			final String cid = join.cid;
 			if(!members.containsKey(join.cid)) {
 				CometWrapper socket = new CometWrapper(join.channel);
 				members.put(join.cid, socket);
-				socket.sendConnectionId(join.cid);
+				comet.onDisconnected(new Callback0() {					
+					public void invoke() {
+						System.out.println("Comet browser disconnected!");
+						getContext().self().tell(messages.newDisconnect(cid), getContext().self());						
+					}
+				});
+				socket.sendConnectionId(join.cid);				
 				getSender().tell("ok", getSender());
-			}
+			} 
 		}else if(message instanceof Login) {
 			Login login = (Login) message; 
 			Socket socket = members.get(login.cid);
@@ -122,6 +133,8 @@ public class AuctionHouse extends UntypedActor {
 			ViewBids viewbids = (ViewBids) message;
 			Socket socket = members.get(viewbids.cid);
 			socket.sendViewBids(viewbids.userId);
+		} else if(message instanceof Disconnect) {
+			members.remove(((Disconnect)message).cid);
 		}
 	}
 	
