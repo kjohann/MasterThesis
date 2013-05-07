@@ -64,4 +64,8 @@ public class MySQLDatabaseHandler implements DatabaseHandler {
 		String query = QueryStore.getAllItemsQuery();
 		return mysqlConnector.select(query, generatorFactory.getAllItemsGenerator());
 	}	
+	
+	public boolean executeScript(String path) {
+		return mysqlConnector.executeScript(path);
+	}
 }
