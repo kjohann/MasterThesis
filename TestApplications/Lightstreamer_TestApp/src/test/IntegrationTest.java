@@ -27,7 +27,6 @@ public class IntegrationTest extends FluentTest{
 	@Test
 	public void titleTest() {
 		goTo("http://localhost:8080//AuctionHouse/View/");
-		System.out.println(title());
 		assertEquals("Auction House", title());
 	}
 	
