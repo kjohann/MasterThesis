@@ -1,20 +1,44 @@
-package models;
+package functional;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import models.Bid;
+import models.Item;
+import models.PrettyItem;
+import models.User;
+import models.ViewBid;
+
+import org.fest.assertions.*;
 import org.junit.*;
-
-
+import static org.fluentlenium.core.filter.FilterConstructor.*;
+import static org.fest.assertions.fluentlenium.FluentLeniumAssertions.assertThat;
 import static org.junit.Assert.*;
+import pages.IndexPage;
+import play.test.Helpers;
+import play.test.TestBrowser;
 import play.test.WithApplication;
+import play.test.WithBrowser;
 import static play.test.Helpers.*;
 
-public class ModelsTest extends WithApplication{
-	@Before
-	public void setUp() {
-    	start(fakeApplication(inMemoryDatabase(), fakeGlobal()));    
-    	populateDB();
+public class FuncTests extends WithBrowser{
+	@BeforeClass
+	public static void setUp() throws Exception {
+		Helpers.start(testServer(9000, fakeApplication(inMemoryDatabase(), fakeGlobal())));
+		populateDB();
+	}		
+	
+	@Test
+	public void browserTest() {
+    	browser = Helpers.testBrowser(FIREFOX);
+		IndexPage page = new IndexPage(browser.getDriver(), 9000);
+		browser.goTo(page);
+		page.isAt();
+		page.canGetAllItemsTest();		
+		page.canLogin();
+		page.canPlaceBid();
+		
 	}
 	
 	@Test
@@ -48,7 +72,7 @@ public class ModelsTest extends WithApplication{
 	@Test
 	public void getAllItemsTest() {
 		List<PrettyItem> prettyItems = PrettyItem.findAll();
-		assertEquals(3, prettyItems.size());		
+		assertTrue(prettyItems.size() >= 3); //1 item may have been inserted
 	}
 	
 	@Test
@@ -79,7 +103,7 @@ public class ModelsTest extends WithApplication{
 		assertFalse(new Bid(Integer.MAX_VALUE, 2, 6400, "User2").add());	
 	}
 	
-	private void populateDB() {
+	private static void populateDB() {
 		new User("User1", "123", "User", "Userson", "Userstreet").save();
 		new User("User2", "123", "Ola", "Nordmann", "Drammensveien 1").save();
 		new User("User3", "123", "Last", "Startuser", "Adressstreet").save();
