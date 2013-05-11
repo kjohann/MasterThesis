@@ -7,26 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SignalR_Testapp
+namespace SignalR_Testapp.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class item
+    public partial class bid
     {
-        public item()
-        {
-            this.bid = new HashSet<bid>();
-        }
-    
+        public long bidID { get; set; }
         public long itemno { get; set; }
-        public string name { get; set; }
-        public int price { get; set; }
-        public System.DateTime expires { get; set; }
-        public string description { get; set; }
-        public long addedByID { get; set; }
+        public long userID { get; set; }
+        public long value { get; set; }
+        public string username { get; set; }
     
-        public virtual ICollection<bid> bid { get; set; }
+        public virtual item item { get; set; }
         public virtual user user { get; set; }
     }
 }

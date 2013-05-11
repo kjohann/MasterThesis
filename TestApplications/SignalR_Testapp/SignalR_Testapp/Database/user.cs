@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SignalR_Testapp
+namespace SignalR_Testapp.Database
 {
     using System;
     using System.Collections.Generic;
