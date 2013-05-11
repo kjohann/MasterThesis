@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Auction House</title>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="../ExternalScripts/knockout.js"></script>
+    <script type="text/javascript" src="../ExternalScripts/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../ExternalScripts/jqueryUI-1.10.0.js"></script>
+    <script type="text/javascript" src="../ExternalScripts/jquery.signalR-1.0.1.min.js"></script>
+    <script type="text/javascript" src="../signalr/hubs"></script>
+
+    <script type="text/javascript" src="../Scripts/init.js"></script>
+    <script type="text/javascript" src="../Scripts/models.js"></script>
+    <script type="text/javascript" src="../Scripts/viewModels.js"></script>
+    <script type="text/javascript" src="../Scripts/customBindings.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="../Styles/main.css" />
+    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+
+    <!--Templates-->
+    <script type="text/html" id="placeBidTemplate">
+        <label for="bid">Place your bid: </label>
+        <input type="number" id="bid" min="0" step="10" data-bind="value: bid() >= minPrice ? bid() : minPrice"/>
+        <button id="place_bid_button" class="btn" data-bind="click: $parent.sendPlaceBid">
+            Place bid
+        </button>
+    </script>
+
+    <script type="text/html" id="addItemTemplate">
+        <label for="itemname">Name: </label> <br/>
+        <input type="text" id="itemname" size="30"/> <br/>
+        <label for="minprice">Minimum price: </label> <br/>
+        <input type="number" min="0" step="10" id="minprice"/>  <br/>
+        <label for="expires">Expires: </label> <br/>
+        <input type="date" id="expires"/> <br/>
+        <label for="description">Description: </label> <br/>
+        <textarea rows="10" cols="31" id="description"></textarea>
+        <button id="addButton" class="btn" data-bind="click: $parent.sendAddItem">Add</button>
+    </script>
+
+    <script type="text/html" id="loginTemplate">
+        <label for="log_usern">Username: </label>
+        <input type="text" id="log_usern" /> <br/>
+        <label for="log_pass">Password: </label>
+        <input type="password" id="log_pass"/>
+        <button id="log_in_button" class="btn" data-bind="click: $parent.sendLogIn">Log_in</button>
+    </script>
+
+    <script type="text/html" id="registerTemplate">
+        <label for="firstname">Firstname: </label>
+        <input type="text" id="firstname"/> <br/>
+        <label for="lastname">Lastname: </label>
+        <input type="text" id="lastname"/> <br/>
+        <label for="adress">Adress: </label>
+        <input type="text" id="adress"/> <br/>
+        <label for="username">Username: </label>
+        <input type="text" id="username"/> <br/>
+        <label for="password">Password: </label>
+        <input type="password" id="password"/> <br/>
+        <button id="register_button" class="btn" data-bind="click: $parent.sendRegister">Register</button>
+    </script>
+
+    <script type="text/html" id="viewBidsTemplate">
+        <div data-bind="foreach: $data.bidItems">
+            <label>Name: </label>
+            <span data-bind="text: name"></span> <br/>
+            <label>Itemno: </label>
+            <span data-bind="text: itemno"></span> <br/>
+            <label>Bid: </label>
+            <span data-bind="text: value"></span> <br/><br/>
+        </div>
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <div id="header" data-bind="with: headerView">
+        <h1 class="welcome">Welcome to Master Auctions!</h1>
+        <div class="logged_in_as"  data-bind="visible: user().userID">
+            <span class="logged_in_as_label">Logged in as:</span> <br/>
+            <a data-bind="text: user().username, click: $root.itemView.openItemView" href=""></a> <!--TODO: action on this link: see bids-->
+        </div>
+        <div id="bidItems" data-bind="jqDialog: $root.itemView.viewItemsOptions,
+        template: {name: 'viewBidsTemplate', data: $root.itemView.viewItems, 'if': $root.itemView.viewItems()}, openDialog: $root.itemView.viewItems">
+        </div>
+        <div class="log_in_register">
+            <a data-bind="visible: !user().userID, click: $data.openLogin.bind($data, 'log_in')" href="">Log in</a>
+            <br/>
+            <a data-bind="visible: !user().userID, click: $data.openRegister.bind($data, 'register')" href="">Register</a>
+        </div>
+        <div id="horizontalHeaderLine"></div>
+        <div id="log_in" data-bind="jqDialog: $data.log_in_options,
+             template: { name: 'loginTemplate', data: $data.log_in_action, 'if': $data.log_in_action }, openDialog: $data.log_in_action">
+        </div>
+        <div id="register" data-bind="jqDialog: $data.register_options,
+             template: { name: 'registerTemplate', data: $data.register_action, 'if': $data.register_action }, openDialog: $data.register_action">
+        </div>
+    </div>
+    <div id="itemViewModelWrapper" data-bind="with: itemView">
+        <button id="addItemButton" class="btn" data-bind="click: openNewItem, visible: $root.headerView.user().userID">Add item</button>
+        <div id="additem" data-bind="jqDialog: $data.newItemOptions,
+                template: {name: 'addItemTemplate', data: $data.newItem, 'if': $data.newItem}, openDialog: $data.newItem">
+        </div>
+        <div id="itemWrapper" data-bind="foreach: items">
+            <div class="item">
+                <div class="itemHeader">
+                    <h2 data-bind="text: name"></h2>
+                    <div id="horizontalItemHeaderLine"></div>
+                </div>
+                <div class="itemContent">
+                    <div class="itemInfo">
+                        <label>Itemnumber: </label><span data-bind="text: itemno"></span> <br/>
+                        <label>Minumum price: </label><span data-bind="text: minPrice"></span> <br/>
+                        <label data-bind="visible: bid() !== 0">Highest bid: </label>
+                        <span data-bind="text: bid(), visible: bid() !== 0"></span> <br/>
+                        <label>Expires </label><span data-bind="text: expireDate"></span> <br/>
+                        <label data-bind="visible: bid() !== 0">Highest Bidder: </label> <br/>
+                        <span data-bind="text: highestBidder(), visible: bid() !== 0"></span>
+                    </div>
+                    <div class="itemDescription">
+                        <span data-bind="html: description"></span>
+                    </div>
+                    <div class="buttonBar" data-bind="visible: $root.headerView.user().userID">
+                        <button class="bidButton btn" data-bind="click: $parent.openPlaceBid">Place bid</button>
+                        <button class="removeButton btn" data-bind="visible: addedByID === $root.headerView.user().userID,
+                        click: $parent.sendRemoveItem.bind($data, $data.itemno)">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="place_bid" data-bind="jqDialog: $data.placeBidOptions,
+             template: { name: 'placeBidTemplate', data: $data.selectedItem, 'if': $data.selectedItem }, openDialog: $data.selectedItem">
+        </div>
+    </div>
+</div>
+</body>
+</html>

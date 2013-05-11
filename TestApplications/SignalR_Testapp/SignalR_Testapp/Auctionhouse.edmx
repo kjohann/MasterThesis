@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="auctionhouseModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="auctionhouseModelStoreContainer">
+          <EntitySet Name="bid" EntityType="auctionhouseModel.Store.bid" store:Type="Tables" Schema="auctionhouse" />
+          <EntitySet Name="item" EntityType="auctionhouseModel.Store.item" store:Type="Tables" Schema="auctionhouse" />
+          <EntitySet Name="user" EntityType="auctionhouseModel.Store.user" store:Type="Tables" Schema="auctionhouse" />
+          <AssociationSet Name="fk_addedByID" Association="auctionhouseModel.Store.fk_addedByID">
+            <End Role="user" EntitySet="user" />
+            <End Role="item" EntitySet="item" />
+          </AssociationSet>
+          <AssociationSet Name="fk_itemno" Association="auctionhouseModel.Store.fk_itemno">
+            <End Role="item" EntitySet="item" />
+            <End Role="bid" EntitySet="bid" />
+          </AssociationSet>
+          <AssociationSet Name="fk_userID" Association="auctionhouseModel.Store.fk_userID">
+            <End Role="user" EntitySet="user" />
+            <End Role="bid" EntitySet="bid" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="bid">
+          <Key>
+            <PropertyRef Name="bidID" />
+          </Key>
+          <Property Name="bidID" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="itemno" Type="uint" Nullable="false" />
+          <Property Name="userID" Type="uint" Nullable="false" />
+          <Property Name="value" Type="uint" Nullable="false" />
+          <Property Name="username" Type="varchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="item">
+          <Key>
+            <PropertyRef Name="itemno" />
+          </Key>
+          <Property Name="itemno" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="price" Type="int" Nullable="false" />
+          <Property Name="expires" Type="timestamp" Nullable="false" />
+          <Property Name="description" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="addedByID" Type="uint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Lastname" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Password" Type="varchar" Nullable="false" MaxLength="45" />
+          <Property Name="Adress" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Firstname" Type="varchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <Association Name="fk_addedByID">
+          <End Role="user" Type="auctionhouseModel.Store.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="item" Type="auctionhouseModel.Store.item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="item">
+              <PropertyRef Name="addedByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_itemno">
+          <End Role="item" Type="auctionhouseModel.Store.item" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="bid" Type="auctionhouseModel.Store.bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="itemno" />
+            </Principal>
+            <Dependent Role="bid">
+              <PropertyRef Name="itemno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_userID">
+          <End Role="user" Type="auctionhouseModel.Store.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="bid" Type="auctionhouseModel.Store.bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="bid">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="auctionhouseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="auctionhouseEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="bid" EntityType="auctionhouseModel.bid" />
+          <EntitySet Name="item" EntityType="auctionhouseModel.item" />
+          <EntitySet Name="user" EntityType="auctionhouseModel.user" />
+          <AssociationSet Name="fk_itemno" Association="auctionhouseModel.fk_itemno">
+            <End Role="item" EntitySet="item" />
+            <End Role="bid" EntitySet="bid" />
+          </AssociationSet>
+          <AssociationSet Name="fk_userID" Association="auctionhouseModel.fk_userID">
+            <End Role="user" EntitySet="user" />
+            <End Role="bid" EntitySet="bid" />
+          </AssociationSet>
+          <AssociationSet Name="fk_addedByID" Association="auctionhouseModel.fk_addedByID">
+            <End Role="user" EntitySet="user" />
+            <End Role="item" EntitySet="item" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="bid">
+          <Key>
+            <PropertyRef Name="bidID" />
+          </Key>
+          <Property Name="bidID" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="itemno" Type="Int64" Nullable="false" />
+          <Property Name="userID" Type="Int64" Nullable="false" />
+          <Property Name="value" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="item" Relationship="auctionhouseModel.fk_itemno" FromRole="bid" ToRole="item" />
+          <NavigationProperty Name="user" Relationship="auctionhouseModel.fk_userID" FromRole="bid" ToRole="user" />
+        </EntityType>
+        <EntityType Name="item">
+          <Key>
+            <PropertyRef Name="itemno" />
+          </Key>
+          <Property Name="itemno" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <Property Name="expires" Type="DateTime" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="addedByID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="bid" Relationship="auctionhouseModel.fk_itemno" FromRole="item" ToRole="bid" />
+          <NavigationProperty Name="user" Relationship="auctionhouseModel.fk_addedByID" FromRole="item" ToRole="user" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
+          <Property Name="Adress" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Firstname" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="bid" Relationship="auctionhouseModel.fk_userID" FromRole="user" ToRole="bid" />
+          <NavigationProperty Name="item" Relationship="auctionhouseModel.fk_addedByID" FromRole="user" ToRole="item" />
+        </EntityType>
+        <Association Name="fk_itemno">
+          <End Role="item" Type="auctionhouseModel.item" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="bid" Type="auctionhouseModel.bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item">
+              <PropertyRef Name="itemno" />
+            </Principal>
+            <Dependent Role="bid">
+              <PropertyRef Name="itemno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_userID">
+          <End Role="user" Type="auctionhouseModel.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="bid" Type="auctionhouseModel.bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="bid">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_addedByID">
+          <End Role="user" Type="auctionhouseModel.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="item" Type="auctionhouseModel.item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="item">
+              <PropertyRef Name="addedByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="auctionhouseModelStoreContainer" CdmEntityContainer="auctionhouseEntities">
+          <EntitySetMapping Name="bid">
+            <EntityTypeMapping TypeName="auctionhouseModel.bid">
+              <MappingFragment StoreEntitySet="bid">
+                <ScalarProperty Name="bidID" ColumnName="bidID" />
+                <ScalarProperty Name="itemno" ColumnName="itemno" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="username" ColumnName="username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="item">
+            <EntityTypeMapping TypeName="auctionhouseModel.item">
+              <MappingFragment StoreEntitySet="item">
+                <ScalarProperty Name="itemno" ColumnName="itemno" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="expires" ColumnName="expires" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="addedByID" ColumnName="addedByID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="auctionhouseModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
