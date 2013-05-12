@@ -14,11 +14,16 @@
         return auctionHub.server.getUsersBids(parseInt(userID));
     }
 
+    var register = function (user) {
+        return auctionHub.server.register(user);
+    }
+
     return {
         auctionHub: auctionHub,
         login: login,
         getAllItems: getAllItems,
-        getUsersBids: getUsersBids
+        getUsersBids: getUsersBids,
+        register: register
     };
     
 })();

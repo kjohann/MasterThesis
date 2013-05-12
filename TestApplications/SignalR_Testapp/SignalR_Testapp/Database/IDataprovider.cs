@@ -12,5 +12,6 @@ namespace SignalR_Testapp.Database
         User verifyLogin(string username, string password);
         IEnumerable<PrettyItem> getAllItems();
         IEnumerable<ViewBid> getUsersBids(long userID);
+        bool register(User user);
     }
 }

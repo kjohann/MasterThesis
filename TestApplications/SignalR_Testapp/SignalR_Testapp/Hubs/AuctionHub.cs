@@ -33,5 +33,10 @@ namespace SignalR_Testapp.Hubs
         {
             return _service.getUsersBids(userID);
         }
+
+        public bool register(User user)
+        {
+            return _service.register(user);
+        }
     }
 }

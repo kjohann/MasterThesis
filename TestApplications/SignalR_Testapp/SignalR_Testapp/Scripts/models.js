@@ -15,13 +15,14 @@ window.auction.models = (function(){
             }, self);
        },
 
-       user: function(userID, username, firstname, lastname, adress){
+       user: function(userID, username, firstname, lastname, adress, password){
            var self = this;
            self.userID = userID;
            self.username = username;
            self.firstname = firstname;
            self.lastname = lastname;
            self.adress = adress;
+           self.password = password;
        }
    };
 })();

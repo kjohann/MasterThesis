@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using SignalR_Testapp.Models;
+using MySql.Data.MySqlClient;
 
 namespace SignalR_Testapp.Database
 {
     public class Dataprovider : IDataprovider
     {
-        auctionhouseEntities db = new auctionhouseEntities();
+        auctionhouseEntities db = new auctionhouseEntities(); 
         public User verifyLogin(string username, string password)
         {
 
@@ -71,6 +72,21 @@ namespace SignalR_Testapp.Database
                        name = i.name,
                        value = b.value
                    };
+        }
+
+        public bool register(User user)
+        {
+            try
+            {
+                db.Database.ExecuteSqlCommand("insert into user (Username, Firstname, Lastname, Adress, Password) values (\"" +
+                    user.username + "\", \"" + user.firstname + "\", \"" + user.lastname + "\", \"" + user.adress + "\", \"" + user.password + "\")");
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Register user threw: \n" + e.Message);
+                return false;
+            }
         }
     }
 }

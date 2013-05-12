@@ -17,10 +17,18 @@ window.auction.viewModels = (function(item, user, hub){ //TODO: does this need p
             });
             $("#log_in").dialog("close");
         };
-
-        //TODO: send register info to server
         self.sendRegister = function(){
-            //Send to server
+            var username = $("#username").val();
+            var firstname = $("#firstname").val();
+            var lastname = $("#lastname").val();
+            var adress = $("#adress").val();
+            var password = $("#password").val();
+            var regUser = new user(0, username, firstname, lastname, adress, password);
+            hub.register(regUser).done(function (success) {
+                if (success) {
+                    alert("Registered new user! \nTry logging in ;)");
+                }
+            });
             $("#register").dialog("close");
         };
 
