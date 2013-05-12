@@ -1,0 +1,37 @@
+﻿using Microsoft.AspNet.SignalR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using SignalR_Testapp.Database;
+using SignalR_Testapp.Models;
+
+namespace SignalR_Testapp.Hubs
+{
+    public class AuctionHub : Hub
+    {
+        private AuctionHubService _service;
+        private IDataprovider _provider;
+
+        public AuctionHub()
+        {
+            _provider = new Dataprovider();
+            _service = new AuctionHubService(_provider);
+        }
+
+        public User login(string username, string password)
+        {
+            return _service.verifyLogin(username, password);
+        }
+
+        public IEnumerable<PrettyItem> getAllItems()
+        {
+            return _service.getAllItems();
+        }
+
+        public IEnumerable<ViewBid> getUsersBids(long userID)
+        {
+            return _service.getUsersBids(userID);
+        }
+    }
+}

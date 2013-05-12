@@ -2,21 +2,18 @@
 {
     public class User
     {
-        private long userID { get; set; }
-        private string firstname { get; set; }
-        private string lastname { get; set; }
-        private string adress { get; set; }
-        private string username { get; set; }
-        private string password { get; set; }
+        private long _userID;
+        private string _firstname;
+        private string _lastname;
+        private string _adress;
+        private string _username;
+        private string _password;
 
-        public User(long userID, string firstname, string lastname, string adress, string username, string password)
-        {
-            this.userID = userID;
-            this.firstname = firstname;
-            this.lastname = lastname;
-            this.adress = adress;
-            this.username = username;
-            this.password = password;
-        }
+        public long userID { get { return this._userID; } set { this._userID = value; } }
+        public string firstname { get { return this._firstname; } set { this._firstname = value; } }
+        public string lastname { get { return this._lastname; } set { this._lastname = value; } }
+        public string adress { get { return this._adress; } set { this._adress = value; } }
+        public string username { get { return this._username; } set { this._username = value; } }
+        public string password { get { return this._password; } set { this._password = value; } }
     }
 }

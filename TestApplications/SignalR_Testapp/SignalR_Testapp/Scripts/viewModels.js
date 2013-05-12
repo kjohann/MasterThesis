@@ -1,4 +1,4 @@
-window.auction.viewModels = (function(item, user){ //TODO: does this need parameters?
+window.auction.viewModels = (function(item, user, hub){ //TODO: does this need parameters?
 
     var headerViewModel = function(){
         var self = this;
@@ -8,10 +8,13 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
         self.setUser = function(user){
             self.user(user);
         }
-
-        //TODO: send log in info to server
+   
         self.sendLogIn = function(){
-            //Send to server
+            var username = $("#log_usern").val();
+            var password = $("#log_pass").val();
+            hub.login(username, password).done(function(user) {
+                self.setUser(user);
+            });
             $("#log_in").dialog("close");
         };
 
@@ -140,9 +143,10 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
             self.viewItems(biditems);
         }
 
-        //TODO: Get list from server
         self.openItemView = function(){
-            //Get from server
+            hub.getUsersBids(headerViewModelObj.user().userID).done(function (bids) {
+                itemViewModelObj.setViewItems(bids);
+            });
         }
         //--end dialog handling
 
@@ -157,10 +161,26 @@ window.auction.viewModels = (function(item, user){ //TODO: does this need parame
     }
     $(document).ready(function(){
         ko.applyBindings(viewModel);
+        $.connection.hub.start().done(function() {
+            hub.getAllItems().done(function (items) {
+                var clientItems = items.map(function (i) {
+                    var prettyItem = new item(i.name, i.itemno, i.minPrice, new Date(i.expires), i.description, i.addedByID);
+                    prettyItem.highestBidder(i.highestBidder);
+                    prettyItem.bid(i.bid);
+                    return prettyItem;
+                });
+
+                clientItems.forEach(function (item) {
+                    itemViewModelObj.addItem(item);
+                });
+            });
+        });
     });
 
     return {
         itemViewModel: itemViewModelObj,
         headerViewModel: headerViewModelObj
     };
-})(window.auction.models.item, window.auction.models.user);
+})(window.auction.models.item,
+   window.auction.models.user,
+   window.auction.hub);
