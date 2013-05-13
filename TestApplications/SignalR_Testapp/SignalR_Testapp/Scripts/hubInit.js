@@ -1,7 +1,7 @@
 ﻿window.auction.hub = (function () {
     $.connection.hub.logging = true;
     var auctionHub = $.connection.auctionHub;
-    
+
     var login = function (username, password) {
         return auctionHub.server.login(username, password);
     }
@@ -18,12 +18,17 @@
         return auctionHub.server.register(user);
     }
 
+    var addItem = function (item, username) {
+        auctionHub.server.addItem(item, username);
+    }
+
     return {
         auctionHub: auctionHub,
         login: login,
         getAllItems: getAllItems,
         getUsersBids: getUsersBids,
-        register: register
+        register: register,
+        addItem: addItem
     };
     
 })();

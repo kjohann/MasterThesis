@@ -13,7 +13,8 @@ window.auction.viewModels = (function(item, user, hub){ //TODO: does this need p
             var username = $("#log_usern").val();
             var password = $("#log_pass").val();
             hub.login(username, password).done(function(user) {
-                self.setUser(user);
+                if(user != null)
+                    self.setUser(user);
             });
             $("#log_in").dialog("close");
         };
@@ -75,9 +76,17 @@ window.auction.viewModels = (function(item, user, hub){ //TODO: does this need p
             var minprice = parseInt($("#minprice").val());
             var expires = new Date($("#expires").val());
             var description = $("#description").val();
-
-            //TODO: Apply logic for sending to server
-            //Send to server
+            var userID = headerViewModelObj.user().userID;
+            var addItem = {
+                itemno: 0,
+                name: itemname,
+                price: minprice,
+                expires: expires,
+                description: description,
+                addedByID: userID
+            };
+            var username = headerViewModelObj.user().username;
+            hub.addItem(addItem, username);            
 
             $("#additem").dialog("close");
         };
@@ -169,20 +178,6 @@ window.auction.viewModels = (function(item, user, hub){ //TODO: does this need p
     }
     $(document).ready(function(){
         ko.applyBindings(viewModel);
-        $.connection.hub.start().done(function() {
-            hub.getAllItems().done(function (items) {
-                var clientItems = items.map(function (i) {
-                    var prettyItem = new item(i.name, i.itemno, i.minPrice, new Date(i.expires), i.description, i.addedByID);
-                    prettyItem.highestBidder(i.highestBidder);
-                    prettyItem.bid(i.bid);
-                    return prettyItem;
-                });
-
-                clientItems.forEach(function (item) {
-                    itemViewModelObj.addItem(item);
-                });
-            });
-        });
     });
 
     return {

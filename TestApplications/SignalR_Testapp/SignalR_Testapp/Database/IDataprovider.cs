@@ -13,5 +13,6 @@ namespace SignalR_Testapp.Database
         IEnumerable<PrettyItem> getAllItems();
         IEnumerable<ViewBid> getUsersBids(long userID);
         bool register(User user);
+        PrettyItem addItem(Item item, string username);
     }
 }

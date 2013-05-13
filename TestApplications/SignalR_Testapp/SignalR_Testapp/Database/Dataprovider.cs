@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SignalR_Testapp.Models;
 using MySql.Data.MySqlClient;
+using System.Data.Common;
 
 namespace SignalR_Testapp.Database
 {
@@ -78,14 +79,63 @@ namespace SignalR_Testapp.Database
         {
             try
             {
-                db.Database.ExecuteSqlCommand("insert into user (Username, Firstname, Lastname, Adress, Password) values (\"" +
-                    user.username + "\", \"" + user.firstname + "\", \"" + user.lastname + "\", \"" + user.adress + "\", \"" + user.password + "\")");
+                user add = new user
+                {
+                    Username = user.username,
+                    Firstname = user.firstname,
+                    Lastname = user.lastname,
+                    Adress = user.adress,
+                    Password = user.password
+                };
+                db.user.Add(add);
+                db.SaveChanges();
                 return true;
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine("Register user threw: \n" + e.Message);
                 return false;
+            }
+        }
+
+        public PrettyItem addItem(Item item, string username)
+        {
+            try
+            {
+                SignalR_Testapp.Database.item addItem = new SignalR_Testapp.Database.item
+                {
+                    name = item.name,
+                    expires = item.expires,
+                    price = item.price,
+                    description = item.description,
+                    addedByID = item.addedByID
+                };
+                db.item.Add(addItem);
+                bid nullBid = new bid
+                {
+                    itemno = item.itemno,
+                    value = 0,
+                    userID = item.addedByID,
+                    username = username
+                };
+                db.bid.Add(nullBid);
+                db.SaveChanges();
+                return new PrettyItem
+                {
+                    itemno = addItem.itemno, 
+                    name = item.name,
+                    price = item.price,
+                    expires = item.expires,
+                    bid = 0,
+                    addedByID = item.addedByID,
+                    highestBidder = username,
+                    description = item.description
+                };
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Add item threw: \n" + e.Message);
+                return null;
             }
         }
     }

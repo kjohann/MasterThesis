@@ -44,7 +44,14 @@ namespace SignalR_Testapp.Hubs
 
         public bool register(User user)
         {
-            return _provider.register(user);
+            return user != null ?_provider.register(user) : false;
+        }
+
+        public PrettyItem addItem(Item item, string username)
+        {
+            if (item == null || username == null || username.Equals(""))
+                return null;
+            return _provider.addItem(item, username);
         }
     }
 }

@@ -38,5 +38,12 @@ namespace SignalR_Testapp.Hubs
         {
             return _service.register(user);
         }
+
+        public void addItem(Item item, string username)
+        {
+            PrettyItem prettyItem = _service.addItem(item, username);
+            if(prettyItem != null)
+                Clients.All.receiveItem(prettyItem);
+        }        
     }
 }
