@@ -52,5 +52,11 @@ namespace SignalR_Testapp.Hubs
             if (returnBid != null)
                 Clients.All.receiveBid(returnBid);
         }
+
+        public void deleteItem(long itemno)
+        {
+            if (_service.deleteItem(itemno))
+                Clients.All.removeItem(itemno);
+        }
     }
 }

@@ -22,6 +22,10 @@
         auctionHub.server.addItem(item, username);
     }
 
+    var deleteItem = function (itemno) {
+        auctionHub.server.deleteItem(itemno);
+    }
+
     var placeBid = function (bid) {
         auctionHub.server.placeBid(bid);
     }
@@ -33,6 +37,7 @@
         getUsersBids: getUsersBids,
         register: register,
         addItem: addItem,
+        deleteItem: deleteItem,
         placeBid: placeBid
     };
     

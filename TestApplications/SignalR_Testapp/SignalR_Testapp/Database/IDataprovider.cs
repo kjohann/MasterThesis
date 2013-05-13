@@ -14,6 +14,7 @@ namespace SignalR_Testapp.Database
         IEnumerable<ViewBid> getUsersBids(long userID);
         bool register(User user);
         PrettyItem addItem(Item item, string username);
+        bool deleteItem(long itemno);
         Bid placeBid(Bid newbid);
     }
 }

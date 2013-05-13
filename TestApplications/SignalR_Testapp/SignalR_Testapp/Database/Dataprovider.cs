@@ -112,10 +112,10 @@ namespace SignalR_Testapp.Database
                 };
                 
                 db.item.Add(addItem);
-                
+                db.SaveChanges();
                 bid nullBid = new bid
                 {
-                    itemno = item.itemno,
+                    itemno = addItem.itemno,
                     value = 0,
                     userID = item.addedByID,
                     username = username
@@ -140,6 +140,21 @@ namespace SignalR_Testapp.Database
             {
                 Console.Error.WriteLine("Add item threw: \n" + e.Message);
                 return null;
+            }
+        }
+
+        public bool deleteItem(long itemno)
+        {
+            try
+            {
+                db.item.Remove((from i in db.item where i.itemno == itemno select i).Single());
+                db.SaveChanges();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.Error.WriteLine("Remove item threw: \n" + e.Message);
+                return false;
             }
         }
 

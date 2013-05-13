@@ -1,4 +1,4 @@
-window.auction.viewModels = (function(item, user, hub){ //TODO: does this need parameters?
+window.auction.viewModels = (function(item, user, hub){
 
     var headerViewModel = function(){
         var self = this;
@@ -91,9 +91,8 @@ window.auction.viewModels = (function(item, user, hub){ //TODO: does this need p
             $("#additem").dialog("close");
         };
 
-        //TODO: Send removeinfo to server
         self.sendRemoveItem = function(itemno){
-            //Send to server
+            hub.deleteItem(itemno);
         };
 
         self.removeItem = function(itemno){
@@ -102,7 +101,6 @@ window.auction.viewModels = (function(item, user, hub){ //TODO: does this need p
             });
         };
 
-        //TODO: Send to server
         self.sendPlaceBid = function (){
             var bid = parseInt($("#bid").val());
             var itemno = this.itemno;

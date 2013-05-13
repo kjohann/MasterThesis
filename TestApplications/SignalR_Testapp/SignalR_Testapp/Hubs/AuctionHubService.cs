@@ -47,6 +47,11 @@ namespace SignalR_Testapp.Hubs
             return item == null || string.IsNullOrEmpty(username) ? null : _provider.addItem(item, username);
         }
 
+        public bool deleteItem(long itemno)
+        {
+            return itemno > 0 ? _provider.deleteItem(itemno) : false;
+        }
+
         public Bid placeBid(Bid newbid)
         {
             return newbid != null ? _provider.placeBid(newbid) : null;

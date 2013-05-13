@@ -7,6 +7,9 @@
             i.bid(prettyItem.bid);
             itemView.addItem(i);
         },
+        removeItem: function(itemno) {
+            itemView.removeItem(itemno);
+        },
         receiveBid: function (bid) {
             itemView.placeBid(bid.itemno, bid.value, bid.username);
         }
