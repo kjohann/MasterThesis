@@ -19,12 +19,7 @@ namespace SignalR_Testapp.Hubs
 
         public User verifyLogin(string username, string password)
         {
-            if (username == null || username.Equals("") || password == null || password.Equals(""))
-            {
-                return null;
-            }
-
-            return _provider.verifyLogin(username, password);
+            return string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) ? null : _provider.verifyLogin(username, password);
         }
 
         public IEnumerable<PrettyItem> getAllItems()
@@ -48,10 +43,8 @@ namespace SignalR_Testapp.Hubs
         }
 
         public PrettyItem addItem(Item item, string username)
-        {
-            if (item == null || username == null || username.Equals(""))
-                return null;
-            return _provider.addItem(item, username);
+        {                        
+            return item == null || string.IsNullOrEmpty(username) ? null : _provider.addItem(item, username);
         }
 
         public Bid placeBid(Bid newbid)
