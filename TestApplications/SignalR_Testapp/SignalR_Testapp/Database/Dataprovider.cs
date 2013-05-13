@@ -122,7 +122,7 @@ namespace SignalR_Testapp.Database
                 };
                 
                 db.bid.Add(nullBid);
-                db.SaveChanges();
+                db.SaveChanges(); 
                 
                 return new PrettyItem
                 {
