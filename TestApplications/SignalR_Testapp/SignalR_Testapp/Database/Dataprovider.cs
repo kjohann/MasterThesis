@@ -110,7 +110,9 @@ namespace SignalR_Testapp.Database
                     description = item.description,
                     addedByID = item.addedByID
                 };
+                
                 db.item.Add(addItem);
+                
                 bid nullBid = new bid
                 {
                     itemno = item.itemno,
@@ -118,8 +120,10 @@ namespace SignalR_Testapp.Database
                     userID = item.addedByID,
                     username = username
                 };
+                
                 db.bid.Add(nullBid);
                 db.SaveChanges();
+                
                 return new PrettyItem
                 {
                     itemno = addItem.itemno, 
@@ -135,6 +139,31 @@ namespace SignalR_Testapp.Database
             catch (Exception e)
             {
                 Console.Error.WriteLine("Add item threw: \n" + e.Message);
+                return null;
+            }
+        }
+
+        public Bid placeBid(Bid newbid)
+        {
+            try
+            {
+                bid b = new bid
+                {
+                    itemno = newbid.itemno,
+                    userID = newbid.userID,
+                    value = newbid.value,
+                    username = newbid.username
+                };
+
+                db.bid.Add(b);
+                db.SaveChanges();
+
+                newbid.bidID = b.bidID;
+                return newbid;
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Place bid threw: \n" + e.Message);
                 return null;
             }
         }

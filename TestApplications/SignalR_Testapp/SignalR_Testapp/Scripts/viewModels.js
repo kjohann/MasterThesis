@@ -105,7 +105,16 @@ window.auction.viewModels = (function(item, user, hub){ //TODO: does this need p
         //TODO: Send to server
         self.sendPlaceBid = function (){
             var bid = parseInt($("#bid").val());
-            //Send to server
+            var itemno = this.itemno;
+            var newbid = {
+                itemno: itemno,
+                userID: headerViewModelObj.user().userID,
+                value: bid,
+                username: headerViewModelObj.user().username
+            }
+
+            hub.placeBid(newbid);
+
             $("#place_bid").dialog("close");
         };
 

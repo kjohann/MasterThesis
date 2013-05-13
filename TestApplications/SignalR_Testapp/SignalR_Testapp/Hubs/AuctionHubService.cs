@@ -53,5 +53,10 @@ namespace SignalR_Testapp.Hubs
                 return null;
             return _provider.addItem(item, username);
         }
+
+        public Bid placeBid(Bid newbid)
+        {
+            return newbid != null ? _provider.placeBid(newbid) : null;
+        }
     }
 }

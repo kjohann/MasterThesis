@@ -44,6 +44,13 @@ namespace SignalR_Testapp.Hubs
             PrettyItem prettyItem = _service.addItem(item, username);
             if(prettyItem != null)
                 Clients.All.receiveItem(prettyItem);
-        }        
+        }
+
+        public void placeBid(Bid newbid)
+        {
+            Bid returnBid = _service.placeBid(newbid);
+            if (returnBid != null)
+                Clients.All.receiveBid(returnBid);
+        }
     }
 }

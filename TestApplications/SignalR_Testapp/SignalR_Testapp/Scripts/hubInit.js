@@ -22,13 +22,18 @@
         auctionHub.server.addItem(item, username);
     }
 
+    var placeBid = function (bid) {
+        auctionHub.server.placeBid(bid);
+    }
+
     return {
         auctionHub: auctionHub,
         login: login,
         getAllItems: getAllItems,
         getUsersBids: getUsersBids,
         register: register,
-        addItem: addItem
+        addItem: addItem,
+        placeBid: placeBid
     };
     
 })();

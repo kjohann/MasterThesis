@@ -6,6 +6,9 @@
             i.highestBidder(prettyItem.highestBidder);
             i.bid(prettyItem.bid);
             itemView.addItem(i);
+        },
+        receiveBid: function (bid) {
+            itemView.placeBid(bid.itemno, bid.value, bid.username);
         }
     });
 
