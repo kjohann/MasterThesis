@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Web.Routing;
+using Microsoft.AspNet.SignalR;
+using SignalR_Testapp.Database;
+using SignalR_Testapp.Hubs;
 
 namespace SignalR_Testapp
 {
@@ -8,6 +11,7 @@ namespace SignalR_Testapp
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            GlobalHost.DependencyResolver.Register(typeof(AuctionHub), () => new AuctionHub(new Dataprovider()));
             RouteTable.Routes.MapHubs();
         }
 
