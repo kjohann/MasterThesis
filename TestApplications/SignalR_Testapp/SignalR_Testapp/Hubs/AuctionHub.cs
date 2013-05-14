@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using SignalR_Testapp.Database;
 using SignalR_Testapp.Models;
 
@@ -11,12 +8,12 @@ namespace SignalR_Testapp.Hubs
     public class AuctionHub : Hub
     {
         private AuctionHubService _service;
-        private IDataprovider _provider;
+        //private IDataprovider _provider;
 
-        public AuctionHub()
+        public AuctionHub(IDataprovider provider)
         {
-            _provider = new Dataprovider();
-            _service = new AuctionHubService(_provider);
+            //_provider = provider;
+            _service = new AuctionHubService(provider);
         }
 
         public User login(string username, string password)
@@ -41,14 +38,14 @@ namespace SignalR_Testapp.Hubs
 
         public void addItem(Item item, string username)
         {
-            PrettyItem prettyItem = _service.addItem(item, username);
+            var prettyItem = _service.addItem(item, username);
             if(prettyItem != null)
                 Clients.All.receiveItem(prettyItem);
         }
 
         public void placeBid(Bid newbid)
         {
-            Bid returnBid = _service.placeBid(newbid);
+            var returnBid = _service.placeBid(newbid);
             if (returnBid != null)
                 Clients.All.receiveBid(returnBid);
         }

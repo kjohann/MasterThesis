@@ -2,7 +2,7 @@
     $.extend(hub.auctionHub.client, {
         receiveItem: function (prettyItem) {
             var expires = new Date(prettyItem.expires);
-            var i = new item(prettyItem.name, prettyItem.itemno, prettyItem.minPrice, expires, prettyItem.description, prettyItem.addedByID);
+            var i = new item(prettyItem.name, prettyItem.itemno, prettyItem.price, expires, prettyItem.description, prettyItem.addedByID);
             i.highestBidder(prettyItem.highestBidder);
             i.bid(prettyItem.bid);
             itemView.addItem(i);

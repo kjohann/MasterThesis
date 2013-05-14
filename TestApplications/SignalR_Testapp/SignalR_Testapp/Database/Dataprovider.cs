@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using SignalR_Testapp.Models;
-using MySql.Data.MySqlClient;
-using System.Data.Common;
 
 namespace SignalR_Testapp.Database
 {
@@ -13,18 +11,16 @@ namespace SignalR_Testapp.Database
         public User verifyLogin(string username, string password)
         {
 
-            List<User> users = (from u in db.user
-                                where u.Username.Equals(username) &&
-                                u.Password.Equals(password)
-                                select new User
-                                {
-                                    userID = u.UserID,
-                                    username = u.Username,
-                                    firstname = u.Firstname,
-                                    lastname = u.Lastname,
-                                    adress = u.Adress,
-                                    password = u.Password
-                                }).ToList();
+            var users = (db.user.Where(u => u.Username.Equals(username) &&
+                                            u.Password.Equals(password)).Select(u => new User
+                                                {
+                                                    userID = u.UserID,
+                                                    username = u.Username,
+                                                    firstname = u.Firstname,
+                                                    lastname = u.Lastname,
+                                                    adress = u.Adress,
+                                                    password = u.Password
+                                                })).ToList();
             return users.Count > 1 ? null : users.FirstOrDefault();
         }
 
@@ -79,7 +75,7 @@ namespace SignalR_Testapp.Database
         {
             try
             {
-                user add = new user
+                var add = new user
                 {
                     Username = user.username,
                     Firstname = user.firstname,
@@ -102,7 +98,7 @@ namespace SignalR_Testapp.Database
         {
             try
             {
-                SignalR_Testapp.Database.item addItem = new SignalR_Testapp.Database.item
+                var addItem = new item
                 {
                     name = item.name,
                     expires = item.expires,
@@ -113,7 +109,7 @@ namespace SignalR_Testapp.Database
                 
                 db.item.Add(addItem);
                 db.SaveChanges();
-                bid nullBid = new bid
+                var nullBid = new bid
                 {
                     itemno = addItem.itemno,
                     value = 0,
@@ -162,7 +158,7 @@ namespace SignalR_Testapp.Database
         {
             try
             {
-                bid b = new bid
+                var b = new bid
                 {
                     itemno = newbid.itemno,
                     userID = newbid.userID,

@@ -39,7 +39,7 @@ namespace SignalR_Testapp.Hubs
 
         public bool register(User user)
         {
-            return user != null ?_provider.register(user) : false;
+            return user != null && _provider.register(user);
         }
 
         public PrettyItem addItem(Item item, string username)
@@ -49,7 +49,7 @@ namespace SignalR_Testapp.Hubs
 
         public bool deleteItem(long itemno)
         {
-            return itemno > 0 ? _provider.deleteItem(itemno) : false;
+            return itemno > 0 && _provider.deleteItem(itemno);
         }
 
         public Bid placeBid(Bid newbid)
