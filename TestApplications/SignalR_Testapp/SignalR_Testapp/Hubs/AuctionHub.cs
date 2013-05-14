@@ -8,11 +8,9 @@ namespace SignalR_Testapp.Hubs
     public class AuctionHub : Hub
     {
         private AuctionHubService _service;
-        //private IDataprovider _provider;
 
         public AuctionHub(IDataprovider provider)
         {
-            //_provider = provider;
             _service = new AuctionHubService(provider);
         }
 
