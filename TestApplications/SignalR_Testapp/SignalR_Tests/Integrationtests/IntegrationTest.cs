@@ -11,7 +11,6 @@ namespace SignalR_Tests.Integrationtests
     [TestFixture]
     public class IntegrationTest
     {
-        //private ISelenium _selenium;
         private const string _url = "http://localhost:55143/Views/index.html";
         private IWebDriver _driver;
 
