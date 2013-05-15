@@ -25,8 +25,7 @@ namespace SignalR_Tests.Integrationtests
             _driver.FindElement(By.CssSelector("#log_usern")).SendKeys("Mozilla");
             _driver.FindElement(By.CssSelector("#log_pass")).SendKeys("123");
             _driver.FindElement(By.CssSelector("#log_in_button")).Click();
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3));
-            wait.Until((d) => d.FindElement(By.LinkText("Mozilla")).Text.Equals("Mozilla"));
+            wait(false, 3, By.LinkText("Mozilla"), 0, "Mozilla");
         }
 
         [Test]
@@ -38,8 +37,7 @@ namespace SignalR_Tests.Integrationtests
         [Test]
         public void canGetInitialItemsTest()
         {
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3));
-            wait.Until((d) => d.FindElements(By.CssSelector(".item")).Count == 3);
+            wait(true, 3, By.CssSelector(".item"), 3, null);
         }
 
         [Test]
@@ -51,18 +49,24 @@ namespace SignalR_Tests.Integrationtests
             _driver.FindElement(By.CssSelector("#expires")).SendKeys("2014-03-12");
             _driver.FindElement(By.CssSelector("#description")).SendKeys("This was added by an automated test.");
             _driver.FindElement(By.CssSelector(("#addButton"))).Click();
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3));
-            wait.Until((d) => d.FindElements(By.CssSelector(".item")).Count == 4);
+            wait(true, 3, By.CssSelector(".item"), 4, null);
         }
 
         [Test]
         public void canPlaceBid()
         {
             _driver.FindElements(By.CssSelector(".bidButton"))[0].Click();
+            _driver.FindElement(By.CssSelector("#bid")).Clear();
             _driver.FindElement(By.CssSelector("#bid")).SendKeys("450000");
             _driver.FindElement(By.CssSelector("#place_bid_button")).Click();
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3));
-            wait.Until((d) => d.FindElements(By.XPath("span [text() = \"450000\"]")).Count == 1);
+            wait(true, 3, By.XPath("//span[starts-with(.,'450000')]"), 1, null);
+        }
+
+        [Test]
+        public void canRemoveItem()
+        {
+            _driver.FindElements(By.CssSelector(".removeButton"))[1].Click();
+            wait(true, 3, By.CssSelector(".item"), 2, null);
         }
 
         [TearDown]
@@ -77,6 +81,15 @@ namespace SignalR_Tests.Integrationtests
             {                
                 
             }
+        }
+
+        private void wait(bool many, int seconds, By by, int count, string equalTo)
+        {
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(seconds));
+            if (many)
+                wait.Until(d => d.FindElements(by).Count == count);
+            else
+                wait.Until(d => d.FindElement(by).Text.Equals(equalTo));
         }
     }
 }
