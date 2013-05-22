@@ -15,9 +15,9 @@
 		</div>		
 		<!--TODO: make template for bidItems-->
        <div class="log_in_register">
-            <a id="login_link" class="{{loggedIn}}" href="">Log in</a><!--TODO: make one class for visible and one for not visible AND make dialog open-->
+            <a id="login_link" class="{{notLoggedIn}}" href="">Log in</a><!--TODO: make one class for visible and one for not visible AND make dialog open-->
             <br/> 
-            <a id="register_link" class="{{loggedIn}}" href="">Register</a>
+            <a id="register_link" class="{{notLoggedIn}}" href="">Register</a>
         </div>
         <div id="horizontalHeaderLine"></div>
         <!--TODO: make templates for log in and register dialogs-->	
@@ -52,7 +52,6 @@
                		<label>Highest bid: </label>
                		<span>{{bid}}</span>
                	</div>
-   				<br/>
                	<label>Expires </label><span>{{expireDate}}</span> <!--TODO: make function-->
                	<br/>
                	<div class="{{bidVisibility}}">

@@ -186,5 +186,17 @@ label
     background: #6297ff !important;
 }
 
+/*Template classes*/
+.log_in_visibile
+{
+    visibility: visible;
+}
+
+.log_in_invisible
+{
+    visibility: hidden;
+}
+/*--end Template classes*/
+
 
 
