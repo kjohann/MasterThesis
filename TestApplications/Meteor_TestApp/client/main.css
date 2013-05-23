@@ -187,14 +187,14 @@ label
 }
 
 /*Template classes*/
-.log_in_visibile
+.log_in_visible
 {
-    visibility: visible;
+    visibility: hidden;
 }
 
 .log_in_invisible
 {
-    visibility: hidden;
+    visibility: visible;
 }
 /*--end Template classes*/
 
