@@ -11,6 +11,9 @@ $.extend(Template.item, {
 	loggedIn: function() {
 		return Template.content.loggedIn();
 	},
+	itemno: function() {
+		return this._id.substring(0,5); //this is a bit weird since i use MangoDb instead of MySql
+	},
 	events: {
 		"click .bidButton": function() {
 

@@ -1,9 +1,8 @@
 Users = new Meteor.Collection("users");
 Items = new Meteor.Collection("items");
 
-item = function (itemno, name, minPrice, expires, description, addedBy, highestBidder, bid) {
+item = function (name, minPrice, expires, description, addedBy, highestBidder, bid) {
 	var self = this;
-	self.itemno = itemno;
 	self.name = name;
 	self.minPrice = minPrice;
 	self.expires = expires;
@@ -13,9 +12,8 @@ item = function (itemno, name, minPrice, expires, description, addedBy, highestB
 	self.bid = bid;
 }
 
-user = function (userId, username, firstname, lastname, adress, password) {
+user = function (username, firstname, lastname, adress, password) {
 	var self = this;
-	self.userId = userId;
 	self.username = username;
 	self.firstname = firstname;
 	self.lastname = lastname;
