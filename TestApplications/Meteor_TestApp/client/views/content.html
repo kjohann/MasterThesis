@@ -8,12 +8,15 @@
 		  </div>		
 		  <!--TODO: make template for bidItems-->
        <div class="log_in_register">
-            <a id="login_link" class="{{notLoggedIn}}" href="">Log in</a><!--TODO: make one class for visible and one for not visible AND make dialog open-->
+            <a id="login_link" class="{{notLoggedIn}}" href="">Log in</a>
             {{#if logInDialog}}
-              {{>log_in_dialog}}
+                {{>log_in_dialog}}
             {{/if}}
             <br/> 
             <a id="register_link" class="{{notLoggedIn}}" href="">Register</a>
+            {{#if registerDialog}}
+                {{>register_dialog}}
+            {{/if}}
         </div>
         <div id="horizontalHeaderLine"></div>
         <!--TODO: make templates for log in and register dialogs-->	

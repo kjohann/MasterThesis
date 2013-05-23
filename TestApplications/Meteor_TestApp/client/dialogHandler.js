@@ -27,3 +27,31 @@ $.extend(Template.log_in_dialog, {
 		}
 	}
 });
+
+$.extend(Template.register_dialog, {
+	rendered: function () {
+		var register_options = {
+            title: "Register",
+            autoOpen: true,
+            modal: true,
+            resizable: false,
+            height: 420,
+            close: function (event, ui) {
+            	Session.set("registerDialog", false);
+            	$("#register_dialog").dialog("destroy");
+            }
+        };
+        $("#register_dialog").dialog(register_options);
+	},
+	events: {
+		"click #register_button": function() {
+			var regUser = new user(0, $("#username").val(), $("#firstname").val(), $("#lastname").val(), $("#adress").val(), $("#password").val());
+			$("#register_dialog").dialog("close");
+			Meteor.call("register", regUser, function(err, res) {
+				if(res) {
+					alert("Registered new user! \nTry logging in ;)");
+				}
+			});			
+		}
+	}
+})

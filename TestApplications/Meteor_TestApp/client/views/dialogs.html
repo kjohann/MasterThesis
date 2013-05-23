@@ -7,3 +7,19 @@
     	<button id="log_in_button" class="btn">Log_in</button>
   	</div>
 </template>
+
+<template name="register_dialog">
+    <div id="register_dialog">
+        <label for="firstname">Firstname: </label>
+        <input type="text" id="firstname"/> <br/>
+        <label for="lastname">Lastname: </label>
+        <input type="text" id="lastname"/> <br/>
+        <label for="adress">Adress: </label>
+        <input type="text" id="adress"/> <br/>
+        <label for="username">Username: </label>
+        <input type="text" id="username"/> <br/>
+        <label for="password">Password: </label>
+        <input type="password" id="password"/> <br/>
+        <button id="register_button" class="btn" data-bind="click: $parent.sendRegister">Register</button>	
+    </div>
+</template>
