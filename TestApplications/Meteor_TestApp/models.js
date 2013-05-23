@@ -12,3 +12,13 @@ item = function (itemno, name, minPrice, expires, description, addedBy, highestB
 	self.highestBidder = highestBidder;
 	self.bid = bid;
 }
+
+user = function (userId, username, firstname, lastname, adress, password) {
+	var self = this;
+	self.userId = userId;
+	self.username = username;
+	self.firstname = firstname;
+	self.lastname = lastname;
+	self.adress = adress;
+	self.password = password;
+}

@@ -10,5 +10,10 @@ $.extend(Template.item, {
 	},
 	loggedIn: function() {
 		return Template.content.loggedIn();
+	},
+	events: {
+		"click .bidButton": function() {
+
+		}
 	}
 });

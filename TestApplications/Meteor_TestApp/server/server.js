@@ -28,11 +28,11 @@ function populateItems() {
 
 function populateUsers() {
 	var users = [
-		{username: "Chrome", firstname: "Google", lastname: "Chrome", adress: "Google Street", password: "123"},
-		{username: "Mozilla", firstname: "Mozilla", lastname: "Firefox", adress: "Mozilla Lane", password: "123"},
-		{username: "Opera", firstname: "Ola", lastname: "Nordmann", adress: "Drammensveien 1", password: "123"},
-		{username: "IE8", firstname: "Internet", lastname: "Eight", adress: "Badstreet", password: "123"},
-		{username: "IE10", firstname: "Internet", lastname: "Ten", adress: "Exitedfor Xbox One Street", password: "123"}
+		{userID: 1, username: "Chrome", firstname: "Google", lastname: "Chrome", adress: "Google Street", password: "123"},
+		{userID: 2, username: "Mozilla", firstname: "Mozilla", lastname: "Firefox", adress: "Mozilla Lane", password: "123"},
+		{userID: 3, username: "Opera", firstname: "Ola", lastname: "Nordmann", adress: "Drammensveien 1", password: "123"},
+		{userID: 4, username: "IE8", firstname: "Internet", lastname: "Eight", adress: "Badstreet", password: "123"},
+		{userID: 5, username: "IE10", firstname: "Internet", lastname: "Ten", adress: "Exitedfor Xbox One Street", password: "123"}
 	];
 
 	users.forEach(function(user){
