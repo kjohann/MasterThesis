@@ -8,12 +8,13 @@
 
 <template name="content">
 	<div id="wrapper">
-		<h1 class="welcome">Welcome to Master Auctions!</h1>
-		<div class="logged_in_as {{loggedIn}}"> <!--TODO: make template function-->
-			<span class="logged_in_as_label">Logged in as:</span> <br/>
+    <div id="header">
+		  <h1 class="welcome">Welcome to Master Auctions!</h1>
+		  <div class="logged_in_as {{loggedIn}}"> <!--TODO: make template function-->
+			 <span class="logged_in_as_label">Logged in as:</span> <br/>
             <a id="logged_in_link">{{loggedInUser}}</a> <!--TODO: action on this link: see bids and make function-->
-		</div>		
-		<!--TODO: make template for bidItems-->
+		  </div>		
+		  <!--TODO: make template for bidItems-->
        <div class="log_in_register">
             <a id="login_link" class="{{notLoggedIn}}" href="">Log in</a><!--TODO: make one class for visible and one for not visible AND make dialog open-->
             <br/> 
@@ -21,6 +22,7 @@
         </div>
         <div id="horizontalHeaderLine"></div>
         <!--TODO: make templates for log in and register dialogs-->	
+      </div>
 		<div id="itemViewModelWrapper">
     		<button id="addItemButton" class="btn {{loggedIn}}">Add item</button>		
     		<!--TODO: make dialog template AND make it open-->
