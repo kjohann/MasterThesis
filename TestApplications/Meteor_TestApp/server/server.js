@@ -21,7 +21,7 @@ function populateItems() {
 		{itemno: 2, name: "PC", minPrice: 5500, expires: new Date("2013-03-11"), description: "This runs Windows. Woot!", addedBy: "Mozilla", highestBidder: "IE8", bid: 6000},
 		{itemno: 3, name: "iPhone", minPrice: 4000, expires: new Date("2013-05-08"), description: "This is for hipsters", addedBy: "Chrome", highestBidder: "IE8", bid: 5500}
 	];
-	items.forEach(function(item){
+	items.map(function(item){
 		Items.insert(item);		
 	});
 }

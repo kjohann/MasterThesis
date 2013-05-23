@@ -54,7 +54,7 @@
                		<label>Highest bid: </label>
                		<span>{{bid}}</span>
                	</div>
-               	<label>Expires </label><span>{{expireDate}}</span> <!--TODO: make function-->
+               	<label>Expires </label><span>{{expireDate}}</span>
                	<br/>
                	<div class="{{bidVisibility}}">
                		<label>Highest Bidder: </label> <br/>
@@ -64,9 +64,10 @@
         	<div class="itemDescription">
         		<span>{{description}}</span>
         	</div>
+
         	<div class="buttonBar {{loggedIn}}">
               	<button class="bidButton btn">Place bid</button> <!--TODO: open dialog AND make template-->
-            	<button class="removeButton btn {{addedBy}}">Remove</button><!--TODO: make functions for visibility and removing-->        		
+            	<button class="removeButton btn {{removeVisible}}">Remove</button><!--TODO: make functions for visibility and removing-->        		
         	</div>
         </div>
 	</div>
