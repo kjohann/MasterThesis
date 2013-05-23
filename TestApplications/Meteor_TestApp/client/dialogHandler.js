@@ -54,4 +54,24 @@ $.extend(Template.register_dialog, {
 			});			
 		}
 	}
-})
+});
+
+$.extend(Template.add_item_dialog, {
+	rendered: function() {
+		var add_item_options = {
+            title: "Add new item",
+            autoOpen: true,
+            modal: true,
+            resizable: false,
+            width: 350,
+            close: function (event, ui) {
+            	Session.set("addItemDialog", false);
+            	$("#add_item_dialog").dialog("destroy");
+            }
+        };
+        $("#add_item_dialog").dialog(add_item_options);
+	},
+	events: {
+
+	}
+});

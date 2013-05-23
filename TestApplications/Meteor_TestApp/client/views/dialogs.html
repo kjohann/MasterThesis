@@ -23,3 +23,17 @@
         <button id="register_button" class="btn" data-bind="click: $parent.sendRegister">Register</button>	
     </div>
 </template>
+
+<template name="add_item_dialog">
+	<div id="add_item_dialog">
+        <label for="itemname">Name: </label> <br/>
+        <input type="text" id="itemname" size="30"/> <br/>
+        <label for="minprice">Minimum price: </label> <br/>
+        <input type="number" min="0" step="10" id="minprice"/>  <br/>
+        <label for="expires">Expires: </label> <br/>
+        <input type="date" id="expires"/> <br/>
+        <label for="description">Description: </label> <br/>
+        <textarea rows="10" cols="31" id="description"></textarea>
+        <button id="addButton" class="btn">Add</button>		
+	</div>
+</template>

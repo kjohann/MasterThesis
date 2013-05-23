@@ -1,6 +1,9 @@
 <template name="itemcontainer">
     <div id="itemViewModelWrapper">
-        <button id="addItemButton" class="btn {{loggedIn}}">Add item</button>   
+        <button id="addItemButton" class="btn {{loggedIn}}">Add item</button> 
+        {{#if addItemDialog}}  
+            {{>add_item_dialog}}
+        {{/if}}
         <!--TODO: make dialog template AND make it open-->
         <div id="itemWrapper">
         <!--TODO: make function called items that return all items from db-->
