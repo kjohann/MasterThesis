@@ -196,6 +196,16 @@ label
 {
     visibility: visible;
 }
+
+.removeVisible
+{
+    visibility: visible;
+}
+
+.removeInvisible
+{
+    visibility: hidden;
+}
 /*--end Template classes*/
 
 
