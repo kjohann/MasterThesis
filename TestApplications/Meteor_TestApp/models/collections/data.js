@@ -15,10 +15,11 @@ if(Meteor.isServer) {
 		return deferred.promise;
 	}
 }
+
 Items = new Meteor.Collection("items");
 
-addItem = function(item) {
-	if(Meteor.isClient) {
+if(Meteor.isClient) {
+	addItem = function(item) {	
 		var deferred = new $.Deferred();
 		Items.insert(item, function (err, res) {
 			if(err) {
@@ -29,11 +30,11 @@ addItem = function(item) {
 			}
 		});
 		return deferred.promise();
+	
 	}
-}
 
-placeBid = function(bid, bidder, item) {
-	if(Meteor.isClient) {
+	placeBid = function(bid, bidder, item) {
+	
 		var deferred = new $.Deferred();
 		Items.update({_id: item._id}, {$inc: {bid: (bid - item.bid)}, $set: {highestBidder: bidder}}, function(err) {
 			if(!err) {
@@ -43,11 +44,10 @@ placeBid = function(bid, bidder, item) {
 			}
 		});
 		return deferred.promise();
+	
 	}
-}
 
-removeItem = function(itemno) {
-	if(Meteor.isClient) {
+	removeItem = function(itemno) {	
 		var deferred = new $.Deferred();
 		Items.remove({_id: itemno}, function(err) {
 			if(!err) {
@@ -57,5 +57,6 @@ removeItem = function(itemno) {
 			}
 		});
 		return deferred.promise();
+	
 	}
 }
