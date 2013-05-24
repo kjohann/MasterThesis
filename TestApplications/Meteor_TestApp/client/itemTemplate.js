@@ -34,9 +34,17 @@ $.extend(Template.item, {
 	bidVisibility: function() {
 		return this.bid > 0 ? "visible" : "invisible";
 	},
+	placeBidDialog: function() {
+		var activeItem = Session.get("activeItem");
+		return activeItem && activeItem._id === this._id;
+	},
+	value: function() {		
+		var activeItem = Session.get("activeItem");
+		return activeItem ? (activeItem.bid > activeItem.minPrice ? activeItem.bid : activeItem.minPrice) : 0; 
+	},
 	events: {
 		"click .bidButton": function() {
-			Session.set("placeBidDialog", true);
+			Session.set("activeItem", this);
 		}
 	}
 });

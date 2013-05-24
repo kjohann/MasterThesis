@@ -37,3 +37,11 @@
         <button id="addButton" class="btn">Add</button>		
 	</div>
 </template>
+
+<template name="place_bid_dialog">
+    <div id="place_bid_dialog">
+        <label for="bid">Place your bid: </label>
+        <input type="number" id="bid" min="0" step="10" value="{{value}}"/>
+        <button id="place_bid_button" class="btn">Place bid</button>        
+    </div>
+</template>

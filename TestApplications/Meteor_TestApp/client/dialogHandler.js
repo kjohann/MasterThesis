@@ -39,7 +39,16 @@ var add_item_options = {
             modal: true,
             resizable: false,
             width: 350
-        }            	
+        }      
+
+var place_bid_options = {
+            title: "Place bid on item",
+            autoOpen: true,
+            resizable: false,
+            modal: true,
+            height: 150,
+            width: 550
+        }              	
 
 makeDialog(Template.log_in_dialog, "#log_in_dialog", log_in_options, "logInDialog", {
 	"click #log_in_button": function() {
@@ -77,7 +86,7 @@ makeDialog(Template.add_item_dialog, "#add_item_dialog", add_item_options, "addI
 
     	var newItem = new item(itemname, minprice, expires, description, addedBy);
     	$("#add_item_dialog").dialog("close");
-    	$.when(addItem(newItem)).then(
+    	addItem(newItem).then(
     		function(res) {
     			console.log("Successfully added item: " + res.name);
     		},
@@ -88,3 +97,20 @@ makeDialog(Template.add_item_dialog, "#add_item_dialog", add_item_options, "addI
     	);
 	}
 });
+
+makeDialog(Template.place_bid_dialog, "#place_bid_dialog", place_bid_options, "activeItem", {
+	"click #place_bid_button": function() {
+		var bid = parseInt($("#bid").val());
+		var itemno = Session.get("activeItem")._id;
+		$("#place_bid_dialog").dialog("close");
+		placeBid(bid, itemno).then(function() {
+			console.log("Placed bid on item with id: " + itemno);
+		}, function() {
+			console.log("Error placing bid");
+		});
+	}
+});
+
+$.extend(Template.place_bid_dialog, {
+	value: function() {return Template.item.value();}
+})

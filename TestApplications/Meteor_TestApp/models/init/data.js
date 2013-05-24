@@ -31,3 +31,19 @@ addItem = function(item) {
 		return deferred.promise();
 	}
 }
+
+placeBid = function(bid, itemno) {
+	if(Meteor.isClient) {
+		var deferred = new $.Deferred();
+		Items.update({_id: itemno}, {$inc: {bid: bid}}, function(err) {
+			console.log("Placed bid?");
+			if(!err) {
+				console.log("Yes");
+				deferred.resolve();
+			} else {
+				deferred.reject();
+			}
+		});
+		return deferred.promise();
+	}
+}
