@@ -1,4 +1,4 @@
-item = function (name, minPrice, expires, description, addedBy, highestBidder, bid) {
+auctionItem = function (name, minPrice, expires, description, addedBy, highestBidder, bid) {
 	var self = this;
 	self.name = name;
 	self.minPrice = minPrice;

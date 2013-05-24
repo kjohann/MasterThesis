@@ -45,6 +45,13 @@ $.extend(Template.item, {
 	events: {
 		"click .bidButton": function() {
 			Session.set("activeItem", this);
+		},
+		"click .removeButton": function() {
+			removeItem(this._id).then(function() {
+				console.log("Removed item");
+			}, function() {
+				console.log("Error removing item");
+			});
 		}
 	}
 });
