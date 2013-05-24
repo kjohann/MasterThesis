@@ -1,6 +1,3 @@
-Users = new Meteor.Collection("users");
-Items = new Meteor.Collection("items");
-
 item = function (name, minPrice, expires, description, addedBy, highestBidder, bid) {
 	var self = this;
 	self.name = name;
