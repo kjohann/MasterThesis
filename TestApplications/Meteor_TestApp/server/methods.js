@@ -9,7 +9,18 @@ Meteor.methods({
 		}
 	},
 	register: function(user) {
-		addUser(user);
-		return user;
+		var done = false;
+		var retUser;
+		addUser(user).then(function(res) {
+			retUser = res;
+			done = true;
+		}, 
+		function(err) {
+			done = true;
+			throw new Meteor.Error(500, err);
+		});
+		while(!done) {} //wait!
+
+		return retUser;
 	}
 });
