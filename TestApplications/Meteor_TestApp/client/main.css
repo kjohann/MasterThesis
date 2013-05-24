@@ -187,25 +187,16 @@ label
 }
 
 /*Template classes*/
-.log_in_visible
-{
-    visibility: hidden;
-}
-
-.log_in_invisible
+.visible
 {
     visibility: visible;
 }
 
-.removeVisible
-{
-    visibility: visible;
-}
-
-.removeInvisible
+.invisible
 {
     visibility: hidden;
 }
+
 /*--end Template classes*/
 
 

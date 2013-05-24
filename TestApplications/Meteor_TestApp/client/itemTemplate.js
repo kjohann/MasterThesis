@@ -25,15 +25,18 @@ $.extend(Template.item, {
 	itemno: function() {
 		return this._id.substring(0,5); //this is a bit weird since i use MangoDb instead of MySql
 	},
-	removeVisible: function () {
+	removeVisible: function() {
 		var user = Session.get("User");
 		if(user) {
-			return user.username === this.addedBy ? "removeVisible" : "removeInvisible";
+			return user.username === this.addedBy ? "visible" : "invisible";
 		}
+	},
+	bidVisibility: function() {
+		return this.bid > 0 ? "visible" : "invisible";
 	},
 	events: {
 		"click .bidButton": function() {
-
+			Session.set("placeBidDialog", true);
 		}
 	}
 });
