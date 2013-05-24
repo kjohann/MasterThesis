@@ -66,7 +66,7 @@ makeDialog(Template.register_dialog, "#register_dialog", register_options, "regi
 		});			
 	}
 });
-console.log("dialogHandler!");
+
 makeDialog(Template.add_item_dialog, "#add_item_dialog", add_item_options, "addItemDialog", {
 	"click #addButton": function() {
 		var itemname = $("#itemname").val();

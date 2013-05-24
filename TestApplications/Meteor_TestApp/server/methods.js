@@ -9,11 +9,7 @@ Meteor.methods({
 		}
 	},
 	register: function(user) {
-		Users.insert(user, function(err, res) {
-			if(err) {
-				throw new Meteor.Error(500, "Error inserting user to db");
-			} 
-		});		
-		return user; 
+		addUser(user);
+		return user;
 	}
 });
