@@ -1,11 +1,15 @@
 <template name="content">
 	<div id="wrapper">
     <div id="header">
-		  <h1 class="welcome">Welcome to Master Auctions!</h1>
-		  <div class="logged_in_as {{loggedIn}}"> <!--TODO: make template function-->
-			 <span class="logged_in_as_label">Logged in as:</span> <br/>
-            <a id="logged_in_link" href="">{{loggedInUser}}</a> <!--TODO: action on this link: see bids and make function-->
-		  </div>		
+		    <h1 class="welcome">Welcome to Master Auctions!</h1>
+		    <div class="logged_in_as {{loggedIn}}"> 
+			    <span class="logged_in_as_label">Logged in as:</span> <br/>
+                <a id="logged_in_link" href="">{{loggedInUser}}</a> <!--TODO: action on this link: see bids and make function-->
+		    </div>		
+            {{#if viewBids}}
+                {{>viewBids_dialog}}
+            {{/if}}
+
 		  <!--TODO: make template for bidItems-->
        <div class="log_in_register">
             <a id="login_link" class="{{notLoggedIn}}" href="">Log in</a>
@@ -18,8 +22,7 @@
                 {{>register_dialog}}
             {{/if}}
         </div>
-        <div id="horizontalHeaderLine"></div>
-        <!--TODO: make templates for log in and register dialogs-->	
+        <div id="horizontalHeaderLine"></div>	
     </div>
     {{>itemcontainer}}      		
 	</div>

@@ -2,6 +2,10 @@
 if(Meteor.isServer) {
 	Users = new Meteor.Collection("users");
 	Deferred = Npm.require("promised-io/promise").Deferred;
+	verifyLogin = function(username, password) {
+		var user = Users.findOne({username: username, password: password});
+		return user;
+	}
 	addUser = function(user) {
 		var deferred = new Deferred();
 		Users.insert(user, function(err, res) {
@@ -59,4 +63,16 @@ if(Meteor.isClient) {
 		return deferred.promise();
 	
 	}
+
+	usersBids = function(username) {
+		var items = Items.find({highestBidder: username}).fetch();
+		var bidItems = items.map(function(item) {
+			return {
+				name: item.name,
+				itemno: item._id,
+				value: item.bid
+			}
+		});
+		return bidItems;
+	}	
 }

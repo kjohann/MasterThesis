@@ -45,3 +45,20 @@
         <button id="place_bid_button" class="btn">Place bid</button>        
     </div>
 </template>
+
+<template name="viewBids_dialog">
+    <div id="viewBids_dialog">
+        {{#each viewBids}}
+            {{>viewBid}}
+        {{/each}}
+    </div>
+</template>
+
+<template name="viewBid">
+    <label>Name: </label>
+    <span >{{name}}</span> <br/>
+    <label>Itemno: </label>
+    <span >{{itemno}}</span> <br/>
+    <label>Bid: </label>
+    <span >{{value}}</span> <br/><br/>
+</template>

@@ -15,6 +15,9 @@
  	registerDialog: function() {
  		return Session.get("registerDialog");
  	},
+ 	viewBids: function() {
+ 		return Session.get("viewBids");
+ 	},
  	events: {
  			"click #login_link": function(e) {
  				e.preventDefault();
@@ -23,6 +26,10 @@
  			"click #register_link": function(e) {
  				e.preventDefault();
  				Session.set("registerDialog", true);
+ 			},
+ 			"click #logged_in_link": function(e) {
+ 				e.preventDefault();
+ 				Session.set("viewBids", true);
  			}
  	}
  });

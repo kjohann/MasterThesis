@@ -48,7 +48,15 @@ var place_bid_options = {
             modal: true,
             height: 150,
             width: 550
-        }              	
+        }   
+
+var viewBids_options = {
+            title: "You currently have bids on these items",
+            autoOpen: true,
+            modal: true,
+            resizable: false,
+            width: 400
+        }                   	
 
 makeDialog(Template.log_in_dialog, "#log_in_dialog", log_in_options, "logInDialog", {
 	"click #log_in_button": function() {
@@ -117,4 +125,16 @@ makeDialog(Template.place_bid_dialog, "#place_bid_dialog", place_bid_options, "a
 
 $.extend(Template.place_bid_dialog, {
 	value: function() {return Template.item.value();}
-})
+});
+
+makeDialog(Template.viewBids_dialog, "#viewBids_dialog", viewBids_options, "viewBids");
+
+$.extend(Template.viewBids_dialog, {
+	viewBids: function() {
+		var user = Session.get("User");
+		if(user) {
+			var bids = usersBids(user.username);
+			return bids;
+		}
+	}
+});
