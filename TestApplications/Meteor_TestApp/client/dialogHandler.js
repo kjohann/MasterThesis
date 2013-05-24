@@ -84,7 +84,7 @@ makeDialog(Template.add_item_dialog, "#add_item_dialog", add_item_options, "addI
 		var description = $("#description").val();
     	var addedBy = Session.get("User").username;
 
-    	var newItem = new auctionItem(itemname, minprice, expires, description, addedBy);
+    	var newItem = new auctionItem(itemname, minprice, expires, description, addedBy, "", 0);
     	$("#add_item_dialog").dialog("close");
     	addItem(newItem).then(
     		function(res) {
@@ -103,7 +103,7 @@ makeDialog(Template.place_bid_dialog, "#place_bid_dialog", place_bid_options, "a
 		var bid = parseInt($("#bid").val());
 		var item = Session.get("activeItem");
 		$("#place_bid_dialog").dialog("close");
-		placeBid(bid, item).then(function() {
+		placeBid(bid, Session.get("User").username ,item).then(function() {
 			console.log("Placed bid on item with id: " + itemno);
 		}, function() {
 			console.log("Error placing bid");

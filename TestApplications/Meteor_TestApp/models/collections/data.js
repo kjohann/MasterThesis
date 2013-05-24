@@ -32,10 +32,10 @@ addItem = function(item) {
 	}
 }
 
-placeBid = function(bid, item) {
+placeBid = function(bid, bidder, item) {
 	if(Meteor.isClient) {
 		var deferred = new $.Deferred();
-		Items.update({_id: item._id}, {$inc: {bid: (bid - item.bid)}}, function(err) {
+		Items.update({_id: item._id}, {$inc: {bid: (bid - item.bid)}, $set: {highestBidder: bidder}}, function(err) {
 			if(!err) {
 				deferred.resolve();
 			} else {
