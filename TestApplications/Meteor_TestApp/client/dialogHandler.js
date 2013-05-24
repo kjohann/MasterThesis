@@ -102,6 +102,10 @@ makeDialog(Template.place_bid_dialog, "#place_bid_dialog", place_bid_options, "a
 	"click #place_bid_button": function() {
 		var bid = parseInt($("#bid").val());
 		var item = Session.get("activeItem");
+		if(bid < this.bid) {
+			$("#place_bid_dialog").dialog("close");
+			return; //move to service type file
+		}
 		$("#place_bid_dialog").dialog("close");
 		placeBid(bid, Session.get("User").username ,item).then(function() {
 			console.log("Placed bid on item with id: " + itemno);
