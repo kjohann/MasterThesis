@@ -49,3 +49,7 @@ usersBids = function(username) {
 	});
 	return bidItems;
 }
+
+if(exports) { //add testing capabilties
+	exports.addItem = addItem;
+}
