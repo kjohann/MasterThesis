@@ -21,7 +21,8 @@ placeBid = function(bid, bidder, item) {
 		return false;
 	}
 	var deferred = new $.Deferred();
-	Items.update({_id: item._id}, {$inc: {bid: (bid - item.bid)}, $set: {highestBidder: bidder}}, function(err) {
+	var increase = bid - item.bid;
+	Items.update({_id: item._id}, {$inc: {bid: increase}, $set: {highestBidder: bidder}}, function(err) {
 		if(!err) {
 			deferred.resolve(true);
 		} else {
@@ -51,7 +52,7 @@ removeItem = function(itemno) {
 
 usersBids = function(username) {
 	var items = Items.find({highestBidder: username}).fetch();
-	if(items.lenght === 0) {
+	if(items.length === 0) {
 		return false;
 	}
 	var bidItems = items.map(function(item) {

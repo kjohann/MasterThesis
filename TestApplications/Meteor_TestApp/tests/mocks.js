@@ -13,6 +13,7 @@ $.Deferred.prototype = {
     resolve: function(what) {return deferred.resolve(what)}
 };
 
+
 var Meteor = {
 	startup: function (newStartupFunction) {
         Meteor.startup = newStartupFunction;
@@ -26,7 +27,7 @@ var Meteor = {
     isClient: true
 };
 
-Meteor.Collection.prototype = { //make collections and make theese do what I want
+Meteor.Collection.prototype = {
     insert: function () {},
     find: function () {},
     findOne: function () {},
@@ -48,4 +49,7 @@ exports.setEnv = function(where) {
         Meteor.isClient = true;
         Meteor.isServer = false;
     }
+}
+exports.resetDeferred = function() {
+    deferred = new pDeferred();
 }
