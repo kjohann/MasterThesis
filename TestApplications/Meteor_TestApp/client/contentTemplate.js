@@ -17,8 +17,10 @@
  	},
  	viewBids: function() {
  		return Session.get("viewBids");
- 	},
- 	events: {
+ 	}
+ });
+
+Template.content.events({
  			"click #login_link": function(e) {
  				e.preventDefault();
  				Session.set("logInDialog", true);
@@ -31,5 +33,4 @@
  				e.preventDefault();
  				Session.set("viewBids", true);
  			}
- 	}
- });
+ 	});

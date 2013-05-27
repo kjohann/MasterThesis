@@ -7,13 +7,14 @@ $.extend(Template.itemcontainer, {
 	},
 	addItemDialog: function() {
 		return Session.get("addItemDialog");
-	},
-	events: {
+	}
+});
+
+Template.itemcontainer.events({
 		"click #addItemButton": function() {
 			Session.set("addItemDialog", true);
 		}
-	}
-});
+	});
 
 $.extend(Template.item, {
 	expireDate: function() {
@@ -41,8 +42,10 @@ $.extend(Template.item, {
 	value: function() {		
 		var activeItem = Session.get("activeItem");
 		return activeItem ? (activeItem.bid > activeItem.minPrice ? activeItem.bid : activeItem.minPrice) : 0; 
-	},
-	events: {
+	}
+});
+
+Template.item.events({
 		"click .bidButton": function() {
 			Session.set("activeItem", this);
 		},
@@ -58,5 +61,4 @@ $.extend(Template.item, {
 				console.log("Error removing item");
 			}
 		}
-	}
-});
+	});

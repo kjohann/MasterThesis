@@ -12,9 +12,7 @@ function makeDialog(myTemplate, nameSelector, options, session, eventObj) {
 		}
 	});
 	if(eventObj) {
-		$.extend(myTemplate, {
-			events: eventObj
-		});
+		myTemplate.events(eventObj);
 	}
 }
 
