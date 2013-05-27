@@ -94,15 +94,20 @@ makeDialog(Template.add_item_dialog, "#add_item_dialog", add_item_options, "addI
 
     	var newItem = new auctionItem(itemname, minprice, expires, description, addedBy, "", 0);
     	$("#add_item_dialog").dialog("close");
-    	addItem(newItem).then(
-    		function(res) {
-    			console.log("Successfully added item: " + res.name);
-    		},
-    		function(err) {
-    			console.log(err);
-    		},
-    		null
-    	);
+    	var result = addItem(newItem);
+    	if(result) {
+    		result.then(
+    			function(res) {
+    				console.log("Successfully added item: " + res.name);
+    			},
+    			function(err) {
+    				console.log(err);
+    			},
+    			null
+    		);
+    	} else {
+    		console.log("Error adding item");
+    	}
 	}
 });
 
@@ -110,16 +115,17 @@ makeDialog(Template.place_bid_dialog, "#place_bid_dialog", place_bid_options, "a
 	"click #place_bid_button": function() {
 		var bid = parseInt($("#bid").val());
 		var item = Session.get("activeItem");
-		if(bid < this.bid) {
+		var result = placeBid(bid, Session.get("User").username ,item);
+		if(result) {
 			$("#place_bid_dialog").dialog("close");
-			return; //move to service type file
+			result.then(function(success) {
+				console.log("Placed bid on item with id: " + item._id);
+			}, function(msg) {
+				console.log(msg);
+			});
+		} else {
+			console.log("Error placing bid. Maybe the bid was lower?")
 		}
-		$("#place_bid_dialog").dialog("close");
-		placeBid(bid, Session.get("User").username ,item).then(function() {
-			console.log("Placed bid on item with id: " + itemno);
-		}, function() {
-			console.log("Error placing bid");
-		});
 	}
 });
 
@@ -134,7 +140,11 @@ $.extend(Template.viewBids_dialog, {
 		var user = Session.get("User");
 		if(user) {
 			var bids = usersBids(user.username);
-			return bids;
+			if(bids) {
+				return bids;
+			} else {
+				console.log("The user doesn't lead on any items");
+			}
 		}
 	}
 });

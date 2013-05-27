@@ -47,11 +47,16 @@ $.extend(Template.item, {
 			Session.set("activeItem", this);
 		},
 		"click .removeButton": function() {
-			removeItem(this._id).then(function() {
-				console.log("Removed item");
-			}, function() {
+			var result = removeItem(this._id);
+			if(result) {
+				result.then(function(success) {
+					console.log("Removed item");
+				}, function(msg) {
+					console.log(msg);
+				});
+			} else {
 				console.log("Error removing item");
-			});
+			}
 		}
 	}
 });
