@@ -2,10 +2,8 @@ var express = require('express')
     , app = express()
     , server = require('http').createServer(app)
     , io = require('socket.io').listen(server)
-    , service = require('./service')
-    , database = require('./database.js');
+    , service = require('./service');
 
-service.init(database);
 server.listen(80);
 
 var pathname = 'C:/Users/Kristian/Documents/GitHub/MasterThesis/TestApplications/Socket.IO_TestApp/Client';
