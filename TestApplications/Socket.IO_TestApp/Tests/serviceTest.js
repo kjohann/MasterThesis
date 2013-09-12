@@ -2,15 +2,30 @@ var service = require('../Server/service.js'),
     should = require('should'),
     sinon = require('sinon'),
     promise = require('promised-io/promise');
-function stubVerifyLogIn(resolve, returnObj) {
+
+function getDeferred() {
+    return new promise.Deferred();
+}
+
+function fulFillPromise(resolve, returnObject) {
+    var deferred = getDeferred();
+    if(resolve) {
+        deferred.resolve(returnObject);
+    } else {
+        deferred.reject(returnObject);
+    }
+    return deferred.promise;
+}
+
+function stubRegisterItem(resolve, returnObject) {
+    sinon.stub(service.database, "registerItem", function (name, price, expires, description, addedByID){
+        return fulFillPromise(resolve, returnObject);
+    });
+}
+
+function stubVerifyLogIn(resolve, returnObject) {
     sinon.stub(service.database, "verifyLogIn", function(username, password) {
-        var deferred = new promise.Deferred();
-        if(resolve) {
-            deferred.resolve(returnObj);
-        } else {
-            deferred.reject(returnObj);
-        }
-        return deferred.promise;
+        return fulFillPromise(resolve, returnObject)
     });
 }
 describe('service', function() {
@@ -61,11 +76,7 @@ describe('service', function() {
 
     describe('registerItem(name, price, expires, description, addedById, callback)', function () {
         it('should return insertId of new item', function (done) {
-            sinon.stub(service.database, "registerItem", function(name, price, expires, description, addedByID) {
-                var deferred = new promise.Deferred();
-                deferred.resolve(42);
-                return deferred.promise;
-            });
+            stubRegisterItem(true, 42);
             service.registerItem('Insert', 3000, '2013-04-28T13:59:40.351Z', 'Description', 1, function (itemno, error) {
                 itemno.should.equal(42);
                 should.not.exist(error);
@@ -74,11 +85,7 @@ describe('service', function() {
             });
         });
         it('should replace undefined description with empty string. i.e not give error', function(done) {
-            sinon.stub(service.database, "registerItem", function(name, price, expires, description, addedByID) {
-                var deferred = new promise.Deferred();
-                deferred.resolve(1337);
-                return deferred.promise;
-            });
+            stubRegisterItem(true, 1337);
             service.registerItem('Insert', 3000, '2013-04-28T13:59:40.351Z', undefined, 1, function (itemno, error) {
                 itemno.should.equal(1337);
                 should.not.exist(error);
@@ -86,7 +93,7 @@ describe('service', function() {
                 done();
             });
         });
-        /*it('should give error if price is a negative number', function(done) {
+        it('should give error if price is a negative number', function(done) {
             service.registerItem('Insert', -1, '2013-04-28T13:59:40.351Z', 'Description', 1, function (itemno, error) {
                 should.not.exist(itemno);
                 error.should.equal("Registration failed: registerItem with Insert, -1, 2013-04-28T13:59:40.351Z, Description, 1");
@@ -99,7 +106,7 @@ describe('service', function() {
                 error.should.equal("Error parsing date");
                 done();
             });
-        }); */
+        });
     });
 });
 
