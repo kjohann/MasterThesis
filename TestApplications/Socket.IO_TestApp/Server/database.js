@@ -1,15 +1,21 @@
 var mysql = require('mysql'),
     queryStore = require('./queryStore'),
     promise = require('promised-io/promise');
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'n5user',
-    password: 'n5pass',
-    database: 'auctionhouse',
-    multipleStatements: true //For the sake of testapp, this is ok...
-});
 
-connection.connect();
+var connection;
+
+function init (conn, callback) {
+    connection = conn;
+    console.log("Connecting to database");
+    connection.connect(function (err) {
+        if(err) {
+            console.error(err);
+        }
+        if(callback) {
+            callback();
+        }
+    });
+}
 
 function verifyLogIn(username, password){
     var q = queryStore.getLogInUserQuery(username, password),
@@ -19,7 +25,7 @@ function verifyLogIn(username, password){
             deferred.reject("Failed to verifyLogIn with database: verifyLogIn with error code " + err.code);
         }else{
             rows.length === 1 ? deferred.resolve(rows[0])
-                              : rows.length > 1 ? deferred._reject("Failed to verifyLogIn: verifyLogIn returned more that one user - check db")
+                              : rows.length > 1 ? deferred.reject("Failed to verifyLogIn: verifyLogIn returned more that one user - check db")
                               : deferred.reject("Failed to verifyLogin: verifyLogIn with " + username + ", " + password);
         }
     });
@@ -70,7 +76,7 @@ function registerUser(username, firstname, lastname, adress, password){
     return deferred.promise;
 }
 
-function registerItem(name, price, expires, description, addedByID){  //Assume expires to be a formatted string: dd-MM-yyyy
+function registerItem(name, price, expires, description, addedByID){  //Assume expires to be a formatted string: yyyy-MM-dd
     var q = queryStore.registerItemQuery(name, price, expires,description, addedByID),
         deferred = new promise.Deferred();
     connection.query(q, function(err, result){
@@ -124,6 +130,7 @@ function getLatestItem(itemno, userId, username){
     return deferred.promise;
 }
 
+exports.init = init;
 exports.verifyLogIn = verifyLogIn;
 exports.getBidsByUser = getBidsByUser;
 exports.placeBid = placeBid;

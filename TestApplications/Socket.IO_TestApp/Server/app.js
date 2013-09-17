@@ -4,6 +4,14 @@ var express = require('express')
     , io = require('socket.io').listen(server)
     , service = require('./service');
 
+service.database.init(require('mysql').createConnection({
+    host: 'localhost',
+    user: 'n5user',
+    password: 'n5pass',
+    database: 'auctionhouse',
+    multipleStatements: true //For the sake of testapp, this is ok...
+}));
+
 server.listen(80);
 
 var pathname = 'C:/Users/Kristian/Documents/GitHub/MasterThesis/TestApplications/Socket.IO_TestApp/Client';

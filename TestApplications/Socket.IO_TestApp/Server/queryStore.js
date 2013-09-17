@@ -1,5 +1,5 @@
 function getVerifyLogInQuery(username, password){
-    var query = 'SELECT * FROM auctionhouse.user ' +
+    var query = 'SELECT * FROM user ' +
         'WHERE Username = \"' + username + '\"' +
         ' AND Password = \"' + password + '\";';
     return query;
@@ -7,15 +7,15 @@ function getVerifyLogInQuery(username, password){
 
 function getBidsByUserQuery(userId){
     var query = 'SELECT b.itemno, b.value, i.name ' +
-                'FROM auctionhouse.item i ' +
-                'INNER JOIN auctionhouse.bid b ' +
+                'FROM item i ' +
+                'INNER JOIN bid b ' +
                 'ON b.itemno = i.itemno ' +
-                'INNER JOIN auctionhouse.user u ' +
+                'INNER JOIN user u ' +
                 'ON b.userID = u.userID ' +
                 'INNER JOIN ' +
                 '(' +
                 'SELECT bid.itemno, MAX(value) AS max ' +
-                'FROM auctionhouse.bid ' +
+                'FROM bid ' +
                 'GROUP BY bid.itemno ' +
                 ') x ' +
                 'ON b.itemno = x.itemno AND ' +
@@ -25,13 +25,13 @@ function getBidsByUserQuery(userId){
 }
 
 function getPlaceBidQuery(itemno, userId, value, username){
-    var query = 'INSERT INTO auctionhouse.bid ' +
+    var query = 'INSERT INTO bid ' +
         '(itemno, userID, value, username) VALUES (\"' + itemno + '\", \"' + userId + '\", \"' + value + '\", \"' + username + '\");';
     return query;
 }
 
 function getRegisterUserQuery(username, firstname, lastname, adress, password){
-    var query = 'INSERT INTO auctionhouse.user ' +
+    var query = 'INSERT INTO user ' +
         '(Username, Firstname, Lastname, Adress, Password) '+
         'VALUES (\"' + username + '\", \"' + firstname + '\", \"' + lastname +
         '\", \"' + adress + '\", \"' + password + '\");';
@@ -39,28 +39,28 @@ function getRegisterUserQuery(username, firstname, lastname, adress, password){
 }
 
 function getRegisterItemQuery(name, price, expires, description, addedByID){
-    var query = 'INSERT INTO auctionhouse.item (name, price, expires, description, addedByID) ' +
+    var query = 'INSERT INTO item (name, price, expires, description, addedByID) ' +
         'VALUES (\"' + name + '\", \"' + price + '\", \"' + expires + '\", \"' + description + '\" , \"' + addedByID +'\");';
     return query;
 }
 
 function getDeleteItemQuery(itemno){
-    var query = 'DELETE FROM auctionhouse.item ' +
+    var query = 'DELETE FROM item ' +
                 'WHERE itemno = \"' + itemno + '\";';
     return query;
 }
 
 function getAllItemsQuery(){
     var query = 'SELECT u.username as highestbidder, b.itemno, i.name, i.price, i.expires as expiredate, i.description, b.value as bid, i.addedByID ' +
-        'FROM auctionhouse.item i ' +
-        'INNER JOIN auctionhouse.bid b ' +
+        'FROM item i ' +
+        'INNER JOIN bid b ' +
         'ON b.itemno = i.itemno ' +
-        'INNER JOIN auctionhouse.user u ' +
+        'INNER JOIN user u ' +
         'ON b.userID = u.userID ' +
         'INNER JOIN ' +
         '(' +
         'SELECT bid.itemno, MAX(value) AS max ' +
-        'FROM auctionhouse.bid ' +
+        'FROM bid ' +
         'GROUP BY bid.itemno ' +
         ') x ' +
         'ON b.itemno = x.itemno AND ' +
@@ -69,14 +69,14 @@ function getAllItemsQuery(){
 }
 
 function getLatestBidQuery(bidID){
-    var query = 'SELECT * FROM auctionhouse.bid WHERE bidID = \"' + bidID + '\";';
+    var query = 'SELECT * FROM bid WHERE bidID = \"' + bidID + '\";';
     return query;
 }
 
 function getLatestItemQuery(itemno, userId, username){ //Also places bid of 0 on the item - ugly hack to prevent too much database traffic
     var query = 'SELECT itemno, name, price, UNIX_TIMESTAMP(expires) as expireDate, description, addedByID ' +
-                'FROM auctionhouse.item WHERE itemno = \"' + itemno + '\"; ' +
-                'INSERT INTO auctionhouse.bid ' +
+                'FROM item WHERE itemno = \"' + itemno + '\"; ' +
+                'INSERT INTO bid ' +
                 '(itemno, userID, value, username) VALUES (\"' + itemno + '\", \"' + userId + '\", \"' + 0 + '\", \"' + username + '\");';
     return query;
 }
