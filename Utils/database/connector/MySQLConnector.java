@@ -1,5 +1,6 @@
 package database.connector;
 
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -113,4 +114,22 @@ public class MySQLConnector implements Connector {
 
   		return rows.size() > 0 ? rows : null;
   	}
+
+	@Override
+	public boolean executeScript(String pathToScriptFile) {		 		
+		ScriptRunner runner = new ScriptRunner(this.conn, false, true);
+		try {
+			runner.runScript(new BufferedReader(new FileReader(pathToScriptFile)));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		} catch (SQLException e) {			
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

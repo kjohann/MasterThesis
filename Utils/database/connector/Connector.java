@@ -44,5 +44,7 @@ public interface Connector {
 	 */
 	public abstract ArrayList<Row> select(String queryString,
 			ResultGenerator generator);
+	
+	public abstract boolean executeScript(String pathToScriptFile);
 
 }
