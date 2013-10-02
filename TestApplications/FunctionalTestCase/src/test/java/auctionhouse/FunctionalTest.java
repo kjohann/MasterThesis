@@ -2,6 +2,8 @@ package auctionhouse;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -26,6 +28,7 @@ public class FunctionalTest {
 	private static Connector connector;
 	static Logger logger = Logger.getLogger(FunctionalTest.class);
 	private static final String username = "Testuser";
+	private int numberOfItems = 0;
 	
 	
 	//run with mvn test -DargLine="-Dhost=[host] -Dport=[port] -DpageUrl=[(optional)url]" 
@@ -102,6 +105,52 @@ public class FunctionalTest {
 		
 		});	
 	}
+	
+	@Test
+	public void step4_is_user_should_be_able_to_add_an_item() {
+		find(firefox, By.id("addItemButton")).click();
+		
+		fill(find(firefox, By.id("itemname")), "TestItem");
+		fill(find(firefox, By.id("minprice")), "1337");
+		fill(find(firefox, By.id("expires")), "2013-10-26");
+		fill(find(firefox, By.id("description")), "This is a test");
+		
+		find(firefox, By.id("addButton")).click();		
+		
+		(new WebDriverWait(firefox, 3)).until(new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver arg0) {
+				List<WebElement> elements = firefox.findElements(By.className("item"));		
+				for(WebElement el : elements) {
+					if(el.findElement(By.className("itemHeader"))
+							.findElement(By.tagName("h2")).getText().equals("TestItem")) {
+						return true;
+					}
+				}
+				
+				return false;
+			}
+		
+		});
+	}
+	
+	@Test
+	public void step5_is_other_users_should_have_received_new_item_via_broadcasting() {
+		WebElement element = null;
+		List<WebElement> elements = opera.findElements(By.className("item"));		
+		for(WebElement el : elements) {
+			WebElement header = el.findElement(By.className("itemHeader"))
+					.findElement(By.tagName("h2"));
+			if(header.getText().equals("TestItem")) {
+				element = header;
+			}
+		}
+		
+		assertNotNull(element);
+	}
+	
+	
 	
 	private static void verifyUrl() {
 		String host = System.getProperty("host");
