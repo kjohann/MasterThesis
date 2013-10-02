@@ -19,6 +19,7 @@ public class FunctionalTest {
 	private static WebDriver opera, firefox;
 	private static Connector connector;
 	static Logger logger = Logger.getLogger(FunctionalTest.class);
+	private static final String username = "Testuser";
 	
 	
 	//run with mvn test -DargLine="-Dhost=[host] -Dport=[port] -DpageUrl=[(optional)url]" 
@@ -35,7 +36,10 @@ public class FunctionalTest {
 		logger.info("Successfully closed Opera");
 		firefox.quit();		
 		logger.info("Successfully closed Firefox");
+		assertTrue("Failed to clean database", 
+				connector.delete("DELETE FROM auctionhouse.user WHERE Username = \"" + username + "\";"));
 		connector.tearDown();
+		logger.info("Closed database connection");
 	}
 
 	@Test
@@ -80,9 +84,7 @@ public class FunctionalTest {
 	
 	private static void initDatabase() {
 		connector = MySQLConnector.getInstance("test");
-		connector.init("n5user", "n5pass");
-		
-		assertTrue(connector.executeScript("src/test/resources/dbInit.sql"));
+		assertTrue(connector.init("n5user", "n5pass"));				
 	}
 
 }
