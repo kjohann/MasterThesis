@@ -66,13 +66,15 @@
     </script>
 
     <script type="text/html" id="viewBidsTemplate">
-        <div data-bind="foreach: $data.bidItems">
-            <label>Name: </label>
-            <span data-bind="text: name"></span> <br/>
-            <label>Itemno: </label>
-            <span data-bind="text: itemno"></span> <br/>
-            <label>Bid: </label>
-            <span data-bind="text: value"></span> <br/><br/>
+        <div id="bidsDialog" data-bind="foreach: $data.bidItems">
+            <div class="bidDialogElement">
+                <label>Name: </label>
+                <span data-bind="text: name"></span> <br/>
+                <label>Itemno: </label>
+                <span data-bind="text: itemno"></span> <br/>
+                <label>Bid: </label>
+                <span data-bind="text: value"></span> <br/><br/>
+            </div>
         </div>
     </script>
 </head>
