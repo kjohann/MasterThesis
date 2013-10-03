@@ -198,6 +198,27 @@ public class FunctionalTest {
 		});
 	}
 	
+	@Test
+	public void step7_is_other_users_should_get_update_on_bid() {
+		WebElement spanToFind = null;
+		List<WebElement> elements = opera.findElements(By.className("item"));		
+		for(WebElement el : elements) {
+			WebElement header = el.findElement(By.className("itemHeader"))
+					.findElement(By.tagName("h2"));
+			if(header.getText().equals("TestItem")) {
+				List<WebElement> spans = el.findElement(By.className("itemContent"))
+						.findElements(By.tagName("span"));
+				for(WebElement span : spans) {
+					if(span.getText().equals(username)) {
+						spanToFind = span;
+					}
+				}
+			}
+		}
+		
+		assertNotNull(spanToFind);
+	}
+	
 	private static void verifyUrl() {
 		String host = System.getProperty("host");
 		assertNotNull("Need to pass host parameter! Use -DargLine=\"-Dhost=[host]\"", host);
