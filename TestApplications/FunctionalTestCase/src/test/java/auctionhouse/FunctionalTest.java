@@ -150,7 +150,53 @@ public class FunctionalTest {
 		assertNotNull(element);
 	}
 	
-	
+	@Test
+	public void step6_is_user_should_be_able_to_place_bid_on_newly_added_item() {		
+		List<WebElement> elements = firefox.findElements(By.className("item"));		
+		WebElement button = null;
+		for(WebElement el : elements) {
+			WebElement header = el.findElement(By.className("itemHeader"))
+					.findElement(By.tagName("h2"));
+			if(header.getText().equals("TestItem")) {
+				button = el.findElement(By.className("itemContent"))
+						.findElement(By.className("bidButton"));
+				break;
+			}
+		}
+		
+		assertNotNull(button);
+		
+		button.click();
+		
+		fill(find(firefox, By.id("bid")), "3333");
+		find(firefox, By.id("place_bid_button")).click();
+		
+		
+		(new WebDriverWait(firefox, 3)).until(new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver arg0) {
+				List<WebElement> elements = firefox.findElements(By.className("item"));		
+				for(WebElement el : elements) {
+					WebElement header = el.findElement(By.className("itemHeader"))
+							.findElement(By.tagName("h2"));
+					if(header.getText().equals("TestItem")) {
+						List<WebElement> spans = el.findElement(By.className("itemContent"))
+								.findElements(By.tagName("span"));
+						for(WebElement span : spans) {
+							if(span.getText().equals(username)) {
+								return true;
+							}
+						}
+					}
+				}
+				
+				return false;
+				
+			}
+		
+		});
+	}
 	
 	private static void verifyUrl() {
 		String host = System.getProperty("host");
