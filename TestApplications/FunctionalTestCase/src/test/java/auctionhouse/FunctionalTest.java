@@ -28,7 +28,6 @@ public class FunctionalTest {
 	private static Connector connector;
 	static Logger logger = Logger.getLogger(FunctionalTest.class);
 	private static final String username = "Testuser";
-	private int numberOfItems = 0;
 	
 	
 	//run with mvn test -DargLine="-Dhost=[host] -Dport=[port] -DpageUrl=[(optional)url]" 
@@ -220,10 +219,30 @@ public class FunctionalTest {
 	}
 	
 	@Test
-	public void step8_is_user_should_be_able_to_remove_added_item() {
+	public void step8_is_user_should_be_able_to_view_bids() {
+		find(firefox, By.linkText(username)).click();
+		
+		(new WebDriverWait(firefox, 3)).until(new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver arg0) {
+				List<WebElement> bids = firefox.findElements(By.className("bidDialogElement"));	
+				if(bids.size() > 0) {
+					assertEquals(1, bids.size());
+					return true;
+				} else {
+					return false;
+				}
+			}
+		
+		});		
+	}
+	
+	@Test
+	public void step9_is_user_should_be_able_to_remove_added_item() {
 		List<WebElement> elements = firefox.findElements(By.className("item"));
 		
-		numberOfItems = elements.size();
+		final int numberOfItems = elements.size();
 		
 		WebElement button = null;
 		for(WebElement el : elements) {
@@ -246,7 +265,6 @@ public class FunctionalTest {
 			public Boolean apply(WebDriver arg0) {
 				List<WebElement> elements = firefox.findElements(By.className("item"));		
 				if(elements.size() < numberOfItems) {
-					numberOfItems = elements.size();
 					return true;
 				}
 				
@@ -254,6 +272,16 @@ public class FunctionalTest {
 			}
 		
 		});
+	}
+	
+	@Test
+	public void step_no_10_is_other_users_should_receive_update_on_removed_item_via_broadcast() {
+		List<WebElement> elements = opera.findElements(By.className("item"));		
+		for(WebElement el : elements) {
+			WebElement header = el.findElement(By.className("itemHeader"))
+					.findElement(By.tagName("h2"));
+			assertNotEquals(header.getText(), "TestItem"); 			
+		}
 	}
 	
 	private static void verifyUrl() {
