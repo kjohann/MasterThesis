@@ -40,14 +40,8 @@ public class FunctionalTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		opera.quit();
-		logger.info("Successfully closed Opera");
-		firefox.quit();		
-		logger.info("Successfully closed Firefox");
-		assertTrue("Failed to clean database", 
-				connector.delete("DELETE FROM auctionhouse.user WHERE Username = \"" + username + "\";"));
-		connector.tearDown();
-		logger.info("Closed database connection");
+		closeBrowsers();
+		closeDatabase();
 	}
 
 	@Test
@@ -70,7 +64,8 @@ public class FunctionalTest {
 		fill(find(firefox, By.id("password")), "123");
 		
 		find(firefox, By.id("register_button")).click();
-		(new WebDriverWait(firefox, 3)).until(new ExpectedCondition<Boolean>() {
+		
+		wait(3).until(new ExpectedCondition<Boolean>() {
 
 			@Override
 			public Boolean apply(WebDriver arg0) {
@@ -95,7 +90,7 @@ public class FunctionalTest {
 		
 		find(firefox, By.id("log_in_button")).click();
 		
-		(new WebDriverWait(firefox, 3)).until(new ExpectedCondition<Boolean>() {
+		wait(3).until(new ExpectedCondition<Boolean>() {
 
 			@Override
 			public Boolean apply(WebDriver arg0) {
@@ -116,14 +111,13 @@ public class FunctionalTest {
 		
 		find(firefox, By.id("addButton")).click();		
 		
-		(new WebDriverWait(firefox, 3)).until(new ExpectedCondition<Boolean>() {
+		wait(3).until(new ExpectedCondition<Boolean>() {
 
 			@Override
 			public Boolean apply(WebDriver arg0) {
-				List<WebElement> elements = firefox.findElements(By.className("item"));		
+				List<WebElement> elements = findMany(firefox, By.className("item"));		
 				for(WebElement el : elements) {
-					if(el.findElement(By.className("itemHeader"))
-							.findElement(By.tagName("h2")).getText().equals("TestItem")) {
+					if(getItemHeader(el).getText().equals("TestItem")) {
 						return true;
 					}
 				}
@@ -137,10 +131,9 @@ public class FunctionalTest {
 	@Test
 	public void step5_is_other_users_should_have_received_new_item_via_broadcasting() {
 		WebElement element = null;
-		List<WebElement> elements = opera.findElements(By.className("item"));		
+		List<WebElement> elements = findMany(opera, By.className("item"));
 		for(WebElement el : elements) {
-			WebElement header = el.findElement(By.className("itemHeader"))
-					.findElement(By.tagName("h2"));
+			WebElement header = getItemHeader(el);					
 			if(header.getText().equals("TestItem")) {
 				element = header;
 			}
@@ -151,14 +144,12 @@ public class FunctionalTest {
 	
 	@Test
 	public void step6_is_user_should_be_able_to_place_bid_on_newly_added_item() {		
-		List<WebElement> elements = firefox.findElements(By.className("item"));		
+		List<WebElement> elements = findMany(firefox, By.className("item"));		
 		WebElement button = null;
 		for(WebElement el : elements) {
-			WebElement header = el.findElement(By.className("itemHeader"))
-					.findElement(By.tagName("h2"));
+			WebElement header = getItemHeader(el);
 			if(header.getText().equals("TestItem")) {
-				button = el.findElement(By.className("itemContent"))
-						.findElement(By.className("bidButton"));
+				button = find(el, By.className("itemContent")).findElement(By.className("bidButton"));						
 				break;
 			}
 		}
@@ -171,17 +162,15 @@ public class FunctionalTest {
 		find(firefox, By.id("place_bid_button")).click();
 		
 		
-		(new WebDriverWait(firefox, 3)).until(new ExpectedCondition<Boolean>() {
+		wait(3).until(new ExpectedCondition<Boolean>() {
 
 			@Override
 			public Boolean apply(WebDriver arg0) {
-				List<WebElement> elements = firefox.findElements(By.className("item"));		
+				List<WebElement> elements = findMany(firefox, By.className("item"));	
 				for(WebElement el : elements) {
-					WebElement header = el.findElement(By.className("itemHeader"))
-							.findElement(By.tagName("h2"));
+					WebElement header = getItemHeader(el);						
 					if(header.getText().equals("TestItem")) {
-						List<WebElement> spans = el.findElement(By.className("itemContent"))
-								.findElements(By.tagName("span"));
+						List<WebElement> spans = find(el, By.className("itemContent")).findElements(By.tagName("span"));								
 						for(WebElement span : spans) {
 							if(span.getText().equals(username)) {
 								return true;
@@ -200,13 +189,11 @@ public class FunctionalTest {
 	@Test
 	public void step7_is_other_users_should_get_update_on_bid() {
 		WebElement spanToFind = null;
-		List<WebElement> elements = opera.findElements(By.className("item"));		
+		List<WebElement> elements = findMany(opera, By.className("item"));	
 		for(WebElement el : elements) {
-			WebElement header = el.findElement(By.className("itemHeader"))
-					.findElement(By.tagName("h2"));
+			WebElement header = getItemHeader(el);					
 			if(header.getText().equals("TestItem")) {
-				List<WebElement> spans = el.findElement(By.className("itemContent"))
-						.findElements(By.tagName("span"));
+				List<WebElement> spans = find(el, By.className("itemContent")).findElements(By.tagName("span"));
 				for(WebElement span : spans) {
 					if(span.getText().equals(username)) {
 						spanToFind = span;
@@ -222,11 +209,11 @@ public class FunctionalTest {
 	public void step8_is_user_should_be_able_to_view_bids() {
 		find(firefox, By.linkText(username)).click();
 		
-		(new WebDriverWait(firefox, 3)).until(new ExpectedCondition<Boolean>() {
+		wait(3).until(new ExpectedCondition<Boolean>() {
 
 			@Override
 			public Boolean apply(WebDriver arg0) {
-				List<WebElement> bids = firefox.findElements(By.className("bidDialogElement"));	
+				List<WebElement> bids = findMany(firefox, By.className("bidDialogElement"));	
 				if(bids.size() > 0) {
 					assertEquals(1, bids.size());
 					return true;
@@ -240,17 +227,15 @@ public class FunctionalTest {
 	
 	@Test
 	public void step9_is_user_should_be_able_to_remove_added_item() {
-		List<WebElement> elements = firefox.findElements(By.className("item"));
+		List<WebElement> elements = findMany(firefox, By.className("item"));
 		
 		final int numberOfItems = elements.size();
 		
 		WebElement button = null;
 		for(WebElement el : elements) {
-			WebElement header = el.findElement(By.className("itemHeader"))
-					.findElement(By.tagName("h2"));
+			WebElement header = getItemHeader(el);					
 			if(header.getText().equals("TestItem")) {
-				button = el.findElement(By.className("itemContent"))
-						.findElement(By.className("removeButton"));
+				button = find(el, By.className("itemContent")).findElement(By.className("removeButton"));						
 				break;
 			}
 		}
@@ -259,11 +244,11 @@ public class FunctionalTest {
 		
 		button.click();
 		
-		(new WebDriverWait(firefox, 3)).until(new ExpectedCondition<Boolean>() {
+		wait(3).until(new ExpectedCondition<Boolean>() {
 
 			@Override
 			public Boolean apply(WebDriver arg0) {
-				List<WebElement> elements = firefox.findElements(By.className("item"));		
+				List<WebElement> elements = findMany(firefox, By.className("item"));	
 				if(elements.size() < numberOfItems) {
 					return true;
 				}
@@ -276,10 +261,9 @@ public class FunctionalTest {
 	
 	@Test
 	public void step_no_10_is_other_users_should_receive_update_on_removed_item_via_broadcast() {
-		List<WebElement> elements = opera.findElements(By.className("item"));		
+		List<WebElement> elements = findMany(opera, By.className("item"));	
 		for(WebElement el : elements) {
-			WebElement header = el.findElement(By.className("itemHeader"))
-					.findElement(By.tagName("h2"));
+			WebElement header = getItemHeader(el);
 			assertNotEquals(header.getText(), "TestItem"); 			
 		}
 	}
@@ -320,12 +304,43 @@ public class FunctionalTest {
 		assertTrue(connector.init("n5user", "n5pass"));				
 	}
 	
+	private static void closeBrowsers() {
+		opera.quit();
+		logger.info("Successfully closed Opera");
+		firefox.quit();		
+		logger.info("Successfully closed Firefox");
+	}
+	
+	private static void closeDatabase() {
+		assertTrue("Failed to clean database", 
+				connector.delete("DELETE FROM auctionhouse.user WHERE Username = \"" + username + "\";"));
+		connector.tearDown();
+		logger.info("Closed database connection");
+	}
+	
 	private WebElement find(WebDriver browser, By criteria) {
 		return browser.findElement(criteria);
 	}
 	
+	private WebElement find(WebElement element, By criteria) {
+		return element.findElement(criteria);
+	}
+	
+	private List<WebElement> findMany(WebDriver browser, By criteria) {
+		return browser.findElements(criteria);
+	}
+	
 	private void fill(WebElement element, String with) {
+		element.clear();
 		element.sendKeys(with);
+	}
+	
+	private WebDriverWait wait(int seconds) {
+		return new WebDriverWait(firefox, seconds);
+	}
+	
+	private WebElement getItemHeader(WebElement el) {
+		return find(el, By.className("itemHeader")).findElement(By.tagName("h2"));
 	}
 
 }
