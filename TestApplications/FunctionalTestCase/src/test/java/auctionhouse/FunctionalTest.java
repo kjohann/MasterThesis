@@ -219,6 +219,43 @@ public class FunctionalTest {
 		assertNotNull(spanToFind);
 	}
 	
+	@Test
+	public void step8_is_user_should_be_able_to_remove_added_item() {
+		List<WebElement> elements = firefox.findElements(By.className("item"));
+		
+		numberOfItems = elements.size();
+		
+		WebElement button = null;
+		for(WebElement el : elements) {
+			WebElement header = el.findElement(By.className("itemHeader"))
+					.findElement(By.tagName("h2"));
+			if(header.getText().equals("TestItem")) {
+				button = el.findElement(By.className("itemContent"))
+						.findElement(By.className("removeButton"));
+				break;
+			}
+		}
+		
+		assertNotNull(button);
+		
+		button.click();
+		
+		(new WebDriverWait(firefox, 3)).until(new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver arg0) {
+				List<WebElement> elements = firefox.findElements(By.className("item"));		
+				if(elements.size() < numberOfItems) {
+					numberOfItems = elements.size();
+					return true;
+				}
+				
+				return false;
+			}
+		
+		});
+	}
+	
 	private static void verifyUrl() {
 		String host = System.getProperty("host");
 		assertNotNull("Need to pass host parameter! Use -DargLine=\"-Dhost=[host]\"", host);
