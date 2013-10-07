@@ -1,9 +1,9 @@
-DROP TABLE IF EXISTS `auctionhouse`.`bid`;
-DROP TABLE IF EXISTS `auctionhouse`.`item`;
-DROP TABLE IF EXISTS `auctionhouse`.`user`;
+drop table if exists `test`.`bid`;
+drop table if exists `test`.`item`;
+drop table if exists `test`.`user`;
 
 
-CREATE  TABLE `auctionhouse`.`user` (
+CREATE  TABLE `test`.`user` (
 
   `UserID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
 
@@ -19,10 +19,10 @@ CREATE  TABLE `auctionhouse`.`user` (
 
   PRIMARY KEY (`UserID`) );
 
-CREATE  TABLE `auctionhouse`.`item` (
+CREATE  TABLE `test`.`item` (
 
 `itemno` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  
+
 `name` VARCHAR(100) NOT NULL ,
 
   `price` INT(11) NOT NULL ,
@@ -41,15 +41,15 @@ CREATE  TABLE `auctionhouse`.`item` (
 
     FOREIGN KEY (`addedByID` )
 
-    REFERENCES `auctionhouse`.`user` (`UserID` )
+    REFERENCES `test`.`user` (`UserID` )
 
     ON DELETE CASCADE
 
     ON UPDATE CASCADE);
 
-CREATE  TABLE `auctionhouse`.`bid` (
+CREATE  TABLE `test`.`bid` (
 
-`bidID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,  
+`bidID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
 
 `itemno` INT(10) UNSIGNED NOT NULL ,
 
@@ -69,7 +69,7 @@ CREATE  TABLE `auctionhouse`.`bid` (
 
     FOREIGN KEY (`itemno` )
 
-    REFERENCES `auctionhouse`.`item` (`itemno` )
+    REFERENCES `test`.`item` (`itemno` )
 
     ON DELETE CASCADE
 
@@ -79,38 +79,41 @@ CREATE  TABLE `auctionhouse`.`bid` (
 
     FOREIGN KEY (`userID` )
 
-    REFERENCES `auctionhouse`.`user` (`UserID` )
+    REFERENCES `test`.`user` (`UserID` )
 
     ON DELETE CASCADE
 
     ON UPDATE CASCADE);
 
-INSERT INTO `auctionhouse`.`user` (`Username`, `Lastname`, `Password`, `Adress`, `Firstname`) VALUES ('Mozilla', 'Firefox', '123', 'Mozilla Lane', 'Mozilla');
+INSERT INTO `test`.`user` (`Username`, `Lastname`, `Password`, `Adress`, `Firstname`) VALUES ('Mozilla', 'Firefox', '123', 'Mozilla Lane', 'Mozilla');
 
-INSERT INTO `auctionhouse`.`user` (`Username`, `Lastname`, `Password`, `Adress`, `Firstname`) VALUES ('Chrome', 'Google', '123', 'Google Street', 'Google');
+INSERT INTO `test`.`user` (`Username`, `Lastname`, `Password`, `Adress`, `Firstname`) VALUES ('Chrome', 'Google', '123', 'Google Street', 'Google');
 
-INSERT INTO `auctionhouse`.`user` (`Username`, `Lastname`, `Password`, `Adress`, `Firstname`) VALUES ('IE10', 'Explorer Ten', '123', 'Works Street', 'Internet');
+INSERT INTO `test`.`user` (`Username`, `Lastname`, `Password`, `Adress`, `Firstname`) VALUES ('IE10', 'Explorer Ten', '123', 'Works Street', 'Internet');
 
-INSERT INTO `auctionhouse`.`user` (`Username`, `Lastname`, `Password`, `Adress`, `Firstname`) VALUES ('IE8', 'Explorer Eight', '123', 'Bad Street', 'Internet');
+INSERT INTO `test`.`user` (`Username`, `Lastname`, `Password`, `Adress`, `Firstname`) VALUES ('IE8', 'Explorer Eight', '123', 'Bad Street', 'Internet');
 
-INSERT INTO `auctionhouse`.`user` (`Username`, `Lastname`, `Password`, `Adress`, `Firstname`) VALUES ('Opera', 'Nordmann', '123', 'Drammensveien 1', 'Ola');
-
-
-INSERT INTO `auctionhouse`.`item` (`name`, `addedByID`, `description`, `expires`, `price`) VALUES ('Car', '2', 'This is an expensice product', '2014-11-16 00:00:00', '300000');
-
-INSERT INTO `auctionhouse`.`item` (`name`, `addedByID`, `description`, `expires`, `price`) VALUES ('PC', '2', 'This runs Windows.Wooot!', '2013-03-15 08:42:00', '5500');
-
-INSERT INTO `auctionhouse`.`item` (`name`, `addedByID`, `description`, `expires`, `price`) VALUES ('iPhone', '1', 'This is a hipster product', '2013-02-12 00:00:00', '4000');
+INSERT INTO `test`.`user` (`Username`, `Lastname`, `Password`, `Adress`, `Firstname`) VALUES ('Opera', 'Nordmann', '123', 'Drammensveien 1', 'Ola');
 
 
-INSERT INTO `auctionhouse`.`bid` (`itemno`, `userID`, `value`, `username`) VALUES ('1', '3', '350000', 'IE10');
+INSERT INTO `test`.`item` (`name`, `addedByID`, `description`, `expires`, `price`) VALUES ('Car', '2', 'This is an expensice product', '2014-11-16 00:00:00', '300000');
 
-INSERT INTO `auctionhouse`.`bid` (`itemno`, `userID`, `value`, `username`) VALUES ('1', '2', '400000', 'Chrome');
+INSERT INTO `test`.`item` (`name`, `addedByID`, `description`, `expires`, `price`) VALUES ('PC', '2', 'This runs Windows.Wooot!', '2013-03-15 08:42:00', '5500');
 
-INSERT INTO `auctionhouse`.`bid` (`itemno`, `userID`, `value`, `username`) VALUES ('3', '1', '4000', 'Mozilla');
+INSERT INTO `test`.`item` (`name`, `addedByID`, `description`, `expires`, `price`) VALUES ('iPhone', '1', 'This is a hipster product', '2013-02-12 00:00:00', '4000');
 
-INSERT INTO `auctionhouse`.`bid` (`itemno`, `userID`, `value`, `username`) VALUES ('3', '4', '4500', 'IE8');
+INSERT INTO `test`.`item` (`name`, `addedByID`, `description`, `expires`, `price`) VALUES ('Tesla', '2', 'This car is so awesome', '2014-11-16 00:00:00', '300000');
 
-INSERT INTO `auctionhouse`.`bid` (`itemno`, `userID`, `value`, `username`) VALUES ('2', '2', '0', 'Chrome');
+
+
+INSERT INTO `test`.`bid` (`itemno`, `userID`, `value`, `username`) VALUES ('1', '3', '350000', 'IE10');
+
+INSERT INTO `test`.`bid` (`itemno`, `userID`, `value`, `username`) VALUES ('1', '2', '400000', 'Chrome');
+
+INSERT INTO `test`.`bid` (`itemno`, `userID`, `value`, `username`) VALUES ('3', '1', '4000', 'Mozilla');
+
+INSERT INTO `test`.`bid` (`itemno`, `userID`, `value`, `username`) VALUES ('3', '4', '4500', 'IE8');
+
+INSERT INTO `test`.`bid` (`itemno`, `userID`, `value`, `username`) VALUES ('2', '2', '0', 'Chrome');
 
 
