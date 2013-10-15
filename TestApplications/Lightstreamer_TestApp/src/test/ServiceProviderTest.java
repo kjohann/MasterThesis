@@ -66,30 +66,31 @@ public class ServiceProviderTest {
 		assertEquals(2, viewBids.get(1).getItemno());		
 	}
 	
-/*	@Test
-	public void placeBid() {
+	@Test
+	public void placeBid_should_set_id_of_a_bid_and_return_it_if_successful() {
 		Bid incoming = new Bid(0, 1, 3, 15000, "User3");
-		int nrBefore = dbHandler.bids.size();				
+		dbHandler.setReturnBid(1);
+		initProvider();
 		String json = jsonHandler.bidToJSON(incoming);
 		Bid result = provider.placeBid(json);
-		int nrAfter = dbHandler.bids.size();
+		
 		
 		assertNotNull(result);
-		assertEquals(nrBefore, nrAfter - 1);
-		assertEquals(nrAfter, result.getBidID());
-		assertEquals(result.getItemno(), incoming.getItemno());
-		assertEquals(result.getValue(), incoming.getValue());
-		assertEquals(result.getUserId(), incoming.getUserId());
-		assertEquals(result.getUsername(), incoming.getUsername());
 		
-		Bid corrupt = new Bid(0, 0, 0, 0, null);
-		json = jsonHandler.bidToJSON(corrupt);
-		result = provider.placeBid(json);
-		
-		assertEquals(nrAfter, dbHandler.bids.size());
-		assertNull(result);		
+		assertEquals(1, result.getBidID());		
 	}
 	
+	@Test
+	public void placeBid_should_return_null_if_not_successful() {
+		dbHandler.setReturnBid(-1);
+		initProvider();
+		Bid incoming = new Bid(0, 1, 3, 15000, "User3");
+		String json = jsonHandler.bidToJSON(incoming);
+		Bid result = provider.placeBid(json);
+		
+		assertNull(result);	
+	}
+	/*
 	@Test
 	public void registerUser() {
 		User user = new User(0, "User4", "Insert", "Insertson", "InjectStreet", "Ins");

@@ -20,6 +20,7 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 	
 	//Refactoring...
 	private ArrayList<Row> userResult, usersBidsResult;
+	private Bid returnBid;
 	
 	private DummyDatabaseHandler() {
 		populateUsers();
@@ -45,6 +46,10 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 			row.addField(id); row.addField(userN); row.addField(firstN); row.addField(lastN); row.addField(adr);
 			userResult.add(row);
 		}
+	}
+	
+	public void setReturnBid(int id) {
+		returnBid = new Bid(id, 0, 0, 0, null);	
 	}
 	
 	public void populateUsersBidsResult(ArrayList<Bid> bids) {
@@ -77,11 +82,7 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 
 	@Override
 	public long placeBid(int itemno, int userId, int value, String username) {
-		if(getUserName(userId) == null || getItemName(itemno) == null)
-			return -1;
-		Bid bid = new Bid(nextBid++, itemno, userId, value, username);
-		bids.add(bid);
-		return bid.getBidID();
+		return returnBid.getBidID();
 	}
 
 	@Override
