@@ -18,6 +18,9 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 	private ArrayList<PrettyItem> prettyItems;
 	private int nextUser, nextItem, nextBid;
 	
+	//Refactoring...
+	private ArrayList<Row> userResult;
+	
 	private DummyDatabaseHandler() {
 		populateUsers();
 		populateBids();
@@ -28,78 +31,19 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 		nextBid = bids.size() + 1;
 	}
 	
-	private void populateUsers() {
-		users = new ArrayList<>();
+	public void populateUserResult(ArrayList<User> users) {
+		userResult = new ArrayList<Row>();
 		
-		User u1 = new User(1, "User1", "Test", "Testson", "123 Fakestreet", "123");
-		User u2 = new User(2, "User2", "Funny", "Nameson", "YoloStreet", "Swag");
-		User u3 = new User(3, "User3", "Java", "Cshaprson", "JavaScript street", "C++");
-		
-		users.add(u1); users.add(u2); users.add(u3);
-	}
-	private void populateBids() {
-		bids = new ArrayList<>();
-		
-		Bid b1 = new Bid(1, 1, 1, 5000, "User1"); //Bid constructor: (int bidID, int itemno, int userId, int value, String username)
-		Bid b2 = new Bid(2, 1, 2, 10000, "User2");
-		Bid b3 = new Bid(3, 2, 3, 5000, "User3");
-		Bid b4 = new Bid(4, 3, 2, 5000, "User2");
-		Bid b5 = new Bid(5, 2, 1, 10000, "User1");
-		
-		bids.add(b1); bids.add(b2); bids.add(b3); bids.add(b4); bids.add(b5);
-	}
-		
-	private void populateItems() {
-		items = new ArrayList<>();
-		
-		Item i1 = new Item(1, 2000, 3, "Item1", "Test item", new Date(2015-1900, 2, 27), "User3");
-		Item i2 = new Item(2, 4000, 2, "Item2", "Test item", new Date(2014-1900, 4, 14), "User2");
-		Item i3 = new Item(3, 300, 1, "Item3", "Test item", new Date(2016-1900, 12, 2), "User1");
-		
-		items.add(i1); items.add(i2); items.add(i3);		
-	}
-	
-	private void populatePrettyItems() {
-		prettyItems = new ArrayList<>();
-		PrettyItem p = null;
-		for(Item item : items) {
-			p = new PrettyItem(item.getItemno(), item.getName(), item.getDescription(), null, item.getPrice(), 0, item.getAddedByID(), item.getExpires());
-			for(Bid bid : bids) {
-				if(bid.getItemno() == p.getItemno() && bid.getValue() > p.getBid()) {
-					p.setHighestBidder(bid.getUsername());
-					p.setBid(bid.getValue());
-				}
-			}
-			prettyItems.add(p);
-		}			
-	}
-	
-	private String getItemName(int itemno) {
-		for(Item item : items) {
-			if(item.getItemno() == itemno)
-				return item.getName();
-		}
-		
-		return null;
-	}
-	
-	private String getUserName(int userID) {
 		for(User user : users) {
-			if(user.getUserID() == userID) 
-				return user.getUsername();
+			Row row = new Row();
+			Field id = new Field("UserID", user.getUserID());
+			Field userN = new Field("Username", user.getUsername());
+			Field firstN = new Field("Firstname", user.getFirstname());
+			Field lastN = new Field("Lastname", user.getLastname());
+			Field adr = new Field("Adress", user.getAdress());
+			row.addField(id); row.addField(userN); row.addField(firstN); row.addField(lastN); row.addField(adr);
+			userResult.add(row);
 		}
-		
-		return null;
-	}
-	
-	private boolean isHighestBid(Bid bid) {
-		for(Bid b : bids) {
-			if(b.getItemno() == bid.getItemno() && b.getValue() > bid.getValue()) {
-				return false;
-			}
-		}
-		
-		return true;
 	}
 	
 	public static DummyDatabaseHandler getInstance() {
@@ -222,4 +166,84 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 		
 	}
 
+	@Override
+	public boolean executeScript(String path) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private void populateUsers() {
+		users = new ArrayList<>();
+		
+		User u1 = new User(1, "User1", "Test", "Testson", "123 Fakestreet", "123");
+		User u2 = new User(2, "User2", "Funny", "Nameson", "YoloStreet", "Swag");
+		User u3 = new User(3, "User3", "Java", "Cshaprson", "JavaScript street", "C++");
+		
+		users.add(u1); users.add(u2); users.add(u3);
+	}
+	private void populateBids() {
+		bids = new ArrayList<>();
+		
+		Bid b1 = new Bid(1, 1, 1, 5000, "User1"); //Bid constructor: (int bidID, int itemno, int userId, int value, String username)
+		Bid b2 = new Bid(2, 1, 2, 10000, "User2");
+		Bid b3 = new Bid(3, 2, 3, 5000, "User3");
+		Bid b4 = new Bid(4, 3, 2, 5000, "User2");
+		Bid b5 = new Bid(5, 2, 1, 10000, "User1");
+		
+		bids.add(b1); bids.add(b2); bids.add(b3); bids.add(b4); bids.add(b5);
+	}
+		
+	private void populateItems() {
+		items = new ArrayList<>();
+		
+		Item i1 = new Item(1, 2000, 3, "Item1", "Test item", new Date(2015-1900, 2, 27), "User3");
+		Item i2 = new Item(2, 4000, 2, "Item2", "Test item", new Date(2014-1900, 4, 14), "User2");
+		Item i3 = new Item(3, 300, 1, "Item3", "Test item", new Date(2016-1900, 12, 2), "User1");
+		
+		items.add(i1); items.add(i2); items.add(i3);		
+	}
+	
+	private void populatePrettyItems() {
+		prettyItems = new ArrayList<>();
+		PrettyItem p = null;
+		for(Item item : items) {
+			p = new PrettyItem(item.getItemno(), item.getName(), item.getDescription(), null, item.getPrice(), 0, item.getAddedByID(), item.getExpires());
+			for(Bid bid : bids) {
+				if(bid.getItemno() == p.getItemno() && bid.getValue() > p.getBid()) {
+					p.setHighestBidder(bid.getUsername());
+					p.setBid(bid.getValue());
+				}
+			}
+			prettyItems.add(p);
+		}			
+	}
+	
+	private String getItemName(int itemno) {
+		for(Item item : items) {
+			if(item.getItemno() == itemno)
+				return item.getName();
+		}
+		
+		return null;
+	}
+	
+	private String getUserName(int userID) {
+		for(User user : users) {
+			if(user.getUserID() == userID) 
+				return user.getUsername();
+		}
+		
+		return null;
+	}
+	
+	private boolean isHighestBid(Bid bid) {
+		for(Bid b : bids) {
+			if(b.getItemno() == bid.getItemno() && b.getValue() > bid.getValue()) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 }

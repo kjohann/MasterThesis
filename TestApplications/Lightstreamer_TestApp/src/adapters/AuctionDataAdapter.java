@@ -40,7 +40,6 @@ public class AuctionDataAdapter implements SmartDataProvider {
 	 
 	@Override
 	public void init(Map params, File configDir) throws DataProviderException {
-		//TODO: find use?
 		dbHandler = MySQLDatabaseHandler.getInstance("auctionhouse", "n5user", "n5pass");
 		provider = ServiceProvider.getInstance(dbHandler);
 		itemSubscription = new ItemsSubscription(provider);

@@ -12,4 +12,5 @@ public interface DatabaseHandler {
 	public abstract long registerItem(String name, int price, String expires, String description, int addedByID);
 	public abstract boolean deleteItem(int itemno);
 	public abstract ArrayList<Row> getAllItems();
+	public abstract boolean executeScript(String path); 
 }
