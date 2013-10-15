@@ -24,16 +24,18 @@ import database.connector.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FunctionalTest {
 	private static String url = "";
+	private static boolean includeTemplate = false;
 	private static WebDriver opera, firefox;
 	private static Connector connector;
 	static Logger logger = Logger.getLogger(FunctionalTest.class);
 	private static final String username = "Testuser";
 	
 	
-	//run with mvn test -DargLine="-Dhost=[host] -Dport=[port] -DpageUrl=[(optional)url]" 
+	//run with mvn test -DargLine="-Dhost=[host] -Dport=[port] -DpageUrl=[(optional)url] -DincludeTemplate=[(default=false)]" 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		verifyUrl();
+		findOutIfTemplateDivsShouldBeIncluded();
 		initDatabase();
 		initBrowsers();
 	}
@@ -214,8 +216,9 @@ public class FunctionalTest {
 			@Override
 			public Boolean apply(WebDriver arg0) {
 				List<WebElement> bids = findMany(firefox, By.className("bidDialogElement"));	
-				if(bids.size() > 0) {
-					assertEquals(1, bids.size());
+				if(bids.size() > 0) { 
+					int expected = includeTemplate ? 2 : 1;
+					assertEquals(expected, bids.size());
 					return true;
 				} else {
 					return false;
@@ -297,6 +300,14 @@ public class FunctionalTest {
 		
 		opera.navigate().to(url);		
 		logger.info("Successfully initialized Opera");
+	}
+	
+	private static void findOutIfTemplateDivsShouldBeIncluded() {
+		String includeTemplateString = System.getProperty("includeTemplate");
+		if(includeTemplateString != null) {
+			includeTemplate = true;
+			logger.warn("Template divs are included in div count - make sure that this is the correct behavioir!");
+		}
 	}
 	
 	private static void initDatabase() {

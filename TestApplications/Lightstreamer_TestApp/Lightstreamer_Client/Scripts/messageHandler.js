@@ -59,6 +59,8 @@ window.auction.message = (function(dialogs, jsonHandler, item, bid){
         var json = jsonHandler.userToJson(user);
         client.sendMessage("REG|"+json,"login", null, 30000);
         dialogs.close("#registerDialog");
+
+        alert("Register message sent! Try logging in :)");
     }
 
     return {
