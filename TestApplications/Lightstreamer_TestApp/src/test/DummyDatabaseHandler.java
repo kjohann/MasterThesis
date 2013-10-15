@@ -21,6 +21,7 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 	//Refactoring...
 	private ArrayList<Row> userResult, usersBidsResult;
 	private int placeBidID, registerUserID, registerItemID;
+	private boolean deleteResult;
 	
 	private DummyDatabaseHandler() {
 		populateUsers();
@@ -58,6 +59,10 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 	
 	public void setRegisterItemID(int id) {
 		registerItemID = id;
+	}
+	
+	public void setDeleteResult(boolean expected) {
+		deleteResult = expected;
 	}
 	
 	public void populateUsersBidsResult(ArrayList<Bid> bids) {
@@ -105,24 +110,7 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 
 	@Override
 	public boolean deleteItem(int itemno) {
-		Item item = null;
-		Bid bid = null;
-		for(int i = 0; i < items.size(); i++) {
-			item = items.get(i);
-			if(item.getItemno() == itemno) {
-				items.remove(i);
-				for(int j = 0; j < bids.size(); j++) {
-					bid = bids.get(j);
-					if(bid.getItemno() == itemno) {
-						bids.remove(j--);
-					}
-				}
-				populatePrettyItems(); //Update 
-				return true;
-			}
-		}
-		
-		return false;
+		return deleteResult;
 	}
 
 	@Override

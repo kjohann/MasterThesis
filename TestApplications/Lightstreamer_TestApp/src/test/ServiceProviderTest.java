@@ -129,6 +129,7 @@ public class ServiceProviderTest {
 	
 	@Test
 	public void registerItem_should_return_null_if_unsuccessful() {
+		@SuppressWarnings("deprecation")
 		Item item = new Item(0, 1337, 1, "InsertItem", "Test insert", new java.sql.Date(2013-1900, 7, 23), "");
 		String json = jsonHandler.itemToJSON(item);
 		dbHandler.setRegisterItemID(-1);
@@ -139,22 +140,29 @@ public class ServiceProviderTest {
 		assertNull(result);
 	}
 	
-	/*@Test
-	public void deleteItem() {
+	@Test
+	public void deleteItem_should_return_the_id_if_successful() {
 		Item item = new Item(1);
 		String json = jsonHandler.itemToJSON(item);
-		int nrBefore = dbHandler.items.size();
-		int bidsBefore = dbHandler.bids.size();
+		dbHandler.setDeleteResult(true);
+		initProvider();
 		int result = provider.deleteItem(json);
-		int nrAfter = dbHandler.items.size();
-		int bidsAfter = dbHandler.bids.size();
 		
-		assertEquals(item.getItemno(), result);
-		assertEquals(nrBefore, nrAfter + 1);
-		assertEquals(bidsBefore, bidsAfter + 2);		
+		assertEquals(item.getItemno(), result);				
 	}
 	
 	@Test
+	public void deleteItem_should_return_minus_one_if_unsuccessful() {
+		Item item = new Item(1);
+		String json = jsonHandler.itemToJSON(item);
+		dbHandler.setDeleteResult(false);
+		initProvider();
+		int result = provider.deleteItem(json);
+		
+		assertEquals(-1, result);	
+	}
+	
+	/*@Test
 	public void getAllItems() {
 		ArrayList<PrettyItem> items = provider.getAllItems();
 		
