@@ -68,4 +68,8 @@ public class MySQLDatabaseHandler implements DatabaseHandler {
 	public boolean executeScript(String path) {
 		return mysqlConnector.executeScript(path);
 	}
+	
+	public boolean tearDown() {
+		return mysqlConnector.tearDown();
+	}
 }

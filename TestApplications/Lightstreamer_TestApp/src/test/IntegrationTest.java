@@ -14,7 +14,7 @@ import database.connector.Row;
 
 @RunWith(JUnit4.class)
 public class IntegrationTest {
-	private static DatabaseHandler handler;	
+	private static MySQLDatabaseHandler handler;	
 	
 	@BeforeClass
 	public static void setUpCase() {
@@ -34,19 +34,36 @@ public class IntegrationTest {
 		assertEquals("Chrome", result.get(0).getField("Username").getFieldAsString());
 	}
 	
+	@Test
+	public void verifyLogIn_shoudl_return_null_if_credentials_are_wrong() {
+		assertNull(handler.verifyLogIn("Non", "Existent"));		
+	}
+	
+	@Test
+	public void user_should_be_able_to_register_new_user() {
+		String username = "Testuser";
+		handler.registerUser(username, "Firstname", "Lastname", "Adress", "123");
+		ArrayList<Row> result = handler.verifyLogIn(username, "123");
+		
+		assertEquals(1, result.size());
+		assertEquals(username, result.get(0).getField("Username").getFieldAsString());
+	}
+	
 	/*
-	 * it("should be able to log in if credentials are correct"
-	 * it("should get error message if credentials are wrong"
-	 * it("should be able to register a new user and log in with it"
 	 *  it("should be able to register a new item and retrieve it from the database"
 	 *  it("should be able to delete an existing item"
 	 *  it("should be able to get all items"
 	 */
 	
 	
+	@After
+	public void tearDown() {
+		handler.executeScript("./src/test/files/dbRefresh.sql");		
+	}
+	
 	@AfterClass
-	public static void tearDown() {
-		handler.executeScript("./src/test/files/dbRefresh.sql");
+	public static void shutDownDb() {
+		assertTrue(handler.tearDown());
 	}
 	
 }
