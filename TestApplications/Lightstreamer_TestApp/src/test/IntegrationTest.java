@@ -49,8 +49,19 @@ public class IntegrationTest {
 		assertEquals(username, result.get(0).getField("Username").getFieldAsString());
 	}
 	
-	/*
-	 *  it("should be able to register a new item and retrieve it from the database"
+	@Test
+	public void user_should_be_able_to_register_a_new_item_and_get_back_id() {
+		long id = handler.registerItem("Test", 1337, "2013-08-23", "description", 1);
+		
+		assertEquals(5, id);
+	}
+	
+	@Test
+	public void deleteItem_should_return_true_if_deletion_was_successful() {
+		assertTrue(handler.deleteItem(1));
+	}
+	
+	/*	
 	 *  it("should be able to delete an existing item"
 	 *  it("should be able to get all items"
 	 */
