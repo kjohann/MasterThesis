@@ -90,26 +90,32 @@ public class ServiceProviderTest {
 		
 		assertNull(result);	
 	}
-	/*
+	
 	@Test
-	public void registerUser() {
+	public void registerUser_should_return_true_if_registration_was_successful() {
 		User user = new User(0, "User4", "Insert", "Insertson", "InjectStreet", "Ins");
 		String json = jsonHandler.userToJSON(user);
-		int nrBefore = dbHandler.users.size();
-		boolean result = provider.registerUser(json);
-		int nrAfter = dbHandler.users.size();
+		dbHandler.setRegisterUserID(1);
+		initProvider();
+		
+		boolean result = provider.registerUser(json);		
 		
 		assertTrue(result);
-		assertEquals(nrBefore, nrAfter - 1);
+	}
+	
+	@Test
+	public void registerUser_should_return_false_if_registration_was_unsuccessfull() {
+		User user = new User(0, "User4", "Insert", "Insertson", "InjectStreet", "Ins");
+		String json = jsonHandler.userToJSON(user);
+		dbHandler.setRegisterUserID(-1);
+		initProvider();
 		
-		user = new User(0, null, null, null, null, null);
-		json = jsonHandler.userToJSON(user);
-		result = provider.registerUser(json);
+		boolean result = provider.registerUser(json);		
 		
 		assertFalse(result);
 	}
 	
-	@SuppressWarnings("deprecation")
+	/*@SuppressWarnings("deprecation")
 	@Test
 	public void registerItem() {
 		Item item = new Item(0, 1337, 1, "InsertItem", "Test insert", new java.sql.Date(2013-1900, 7, 23), "");
