@@ -20,7 +20,7 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 	
 	//Refactoring...
 	private ArrayList<Row> userResult, usersBidsResult;
-	private int placeBidID, registerUserID;
+	private int placeBidID, registerUserID, registerItemID;
 	
 	private DummyDatabaseHandler() {
 		populateUsers();
@@ -54,6 +54,10 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 	
 	public void setRegisterUserID(int id) {
 		registerUserID = id;
+	}
+	
+	public void setRegisterItemID(int id) {
+		registerItemID = id;
 	}
 	
 	public void populateUsersBidsResult(ArrayList<Bid> bids) {
@@ -96,13 +100,7 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 
 	@Override
 	public long registerItem(String name, int price, String expires, String description, int addedByID) {
-		if(!expires.matches("\\d{4}-\\d{1,2}-\\d{1,2}") || getUserName(addedByID) == null)
-			return -1; //Will cast SQLException if wrong dateformat is allowed through or addedByID is of non-existing User.
-		String [] exp = expires.split("-");
-		int year = Integer.parseInt(exp[0]), month = Integer.parseInt(exp[1]) - 1, day = Integer.parseInt(exp[2]);
-		Item item = new Item(nextItem++, price, addedByID, name, description, new Date(year - 1900, month, day), "");
-		items.add(item);
-		return item.getItemno();
+		return registerItemID;
 	}
 
 	@Override

@@ -67,16 +67,14 @@ public class ServiceProviderTest {
 	}
 	
 	@Test
-	public void placeBid_should_set_id_of_a_bid_and_return_it_if_successful() {
+	public void placeBid_should_return_the_bid_back_with_id_set_from_database() {
 		Bid incoming = new Bid(0, 1, 3, 15000, "User3");
 		dbHandler.setReturnBid(1);
 		initProvider();
 		String json = jsonHandler.bidToJSON(incoming);
 		Bid result = provider.placeBid(json);
-		
-		
-		assertNotNull(result);
-		
+				
+		assertNotNull(result);		
 		assertEquals(1, result.getBidID());		
 	}
 	
@@ -115,33 +113,33 @@ public class ServiceProviderTest {
 		assertFalse(result);
 	}
 	
-	/*@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	@Test
-	public void registerItem() {
+	public void registerItem_should_return_the_item_back_with_id_set_from_database() {
 		Item item = new Item(0, 1337, 1, "InsertItem", "Test insert", new java.sql.Date(2013-1900, 7, 23), "");
 		String json = jsonHandler.itemToJSON(item);
-		int nrBefore = dbHandler.items.size();
+		dbHandler.setRegisterItemID(1);
+		initProvider();
+		
 		Item result = provider.registerItem(json);
-		int nrAfter = dbHandler.items.size();
 		
 		assertNotNull(result);
-		assertEquals(result.getItemno(), nrAfter);
-		assertEquals(nrBefore, nrAfter - 1);
-		assertEquals(result.getPrice(), item.getPrice());
-		assertEquals(result.getAddedByID(), item.getAddedByID());
-		assertEquals(result.getName(), item.getName());
-		assertEquals(result.getDescription(), item.getDescription());
-		assertEquals(result.getExpires(), item.getExpires());
-		
-		item.setAddedByID(9); //Non existing user - would cast exception.
-		json = jsonHandler.itemToJSON(item);
-		result = provider.registerItem(json);
-		
-		assertEquals(nrAfter, dbHandler.items.size());
-		assertNull(result);
+		assertEquals(1, result.getItemno());
 	}
 	
 	@Test
+	public void registerItem_should_return_null_if_unsuccessful() {
+		Item item = new Item(0, 1337, 1, "InsertItem", "Test insert", new java.sql.Date(2013-1900, 7, 23), "");
+		String json = jsonHandler.itemToJSON(item);
+		dbHandler.setRegisterItemID(-1);
+		initProvider();
+		
+		Item result = provider.registerItem(json);
+		
+		assertNull(result);
+	}
+	
+	/*@Test
 	public void deleteItem() {
 		Item item = new Item(1);
 		String json = jsonHandler.itemToJSON(item);
