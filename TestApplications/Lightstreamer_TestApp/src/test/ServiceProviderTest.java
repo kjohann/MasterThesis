@@ -162,26 +162,27 @@ public class ServiceProviderTest {
 		assertEquals(-1, result);	
 	}
 	
-	/*@Test
-	public void getAllItems() {
-		ArrayList<PrettyItem> items = provider.getAllItems();
+	@Test
+	public void getAllItems_should_return_all_items_as_prettyItems() {
+		ArrayList<PrettyItem> items = new ArrayList<PrettyItem>();
+		items.add(new PrettyItem(1, "Item1", "desc", "SomeUser", 1337, 1337, 1, new java.sql.Date(123)));	
+		items.add(new PrettyItem(2, "Item2", "desc", "SomeUser2", 42, 42, 2, new java.sql.Date(123)));
+		dbHandler.populateGetAllItemsResult(items);
+		initProvider();
 		
-		assertEquals(items.size(), dbHandler.items.size());
-		assertEquals(items.get(0).getItemno(), dbHandler.items.get(0).getItemno());
-		assertEquals(items.get(1).getItemno(), dbHandler.items.get(1).getItemno());
-		assertEquals(items.get(2).getItemno(), dbHandler.items.get(2).getItemno());
+		ArrayList<PrettyItem> result = provider.getAllItems();
 		
-		Item delete = new Item(1);
-		String json = jsonHandler.itemToJSON(delete);
-		provider.deleteItem(json);
+		assertEquals(items.get(0).getName(), result.get(0).getName());
+		assertEquals(items.get(1).getName(), result.get(1).getName());		
+	} 
+	
+	@Test
+	public void getAllItems_should_return_null_if_there_are_no_items() {
+		dbHandler.populateGetAllItemsResult(new ArrayList<PrettyItem>());
+		initProvider();
 		
-		items = provider.getAllItems();
-		
-		assertEquals(items.size(), dbHandler.items.size());
-		assertEquals(items.get(0).getItemno(), dbHandler.items.get(0).getItemno());
-		assertEquals(items.get(1).getItemno(), dbHandler.items.get(1).getItemno());
-		
-	} */
+		assertNull(provider.getAllItems());
+	}
 	
 	private void initProvider() {
 		provider = ServiceProvider.getInstance(dbHandler);
