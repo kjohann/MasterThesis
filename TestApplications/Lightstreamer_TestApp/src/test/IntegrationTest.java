@@ -61,8 +61,14 @@ public class IntegrationTest {
 		assertTrue(handler.deleteItem(1));
 	}
 	
+	@Test
+	public void getAllItems_should_return_all_items_wiht_bids() {
+		ArrayList<Row> itemRows = handler.getAllItems();
+		
+		assertEquals(3, itemRows.size());
+	}
+	
 	/*	
-	 *  it("should be able to delete an existing item"
 	 *  it("should be able to get all items"
 	 */
 	
