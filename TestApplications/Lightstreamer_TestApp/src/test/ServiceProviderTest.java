@@ -24,70 +24,49 @@ public class ServiceProviderTest {
 	public void prepare() {
 		dbHandler = DummyDatabaseHandler.getInstance();
 		jsonHandler = JSONHandler.getInstance();
-		provider = ServiceProvider.getInstance(dbHandler);
 	}
 	
 	@Test
-	public void verifyLogInSuccess() {
-		User loginUser = new User(0, "User1", null, null, null, "123");
+	public void verifyLogIn_should_return_a_user_with_matching_password_and_username_but_password_should_be_null() {
+		User loginUser = new User(42, "User1", null, null, null, "123");
 		ArrayList<User> expected = new ArrayList<User>(); expected.add(loginUser);
 		dbHandler.populateUserResult(expected);
+		initProvider();
 		String json = jsonHandler.userToJSON(loginUser);
 		User user = provider.verifyLogIn(json);
 		
 		assertEquals("User1", user.getUsername());
 		assertNull(user.getPassword());
-		assertNotNull(user.getFirstname());
-		assertNotNull(user.getLastname());
-		assertNotNull(user.getAdress());
-		assertNotEquals(0, user.getUserID());
+	}
+	
+	@Test
+	public void verifyLogIn_should_return_a_user_with_id_0_if_login_failed() {
+		dbHandler.populateUserResult(null);
+		initProvider();
+		User loginUser = new User(123, "Derp", null, null, null, "123");
+		String json = jsonHandler.userToJSON(loginUser);
+		User user = provider.verifyLogIn(json);
+		
+		assertEquals(0,user.getUserID());
+	}
+		
+	@Test
+	public void getUsersBids_should_return_a_list_of_bids_corresponding_to_that_users_bids() {
+		User bidsUser = new User(1, "Irrelevant", null, null, null, null); //only ID relevant and username has to be set due to JSONHandler.
+		String json = jsonHandler.userToJSON(bidsUser);
+		ArrayList<Bid> expectedBids = new ArrayList<Bid>();
+		expectedBids.add(new Bid(1, 1, 1, 1337, bidsUser.getUsername()));
+		expectedBids.add(new Bid(2, 2, 1, 42, bidsUser.getUsername())); 
+		dbHandler.populateUsersBidsResult(expectedBids);
+		initProvider();
+		
+		ArrayList<ViewBid> viewBids = provider.getUsersBids(json);
+		
+		assertEquals(2, viewBids.size());
+		assertEquals(2, viewBids.get(1).getItemno());		
 	}
 	
 /*	@Test
-	public void verifyLogInFailNonExistingUser() {
-		User loginUser = new User(0, "Derp", null, null, null, "123");
-		String json = jsonHandler.userToJSON(loginUser);
-		User user = provider.verifyLogIn(json);
-		
-		assertEquals(0,user.getUserID());
-	}
-	
-	@Test
-	public void verifyLogInFailWrongPassword() {
-		User loginUser = new User(0, "User1", null, null, null, "1337Hax");
-		String json = jsonHandler.userToJSON(loginUser);
-		User user = provider.verifyLogIn(json);
-		
-		
-		assertEquals(0,user.getUserID());
-	}
-	
-	
-	@Test
-	public void getUsersBids() {
-		User bidsUser = new User(1, "Irrelevant", null, null, null, null); //only ID relevant and username has to be set due to JSONHandler.
-		String json = jsonHandler.userToJSON(bidsUser);
-		ArrayList<ViewBid> viewBids = provider.getUsersBids(json);
-		
-		assertEquals(1, viewBids.size());
-		assertEquals(2, viewBids.get(0).getItemno());
-		
-		bidsUser.setUserID(2);
-		json = jsonHandler.userToJSON(bidsUser);
-		viewBids = provider.getUsersBids(json);
-		
-		assertEquals(2, viewBids.size());
-		assertEquals(1, viewBids.get(0).getItemno());
-		assertEquals(3, viewBids.get(1).getItemno());
-		
-		bidsUser.setUserID(3);
-		json = jsonHandler.userToJSON(bidsUser);
-		viewBids = provider.getUsersBids(json);
-		
-		assertNull(viewBids);
-	}
-	
-	@Test
 	public void placeBid() {
 		Bid incoming = new Bid(0, 1, 3, 15000, "User3");
 		int nrBefore = dbHandler.bids.size();				
@@ -190,4 +169,8 @@ public class ServiceProviderTest {
 		assertEquals(items.get(1).getItemno(), dbHandler.items.get(1).getItemno());
 		
 	} */
+	
+	private void initProvider() {
+		provider = ServiceProvider.getInstance(dbHandler);
+	}
 }

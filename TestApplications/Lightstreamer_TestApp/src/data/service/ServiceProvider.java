@@ -20,10 +20,8 @@ public class ServiceProvider {
 		this.jsonHandler = JSONHandler.getInstance();
 	}
 	
-	public static ServiceProvider getInstance(DatabaseHandler dbHandler) {
-		if(instance == null) {
-			instance = new ServiceProvider(dbHandler);
-		}
+	public static ServiceProvider getInstance(DatabaseHandler dbHandler) { //cannot have singleton here
+		instance = new ServiceProvider(dbHandler);
 		return instance;
 	}
 	

@@ -19,7 +19,7 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 	private int nextUser, nextItem, nextBid;
 	
 	//Refactoring...
-	private ArrayList<Row> userResult;
+	private ArrayList<Row> userResult, usersBidsResult;
 	
 	private DummyDatabaseHandler() {
 		populateUsers();
@@ -32,7 +32,8 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 	}
 	
 	public void populateUserResult(ArrayList<User> users) {
-		userResult = new ArrayList<Row>();
+		userResult = users != null ? new ArrayList<Row>() : null;
+		if(userResult == null) return;
 		
 		for(User user : users) {
 			Row row = new Row();
@@ -46,49 +47,32 @@ public class DummyDatabaseHandler implements DatabaseHandler {
 		}
 	}
 	
+	public void populateUsersBidsResult(ArrayList<Bid> bids) {
+		usersBidsResult =  bids != null ? new ArrayList<Row>() : null;
+		if(usersBidsResult == null) return;
+		
+		for(Bid bid : bids) {
+			Row row = new Row();
+			Field itemno = new Field("itemno", bid.getItemno());
+			Field value = new Field("value", bid.getValue());
+			Field name = new Field("name", getItemName(bid.getItemno()));
+			row.addField(itemno); row.addField(value); row.addField(name);
+			usersBidsResult.add(row);
+		}
+	}
+	
 	public static DummyDatabaseHandler getInstance() {
 		return instance == null ? new DummyDatabaseHandler() : instance;
 	}
 	
 	@Override
 	public ArrayList<Row> verifyLogIn(String username, String password) {
-		ArrayList<Row> rows = new ArrayList<>();
-		Row row = null;
-		Field id = null, userN = null, firstN = null, lastN = null, adr = null;
-		for(User user : users) {
-			if(user.getUsername().equals(username) && user.getPassword().equals(password)) {
-				row = new Row();
-				id = new Field("UserID", user.getUserID());
-				userN = new Field("Username", user.getUsername());
-				firstN = new Field("Firstname", user.getFirstname());
-				lastN = new Field("Lastname", user.getLastname());
-				adr = new Field("Adress", user.getAdress());
-				row.addField(id); row.addField(userN); row.addField(firstN); row.addField(lastN); row.addField(adr);
-				rows.add(row);
-			}
-		}
-		
-		return rows.size() > 0 ? rows : null;
+		return userResult;
 	}
 
 	@Override
 	public ArrayList<Row> getBidsByUser(int userId) {
-		ArrayList<Row> rows = new ArrayList<>();
-		Row row = null;
-		Field itemno = null, value = null, name = null;
-		
-		for(Bid bid : bids) {
-			if(bid.getUserId() == userId && isHighestBid(bid)) {
-				row = new Row();
-				itemno = new Field("itemno", bid.getItemno());
-				value = new Field("value", bid.getValue());
-				name = new Field("name", getItemName(bid.getItemno()));
-				row.addField(itemno); row.addField(value); row.addField(name);
-				rows.add(row);
-			}
-		}
-		
-		return rows.size() > 0 ? rows : null;
+		return usersBidsResult;
 	}
 
 	@Override
