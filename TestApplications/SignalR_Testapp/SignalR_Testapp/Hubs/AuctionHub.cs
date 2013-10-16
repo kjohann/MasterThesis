@@ -7,50 +7,50 @@ namespace SignalR_Testapp.Hubs
 {
     public class AuctionHub : Hub
     {
-        private AuctionHubService _service;
+        private readonly AuctionHubService _service;
 
         public AuctionHub(IDataprovider provider)
         {
             _service = new AuctionHubService(provider);
         }
 
-        public User login(string username, string password)
+        public User Login(string username, string password)
         {
-            return _service.verifyLogin(username, password);
+            return _service.VerifyLogin(username, password);
         }
 
-        public IEnumerable<PrettyItem> getAllItems()
+        public IEnumerable<PrettyItem> GetAllItems()
         {
-            return _service.getAllItems();
+            return _service.GetAllItems();
         }
 
-        public IEnumerable<ViewBid> getUsersBids(long userID)
+        public IEnumerable<ViewBid> GetUsersBids(long userID)
         {
-            return _service.getUsersBids(userID);
+            return _service.GetUsersBids(userID);
         }
 
-        public bool register(User user)
+        public bool Register(User user)
         {
-            return _service.register(user);
+            return _service.Register(user);
         }
 
-        public void addItem(Item item, string username)
+        public void AddItem(Item item, string username)
         {
-            var prettyItem = _service.addItem(item, username);
+            var prettyItem = _service.AddItem(item, username);
             if(prettyItem != null)
                 Clients.All.receiveItem(prettyItem);
         }
 
-        public void placeBid(Bid newbid)
+        public void PlaceBid(Bid newbid)
         {
-            var returnBid = _service.placeBid(newbid);
+            var returnBid = _service.PlaceBid(newbid);
             if (returnBid != null)
                 Clients.All.receiveBid(returnBid);
         }
 
-        public void deleteItem(long itemno)
+        public void DeleteItem(long itemno)
         {
-            if (_service.deleteItem(itemno))
+            if (_service.DeleteItem(itemno))
                 Clients.All.removeItem(itemno);
         }
     }

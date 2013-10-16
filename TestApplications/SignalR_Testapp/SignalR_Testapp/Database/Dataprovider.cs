@@ -8,11 +8,11 @@ namespace SignalR_Testapp.Database
 {
     public class Dataprovider : IDataprovider
     {
-        auctionhouseEntities db = new auctionhouseEntities(); 
-        public User verifyLogin(string username, string password)
+        private readonly auctionhouseEntities _db = new auctionhouseEntities(); 
+        public User VerifyLogin(string username, string password)
         {
 
-            var users = (db.user.Where(u => u.Username.Equals(username) &&
+            var users = (_db.user.Where(u => u.Username.Equals(username) &&
                                             u.Password.Equals(password)).Select(u => new User
                                                 {
                                                     userID = u.UserID,
@@ -25,14 +25,14 @@ namespace SignalR_Testapp.Database
             return users.Count > 1 ? null : users.FirstOrDefault();
         }
 
-        public IEnumerable<PrettyItem> getAllItems()
+        public IEnumerable<PrettyItem> GetAllItems()
         {
-            return from i in db.item
-                   join b in db.bid on i.itemno equals b.itemno
-                   join u in db.user on b.userID equals u.UserID
+            return from i in _db.item
+                   join b in _db.bid on i.itemno equals b.itemno
+                   join u in _db.user on b.userID equals u.UserID
                    join x in 
                        ( 
-                            from bi in db.bid
+                            from bi in _db.bid
                             group bi by bi.itemno into g
                             select new {itemno = g.Key, max = g.Max(y => y.value)}
                        ) 
@@ -51,14 +51,14 @@ namespace SignalR_Testapp.Database
                    };                   
         }
 
-        public IEnumerable<ViewBid> getUsersBids(long userID)
+        public IEnumerable<ViewBid> GetUsersBids(long userID)
         {
-            return from i in db.item
-                   join b in db.bid on i.itemno equals b.itemno
-                   join u in db.user on b.userID equals u.UserID
+            return from i in _db.item
+                   join b in _db.bid on i.itemno equals b.itemno
+                   join u in _db.user on b.userID equals u.UserID
                    join x in
                        (
-                            from bi in db.bid
+                            from bi in _db.bid
                             group bi by bi.itemno into g
                             select new { itemno = g.Key, max = g.Max(y => y.value) }
                        )
@@ -72,7 +72,7 @@ namespace SignalR_Testapp.Database
                    };
         }
 
-        public bool register(User user)
+        public bool Register(User user)
         {
             try
             {
@@ -84,8 +84,8 @@ namespace SignalR_Testapp.Database
                     Adress = user.adress,
                     Password = user.password
                 };
-                db.user.Add(add);
-                db.SaveChanges();
+                _db.user.Add(add);
+                _db.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -95,7 +95,7 @@ namespace SignalR_Testapp.Database
             }
         }
 
-        public PrettyItem addItem(Item item, string username)
+        public PrettyItem AddItem(Item item, string username)
         {
             try
             {
@@ -108,8 +108,8 @@ namespace SignalR_Testapp.Database
                     addedByID = item.addedByID
                 };
                 
-                db.item.Add(addItem);
-                db.SaveChanges();
+                _db.item.Add(addItem);
+                _db.SaveChanges();
                 var nullBid = new bid
                 {
                     itemno = addItem.itemno,
@@ -118,8 +118,8 @@ namespace SignalR_Testapp.Database
                     username = username
                 };
                 
-                db.bid.Add(nullBid);
-                db.SaveChanges(); 
+                _db.bid.Add(nullBid);
+                _db.SaveChanges(); 
                 
                 return new PrettyItem
                 {
@@ -140,12 +140,12 @@ namespace SignalR_Testapp.Database
             }
         }
 
-        public bool deleteItem(long itemno)
+        public bool DeleteItem(long itemno)
         {
             try
             {
-                db.item.Remove((from i in db.item where i.itemno == itemno select i).Single());
-                db.SaveChanges();
+                _db.item.Remove((from i in _db.item where i.itemno == itemno select i).Single());
+                _db.SaveChanges();
                 return true;
             }
             catch(Exception e)
@@ -155,7 +155,7 @@ namespace SignalR_Testapp.Database
             }
         }
 
-        public Bid placeBid(Bid newbid)
+        public Bid PlaceBid(Bid newbid)
         {
             try
             {
@@ -167,8 +167,8 @@ namespace SignalR_Testapp.Database
                     username = newbid.username
                 };
 
-                db.bid.Add(b);
-                db.SaveChanges();
+                _db.bid.Add(b);
+                _db.SaveChanges();
 
                 newbid.bidID = b.bidID;
                 return newbid;

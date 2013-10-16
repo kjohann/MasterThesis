@@ -10,51 +10,51 @@ namespace SignalR_Testapp.Hubs
 {
     public class AuctionHubService
     {
-        private IDataprovider _provider;
+        private readonly IDataprovider _provider;
 
         public AuctionHubService(IDataprovider provider)
         {
             _provider = provider;
         }
 
-        public User verifyLogin(string username, string password)
+        public User VerifyLogin(string username, string password)
         {
-            return string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) ? null : _provider.verifyLogin(username, password);
+            return string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) ? null : _provider.VerifyLogin(username, password);
         }
 
-        public IEnumerable<PrettyItem> getAllItems()
+        public IEnumerable<PrettyItem> GetAllItems()
         {
-            return _provider.getAllItems();
+            return _provider.GetAllItems();
         }
 
-        public IEnumerable<ViewBid> getUsersBids(long userID)
+        public IEnumerable<ViewBid> GetUsersBids(long userID)
         {
             if (userID < 0)
             {
                 Console.Error.WriteLine("Corrupt data received for getUsersBids. UserID: " + userID);
                 return null;
             }
-            return _provider.getUsersBids(userID);
+            return _provider.GetUsersBids(userID);
         }
 
-        public bool register(User user)
+        public bool Register(User user)
         {
-            return user != null && _provider.register(user);
+            return user != null && _provider.Register(user);
         }
 
-        public PrettyItem addItem(Item item, string username)
+        public PrettyItem AddItem(Item item, string username)
         {                        
-            return item == null || string.IsNullOrEmpty(username) ? null : _provider.addItem(item, username);
+            return item == null || string.IsNullOrEmpty(username) ? null : _provider.AddItem(item, username);
         }
 
-        public bool deleteItem(long itemno)
+        public bool DeleteItem(long itemno)
         {
-            return itemno > 0 && _provider.deleteItem(itemno);
+            return itemno > 0 && _provider.DeleteItem(itemno);
         }
 
-        public Bid placeBid(Bid newbid)
+        public Bid PlaceBid(Bid newbid)
         {
-            return newbid != null ? _provider.placeBid(newbid) : null;
+            return newbid != null ? _provider.PlaceBid(newbid) : null;
         }
     }
 }
