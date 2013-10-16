@@ -1,4 +1,7 @@
-﻿using Moq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Policy;
+using Moq;
 using NUnit.Framework;
 using SignalR_Testapp.Database;
 using SignalR_Testapp.Hubs;
@@ -39,13 +42,33 @@ namespace SignalR_Tests.Unittests
             Assert.Null(_service.VerifyLogin("Care", "Face"));
         }
 
-        //[Test]
-        //public void getAllItemsTest()
-        //{
-        //    IEnumerable<PrettyItem> items = _service.GetAllItems();
-        //    Assert.AreEqual(3, count(items));
-        //}
+        [Test]
+        public void GetAllItems_should_return_a_list_of_prettyItems()
+        {
+            var items = new List<PrettyItem> {new PrettyItem {name = "Item1"}, new PrettyItem {name = "Item2"}};
+            _providerMock.Setup(x => x.GetAllItems()).Returns(items);
+            _service = new AuctionHubService(_providerMock.Object);
 
+            Assert.AreEqual(2, _service.GetAllItems().Count());
+        }
+
+        [Test]
+        public void GetUsersBids_should_return_null_if_id_is_less_than_zero()
+        {
+            _service = new AuctionHubService(_providerMock.Object);
+            Assert.Null(_service.GetUsersBids(-1));
+        }
+
+        [Test]
+        public void GetUsersBids_should_return_a_list_of_viewBids()
+        {
+            var bids = new List<ViewBid> {new ViewBid {name = "Item1"}, new ViewBid {name = "Item2"}};
+            _providerMock.Setup(x => x.GetUsersBids(It.IsAny<long>())).Returns(bids);
+            _service = new AuctionHubService(_providerMock.Object);
+
+            Assert.AreEqual(2, _service.GetUsersBids(2).Count());
+            
+        }
         //[Test]
         //public void getUsersBidsTest()
         //{
