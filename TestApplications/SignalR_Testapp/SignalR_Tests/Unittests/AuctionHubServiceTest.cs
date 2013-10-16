@@ -95,45 +95,47 @@ namespace SignalR_Tests.Unittests
             Assert.AreEqual(1, item.addedByID);
         }
 
+        [Test]
+        public void AddItem_should_return_null_if_provided_username_is_empty()
+        {
+            InitService();
+            Assert.Null(_service.AddItem(new Item(), ""));
+        }
+
+        [Test]
+        public void DeleteItem_should_return_false_if_itemno_is_negative()
+        {
+            InitService();
+            Assert.False(_service.DeleteItem(-1));
+        }
+
+        [Test]
+        public void DeleteItem_should_return_true_if_IDataprovider_returns_true()
+        {
+            _providerMock.Setup(x => x.DeleteItem(It.IsAny<long>())).Returns(true);
+            InitService();
+            Assert.True(_service.DeleteItem(1));
+        }
+
+        [Test]
+        public void PlaceBid_should_return_null_if_provided_bid_is_null()
+        {
+            InitService();
+            Assert.Null(_service.PlaceBid(null));
+        }
+
+        [Test]
+        public void PlaceBid_should_return_added_bid()
+        {
+            _providerMock.Setup(x => x.PlaceBid(It.IsAny<Bid>())).Returns(new Bid {value = 1337});
+            InitService();
+
+            Assert.AreEqual(1337, _service.PlaceBid(new Bid()).value);
+        }
+
         private void InitService()
         {
             _service = new AuctionHubService(_providerMock.Object);
-        }
- 
-        //[Test]
-        //public void addItemTest()
-        //{
-        //    Item addItem = new Item { name = "InsertItem", price = 1337, expires = new DateTime(2015, 10, 21), description = "What movie reference?", addedByID = 3 };
-        //    PrettyItem item = _service.AddItem(addItem, "User3");
-        //    Assert.AreEqual(4, addItem.itemno);
-        //    Assert.AreEqual(4, item.itemno);
-        //    Assert.AreEqual(1337, item.price);
-        //    Assert.AreEqual("User3", item.highestBidder);
-        //    Assert.Null(_service.AddItem(null, "User3"));
-        //}
-
-        //[Test]
-        //public void deleteItemTest()
-        //{
-        //    Assert.True(_service.DeleteItem(1));
-        //    Assert.False(_service.DeleteItem(4));
-        //}
-
-        //[Test]
-        //public void placeBidTest()
-        //{
-        //    Bid bid = new Bid { itemno = 3, userID = 3, username = "User3", value = 400000 };
-        //    Bid newbid = _service.PlaceBid(bid);
-
-        //    Assert.AreEqual(bid, newbid);
-        //    Assert.AreEqual(5, bid.bidID);
-        //}
-
-        //private int count(IEnumerable<object> list)
-        //{
-        //    int i = 0;
-        //    foreach (var o in list) { i++; }
-        //    return i;
-        //}
+        }  
     }
 }
