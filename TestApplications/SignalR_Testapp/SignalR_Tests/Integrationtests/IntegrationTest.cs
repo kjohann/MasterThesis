@@ -31,6 +31,30 @@ namespace SignalR_Tests.Integrationtests
             Assert.Null(_provider.VerifyLogin("Some", "Noneexistent"));
         }
 
+        [Test]
+        public void If_Register_returns_true_then_VerifyLogIn_should_be_successful_with_new_users_credentials()
+        {
+            var result = _provider.Register(new User
+            {
+                username = "Testuser", adress = "Teststreet", firstname = "Test", lastname = "Testson", password = "123"
+            });
+
+            Assert.True(result);
+            Assert.NotNull(_provider.VerifyLogin("Testuser", "123"));
+        }
+
+        [Test]
+        public void AddItem_should_return_prettyItem_with_id_set_if_successful()
+        {
+            var item = _provider.AddItem(new Item
+            {
+                addedByID = 1, name = "Test", description = "Desc", expires = new DateTime(2013, 7, 7), price = 1337
+            }, "Chrome");
+
+            Assert.AreEqual(5, item.itemno);
+            Assert.AreEqual("Chrome", item.highestBidder);
+        }
+
         [TearDown]
         public void TearDown()
         {
