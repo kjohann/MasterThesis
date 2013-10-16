@@ -8,7 +8,7 @@ namespace SignalR_Tests.Integrationtests
     [TestFixture]
     public class IntegrationTest
     {
-        private IDataprovider _provider;
+        private readonly IDataprovider _provider = new Dataprovider();
 
         [SetUp]
         public void SetUp()
@@ -17,11 +17,18 @@ namespace SignalR_Tests.Integrationtests
         }
 
         [Test]
-        public void Test()
+        public void VerifyLogIn_should_return_user_if_credentials_are_correct()
         {
-            _provider = new Dataprovider();
-            var result = _provider.Register(new User{adress = "Test", firstname = "test", lastname = "testson", password = "123", username = "user"});
-            Assert.True(result);
+            var user = _provider.VerifyLogin("Chrome", "123");
+
+            Assert.NotNull(user);
+            Assert.AreEqual("Chrome", user.username);
+        }
+
+        [Test]
+        public void VerifyLogIn_should_return_null_if_credentials_are_wrong()
+        {
+            Assert.Null(_provider.VerifyLogin("Some", "Noneexistent"));
         }
 
         [TearDown]
