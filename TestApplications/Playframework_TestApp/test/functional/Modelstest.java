@@ -2,7 +2,6 @@ package functional;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import models.Bid;
 import models.Item;
@@ -10,36 +9,18 @@ import models.PrettyItem;
 import models.User;
 import models.ViewBid;
 
-import org.fest.assertions.*;
 import org.junit.*;
-import static org.fluentlenium.core.filter.FilterConstructor.*;
-import static org.fest.assertions.fluentlenium.FluentLeniumAssertions.assertThat;
 import static org.junit.Assert.*;
-import pages.IndexPage;
 import play.test.Helpers;
-import play.test.TestBrowser;
-import play.test.WithApplication;
 import play.test.WithBrowser;
 import static play.test.Helpers.*;
 
-public class FuncTests extends WithBrowser{
+public class Modelstest extends WithBrowser{
 	@BeforeClass
 	public static void setUp() throws Exception {
 		Helpers.start(testServer(9000, fakeApplication(inMemoryDatabase(), fakeGlobal())));
 		populateDB();
 	}		
-	
-	@Test
-	public void browserTest() {
-    	browser = Helpers.testBrowser(FIREFOX);
-		IndexPage page = new IndexPage(browser.getDriver(), 9000);
-		browser.goTo(page);
-		page.isAt();
-		page.canGetAllItemsTest();		
-		page.canLogin();
-		page.canPlaceBid();
-		
-	}
 	
 	@Test
 	public void insertUser() {
