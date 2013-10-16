@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using SignalR_Testapp.Database;
 using SignalR_Testapp.Models;
@@ -53,6 +54,20 @@ namespace SignalR_Tests.Integrationtests
 
             Assert.AreEqual(5, item.itemno);
             Assert.AreEqual("Chrome", item.highestBidder);
+        }
+
+        [Test]
+        public void DeleteItem_should_return_true_if_deletion_was_successful()
+        {
+            Assert.True(_provider.DeleteItem(1));
+        }
+
+        [Test]
+        public void GetAllItems_should_return_all_items_in_database_with_bids()
+        {
+            var items = _provider.GetAllItems();
+
+            Assert.AreEqual(3, items.Count());
         }
 
         [TearDown]
