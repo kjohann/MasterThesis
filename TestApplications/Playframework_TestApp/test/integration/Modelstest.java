@@ -1,4 +1,4 @@
-package functional;
+package integration;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -71,7 +71,6 @@ public class Modelstest extends WithBrowser{
 		List<ViewBid> bids = ViewBid.get(1);
 		assertEquals(0, bids.size());
 		bids = ViewBid.get(2);
-		assertEquals(1, bids.size());
 		assertEquals("Asus K55V", bids.get(0).getName());
 	}
 	
