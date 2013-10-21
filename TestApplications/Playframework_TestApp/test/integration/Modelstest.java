@@ -12,10 +12,11 @@ import models.ViewBid;
 import org.junit.*;
 import static org.junit.Assert.*;
 import play.test.Helpers;
+import play.test.WithApplication;
 import play.test.WithBrowser;
 import static play.test.Helpers.*;
 
-public class Modelstest extends WithBrowser{
+public class Modelstest extends WithApplication{
 	@BeforeClass
 	public static void setUp() throws Exception {
 		Helpers.start(testServer(9000, fakeApplication(inMemoryDatabase(), fakeGlobal())));
