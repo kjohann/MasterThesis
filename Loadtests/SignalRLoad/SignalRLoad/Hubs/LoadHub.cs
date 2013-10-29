@@ -9,6 +9,12 @@ namespace SignalRLoad.Hubs
 {
     public class LoadHub : Hub
     {
+        private Monitor _monitor;
+
+        public LoadHub()
+        {
+            _monitor = Monitor.GetInstance();
+        }
         //Remove this..
         public void Hello()
         {
@@ -23,14 +29,18 @@ namespace SignalRLoad.Hubs
 
         public void Echo(Message message)
         {
-            message.SentFromServer = DateTime.Now;
+            _monitor.RegisterReceivedMessage();
+            message.SentFromServer = DateTime.Now;            
             Clients.Caller.receiveEcho(message);
+            _monitor.RegisterSentEchoMessage();
         }
 
         public void Broadcast(Message message)
         {
+            _monitor.RegisterReceivedMessage();
             message.SentFromServer = DateTime.Now;
             Clients.All.receiveBroadcast(message);
+            _monitor.RegisterSentBroadcastMessage();
         }
 
         public void Complete(string clientId)
@@ -45,6 +55,5 @@ namespace SignalRLoad.Hubs
             //merge data into one entity and write to file (csv or something)
             Clients.All.harvestComplete( /*Dataobject (as JSON if needed)*/); //only the "master client" will get this.
         }
-
     }
 }

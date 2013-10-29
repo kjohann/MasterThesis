@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 
@@ -12,9 +13,16 @@ namespace SignalRLoad.Models
         public int ExpectedTestDurationInMillis { get; set; }
         public long MessagesReceived { get; set; }
         public long MessagesSent { get; set; }
-        public IEnumerable<string> CompletedClients { get; set; } 
+        public IEnumerable<string> CompletedClients { get; set; }
 
-        private Monitor() {}
+        private Monitor()
+        {
+            NumberOfClients = 0;
+            ExpectedTestDurationInMillis = 0;
+            MessagesReceived = 0;
+            MessagesSent = 0;
+            CompletedClients = new Collection<string>();
+        }
 
         public static Monitor GetInstance()
         {
@@ -29,6 +37,21 @@ namespace SignalRLoad.Models
         public int OverTime(int actualTimeInMillis)
         {
             return actualTimeInMillis - ExpectedTestDurationInMillis;
+        }
+
+        public void RegisterReceivedMessage()
+        {
+            MessagesReceived++;
+        }
+
+        public void RegisterSentEchoMessage()
+        {
+            MessagesSent++;
+        }
+
+        public void RegisterSentBroadcastMessage()
+        {
+            MessagesSent += NumberOfClients;
         }
     }
 }
