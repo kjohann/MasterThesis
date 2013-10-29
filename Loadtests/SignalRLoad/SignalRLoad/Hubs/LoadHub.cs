@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
+using SignalRLoad.Models;
 
 namespace SignalRLoad.Hubs
 {
@@ -11,18 +12,28 @@ namespace SignalRLoad.Hubs
         //Remove this..
         public void Hello()
         {
-            Clients.All.hello();
+            Clients.Caller.hello();
         }
 
-        public void InitTest(String testToRun, int numberOfClients)
+        public void InitTest(string testToRun, int numberOfClients, int testDurationInMillis)
         {
-            //save numberOfClients
+            //save numberOfClients and duration
             Clients.All.initTest(testToRun);
         }
 
-        //Echo and EchoBroadCast
+        public void Echo(Message message)
+        {
+            message.SentFromServer = DateTime.Now;
+            Clients.Caller.receiveEcho(message);
+        }
 
-        public void Complete(String clientID)
+        public void Broadcast(Message message)
+        {
+            message.SentFromServer = DateTime.Now;
+            Clients.All.receiveBroadcast(message);
+        }
+
+        public void Complete(string clientId)
         {
             //register completed
             //if all are completed
