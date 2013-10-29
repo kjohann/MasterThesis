@@ -23,7 +23,9 @@ namespace SignalRLoad.Hubs
 
         public void InitTest(string testToRun, int numberOfClients, int testDurationInMillis)
         {
-            //save numberOfClients and duration
+            _monitor.ExpectedTestDurationInMillis = testDurationInMillis;
+            _monitor.NumberOfClients = numberOfClients;
+
             Clients.All.initTest(testToRun);
         }
 
@@ -46,8 +48,12 @@ namespace SignalRLoad.Hubs
         public void Complete(string clientId)
         {
             //register completed
-            //if all are completed
-            Clients.All.harvest(); //getData
+            _monitor.CompletedClients.Add(clientId);            
+
+            if (_monitor.Complete())
+            {
+                Clients.All.harvest(); //getData
+            }
         }
 
         public void GetData( /*Some object containting data*/)

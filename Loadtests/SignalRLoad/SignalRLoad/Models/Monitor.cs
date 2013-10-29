@@ -13,7 +13,7 @@ namespace SignalRLoad.Models
         public int ExpectedTestDurationInMillis { get; set; }
         public long MessagesReceived { get; set; }
         public long MessagesSent { get; set; }
-        public IEnumerable<string> CompletedClients { get; set; }
+        public Collection<string> CompletedClients { get; set; }
 
         private Monitor()
         {
