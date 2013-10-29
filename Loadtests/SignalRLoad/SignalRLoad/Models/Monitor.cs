@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 
@@ -13,7 +12,7 @@ namespace SignalRLoad.Models
         public int ExpectedTestDurationInMillis { get; set; }
         public long MessagesReceived { get; set; }
         public long MessagesSent { get; set; }
-        public Collection<string> CompletedClients { get; set; }
+        public HashSet<string> CompletedClients { get; set; }
 
         private Monitor()
         {
@@ -21,7 +20,7 @@ namespace SignalRLoad.Models
             ExpectedTestDurationInMillis = 0;
             MessagesReceived = 0;
             MessagesSent = 0;
-            CompletedClients = new Collection<string>();
+            CompletedClients = new HashSet<string>();
         }
 
         public static Monitor GetInstance()

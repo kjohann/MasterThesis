@@ -9,11 +9,13 @@ namespace SignalRLoad.Hubs
 {
     public class LoadHub : Hub
     {
-        private Monitor _monitor;
+        private readonly Monitor _monitor;
+        private readonly TestData _testData;
 
         public LoadHub()
         {
             _monitor = Monitor.GetInstance();
+            _testData = TestData.GetInstance();
         }
         //Remove this..
         public void Hello()
@@ -56,10 +58,16 @@ namespace SignalRLoad.Hubs
             }
         }
 
-        public void GetData( /*Some object containting data*/)
+        public void GetData(TestDataEntity testData)
         {
             //merge data into one entity and write to file (csv or something)
-            Clients.All.harvestComplete( /*Dataobject (as JSON if needed)*/); //only the "master client" will get this.
+            _testData.TestDataEntities.AddLast(testData);
+            //if dataset is completed
+            if (_testData.TestDataEntities.Count == _monitor.NumberOfClients)
+            {
+                Clients.All.harvestComplete( /*Dataobject (as JSON if needed)*/);
+                    //only the "master client" will get this use this.
+            }
         }
     }
 }
