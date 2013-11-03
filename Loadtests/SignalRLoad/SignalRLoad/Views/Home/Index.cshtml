@@ -1,10 +1,4 @@
-﻿@model dynamic
-
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
     <head>
@@ -23,8 +17,8 @@
                 $.connection.hub.logging = true;
                 var hubProxy = connection.createHubProxy('loadHub');
 
-                hubProxy.on("hello", function() {
-                    console.log("Received from first proxy");
+                hubProxy.on("hello", function(num) {
+                    console.log("Received from first proxy" + num);
                 });
 
                 connection.start().done(function() {
@@ -32,8 +26,8 @@
                     connection = $.hubConnection();
                     var hubProxy2 = connection.createHubProxy('loadHub');
 
-                    hubProxy2.on("hello", function () {
-                        console.log("Received from second proxy");
+                    hubProxy2.on("hello", function (num) {
+                        console.log("Received from second proxy" + num);
                     });
 
                     connection.start().done(function () {
