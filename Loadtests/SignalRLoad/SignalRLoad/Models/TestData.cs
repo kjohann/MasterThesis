@@ -28,18 +28,19 @@ namespace SignalRLoad.Models
         {
             var chart = new Chart {XAxis = BuildXAxis()};
 
-            var test = DateTime.Now; //test - StartTime gir f.eks 12 sekunder..
+            foreach (var entity in TestDataEntities)
+            {
+                //tell opp antall meldinger innenfor hvert intervall
+            }
             //For hver testDataEntity:
             //Hente ut meldinger hvor SentFromServer - StartTime > from og < to
             
             return chart;
         }
 
-        private int CalcNumberOfMessagesInIntervalFromStart(int from, int to)
+        public int CalcNumberOfMessagesInIntervalFromStart(int from, int to, IEnumerable<Message> messages)
         {
-            return TestDataEntities.Select(x => x.Messages.Where(
-                y => Round(false, (y.SentFromServer - StartTime).Seconds) >= @from && 
-                    Round(false, (y.SentFromServer - StartTime).Seconds) < to)).Count();
+            return messages.Count(x => Round(false, (x.SentFromServer - StartTime).Seconds) >= from && Round(false, (x.SentFromServer - StartTime).Seconds) < to);
         }
 
         private string[] BuildXAxis()
