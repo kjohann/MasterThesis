@@ -9,6 +9,8 @@ namespace SignalRLoad.Models
     {
         private static TestData _instance;
         public LinkedList<TestDataEntity> TestDataEntities { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime CompletionTme { get; set; }
 
         private TestData()
         {

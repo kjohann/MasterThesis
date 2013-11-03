@@ -20,13 +20,15 @@ namespace SignalRLoad.Hubs
         //Remove this..
         public void Hello()
         {
-            Clients.Caller.hello();
+            _monitor.RegisterReceivedMessage();
+            Clients.Caller.hello(_monitor.MessagesReceived);
         }
 
         public void InitTest(string testToRun, int numberOfClients, int testDurationInMillis)
         {
             _monitor.ExpectedTestDurationInMillis = testDurationInMillis;
             _monitor.NumberOfClients = numberOfClients;
+            _testData.StartTime = DateTime.Now;
 
             Clients.All.initTest(testToRun);
         }
@@ -54,6 +56,7 @@ namespace SignalRLoad.Hubs
 
             if (_monitor.Complete())
             {
+                _testData.CompletionTme = DateTime.Now;
                 Clients.All.harvest(); //getData
             }
         }
@@ -65,8 +68,9 @@ namespace SignalRLoad.Hubs
             //if dataset is completed
             if (_testData.TestDataEntities.Count == _monitor.NumberOfClients)
             {
+                //Prepare charts
                 Clients.All.harvestComplete( /*Dataobject (as JSON if needed)*/);
-                    //only the "master client" will get this use this.
+                    //only the "master client" will use this.
             }
         }
     }

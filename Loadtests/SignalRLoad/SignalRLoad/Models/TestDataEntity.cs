@@ -11,6 +11,5 @@ namespace SignalRLoad.Models
     public class TestDataEntity
     {
         public IEnumerable<Message> Messages { get; set; }
-        public DateTime CompletionTime { get; set; }
     }
 }
