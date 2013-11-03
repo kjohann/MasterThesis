@@ -27,15 +27,24 @@ namespace SignalRLoad.Models
         public Chart MessagesReceived()
         {
             var chart = new Chart {XAxis = BuildXAxis()};
-            
 
+            var test = DateTime.Now; //test - StartTime gir f.eks 12 sekunder..
+            //For hver testDataEntity:
+            //Hente ut meldinger hvor SentFromServer - StartTime > from og < to
             
             return chart;
         }
 
+        private int CalcNumberOfMessagesInIntervalFromStart(int from, int to)
+        {
+            return TestDataEntities.Select(x => x.Messages.Where(
+                y => Round(false, (y.SentFromServer - StartTime).Seconds) >= @from && 
+                    Round(false, (y.SentFromServer - StartTime).Seconds) < to)).Count();
+        }
+
         private string[] BuildXAxis()
         {
-            var seconds = (int) Math.Ceiling((double) Stopwatch.Elapsed.Seconds); //round up
+            var seconds = Round(true, Stopwatch.Elapsed.Seconds);
             var xAxis = new string[seconds];
 
             for (var i = 0; i < xAxis.Length; i++)
@@ -44,6 +53,11 @@ namespace SignalRLoad.Models
             }
 
             return xAxis;
+        }
+
+        private int Round(bool up, int value)
+        {
+            return up ? (int) Math.Ceiling((double) value) : (int) Math.Floor((double) value);
         }
     }
 }
