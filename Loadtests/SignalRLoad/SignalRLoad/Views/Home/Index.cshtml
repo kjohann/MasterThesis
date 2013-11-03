@@ -20,22 +20,22 @@
                 hubProxy.on("hello", function(num) {
                     console.log("Received from first proxy" + num);
                 });
-
+                window.hubTest = hubProxy;
                 connection.start().done(function() {
                     hubProxy.invoke("hello");
-                    connection = $.hubConnection();
-                    var hubProxy2 = connection.createHubProxy('loadHub');
+                    //connection = $.hubConnection();
+                    //var hubProxy2 = connection.createHubProxy('loadHub');
 
-                    hubProxy2.on("hello", function (num) {
-                        console.log("Received from second proxy" + num);
-                    });
+                    //hubProxy2.on("hello", function (num) {
+                    //    console.log("Received from second proxy" + num);
+                    //});
 
-                    connection.start().done(function () {
-                        console.log("Two conns?");
-                        hubProxy2.invoke("hello");
-                    }).fail(function () {
-                        console.log("Connection failed");
-                    });
+                    //connection.start().done(function () {
+                    //    console.log("Two conns?");
+                    //    hubProxy2.invoke("hello");
+                    //}).fail(function () {
+                    //    console.log("Connection failed");
+                    //});
                 }).fail(function() {
                     console.log("Connection failed");
                 });

@@ -28,7 +28,8 @@ namespace SignalRLoad.Hubs
         {
             _monitor.ExpectedTestDurationInMillis = testDurationInMillis;
             _monitor.NumberOfClients = numberOfClients;
-            _testData.StartTime = DateTime.Now;
+
+            _testData.Stopwatch.Start();
 
             Clients.All.initTest(testToRun);
         }
@@ -52,13 +53,12 @@ namespace SignalRLoad.Hubs
         public void Complete(string clientId)
         {
             //register completed
-            _monitor.CompletedClients.Add(clientId);            
+            _monitor.CompletedClients.Add(clientId);
 
-            if (_monitor.Complete())
-            {
-                _testData.CompletionTme = DateTime.Now;
-                Clients.All.harvest(); //getData
-            }
+            if (!_monitor.Complete()) return;
+            
+            _testData.Stopwatch.Stop();
+            Clients.All.harvest(); //getData
         }
 
         public void GetData(TestDataEntity testData)
