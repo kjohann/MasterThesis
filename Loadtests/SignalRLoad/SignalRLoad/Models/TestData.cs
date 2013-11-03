@@ -22,11 +22,11 @@ namespace SignalRLoad.Models
         public static TestData GetInstance()
         {
             return _instance ?? (_instance = new TestData());
-        }
+        }   
 
-        public Chart MessagesReceived()
+        public Chart MessagesReceived(int spacing)
         {
-            var chart = new Chart {XAxis = BuildXAxis()};
+            var chart = new Chart {XAxis = BuildXAxis(spacing, Stopwatch.ElapsedMilliseconds)};
 
             foreach (var entity in TestDataEntities)
             {
@@ -43,22 +43,26 @@ namespace SignalRLoad.Models
             return messages.Count(x => Round(false, (x.SentFromServer - StartTime).Seconds) >= from && Round(false, (x.SentFromServer - StartTime).Seconds) < to);
         }
 
-        private string[] BuildXAxis()
+        public string[] BuildXAxis(int spacing, long timeElapsed, bool includeZero = false)
         {
-            var seconds = Round(true, Stopwatch.Elapsed.Seconds);
-            var xAxis = new string[seconds];
+            var secondsElapsed = ((double)timeElapsed) / 1000;
+            var seconds = Round(true, secondsElapsed);
+            var length = seconds % spacing == 0 ? seconds / spacing : (seconds / spacing) + 1;
+            length = includeZero ? length + 1 : length;
+            var xAxis = new string[length];
 
             for (var i = 0; i < xAxis.Length; i++)
             {
-                xAxis[i] = i.ToString(CultureInfo.InvariantCulture);
+                var baseNum = includeZero ? i : i + 1;
+                xAxis[i] = (baseNum * spacing).ToString(CultureInfo.InvariantCulture);
             }
 
             return xAxis;
         }
 
-        private int Round(bool up, int value)
+        private static int Round(bool up, double value)
         {
-            return up ? (int) Math.Ceiling((double) value) : (int) Math.Floor((double) value);
+            return up ? (int) Math.Ceiling(value) : (int) Math.Floor(value);
         }
     }
 }

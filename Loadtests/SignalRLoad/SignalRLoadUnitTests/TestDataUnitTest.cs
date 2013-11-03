@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using FluentAssertions;
@@ -62,5 +63,36 @@ namespace SignalRLoadUnitTests
             numberOfMessages.ShouldBeEquivalentTo(4);
             messagesInNext.ShouldBeEquivalentTo(1);
         }
+
+        [Test]
+        public void BuildXAxis_should_give_a_xAxis_with_each_second_elapsed_if_spacing_is_equal_to_one()
+        {
+            var expectedAxis = new [] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11" };
+
+            var axis = _instance.BuildXAxis(1, 10300); //10.3 seconds
+
+            axis.ShouldAllBeEquivalentTo(expectedAxis);
+        }
+
+        [Test]
+        public void BuildXAxis_should_give_a_xAxis_with_intervals_that_matches_spacing()
+        {
+            var expectedAxis = new[] { "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110" };
+
+            var axis = _instance.BuildXAxis(10, 103000); //103 seconds
+
+            axis.ShouldAllBeEquivalentTo(expectedAxis);
+        }
+
+        [Test]
+        public void BuildXAxis_should_inclide_zero_if_specified()
+        {
+            var expectedAxis = new[] { "0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110" };
+
+            var axis = _instance.BuildXAxis(10, 103000, true); //103 seconds
+
+            axis.ShouldAllBeEquivalentTo(expectedAxis);
+        }
+
     }
 }
