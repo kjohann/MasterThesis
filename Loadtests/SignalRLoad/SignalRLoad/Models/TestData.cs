@@ -43,15 +43,10 @@ namespace SignalRLoad.Models
        
         public string[] BuildXAxis(int spacing, long timeElapsed, bool includeZero = false)
         {
-            //var secondsElapsed = ((double)timeElapsed) / 1000;
-            //var seconds = Round(true, secondsElapsed);
-            //var length = seconds % spacing == 0 ? seconds / spacing : (seconds / spacing) + 1;
-            //length = includeZero ? length + 1 : length;
-
             var secondsElapsed = (double) timeElapsed/spacing;
-            secondsElapsed = ((double) secondsElapsed/1000);
+            secondsElapsed = (secondsElapsed/1000);
             var seconds = Round(true, secondsElapsed);
-            var length = seconds;// % spacing == 0 ? seconds / spacing : (seconds / spacing) + 1;
+            var length = seconds;
 
             if (includeZero || ((int) secondsElapsed) == seconds)
             {
