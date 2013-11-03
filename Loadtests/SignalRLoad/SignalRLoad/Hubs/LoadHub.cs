@@ -65,7 +65,7 @@ namespace SignalRLoad.Hubs
         public void GetData(TestDataEntity testData)
         {
             //merge data into one entity and write to file (csv or something)
-            _testData.TestDataEntities.AddLast(testData);
+            _testData.TestDataEntities.Add(testData);
             //if dataset is completed
             if (_testData.TestDataEntities.Count == _monitor.NumberOfClients)
             {
