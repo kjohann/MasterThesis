@@ -9,5 +9,6 @@ namespace SignalRLoad.Models
         public DateTime ReceivedAtClient { get; set; }
         public string Payload { get; set; }
         public string MessageId { get; set; }
+        public string ClientId { get; set; }
     }
 }
