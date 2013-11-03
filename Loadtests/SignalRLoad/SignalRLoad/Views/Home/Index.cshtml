@@ -3,8 +3,8 @@
 <html>
     <head>
         <title>SignalRLoad</title>     
-        <script src="~/Scripts/jquery-1.6.4.min.js"></script>          
-        <script src="~/Scripts/jquery.signalR-2.0.0.js"></script>
+        <script src="~/Scripts/libs/jquery-1.6.4.min.js"></script>          
+        <script src="~/Scripts/libs/jquery.signalR-2.0.0.js"></script>
         <script src="~/signalr/hubs"></script>
     </head>
     <body>
@@ -23,19 +23,19 @@
                 window.hubTest = hubProxy;
                 connection.start().done(function() {
                     hubProxy.invoke("hello");
-                    //connection = $.hubConnection();
-                    //var hubProxy2 = connection.createHubProxy('loadHub');
+                    connection = $.hubConnection();
+                    var hubProxy2 = connection.createHubProxy('loadHub');
 
-                    //hubProxy2.on("hello", function (num) {
-                    //    console.log("Received from second proxy" + num);
-                    //});
+                    hubProxy2.on("hello", function (num) {
+                        console.log("Received from second proxy" + num);
+                    });
 
-                    //connection.start().done(function () {
-                    //    console.log("Two conns?");
-                    //    hubProxy2.invoke("hello");
-                    //}).fail(function () {
-                    //    console.log("Connection failed");
-                    //});
+                    connection.start().done(function () {
+                        console.log("Two conns?");
+                        hubProxy2.invoke("hello");
+                    }).fail(function () {
+                        console.log("Connection failed");
+                    });
                 }).fail(function() {
                     console.log("Connection failed");
                 });
