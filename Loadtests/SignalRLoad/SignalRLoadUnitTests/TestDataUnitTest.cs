@@ -117,27 +117,51 @@ namespace SignalRLoadUnitTests
         [Test]
         public void MakeDataSeries_should_a_series_of_data_containing_number_of_messages_sent_for_each_interval()
         {
-            _instance.TestDataEntities = new List<TestDataEntity>
-            {
-                new TestDataEntity{Messages = GetMessages()},
-                new TestDataEntity{Messages = GetMessages()},
-                new TestDataEntity{Messages = GetMessages()},
-                new TestDataEntity{Messages = GetMessages()}
-            };
-
-            var data = _instance.MakeDataSeries(2, 1);
-        }
-
-        private IEnumerable<Message> GetMessages()
-        {
             var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(100) };
             var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(300) };
             var message3 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(500) };
             var message4 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(999) };
             var message5 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(1000) };
 
-            return new List<Message> { message1, message2, message3, message4, message5 };            
-        } 
+            var messages = new List<Message> { message1, message2, message3, message4, message5 }; 
+            _instance.TestDataEntities = new List<TestDataEntity>
+            {
+                new TestDataEntity{Messages = messages},
+                new TestDataEntity{Messages = messages},
+                new TestDataEntity{Messages = messages},
+                new TestDataEntity{Messages = messages}
+            };
 
+            var data = _instance.MakeDataSeries(2, 1);
+            var expecedData = new[] {"16", "4"};
+
+            data.ShouldAllBeEquivalentTo(expecedData);
+
+        }
+
+        [Test]
+        public void MakeDataSeries_should_be_able_to_handle_zero_in_an_interval()
+        {
+            var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(1000) };
+            var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(3000) };
+            var message3 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(5000) };
+            var message4 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(9999) };
+            var message5 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(10000) };
+
+            var messages = new List<Message> { message1, message2, message3, message4, message5 }; 
+
+            _instance.TestDataEntities = new List<TestDataEntity>
+            {
+                new TestDataEntity{Messages = messages},
+                new TestDataEntity{Messages = messages},
+                new TestDataEntity{Messages = messages},
+                new TestDataEntity{Messages = messages}
+            };
+
+            var data = _instance.MakeDataSeries(11, 1);
+            var expecedData = new[] { "0", "4", "0", "4", "0", "4", "0", "0", "0", "4", "4" };
+
+            data.ShouldAllBeEquivalentTo(expecedData);
+        }
     }
 }
