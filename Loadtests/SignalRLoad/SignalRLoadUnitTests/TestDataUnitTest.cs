@@ -234,7 +234,7 @@ namespace SignalRLoadUnitTests
             _instance.BuildYAxis(data).ShouldAllBeEquivalentTo(expectedAxis);
         }
 
-        private IEnumerable<string> GetStringsWithSpacingOfOne()
+        private static IEnumerable<string> GetStringsWithSpacingOfOne()
         {
             var strings = new string[50];
 

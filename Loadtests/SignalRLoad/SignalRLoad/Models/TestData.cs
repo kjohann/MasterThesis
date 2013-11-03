@@ -28,10 +28,11 @@ namespace SignalRLoad.Models
         {
             var chart = new Chart
             {
+                Title = "Messages sent from clients and received by server pr. second",
                 XAxis = BuildXAxis(spacing, Stopwatch.ElapsedMilliseconds),
                 YAxisTitle = "Messages"
             };
-            var series = new List<Series>(); //will only have one series, at least for now     
+            var series = new List<Series>();    
             var serverData = MakeDataSeries(chart.XAxis.Length, spacing);                   
 
             series.Add(new Series
