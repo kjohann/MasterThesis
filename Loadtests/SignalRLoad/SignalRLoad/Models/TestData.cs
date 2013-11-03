@@ -27,7 +27,7 @@ namespace SignalRLoad.Models
         public Chart MessagesReceived(int spacing)
         {
             var chart = new Chart {XAxis = BuildXAxis(spacing, Stopwatch.ElapsedMilliseconds)};
-
+            var from = 0;
             foreach (var entity in TestDataEntities)
             {
                 //tell opp antall meldinger innenfor hvert intervall
