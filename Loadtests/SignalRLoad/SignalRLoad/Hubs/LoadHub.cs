@@ -29,6 +29,7 @@ namespace SignalRLoad.Hubs
             _monitor.ExpectedTestDurationInMillis = testDurationInMillis;
             _monitor.NumberOfClients = numberOfClients;
 
+            _testData.StartTime = DateTime.Now;
             _testData.Stopwatch.Start();
 
             Clients.All.initTest(testToRun);
