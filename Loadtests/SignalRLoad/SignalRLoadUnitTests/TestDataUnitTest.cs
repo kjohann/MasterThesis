@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using NUnit.Framework;
 using FluentAssertions;
@@ -59,6 +60,48 @@ namespace SignalRLoadUnitTests
 
             var numberOfMessages = _instance.CalcNumberOfMessagesInIntervalFromStart(0, 10, messages);
             var messagesInNext = _instance.CalcNumberOfMessagesInIntervalFromStart(10, 20, messages);
+
+            numberOfMessages.ShouldBeEquivalentTo(4);
+            messagesInNext.ShouldBeEquivalentTo(1);
+        }
+
+        [Test]
+        public void CalcNumberOfMessagesInIntervalFromStart_should_return_only_messages_within_the_interval_also_for_client_messages()
+        {
+            var message1 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(100) };
+            var message2 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(300) };
+            var message3 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(500) };
+            var message4 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(999) };
+            var message5 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(1000) };
+
+            var messages = new List<Message> { message1, message2, message3, message4, message5 };
+
+            var numberOfMessages = _instance.CalcNumberOfMessagesInIntervalFromStart(0, 1, messages, true);
+            var messagesInNext = _instance.CalcNumberOfMessagesInIntervalFromStart(1, 2, messages, true);
+
+            numberOfMessages.ShouldBeEquivalentTo(4);
+            messagesInNext.ShouldBeEquivalentTo(1);
+        }
+
+        [Test]
+        public void CalcNumberOfMessagesInIntervalFromStart_should_return_0_if_there_were_no_messages_also_for_client_messages()
+        {
+            _instance.CalcNumberOfMessagesInIntervalFromStart(0, 10, Enumerable.Empty<Message>(), true).ShouldBeEquivalentTo(0);
+        }
+
+        [Test]
+        public void CalcNumberOfMessagesInIntervalFromStart_should_be_able_to_handle_larger_intervals_also_for_client_messages()
+        {
+            var message1 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(1000) };
+            var message2 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(3000) };
+            var message3 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(5000) };
+            var message4 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(9999) };
+            var message5 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(10000) };
+
+            var messages = new List<Message> { message1, message2, message3, message4, message5 };
+
+            var numberOfMessages = _instance.CalcNumberOfMessagesInIntervalFromStart(0, 10, messages, true);
+            var messagesInNext = _instance.CalcNumberOfMessagesInIntervalFromStart(10, 20, messages, true);
 
             numberOfMessages.ShouldBeEquivalentTo(4);
             messagesInNext.ShouldBeEquivalentTo(1);
@@ -162,6 +205,45 @@ namespace SignalRLoadUnitTests
             var expecedData = new[] { "0", "4", "0", "4", "0", "4", "0", "0", "0", "4", "4" };
 
             data.ShouldAllBeEquivalentTo(expecedData);
+        }
+
+        [Test]
+        public void BuildYAxis_should_return_values_from_zero_up_to_and_including_the_maximum_value_if_less_than_fifty()
+        {
+            var data = new[] {1, 10, 32, 21, 15, 17, 19, 2, 2, 49, 48, 43, 6};
+            var expectedAxis = GetStringsWithSpacingOfOne();
+
+            _instance.BuildYAxis(data).ShouldAllBeEquivalentTo(expectedAxis);
+        }
+
+        [Test]
+        public void BuildYAxis_should_return_values_from_zero_up_to_above_maximum_with_spacing_10_if_larger_than_fifty()
+        {
+            var data = new[] { 1, 10, 72, 21, 15, 17, 59, 2, 2, 49, 48, 43, 6 };
+            var expectedAxis = new[] { "0", "10", "20", "30", "40", "50", "60", "70", "80" };
+
+            _instance.BuildYAxis(data).ShouldAllBeEquivalentTo(expectedAxis);
+        }
+
+        [Test]
+        public void BuildYAxis_should_return_values_from_zero_up_to_exactly_maximum_with_spacing_10_if_max_is_round_number()
+        {
+            var data = new[] { 1, 10, 72, 21, 15, 17, 59, 2, 2, 49, 48, 43, 6, 80 };
+            var expectedAxis = new[] { "0", "10", "20", "30", "40", "50", "60", "70", "80" };
+
+            _instance.BuildYAxis(data).ShouldAllBeEquivalentTo(expectedAxis);
+        }
+
+        private IEnumerable<string> GetStringsWithSpacingOfOne()
+        {
+            var strings = new string[50];
+
+            for (var i = 0; i < 50; i++)
+            {
+                strings[i] = i.ToString(CultureInfo.InvariantCulture);
+            }
+
+            return strings;
         }
     }
 }
