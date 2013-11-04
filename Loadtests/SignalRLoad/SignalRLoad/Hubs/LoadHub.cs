@@ -51,31 +51,26 @@ namespace SignalRLoad.Hubs
 
         public void Complete(string clientId)
         {
-            //register completed
             _monitor.CompletedClients.Add(clientId);
 
             if (!_monitor.Complete()) return;
             
             _monitor.Stopwatch.Stop();
-            Clients.All.harvest(); //getData
+            Clients.All.harvest(); 
         }
 
         public void GetData(TestDataEntity testData)
         {
-            //merge data into one entity and write to file (csv or something) -> API
             _monitor.TestDataEntities.Add(testData);
-            //if dataset is completed
+
             if (_monitor.HarvestedAll())
             {
-                //Prepare charts
                 Clients.All.harvestComplete(new
                 {
                     Entities = _monitor.TestDataEntities,
-                    Duration = _monitor.Stopwatch.ElapsedMilliseconds
+                    Duration = _monitor.Stopwatch.ElapsedMilliseconds,
+                    StartTime = _monitor.StartTime
                 });
-                //only the "master client" will use this.
-                //Use WebApi to get charts
-
             }
         }
     }
