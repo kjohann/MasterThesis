@@ -39,16 +39,16 @@
     };
 
     root.receiveMessage = function(message) {
-        //check if message is response to self -> push to array
+        findClient(message.ClientId).done(function(foundClient) {
+            foundClient.messages.push(message);
+        }).fail(function () {}); //really just ignore
     };    
 
     root.promoteToMaster = function(clientId) {
-        $.each(loadTest.clients, function(index, currentClient) {
-            if (currentClient.clientId === clientId) {
-                currentClient.master = true;
-                console.log("Promoted client with id " + currentClient.clientId + " to master");
-            }
-        });
+        findClient(clientId).done(function(foundClient) {
+            foundClient.master = true;
+            console.log("Promoted client with id " + foundClient.clientId + " to master");
+        }).fail(clientNotFound);
     };
 
     root.harvest = function() {
@@ -58,6 +58,24 @@
     root.harvestComplete = function(charts) {
 
     };
+    
+    function findClient(clientId) {
+        var deferred = new $.Deferred();
+
+        $.each(loadTest.clients, function (index, currentClient) {
+            if (currentClient.clientId === clientId) {
+                deferred.resolve(currentClient);
+            } else if (index === loadTest.clients.length - 1) {
+                deferred.reject({ message: "Couldn't find client with id: " + clientId });
+            }
+        });
+
+        return deferred.promise();
+    }
+    
+    function clientNotFound(error) {
+        console.log(error.message);
+    }
 
     //bind methods
     //expose those needed by charts.js to global scope
