@@ -1,6 +1,7 @@
 ﻿(function(loadTest, root, charts) {
     root.receiveMessage = function (message) { 
         findClient(message.ClientId).done(function (foundClient) {
+            message.ReceivedAtClient = new Date();
             foundClient.messages.push(message);
         }).fail(function () { }); //really just ignore
     };
