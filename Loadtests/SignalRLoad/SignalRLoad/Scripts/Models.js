@@ -4,7 +4,7 @@
         self.clientId = clientId;
         self.socket = socketObj;
         self.messages = [];
-        self.master = false;
+        self.masterId = false;
         self.messagesSent = 0;
     };
 

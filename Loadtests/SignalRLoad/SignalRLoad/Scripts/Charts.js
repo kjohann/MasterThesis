@@ -2,6 +2,7 @@
     //bind methods from server that are needed to build charts
     root.getCharts = function(data) { //in charts somehow
         //get charts from api
+        $.post(loadTest.chartUrl, JSON.stringify(data));
         //display charts
     };
 })(loadTest.charts = loadTest.charts || {});

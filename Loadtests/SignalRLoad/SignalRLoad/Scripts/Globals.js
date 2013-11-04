@@ -1,5 +1,7 @@
 ﻿(function() {
     window.loadTest = window.loadTest || {
+        chartUrl: "http://localhost:62753/api/charts",
+        masterId: 0, //will be 0 for all browsers that does not have the master
         connectionInterval: 200, //delay between connecting clients 
         numberOfClientsTotal: 0,
         numberOfClientsPrBrowser: 1,

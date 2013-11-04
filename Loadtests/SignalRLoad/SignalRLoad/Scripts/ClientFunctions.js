@@ -3,16 +3,19 @@
         findClient(message.ClientId).done(function (foundClient) {
             message.ReceivedAtClient = new Date();
             foundClient.messages.push(message);
-        }).fail(function () { }); //really just ignore
+        }).fail(function (error) { }); //really just ignore
     };
 
     root.harvestComplete = function(data) {
-        charts.getCharts(data);
+        findClient(loadTest.masterId).done(function(foundClient) {
+            charts.getCharts(data); //only invoke for master client
+        }).fail(function (error){ });        
     };
 
     root.promoteToMaster = function (clientId) { 
         findClient(clientId).done(function (foundClient) {
             foundClient.master = true;
+            loadTest.masterId = clientId;
             console.log("Promoted client with id " + foundClient.clientId + " to master");
         }).fail(clientNotFound);
     };
