@@ -1,15 +1,15 @@
 ﻿(function(loadTest, root, client) {
     //connect to hub
     
-    root.initConnection = function() {
+    root.initConnection = function() { //here
         for (var i = 0; i < loadTest.numberOfClientsPrBrowser; i++) {
             var clientId = i + loadTest.instanceId;
             var connection = $.hubConnection();
             var hubProxy = connection.createHubProxy('loadHub');
 
             hubProxy.on('initTest', initTest);
-            hubProxy.on('receiveEcho', receiveMessage); //bind - need separate??
-            hubProxy.on('receiveBroadcast', receiveMessage); //bind
+            hubProxy.on('receiveEcho', receiveMessage); 
+            hubProxy.on('receiveBroadcast', receiveMessage); 
             hubProxy.on('harvest', harvest);
             hubProxy.on('harvestComplete', harvestComplete);
 
@@ -26,7 +26,7 @@
         }
     };
 
-    root.initTest = function(test) {
+    root.initTest = function(test) { //here
         $.each(loadTest.clients, function(index, currentClient) {
             if (test === 'echo') {
                 //do echo
@@ -38,28 +38,28 @@
         });
     };
 
-    root.receiveMessage = function(message) {
+    root.receiveMessage = function(message) { //not here
         findClient(message.ClientId).done(function(foundClient) {
             foundClient.messages.push(message);
         }).fail(function () {}); //really just ignore
     };    
 
-    root.promoteToMaster = function(clientId) {
+    root.promoteToMaster = function(clientId) { //not here
         findClient(clientId).done(function(foundClient) {
             foundClient.master = true;
             console.log("Promoted client with id " + foundClient.clientId + " to master");
         }).fail(clientNotFound);
     };
 
-    root.harvest = function() {
-
+    root.harvest = function() { //here
+        //send message array of all clients to server
     };
 
-    root.harvestComplete = function(charts) {
-
+    root.harvestComplete = function(charts) { //in charts somehow
+        //deisplay charts
     };
     
-    function findClient(clientId) {
+    function findClient(clientId) { //utils?
         var deferred = new $.Deferred();
 
         $.each(loadTest.clients, function (index, currentClient) {
@@ -73,7 +73,7 @@
         return deferred.promise();
     }
     
-    function clientNotFound(error) {
+    function clientNotFound(error) { //utils - need?
         console.log(error.message);
     }
 
