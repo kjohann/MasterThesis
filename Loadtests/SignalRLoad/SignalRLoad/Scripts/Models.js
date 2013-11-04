@@ -5,6 +5,7 @@
         self.socket = socketObj;
         self.messages = [];
         self.master = false;
+        self.messagesSent = 0;
     };
 
     loadTest.Message = function(payload, clientId) {

@@ -24,7 +24,7 @@
     root.initTest = function(test) { 
         $.each(loadTest.clients, function(index, currentClient) {
             if (test === 'echo' || test === 'broadcast') {
-                currentClient.socket.invoke(test, new loadTest.Message("1337", currentClient.clientId));
+                sendMessage(test, currentClient);
             } else {
                 console.error("No such test!");
             }
@@ -37,4 +37,11 @@
             proxy.invoke('getData', { Messages: currentClient.messages });
         });
     };
+    
+    function sendMessage(test, client) {
+        if (client.messagesSent < loadTest.numberOfMessages) {
+            client.socket.invoke(test, new loadTest.Message("1337", client.clientId));
+            setTimeout(sendMessage, loadTest.messageInterval);
+        }
+    }
 })(loadTest, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions);

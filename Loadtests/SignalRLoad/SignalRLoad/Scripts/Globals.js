@@ -4,7 +4,7 @@
         numberOfClientsTotal: 0,
         numberOfClientsPrBrowser: 1,
         messageInterval: 200,
-        numberOfMessages: 0, //use this with messageInterval to calculate expected duration
+        numberOfMessages: 10, //use this with messageInterval to calculate expected duration
         instanceId: 0, //will be id of the first client
         clients: [] //able to hold several clients
     };    
