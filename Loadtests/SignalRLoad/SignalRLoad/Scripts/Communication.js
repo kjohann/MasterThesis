@@ -1,4 +1,4 @@
-﻿(function(loadTest, root, client, functions, charts) {    
+﻿(function(loadTest, root, functions) {    
     root.initConnection = function() { //here
         for (var i = 0; i < loadTest.numberOfClientsPrBrowser; i++) {
             var clientId = i + loadTest.instanceId;
@@ -9,12 +9,9 @@
             hubProxy.on('receiveEcho', functions.receiveMessage);
             hubProxy.on('receiveBroadcast', functions.receiveMessage);
             hubProxy.on('harvest', harvest);
-            hubProxy.on('harvestComplete', charts.harvestComplete);
+            hubProxy.on('harvestComplete', functions.harvestComplete);
 
-            loadTest.clients.push(new client(clientId, {
-                conn: connection,
-                proxy: hubProxy //most likely only need this..
-            }));
+            loadTest.clients.push(new loadTest.Client(clientId, hubProxy));
 
             connection.start().done(function() {
                 console.log("Connected");
@@ -24,7 +21,7 @@
         }
     };
 
-    root.initTest = function(test) { //here
+    root.initTest = function(test) { 
         $.each(loadTest.clients, function(index, currentClient) {
             if (test === 'echo') {
                 //do echo
@@ -36,10 +33,13 @@
         });
     }; 
 
-    root.harvest = function() { //here
-        //send message array of all clients to server
+    root.harvest = function() {
+        $.each(loadTest.clients, function(index, currentClient) {
+            var proxy = currentClient.socket;
+            proxy.invoke('getData', { Messages: currentClient.messages });
+        });
     };
 
     //bind methods
     //expose those needed by charts.js to global scope
-})(loadTest, loadTest.communications = loadTest.communications || {}, loadTest.client, loadTest.clientFunctions, loadTest.charts);
+})(loadTest, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions);

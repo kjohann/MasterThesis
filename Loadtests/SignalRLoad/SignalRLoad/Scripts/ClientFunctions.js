@@ -1,11 +1,15 @@
-﻿(function(loadTest, root) {
-    root.receiveMessage = function (message) { //not here
+﻿(function(loadTest, root, charts) {
+    root.receiveMessage = function (message) { 
         findClient(message.ClientId).done(function (foundClient) {
             foundClient.messages.push(message);
         }).fail(function () { }); //really just ignore
     };
 
-    root.promoteToMaster = function (clientId) { //not here
+    root.harvestComplete = function(data) {
+        charts.getCharts(data);
+    };
+
+    root.promoteToMaster = function (clientId) { 
         findClient(clientId).done(function (foundClient) {
             foundClient.master = true;
             console.log("Promoted client with id " + foundClient.clientId + " to master");
@@ -29,4 +33,4 @@
     function clientNotFound(error) { //utils - need?
         console.log(error.message);
     }
-})(loadTest, loadTest.clientFunctions = loadTest.clientFunctions || {})
+})(loadTest, loadTest.clientFunctions = loadTest.clientFunctions || {}, loadTest.charts)
