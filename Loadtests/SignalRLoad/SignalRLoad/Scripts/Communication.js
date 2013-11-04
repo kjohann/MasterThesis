@@ -1,5 +1,5 @@
 ﻿(function(loadTest, root, functions) {    
-    root.initConnection = function() { //here
+    root.initConnection = function() { 
         for (var i = 0; i < loadTest.numberOfClientsPrBrowser; i++) {
             var clientId = i + loadTest.instanceId;
             var connection = $.hubConnection();
@@ -37,7 +37,4 @@
             proxy.invoke('getData', { Messages: currentClient.messages });
         });
     };
-
-    //bind methods
-    //expose those needed by charts.js to global scope
 })(loadTest, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions);

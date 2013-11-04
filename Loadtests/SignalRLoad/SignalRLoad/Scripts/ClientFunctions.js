@@ -17,7 +17,7 @@
         }).fail(clientNotFound);
     };
     
-    function findClient(clientId) { //utils?
+    function findClient(clientId) { 
         var deferred = new $.Deferred();
 
         $.each(loadTest.clients, function (index, currentClient) {
@@ -31,7 +31,7 @@
         return deferred.promise();
     }
 
-    function clientNotFound(error) { //utils - need?
+    function clientNotFound(error) { 
         console.log(error.message);
     }
 })(loadTest, loadTest.clientFunctions = loadTest.clientFunctions || {}, loadTest.charts)
