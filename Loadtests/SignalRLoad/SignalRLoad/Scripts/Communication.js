@@ -23,10 +23,8 @@
 
     root.initTest = function(test) { 
         $.each(loadTest.clients, function(index, currentClient) {
-            if (test === 'echo') {
-                //do echo
-            } else if (test === 'broadcast') {
-                //do broadcast
+            if (test === 'echo' || test === 'broadcast') {
+                currentClient.socket.invoke(test, new loadTest.Message("1337", currentClient.clientId));
             } else {
                 console.error("No such test!");
             }

@@ -6,4 +6,14 @@
         self.messages = [];
         self.master = false;
     };
+
+    loadTest.Message = function(payload, clientId) {
+        var self = this;
+        self.sentFromClient = new Date();
+        self.sentFromServer = new Date(); //Just to init
+        self.receivedAtClient = new Date(); //Just to init
+        self.payload = payload;
+        self.clientId = clientId;
+    };
+
 })(loadTest);
