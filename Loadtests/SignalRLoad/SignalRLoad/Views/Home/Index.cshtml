@@ -13,33 +13,46 @@
         </div>
         <script type="text/javascript">
             $(document).ready(function () {
-                var connection = $.hubConnection();
-                $.connection.hub.logging = true;
-                var hubProxy = connection.createHubProxy('loadHub');
+                var array = [];
+                var msgs = [];
+                for (var i = 0; i < 3; i++) {
+                    var clientId = i + 1; //instanceId = 1
+                    var connection = $.hubConnection();
+                    var hubProxy = connection.createHubProxy('loadHub');
 
-                hubProxy.on("hello", function(num) {
-                    console.log("Received from first proxy" + num);
-                });
-                window.hubTest = hubProxy;
-                connection.start().done(function() {
-                    hubProxy.invoke("hello");
-                    connection = $.hubConnection();
-                    var hubProxy2 = connection.createHubProxy('loadHub');
-
-                    hubProxy2.on("hello", function (num) {
-                        console.log("Received from second proxy" + num);
+                    hubProxy.on('hello', function (msg) {
+                        msgs.push(msg);
+                        console.log(msg);
                     });
 
-                    connection.start().done(function () {
-                        console.log("Two conns?");
-                        hubProxy2.invoke("hello");
+                    array.push({
+                        clientId: clientId, 
+                        socket: {
+                                conn: connection,
+                                proxy: hubProxy
+                            }
+                    });
+
+                    connection.start().done(function () {                        
+                        console.log("Connected");
                     }).fail(function () {
-                        console.log("Connection failed");
+                        console.log("Error connecting");
                     });
-                }).fail(function() {
-                    console.log("Connection failed");
-                });
+                }
                 
+                window.loadTesting = {};
+                window.loadTesting.sendFromAll = function () {
+                    $.each(array, function (index, client) {
+                        client.socket.proxy.invoke('hello');
+                    });
+                };
+                window.loadTesting.sendFrom = function (id) {
+                    $.each(array, function (index, client) {
+                        if (client.clientId === id) {
+                            client.socket.proxy.invoke('hello');
+                        }
+                    });
+                };
 
             });
         </script>

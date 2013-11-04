@@ -13,7 +13,7 @@
 
             loadTest.clients.push(new client(clientId, {
                 conn: connection,
-                proxy: hubProxy
+                proxy: hubProxy //most likely only need this..
             }));
 
             connection.start().done(function() {
