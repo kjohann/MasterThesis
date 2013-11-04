@@ -1,3 +1,6 @@
-﻿(function(root) { //will have other dependencies as well
+﻿(function(loadTest) { //will have other dependencies as well
     //bind methods from server that are needed to build charts
-})(loadTest)
+    root.harvestComplete = function(charts) { //in charts somehow
+        //display charts
+    };
+})(loadTest, loadTest.charts = loadTest.charts || {});

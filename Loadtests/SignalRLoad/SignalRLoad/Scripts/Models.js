@@ -1,5 +1,5 @@
-﻿(function(root) {
-    root.client = function(clientId, socket) {
+﻿(function(loadTest) {
+    loadTest.client = function(clientId, socket) {
         var self = this;
         self.clientId = clientId;
         self.socket = socket;
