@@ -8,28 +8,21 @@ namespace SignalRLoad.Models
 {
     public class TestData
     {
-        private static TestData _instance;
         public List<TestDataEntity> TestDataEntities { get; set; }
         public DateTime StartTime { get; set; }
-        public Stopwatch Stopwatch { get; set; }
 
-        private TestData()
+        public TestData()
         {
-            Stopwatch = new Stopwatch();
             TestDataEntities = new List<TestDataEntity>();
         }
+ 
 
-        public static TestData GetInstance()
-        {
-            return _instance ?? (_instance = new TestData());
-        }   
-
-        public Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(int spacing)
+        public Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(int spacing, long milliseconds, bool includeZero = false)
         {
             var chart = new Chart
             {
                 Title = "Messages sent from clients and received by server pr. second",
-                XAxis = BuildXAxis(spacing, Stopwatch.ElapsedMilliseconds),
+                XAxis = BuildXAxis(spacing, milliseconds, includeZero),
                 YAxisTitle = "Messages"
             };
             var series = new List<Series>();    

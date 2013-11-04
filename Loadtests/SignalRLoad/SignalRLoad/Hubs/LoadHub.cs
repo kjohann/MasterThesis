@@ -10,12 +10,10 @@ namespace SignalRLoad.Hubs
     public class LoadHub : Hub
     {
         private readonly Monitor _monitor;
-        private readonly TestData _testData;
 
         public LoadHub()
         {
             _monitor = Monitor.GetInstance();
-            _testData = TestData.GetInstance();
         }
         //Remove this..
         public void Hello()
@@ -29,8 +27,8 @@ namespace SignalRLoad.Hubs
             _monitor.ExpectedTestDurationInMillis = testDurationInMillis;
             _monitor.NumberOfClients = numberOfClients;
 
-            _testData.StartTime = DateTime.Now;
-            _testData.Stopwatch.Start();
+            _monitor.StartTime = DateTime.Now;
+            _monitor.Stopwatch.Start();
 
             Clients.All.initTest(testToRun);
         }
@@ -58,20 +56,26 @@ namespace SignalRLoad.Hubs
 
             if (!_monitor.Complete()) return;
             
-            _testData.Stopwatch.Stop();
+            _monitor.Stopwatch.Stop();
             Clients.All.harvest(); //getData
         }
 
         public void GetData(TestDataEntity testData)
         {
-            //merge data into one entity and write to file (csv or something)
-            _testData.TestDataEntities.Add(testData);
+            //merge data into one entity and write to file (csv or something) -> API
+            _monitor.TestDataEntities.Add(testData);
             //if dataset is completed
-            if (_testData.TestDataEntities.Count == _monitor.NumberOfClients)
+            if (_monitor.HarvestedAll())
             {
                 //Prepare charts
-                Clients.All.harvestComplete( /*Dataobject (as JSON if needed)*/);
-                    //only the "master client" will use this.
+                Clients.All.harvestComplete(new
+                {
+                    Entities = _monitor.TestDataEntities,
+                    Duration = _monitor.Stopwatch.ElapsedMilliseconds
+                });
+                //only the "master client" will use this.
+                //Use WebApi to get charts
+
             }
         }
     }

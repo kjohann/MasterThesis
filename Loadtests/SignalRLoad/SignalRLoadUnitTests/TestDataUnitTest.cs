@@ -18,9 +18,11 @@ namespace SignalRLoadUnitTests
         [SetUp]
         public void SetUp()
         {
-            _instance = TestData.GetInstance();
-            _instance.StartTime = new DateTime(2013, 11, 3, 13, 37, 0); //13:37 3.11.2013
-            _instance.TestDataEntities = new List<TestDataEntity>(); //reset singleton
+            _instance = new TestData
+            {
+                StartTime = new DateTime(2013, 11, 3, 13, 37, 0),
+                TestDataEntities = new List<TestDataEntity>()
+            };
         }
         
         [Test]
@@ -232,6 +234,50 @@ namespace SignalRLoadUnitTests
             var expectedAxis = new[] { "0", "10", "20", "30", "40", "50", "60", "70", "80" };
 
             _instance.BuildYAxis(data).ShouldAllBeEquivalentTo(expectedAxis);
+        }
+
+        [Test]
+        public void BuildYAxis_should_return_values_from_zero_up_to_exactly_maximum_if_max_is_a_one_diget_number()
+        {
+            var data = new[] {0, 1, 2, 3, 4, 0, 1, 2, 3, 4};
+            var expectedYAxis = new[] { "0", "1", "2", "3", "4" };
+
+            _instance.BuildYAxis(data).ShouldAllBeEquivalentTo(expectedYAxis);
+        }
+
+        [Test] //Check that everything works together
+        public void MessagesReceivedAtServerAndSentFromClientsPrSecond_should_produce_a_chart_with_two_series()
+        {
+            var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(1000), SentFromClient = _instance.StartTime.AddMilliseconds(500)};
+            var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(3000), SentFromClient = _instance.StartTime.AddMilliseconds(2500) };
+            var message3 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(5000), SentFromClient = _instance.StartTime.AddMilliseconds(4500) };
+            var message4 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(9999), SentFromClient = _instance.StartTime.AddMilliseconds(9499) };
+            var message5 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(10200), SentFromClient = _instance.StartTime.AddMilliseconds(10000) };
+
+            var messages = new List<Message> { message1, message2, message3, message4, message5 };
+
+            _instance.TestDataEntities = new List<TestDataEntity>
+            {
+                new TestDataEntity{Messages = messages},
+                new TestDataEntity{Messages = messages},
+                new TestDataEntity{Messages = messages},
+                new TestDataEntity{Messages = messages}
+            };
+
+            var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(1, 10000);
+            var expectedXAxis = new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11" };
+            var expectedYAxis = new[] {"0", "1", "2", "3", "4"};
+            var expectedSeries = new List<Series>()
+            {
+                new Series { Data = new[] { "0", "4", "0", "4", "0", "4", "0", "0", "0", "4", "4" }, Name = "Messages received by server pr. second"}, 
+                new Series { Data = new[] { "4", "0", "4", "0", "4", "0", "0", "0", "0", "4", "4" }, Name = "Messages sent from clients pr. second"}
+            };
+
+            chart.XAxis.ShouldAllBeEquivalentTo(expectedXAxis);
+            chart.YAxis.ShouldAllBeEquivalentTo(expectedYAxis);
+            chart.Title.Should().Be("Messages sent from clients and received by server pr. second");
+            chart.YAxisTitle.Should().Be("Messages");
+            chart.Series.ShouldAllBeEquivalentTo(expectedSeries);            
         }
 
         private static IEnumerable<string> GetStringsWithSpacingOfOne()
