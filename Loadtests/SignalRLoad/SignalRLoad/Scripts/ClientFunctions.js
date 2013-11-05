@@ -3,7 +3,7 @@
         console.log("receied message on client " + message.ClientId);
         root.findClient(message.ClientId).done(function (foundClient) {
             console.log("Aaaand found client");
-            message.ReceivedAtClient = new Date();
+            message.ReceivedAtClient = new Date().getTime();
             foundClient.messages.push(message);
         }).fail(function (error) { }); //really just ignore
     };

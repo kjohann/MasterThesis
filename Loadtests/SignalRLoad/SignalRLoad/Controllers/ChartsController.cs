@@ -11,9 +11,10 @@ namespace SignalRLoad.Controllers
 {
     public class ChartsController : ApiController
     {
-        public Chart Post(string json)
+        public Chart Post(ChartPostModel model)
         {
-            var model = JsonConvert.DeserializeObject<ChartPostModel>(json);
+            //need to send dates as milliseconds since 1970!
+           // var model = JsonConvert.DeserializeObject<ChartPostModel>(json);
             if (model.Type == "Messages")
             {
                 return MessagesReceivedAtServerAndSentFromClientsPrSecond(model);
@@ -26,8 +27,8 @@ namespace SignalRLoad.Controllers
         {
             var testData = new TestData
             {
-                TestDataEntities = (List<TestDataEntity>) model.TestDataEntities,
-                StartTime = model.StartTime
+                TestDataEntities = model.Entities,
+                StartTime = new DateTime(model.StartTime)
             };
 
             return testData.MessagesReceivedAtServerAndSentFromClientsPrSecond(1, model.Duration, true);

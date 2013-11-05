@@ -38,7 +38,8 @@
     }; 
 
     root.harvest = function() {
-        $.each(loadTest.clients, function(index, currentClient) {
+        console.log("Harvesting");
+        $.each(loadTest.clients, function (index, currentClient) {
             var proxy = currentClient.socket;
             proxy.invoke('getData', { Messages: currentClient.messages });
         });

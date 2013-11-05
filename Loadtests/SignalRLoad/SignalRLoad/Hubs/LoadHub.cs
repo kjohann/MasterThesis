@@ -71,7 +71,7 @@ namespace SignalRLoad.Hubs
                 {
                     Entities = _monitor.TestDataEntities,
                     Duration = _monitor.Stopwatch.ElapsedMilliseconds,
-                    StartTime = _monitor.StartTime
+                    StartTime = _monitor.StartTime.ToMilliseconds()
                 });
             }
         }

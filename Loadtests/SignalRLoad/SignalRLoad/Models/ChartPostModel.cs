@@ -7,8 +7,8 @@ namespace SignalRLoad.Models
 {
     public class ChartPostModel
     {
-        public IEnumerable<TestDataEntity> TestDataEntities { get; set; }
-        public DateTime StartTime { get; set; }
+        public List<TestDataEntity> Entities { get; set; }
+        public long StartTime { get; set; }
         public long Duration { get; set; }
         public string Type { get; set; }
     }
