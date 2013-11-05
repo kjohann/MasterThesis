@@ -16,16 +16,17 @@ namespace SignalRLoad.Hubs
             _monitor = Monitor.GetInstance();
         }
         //Remove this..
-        public void Hello()
+        public void Hello(long timeInMillis)
         {
-            _monitor.RegisterReceivedMessage();
-            Clients.Caller.hello(_monitor.MessagesReceived);
+            var date = new DateTime(1970,1,1).AddMilliseconds(timeInMillis);
+            Clients.Caller.hello((date- new DateTime(1970, 1, 1)).TotalMilliseconds);
         }
 
         public void InitTest(string testToRun, int numberOfClients, int testDurationInMillis)
         {
+            _monitor.Reset();
             _monitor.ExpectedTestDurationInMillis = testDurationInMillis;
-            _monitor.NumberOfClients = numberOfClients;
+            _monitor.NumberOfClients = numberOfClients;            
 
             _monitor.StartTime = DateTime.Now;
             _monitor.Stopwatch.Start();
@@ -36,6 +37,7 @@ namespace SignalRLoad.Hubs
         public void Echo(Message message)
         {
             _monitor.RegisterReceivedMessage();
+            message.SentFromClient = message.SentFromClient.AddHours(1); //Time gets set back one hour for some reason..
             message.SentFromServer = DateTime.Now;            
             Clients.Caller.receiveEcho(message);
             _monitor.RegisterSentEchoMessage();
@@ -44,6 +46,7 @@ namespace SignalRLoad.Hubs
         public void Broadcast(Message message)
         {
             _monitor.RegisterReceivedMessage();
+            message.SentFromClient = message.SentFromClient.AddHours(1); //Time gets set back one hour for some reason..
             message.SentFromServer = DateTime.Now;
             Clients.All.receiveBroadcast(message);
             _monitor.RegisterSentBroadcastMessage();

@@ -20,13 +20,7 @@ namespace SignalRLoad.Models
 
         private Monitor()
         {
-            NumberOfClients = 0;
-            ExpectedTestDurationInMillis = 0;
-            MessagesReceived = 0;
-            MessagesSent = 0;
-            CompletedClients = new HashSet<string>();
-            Stopwatch = new Stopwatch();
-            TestDataEntities = new List<TestDataEntity>();
+            Reset();
         }
 
         public static Monitor GetInstance()
@@ -62,6 +56,17 @@ namespace SignalRLoad.Models
         public void RegisterSentBroadcastMessage()
         {
             MessagesSent += NumberOfClients;
+        }
+
+        public void Reset()
+        {
+            NumberOfClients = 0;
+            ExpectedTestDurationInMillis = 0;
+            MessagesReceived = 0;
+            MessagesSent = 0;
+            CompletedClients = new HashSet<string>();
+            Stopwatch = new Stopwatch();
+            TestDataEntities = new List<TestDataEntity>();
         }
     }
 }
