@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using SignalRLoad.Utils;
 
 namespace SignalRLoad.Models
 {
@@ -97,10 +98,12 @@ namespace SignalRLoad.Models
         {
             if (client)
             {
-                return messages.Count(x => Round(false, (x.SentFromClient - StartTime).Seconds) >= from && Round(false, (x.SentFromClient - StartTime).Seconds) < to);
+                return messages.Count(x => Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.SentFromClient) - StartTime).Seconds) >= from && 
+                    Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.SentFromClient) - StartTime).Seconds) < to);
             }
-            
-            return messages.Count(x => Round(false, (x.SentFromServer - StartTime).Seconds) >= from && Round(false, (x.SentFromServer - StartTime).Seconds) < to);
+
+            return messages.Count(x => Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.SentFromServer) - StartTime).Seconds) >= from && 
+                Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.SentFromServer) - StartTime).Seconds) < to);
         }
 
         public string[] BuildYAxis(int[] allData)

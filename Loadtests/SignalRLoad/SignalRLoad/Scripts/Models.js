@@ -10,9 +10,9 @@
 
     loadTest.Message = function(payload, clientId) {
         var self = this;
-        self.sentFromClient = new Date();
-        self.sentFromServer = new Date(); //Just to init
-        self.receivedAtClient = new Date(); //Just to init
+        self.sentFromClient = new Date().getTime();
+        self.sentFromServer = new Date().getTime(); //Just to init
+        self.receivedAtClient = new Date().getTime(); //Just to init
         self.payload = payload;
         self.clientId = clientId;
     };
