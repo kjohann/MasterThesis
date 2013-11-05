@@ -6,55 +6,15 @@
         <script src="~/Scripts/libs/jquery-1.6.4.min.js"></script>          
         <script src="~/Scripts/libs/jquery.signalR-2.0.0.js"></script>
         <script src="~/signalr/hubs"></script>
+        <script src="~/Scripts/Globals.js"></script>
+        <script src="~/Scripts/Models.js"></script>
+        <script src="~/Scripts/Charts.js"></script>
+        <script src="~/Scripts/ClientFunctions.js"></script>
+        <script src="~/Scripts/Communication.js"></script>
     </head>
     <body>
         <div>
             Hello world!
         </div>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                var array = [];
-                var msgs = [];
-                for (var i = 0; i < 3; i++) {
-                    var clientId = i + 1; //instanceId = 1
-                    var connection = $.hubConnection();
-                    var hubProxy = connection.createHubProxy('loadHub');
-
-                    hubProxy.on('hello', function (msg) {
-                        msgs.push(msg);
-                        console.log(msg);
-                    });
-
-                    array.push({
-                        clientId: clientId, 
-                        socket: {
-                                conn: connection,
-                                proxy: hubProxy
-                            }
-                    });
-
-                    connection.start().done(function () {                        
-                        console.log("Connected client " + clientId);
-                    }).fail(function () {
-                        console.log("Error connecting");
-                    });
-                }
-                
-                window.loadTesting = {};
-                window.loadTesting.sendFromAll = function () {
-                    $.each(array, function (index, client) {
-                        client.socket.proxy.invoke('hello');
-                    });
-                };
-                window.loadTesting.sendFrom = function (id) {
-                    $.each(array, function (index, client) {
-                        if (client.clientId === id) {
-                            client.socket.proxy.invoke('hello');
-                        }
-                    });
-                };
-
-            });
-        </script>
     </body>
 </html>
