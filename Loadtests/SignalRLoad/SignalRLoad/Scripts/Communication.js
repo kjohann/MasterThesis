@@ -1,5 +1,6 @@
-﻿(function(options, root, functions, models) {    
-    root.initConnection = function() { 
+﻿(function(options, root, functions, models) {
+    var initLock = 0;
+    root.initConnection = function () {
         for (var i = 0; i < options.numberOfClientsPrBrowser; i++) {
             var clientId = i + options.instanceId;
             var connection = $.hubConnection();
@@ -25,15 +26,19 @@
         functions.findClient(options.masterId).done(function(client) {
             var testDuration = options.numberOfMessages * options.messageInterval;
             client.socket.invoke('initTest', test, options.numberOfClientsTotal, testDuration);
-        }).fail(function (error){ });
+        }).fail(function(error) {
+            console.log(error.message);
+        });
     };
-    var a = 0;
-    root.initTest = function(test) { 
-        if (test === 'echo' || test === 'broadcast' && a++ < 1) {
-            console.log("Initializing");
-            sendMessages(test);
-        } else {
-            console.error("No such test!");
+    
+    root.initTest = function(test) {
+        if (initLock++ < 1) { //call only once
+            if (test === 'echo' || test === 'broadcast' && a++ < 1) {
+                console.log("Initializing");
+                sendMessages(test);
+            } else {
+                console.error("No such test!");
+            }
         }
     }; 
 
@@ -59,5 +64,7 @@
                 client.socket.invoke('complete', client.clientId);
             }
         });
+        
+
     }
 })(loadTest.options, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions, loadTest.models);

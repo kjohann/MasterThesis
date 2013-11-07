@@ -2,10 +2,10 @@
     window.loadTest = window.loadTest || {
         options: {
             chartUrl: "/api/charts",
-            masterId: 1, //will be 0 for all browsers that does not have the master
+            masterId: 0, //will be 0 for all browsers that does not have the master
             connectionInterval: 200, //delay between connecting clients 
-            numberOfClientsTotal: 1,
-            numberOfClientsPrBrowser: 1,
+            numberOfClientsTotal: 2,
+            numberOfClientsPrBrowser: 2,
             messageInterval: 2000,
             numberOfMessages: 2, //(pr. client) use this with messageInterval to calculate expected duration
             instanceId: 1, //will be id of the first client
