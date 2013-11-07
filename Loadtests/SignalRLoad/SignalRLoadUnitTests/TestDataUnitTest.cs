@@ -151,13 +151,21 @@ namespace SignalRLoadUnitTests
         }
 
         [Test]
-        public void BuildXAxis_should_inclide_zero_if_specified()
+        public void BuildXAxis_should_include_zero_if_specified()
         {
             var expectedAxis = new[] { "0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110" };
 
             var axis = _instance.BuildXAxis(10, 103000, true); //103 seconds
 
             axis.ShouldAllBeEquivalentTo(expectedAxis);
+        }
+
+        [Test]
+        public void BuildXAxis_should_have_max_equal_to_duration_rounded_up_even_if_zero_is_specified()
+        {
+            var expectedAxis = new[] {"0", "1", "2", "3", "4", "5"};
+
+            _instance.BuildXAxis(1, 4042, true).ShouldAllBeEquivalentTo(expectedAxis);
         }
 
         [Test]
