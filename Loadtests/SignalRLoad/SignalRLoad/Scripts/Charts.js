@@ -2,7 +2,8 @@
     //bind methods from server that are needed to build charts
     root.getCharts = function(data) { //in charts somehow
         //get charts from api
-        data.Type = "Messages"; 
+        data.Type = "Messages";
+        console.log(data);
         //var json = JSON.stringify(data);
         $.post(loadTest.options.chartUrl, data).done(function(chart) {
             console.log(chart);

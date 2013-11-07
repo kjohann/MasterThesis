@@ -42,24 +42,23 @@
         }
     }; 
 
-    root.harvest = function() {
-        console.log("Harvesting");
-        $.each(options.clients, function (index, currentClient) {
-            var proxy = currentClient.socket;
-            proxy.invoke('getData', { Messages: currentClient.messages });
-        });
+    root.harvest = function(clientId) {
+        console.log("Harvesting " + clientId);
+        functions.findClient(clientId).done(function(client) {
+            client.socket.invoke('getData', { Messages: client.messages });
+        }).fail(function (error){});
     };
     
     function sendMessages(test) {
         $.each(options.clients, function (index, client) {
-            if (client.messagesSent < options.numberOfMessages) {
-                client.messagesSent++;
-                console.log("Sending message from client " + client.clientId + " time: " + new Date().toString());
+            if (client.messagesSent++ < options.numberOfMessages) {
+                //console.log("Sending message from client " + client.clientId + " time: " + new Date().toString());
                 client.socket.invoke(test, new models.Message("1337", client.clientId));
                 setTimeout(function() {
                      sendMessages(test);
                 }, options.messageInterval );
-            } else {
+            } else if(!client.complete) {
+                client.complete = true;
                 console.log("Sending complete for client " + client.clientId);
                 client.socket.invoke('complete', client.clientId);
             }

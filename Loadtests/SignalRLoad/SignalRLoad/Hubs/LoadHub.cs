@@ -54,11 +54,11 @@ namespace SignalRLoad.Hubs
         public void Complete(string clientId)
         {
             _monitor.CompletedClients.Add(clientId);
+            Clients.Caller.harvest(clientId); 
 
             if (!_monitor.Complete()) return;
             
             _monitor.Stopwatch.Stop();
-            Clients.All.harvest(); 
         }
 
         public void GetData(TestDataEntity testData)
