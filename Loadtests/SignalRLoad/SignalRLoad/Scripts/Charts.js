@@ -4,7 +4,7 @@
         //get charts from api
         data.Type = "Messages"; 
         //var json = JSON.stringify(data);
-        $.post(loadTest.chartUrl, data).done(function(chart) {
+        $.post(loadTest.options.chartUrl, data).done(function(chart) {
             console.log(chart);
         });
         //display charts

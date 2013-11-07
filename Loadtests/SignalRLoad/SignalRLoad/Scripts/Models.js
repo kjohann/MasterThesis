@@ -1,5 +1,5 @@
-﻿(function(loadTest) {
-    loadTest.Client = function(clientId, socketObj) {
+﻿(function(root) {
+    root.Client = function(clientId, socketObj) {
         var self = this;
         self.clientId = clientId;
         self.socket = socketObj;
@@ -8,7 +8,7 @@
         self.messagesSent = 0;
     };
 
-    loadTest.Message = function(payload, clientId) {
+    root.Message = function(payload, clientId) {
         var self = this;
         self.sentFromClient = new Date().getTime();
         self.sentFromServer = new Date().getTime(); //Just to init
@@ -17,4 +17,4 @@
         self.clientId = clientId;
     };
 
-})(loadTest);
+})(loadTest.models = loadTest.models || {});
