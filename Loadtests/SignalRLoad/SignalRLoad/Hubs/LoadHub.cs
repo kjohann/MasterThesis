@@ -29,7 +29,7 @@ namespace SignalRLoad.Hubs
             _monitor.ExpectedTestDurationInMillis = testDurationInMillis;
             _monitor.NumberOfClients = numberOfClients;            
 
-            _monitor.StartTime = DateTime.Now;
+            _monitor.StartTime = DateTime.Now.AddHours(-1); //One hour time difference from client for some reason
             _monitor.Stopwatch.Start();
 
             Clients.All.initTest(testToRun);
@@ -38,15 +38,15 @@ namespace SignalRLoad.Hubs
         public void Echo(Message message)
         {
             _monitor.RegisterReceivedMessage();
-            message.SentFromServer = DateTime.Now.ToMilliseconds();            
+            message.SentFromServer = DateTime.Now.AddHours(-1).ToMilliseconds();    //One hour time difference from client for some reason         
             Clients.Caller.receiveEcho(message);
             _monitor.RegisterSentEchoMessage();
         }
 
         public void Broadcast(Message message)
         {
-            _monitor.RegisterReceivedMessage();           
-            message.SentFromServer = DateTime.Now.ToMilliseconds();
+            _monitor.RegisterReceivedMessage();
+            message.SentFromServer = DateTime.Now.AddHours(-1).ToMilliseconds();  //One hour time difference from client for some reason
             Clients.All.receiveBroadcast(message);
             _monitor.RegisterSentBroadcastMessage();
         }
