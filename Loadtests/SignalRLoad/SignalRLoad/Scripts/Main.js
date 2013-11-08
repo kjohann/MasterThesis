@@ -1,4 +1,4 @@
-﻿(function(options, charts, comm) {
+﻿(function(options, charts, comm, functions) {
     $(function () {
         $("#header").append(options.frameWork);
         $("#getCharts").hide();
@@ -13,6 +13,16 @@
             comm.start(test);
         });
 
+        $("#masterBtn").click(function() {
+            var id = $("#masterTxt").val();
+            if (!id) {
+                alert("Provide an id!");
+                return;
+            }
+
+            functions.promoteToMaster(id);
+        });
+
         comm.initConnection();
     });
-})(loadTest.options, loadTest.charts, loadTest.communications)
+})(loadTest.options, loadTest.charts, loadTest.communications, loadTest.clientFunctions)

@@ -22,6 +22,7 @@
             foundClient.master = true;
             options.masterId = clientId;
             console.log("Promoted client with id " + foundClient.clientId + " to master");
+            dom.hideMasterPromotion();
         }).fail(clientNotFound);
     };
 
