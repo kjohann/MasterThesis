@@ -55,10 +55,7 @@
         $.each(options.clients, function (index, client) {
             if (client.messagesSent++ < options.numberOfMessages) {
                 //console.log("Sending message from client " + client.clientId + " time: " + new Date().toString());
-                client.socket.invoke(test, new models.Message("1337", client.clientId));
-                setTimeout(function() {
-                     sendMessages(test);
-                }, options.messageInterval );
+                client.socket.invoke(test, new models.Message("1337", client.clientId));                
             } else if(!client.complete) {
                 client.complete = true;
                 console.log("Sending complete for client " + client.clientId);
@@ -66,6 +63,8 @@
             }
         });
         
-
+        setTimeout(function () {
+            sendMessages(test);
+        }, options.messageInterval);        
     }
 })(loadTest.options, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions, loadTest.models, loadTest.dom);
