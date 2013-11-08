@@ -8,13 +8,25 @@
         <script src="~/signalr/hubs"></script>
         <script src="~/Scripts/Globals.js"></script>
         <script src="~/Scripts/Models.js"></script>
+        <script src="~/Scripts/Dom.js"></script>
         <script src="~/Scripts/Charts.js"></script>
         <script src="~/Scripts/ClientFunctions.js"></script>
         <script src="~/Scripts/Communication.js"></script>
+        <script src="~/Scripts/Main.js"></script>
     </head>
     <body>
-        <div>
-            Hello world!
-        </div>
+        <div id="pageContainer">
+            <h1 id="header">Load test of :</h1>
+            <select id="type">
+                <option value="echo">Echo</option>
+                <option value="broadcast">Broadcast</option>
+            </select>
+            <button id="init">Start test</button>
+            <h2 id="running">Running...</h2>
+            <button id="getCharts">Get results</button>
+            <div id="charts">
+                <div id="messagesChart"></div>
+            </div>
+        </div> 
     </body>
 </html>

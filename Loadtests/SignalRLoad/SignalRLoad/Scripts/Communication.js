@@ -1,4 +1,5 @@
-﻿(function(options, root, functions, models) {
+﻿(function(options, root, functions, models, dom) {
+    options.frameWork = "SignalR";
     var initLock = 0;
     root.initConnection = function () {
         for (var i = 0; i < options.numberOfClientsPrBrowser; i++) {
@@ -26,6 +27,7 @@
         functions.findClient(options.masterId).done(function(client) {
             var testDuration = options.numberOfMessages * options.messageInterval;
             client.socket.invoke('initTest', test, options.numberOfClientsTotal, testDuration);
+            dom.changeOnStart();
         }).fail(function(error) {
             console.log(error.message);
         });
@@ -33,7 +35,7 @@
     
     root.initTest = function(test) {
         if (initLock++ < 1) { //call only once
-            if (test === 'echo' || test === 'broadcast' && a++ < 1) {
+            if (test === 'echo' || test === 'broadcast') {
                 console.log("Initializing");
                 sendMessages(test);
             } else {
@@ -66,4 +68,4 @@
         
 
     }
-})(loadTest.options, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions, loadTest.models);
+})(loadTest.options, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions, loadTest.models, loadTest.dom);

@@ -1,4 +1,4 @@
-﻿(function(options, root, charts) {
+﻿(function(options, root, dom) {
     root.receiveMessage = function (message) { 
         //console.log("received message on client " + message.ClientId);
         root.findClient(message.ClientId).done(function (foundClient) {
@@ -9,14 +9,11 @@
     };
 
     root.harvestComplete = function(data) {
-        var masterId = options.masterId;
-        while (options.masterId != 0) { //do only once
+        if (options.masterId != 0) { //do only once
             console.log("Harvest complete");
             options.masterId = 0;
-            root.findClient(masterId).done(function (foundClient) {
-                charts.getCharts(data); //only invoke for master client
-            }).fail(function(error) {
-            });
+            dom.changeOnHarvestComplete();
+            loadTest.data = data;
         }
     };
 
@@ -45,4 +42,4 @@
     function clientNotFound(error) { 
         console.log(error.message);
     }
-})(loadTest.options, loadTest.clientFunctions = loadTest.clientFunctions || {}, loadTest.charts)
+})(loadTest.options, loadTest.clientFunctions = loadTest.clientFunctions || {}, loadTest.dom)

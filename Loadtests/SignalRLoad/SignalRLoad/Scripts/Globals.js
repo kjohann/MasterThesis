@@ -6,8 +6,8 @@
             connectionInterval: 200, //delay between connecting clients 
             numberOfClientsTotal: 1,
             numberOfClientsPrBrowser: 1,
-            messageInterval: 200,
-            numberOfMessages: 100, //(pr. client) use this with messageInterval to calculate expected duration
+            messageInterval: 500,
+            numberOfMessages: 10, //(pr. client) use this with messageInterval to calculate expected duration
             instanceId: 1, //will be id of the first client
             clients: [] //able to hold several clients
         }
