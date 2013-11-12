@@ -1,26 +1,36 @@
 ﻿(function(options, root, functions, models, dom) {
     options.frameWork = "SignalR";
     var initLock = 0;
+    var connectionsTried = 0;
     root.initConnection = function () {
-        for (var i = 0; i < options.numberOfClientsPrBrowser; i++) {
-            var clientId = i + options.instanceId;
-            var connection = $.hubConnection();
-            var hubProxy = connection.createHubProxy('loadHub');
+        //for (var i = 0; i < options.numberOfClientsPrBrowser; i++) {
+        var clientId = connectionsTried + options.instanceId;
+        var connection = $.hubConnection();
+        var hubProxy = connection.createHubProxy('loadHub');
 
-            hubProxy.on('initTest', root.initTest);
-            hubProxy.on('receiveEcho', functions.receiveMessage);
-            hubProxy.on('receiveBroadcast', functions.receiveMessage);
-            hubProxy.on('harvest', root.harvest);
-            hubProxy.on('harvestComplete', functions.harvestComplete);
+        hubProxy.on('initTest', root.initTest);
+        hubProxy.on('receiveEcho', functions.receiveMessage);
+        hubProxy.on('receiveBroadcast', functions.receiveMessage);
+        hubProxy.on('harvest', root.harvest);
+        hubProxy.on('harvestComplete', functions.harvestComplete);
 
-            options.clients.push(new models.Client(clientId, hubProxy));
+        options.clients.push(new models.Client(clientId, hubProxy));
 
-            connection.start().done(function() {
-                console.log("Connected");
-            }).fail(function() {
-                console.log("Error connecting");
-            });
+        connection.start().done(function() {
+            console.log("Connected");
+        }).fail(function() {
+            console.log("Error connecting");
+        });
+
+        if (++connectionsTried < options.numberOfClientsPrBrowser) {
+            setTimeout(function () {
+                root.initConnection();
+            }, options.connectionInterval);
+        } else {
+            dom.showMasterPromotion();
+            dom.hideInit();
         }
+        //}
     };
 
     root.start = function(test) {
