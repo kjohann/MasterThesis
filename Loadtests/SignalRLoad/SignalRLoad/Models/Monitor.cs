@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using SignalRLoad.Extensions;
 
 namespace SignalRLoad.Models
 {
@@ -17,6 +18,7 @@ namespace SignalRLoad.Models
         public Stopwatch Stopwatch { get; set; }
         public List<TestDataEntity> TestDataEntities { get; set; }
         public DateTime StartTime { get; set; }
+        public List<SendEvent> SendEvents { get; set; }
 
         private Monitor()
         {
@@ -48,14 +50,25 @@ namespace SignalRLoad.Models
             MessagesReceived++;
         }
 
-        public void RegisterSentEchoMessage()
+        public void RegisterSentEchoMessage(long timeStamp)
         {
             MessagesSent++;
+            SendEvents.Add(new SendEvent
+            {
+                NumberOfMessages = 1,
+                TimeStamp = timeStamp
+            });
+
         }
 
-        public void RegisterSentBroadcastMessage()
+        public void RegisterSentBroadcastMessage(long timeStamp)
         {
             MessagesSent += NumberOfClients;
+            SendEvents.Add(new SendEvent
+            {
+                NumberOfMessages = NumberOfClients,
+                TimeStamp = timeStamp
+            });
         }
 
         public void Reset()
@@ -67,6 +80,7 @@ namespace SignalRLoad.Models
             CompletedClients = new HashSet<string>();
             Stopwatch = new Stopwatch();
             TestDataEntities = new List<TestDataEntity>();
+            SendEvents = new List<SendEvent>();
         }
     }
 }

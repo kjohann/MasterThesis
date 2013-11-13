@@ -11,5 +11,6 @@ namespace SignalRLoad.Models
         public long StartTime { get; set; }
         public long Duration { get; set; }
         public string Type { get; set; }
+        public List<SendEvent> SendEvents { get; set; }
     }
 }

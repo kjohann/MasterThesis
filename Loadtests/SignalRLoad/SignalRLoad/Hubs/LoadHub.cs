@@ -40,7 +40,7 @@ namespace SignalRLoad.Hubs
             _monitor.RegisterReceivedMessage();
             message.SentFromServer = DateTime.Now.AddHours(-1).ToMilliseconds();    //One hour time difference from client for some reason         
             Clients.Caller.receiveEcho(message);
-            _monitor.RegisterSentEchoMessage();
+            _monitor.RegisterSentEchoMessage(message.SentFromServer);
         }
 
         public void Broadcast(Message message)
@@ -48,7 +48,7 @@ namespace SignalRLoad.Hubs
             _monitor.RegisterReceivedMessage();
             message.SentFromServer = DateTime.Now.AddHours(-1).ToMilliseconds();  //One hour time difference from client for some reason
             Clients.All.receiveBroadcast(message);
-            _monitor.RegisterSentBroadcastMessage();
+            _monitor.RegisterSentBroadcastMessage(message.SentFromServer);
         }
 
         public void Complete(string clientId)
@@ -71,7 +71,8 @@ namespace SignalRLoad.Hubs
                 {
                     Entities = _monitor.TestDataEntities,
                     Duration = _monitor.Stopwatch.ElapsedMilliseconds,
-                    StartTime = _monitor.StartTime.ToMilliseconds()
+                    StartTime = _monitor.StartTime.ToMilliseconds(),
+                    SendEvents = _monitor.SendEvents
                 });
             }
         }
