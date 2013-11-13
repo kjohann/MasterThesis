@@ -62,6 +62,31 @@ namespace SignalRLoadUnitTests
         }
 
         [Test]
+        public void MessagesSentByServerPrSecond_should_produce_a_chart_with_one_serie()
+        {
+            var events = new List<SendEvent>();
+            events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(2000).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 1, TimeStamp = _instance.StartTime.AddMilliseconds(9999).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 1, TimeStamp = _instance.StartTime.AddMilliseconds(10000).ToMilliseconds() });
+
+            _instance.SendEvents = events;
+
+            var chart = _instance.MessagesSentByServerPrSecond(1, 10000);
+
+            var expectedXAxis = new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11" };
+            var expectedSeries = new List<Series>
+            {
+                new Series{ Data = new []{ "0", "10", "10", "0", "0", "0", "0", "0", "0", "1", "1"}, Name = Titles.GeneralMessagesSeries}
+            };
+
+            chart.XAxis.ShouldAllBeEquivalentTo(expectedXAxis);
+            chart.Title.Should().Be(Titles.MessagesSentFromServerPrSecond);
+            chart.YAxisTitle.Should().Be("Messages");
+            chart.Series.ShouldAllBeEquivalentTo(expectedSeries);
+        }
+
+        [Test]
         public void BuildXAxis_should_give_one_and_two_if_elapsed_time_was_one_second_with_spacing_one()
         {
             var expectedAxis = new[] { "1", "2" };

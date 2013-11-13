@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Security.Policy;
 using SignalRLoad.Utils;
 
 namespace SignalRLoad.Models
@@ -19,12 +20,12 @@ namespace SignalRLoad.Models
         }
  
 
-        public Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(int spacing, long milliseconds, bool includeZero = false)
+        public Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(int spacing, long durationInMillis, bool includeZero = false)
         {
             var chart = new Chart
             {
                 Title = Titles.MessagesSentFromClientsAndReceivedByServerPrSecond,
-                XAxis = BuildXAxis(spacing, milliseconds, includeZero),
+                XAxis = BuildXAxis(spacing, durationInMillis, includeZero),
                 YAxisTitle = "Messages"
             };
             var series = new List<Series>();    
@@ -51,6 +52,29 @@ namespace SignalRLoad.Models
             clientData.CopyTo(combinedData, serverData.Length);
             
             chart.YAxis = BuildYAxis(combinedData);
+
+            return chart;
+        }
+
+        public Chart MessagesSentByServerPrSecond(int spacing, long durationInMillis, bool includeZero = false)
+        {
+            var chart = new Chart
+            {
+                Title = Titles.MessagesSentFromServerPrSecond,
+                XAxis = BuildXAxis(spacing, durationInMillis, includeZero),
+                YAxisTitle = "Messages"
+            };
+
+            var series = new List<Series>();
+            var data = MakeMessagesSentFromServerPrSecondDataSeries(chart.XAxis.Length, spacing);
+
+            series.Add(new Series
+            {
+                Name = Titles.GeneralMessagesSeries,
+                Data = data.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray()
+            });
+
+            chart.Series = series;
 
             return chart;
         }
