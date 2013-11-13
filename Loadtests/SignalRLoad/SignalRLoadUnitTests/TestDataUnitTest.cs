@@ -278,13 +278,13 @@ namespace SignalRLoadUnitTests
             var expectedYAxis = new[] {"0", "1", "2", "3", "4"};
             var expectedSeries = new List<Series>()
             {
-                new Series { Data = new[] { "0", "4", "0", "4", "0", "4", "0", "0", "0", "4", "4" }, Name = "Messages received by server pr. second"}, 
-                new Series { Data = new[] { "4", "0", "4", "0", "4", "0", "0", "0", "0", "4", "4" }, Name = "Messages sent from clients pr. second"}
+                new Series { Data = new[] { "0", "4", "0", "4", "0", "4", "0", "0", "0", "4", "4" }, Name = Titles.MessagesReceivedByServerPrSecondSeries}, 
+                new Series { Data = new[] { "4", "0", "4", "0", "4", "0", "0", "0", "0", "4", "4" }, Name = Titles.MessagesSentFromClientsPrSecondSeries}
             };
 
             chart.XAxis.ShouldAllBeEquivalentTo(expectedXAxis);
             chart.YAxis.ShouldAllBeEquivalentTo(expectedYAxis);
-            chart.Title.Should().Be("Messages sent from clients and received by server pr. second");
+            chart.Title.Should().Be(Titles.MessagesSentFromClientsAndReceivedByServerPrSecond);
             chart.YAxisTitle.Should().Be("Messages");
             chart.Series.ShouldAllBeEquivalentTo(expectedSeries);            
         }

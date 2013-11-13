@@ -22,7 +22,7 @@ namespace SignalRLoad.Models
         {
             var chart = new Chart
             {
-                Title = "Messages sent from clients and received by server pr. second",
+                Title = Titles.MessagesSentFromClientsAndReceivedByServerPrSecond,
                 XAxis = BuildXAxis(spacing, milliseconds, includeZero),
                 YAxisTitle = "Messages"
             };
@@ -31,7 +31,7 @@ namespace SignalRLoad.Models
 
             series.Add(new Series
             { 
-                Name = "Messages received by server pr. second",
+                Name = Titles.MessagesReceivedByServerPrSecondSeries,
                 Data = serverData.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray() 
             });
 
@@ -39,7 +39,7 @@ namespace SignalRLoad.Models
 
             series.Add(new Series
             {
-                Name = "Messages sent from clients pr. second",
+                Name = Titles.MessagesSentFromClientsPrSecondSeries,
                 Data = clientData.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray()
             });
 
