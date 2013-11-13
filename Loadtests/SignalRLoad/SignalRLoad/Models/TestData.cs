@@ -28,7 +28,7 @@ namespace SignalRLoad.Models
                 YAxisTitle = "Messages"
             };
             var series = new List<Series>();    
-            var serverData = MakeDataSeries(chart.XAxis.Length, spacing);                   
+            var serverData = MakeMessagesSentFromClientOrReceivedByServerDataSeries(chart.XAxis.Length, spacing);                   
 
             series.Add(new Series
             { 
@@ -36,7 +36,7 @@ namespace SignalRLoad.Models
                 Data = serverData.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray() 
             });
 
-            var clientData = MakeDataSeries(chart.XAxis.Length, spacing, true);
+            var clientData = MakeMessagesSentFromClientOrReceivedByServerDataSeries(chart.XAxis.Length, spacing, true);
 
             series.Add(new Series
             {
@@ -78,7 +78,7 @@ namespace SignalRLoad.Models
             return xAxis;
         }
 
-        public int[] MakeDataSeries(int length, int spacing, bool client = false)
+        public int[] MakeMessagesSentFromClientOrReceivedByServerDataSeries(int length, int spacing, bool client = false)
         {
             var data = new int[length];
 
@@ -87,7 +87,7 @@ namespace SignalRLoad.Models
                 var from = 0;
                 for (var i = 0; i < data.Length; i++)
                 {
-                    data[i] += CalcNumberOfMessagesInIntervalFromStart(from, from + spacing, entity.Messages, client);
+                    data[i] += CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(from, from + spacing, entity.Messages, client);
                     from += spacing;
                 }
             }
@@ -95,7 +95,7 @@ namespace SignalRLoad.Models
             return data;
         }
 
-        public int[] MakeMessagesSentPrSecondDataSeries(int length, int spacing)
+        public int[] MakeMessagesSentFromServerPrSecondDataSeries(int length, int spacing)
         {
             var data = new int[length];
             
@@ -109,7 +109,7 @@ namespace SignalRLoad.Models
             return data;
         }
 
-        public int CalcNumberOfMessagesInIntervalFromStart(int from, int to, IEnumerable<Message> messages, bool client = false)
+        public int CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(int from, int to, IEnumerable<Message> messages, bool client = false)
         {
             if (client)
             {

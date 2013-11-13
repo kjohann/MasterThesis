@@ -27,7 +27,7 @@ namespace SignalRLoadUnitTests
         }
         
         [Test]
-        public void CalcNumberOfMessagesInIntervalFromStart_should_return_only_messages_within_the_interval()
+        public void CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart_should_return_only_messages_within_the_interval()
         {
             var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(100).ToMilliseconds() };
             var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(300).ToMilliseconds() };
@@ -37,21 +37,21 @@ namespace SignalRLoadUnitTests
 
             var messages =  new List<Message> { message1, message2, message3, message4, message5 };
 
-            var numberOfMessages = _instance.CalcNumberOfMessagesInIntervalFromStart(0, 1, messages);
-            var messagesInNext = _instance.CalcNumberOfMessagesInIntervalFromStart(1, 2, messages);
+            var numberOfMessages = _instance.CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(0, 1, messages);
+            var messagesInNext = _instance.CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(1, 2, messages);
 
             numberOfMessages.ShouldBeEquivalentTo(4);
             messagesInNext.ShouldBeEquivalentTo(1);
         }
 
         [Test]
-        public void CalcNumberOfMessagesInIntervalFromStart_should_return_0_if_there_were_no_messages()
+        public void CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart_should_return_0_if_there_were_no_messages()
         {
-            _instance.CalcNumberOfMessagesInIntervalFromStart(0, 10, Enumerable.Empty<Message>()).ShouldBeEquivalentTo(0);
+            _instance.CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(0, 10, Enumerable.Empty<Message>()).ShouldBeEquivalentTo(0);
         }
 
         [Test]
-        public void CalcNumberOfMessagesInIntervalFromStart_should_be_able_to_handle_larger_intervals()
+        public void CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart_should_be_able_to_handle_larger_intervals()
         {
             var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
             var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(3000).ToMilliseconds() };
@@ -61,15 +61,15 @@ namespace SignalRLoadUnitTests
 
             var messages = new List<Message> { message1, message2, message3, message4, message5 };
 
-            var numberOfMessages = _instance.CalcNumberOfMessagesInIntervalFromStart(0, 10, messages);
-            var messagesInNext = _instance.CalcNumberOfMessagesInIntervalFromStart(10, 20, messages);
+            var numberOfMessages = _instance.CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(0, 10, messages);
+            var messagesInNext = _instance.CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(10, 20, messages);
 
             numberOfMessages.ShouldBeEquivalentTo(4);
             messagesInNext.ShouldBeEquivalentTo(1);
         }
 
         [Test]
-        public void CalcNumberOfMessagesInIntervalFromStart_should_return_only_messages_within_the_interval_also_for_client_messages()
+        public void CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart_should_return_only_messages_within_the_interval_also_for_client_messages()
         {
             var message1 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(100).ToMilliseconds() };
             var message2 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(300).ToMilliseconds() };
@@ -79,21 +79,21 @@ namespace SignalRLoadUnitTests
 
             var messages = new List<Message> { message1, message2, message3, message4, message5 };
 
-            var numberOfMessages = _instance.CalcNumberOfMessagesInIntervalFromStart(0, 1, messages, true);
-            var messagesInNext = _instance.CalcNumberOfMessagesInIntervalFromStart(1, 2, messages, true);
+            var numberOfMessages = _instance.CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(0, 1, messages, true);
+            var messagesInNext = _instance.CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(1, 2, messages, true);
 
             numberOfMessages.ShouldBeEquivalentTo(4);
             messagesInNext.ShouldBeEquivalentTo(1);
         }
 
         [Test]
-        public void CalcNumberOfMessagesInIntervalFromStart_should_return_0_if_there_were_no_messages_also_for_client_messages()
+        public void CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart_should_return_0_if_there_were_no_messages_also_for_client_messages()
         {
-            _instance.CalcNumberOfMessagesInIntervalFromStart(0, 10, Enumerable.Empty<Message>(), true).ShouldBeEquivalentTo(0);
+            _instance.CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(0, 10, Enumerable.Empty<Message>(), true).ShouldBeEquivalentTo(0);
         }
 
         [Test]
-        public void CalcNumberOfMessagesInIntervalFromStart_should_be_able_to_handle_larger_intervals_also_for_client_messages()
+        public void CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart_should_be_able_to_handle_larger_intervals_also_for_client_messages()
         {
             var message1 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
             var message2 = new Message { SentFromClient = _instance.StartTime.AddMilliseconds(3000).ToMilliseconds() };
@@ -103,8 +103,8 @@ namespace SignalRLoadUnitTests
 
             var messages = new List<Message> { message1, message2, message3, message4, message5 };
 
-            var numberOfMessages = _instance.CalcNumberOfMessagesInIntervalFromStart(0, 10, messages, true);
-            var messagesInNext = _instance.CalcNumberOfMessagesInIntervalFromStart(10, 20, messages, true);
+            var numberOfMessages = _instance.CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(0, 10, messages, true);
+            var messagesInNext = _instance.CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(10, 20, messages, true);
 
             numberOfMessages.ShouldBeEquivalentTo(4);
             messagesInNext.ShouldBeEquivalentTo(1);
@@ -213,7 +213,7 @@ namespace SignalRLoadUnitTests
         }
 
         [Test]
-        public void MakeDataSeries_should_a_series_of_data_containing_number_of_messages_sent_for_each_interval()
+        public void MakeMessagesSentFromClientOrReceivedByServerDataSeries_should_a_series_of_data_containing_number_of_messages_sent_for_each_interval()
         {
             var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(100).ToMilliseconds() };
             var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(300).ToMilliseconds() };
@@ -230,7 +230,7 @@ namespace SignalRLoadUnitTests
                 new TestDataEntity{Messages = messages}
             };
 
-            var data = _instance.MakeDataSeries(2, 1);
+            var data = _instance.MakeMessagesSentFromClientOrReceivedByServerDataSeries(2, 1);
             var expecedData = new[] {16, 4};
 
             data.ShouldAllBeEquivalentTo(expecedData);
@@ -238,7 +238,7 @@ namespace SignalRLoadUnitTests
         }
 
         [Test]
-        public void MakeDataSeries_should_be_able_to_handle_zero_in_an_interval()
+        public void MakeMessagesSentFromClientOrReceivedByServerDataSeries_should_be_able_to_handle_zero_in_an_interval()
         {
             var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
             var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(3000).ToMilliseconds() };
@@ -256,14 +256,14 @@ namespace SignalRLoadUnitTests
                 new TestDataEntity{Messages = messages}
             };
 
-            var data = _instance.MakeDataSeries(11, 1);
+            var data = _instance.MakeMessagesSentFromClientOrReceivedByServerDataSeries(11, 1);
             var expecedData = new[] { 0, 4, 0, 4, 0, 4, 0, 0, 0, 4, 4 };
 
             data.ShouldAllBeEquivalentTo(expecedData);
         }
 
         [Test]
-        public void MakeMessagesSentPrSecondDataSeries_should_a_series_of_data_containing_number_of_messages_sent_for_each_interval()
+        public void MakeMessagesSentFromServerPrSecondDataSeries_should_a_series_of_data_containing_number_of_messages_sent_for_each_interval()
         {
             var events = new List<SendEvent>();
             events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(100).ToMilliseconds() });
@@ -274,13 +274,13 @@ namespace SignalRLoadUnitTests
             _instance.SendEvents = events;
 
             var expectedSeries = new[] {21, 1};
-            var series = _instance.MakeMessagesSentPrSecondDataSeries(2, 1);
+            var series = _instance.MakeMessagesSentFromServerPrSecondDataSeries(2, 1);
 
             series.ShouldAllBeEquivalentTo(expectedSeries);
         }
 
         [Test]
-        public void MakeMessagesSentPrSecondDataSeries_should_be_able_to_handle_zero_in_an_interval()
+        public void MakeMessagesSentFromServerPrSecondDataSeries_should_be_able_to_handle_zero_in_an_interval()
         {
             var events = new List<SendEvent>();
             events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() });
@@ -291,7 +291,7 @@ namespace SignalRLoadUnitTests
             _instance.SendEvents = events;
 
             var expectedSeries = new[] { 0, 10, 10, 0, 0, 0, 0, 0, 0, 1, 1 };
-            var series = _instance.MakeMessagesSentPrSecondDataSeries(11, 1);
+            var series = _instance.MakeMessagesSentFromServerPrSecondDataSeries(11, 1);
 
             series.ShouldAllBeEquivalentTo(expectedSeries);
         }
