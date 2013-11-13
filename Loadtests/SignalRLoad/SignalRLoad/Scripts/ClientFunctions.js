@@ -1,11 +1,19 @@
 ﻿(function(options, root, dom) {
-    root.receiveMessage = function (message) { 
-        //console.log("received message on client " + message.ClientId);
+    root.receiveEchoMessage = function (message) {         
         root.findClient(message.ClientId).done(function (foundClient) {
-            //console.log("Aaaand found client");
+            //console.log("received message on client " + message.ClientId + " time sent: " + new Date(message.sentFromClient).toString());
             message.ReceivedAtClient = new Date().getTime();
             foundClient.messages.push(message);
         }).fail(function (error) { }); //really just ignore
+    };
+
+    root.receiveBroadcastMessage = function(message) {
+        root.findClient(message.ClientId).done(function(foundClient) {
+            if (foundClient.messages[message.MessageId] === undefined) {
+                message.ReceivedAtClient = new Date().getTime();
+                foundClient.messages["m"+message.MessageId] = message;
+            }
+        });
     };
 
     root.harvestComplete = function(data) {
@@ -25,6 +33,15 @@
             dom.hideMasterPromotion();
             dom.showStart();
         }).fail(clientNotFound);
+    };
+
+    root.getMessages = function(client) {
+        var messages = [];
+        for (var message in client.messages) {
+            messages.push(client.messages[message]);
+        }
+
+        return messages;
     };
 
     root.findClient = function(clientId) {

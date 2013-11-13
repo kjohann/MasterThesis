@@ -9,8 +9,8 @@
         var hubProxy = connection.createHubProxy('loadHub');
 
         hubProxy.on('initTest', root.initTest);
-        hubProxy.on('receiveEcho', functions.receiveMessage);
-        hubProxy.on('receiveBroadcast', functions.receiveMessage);
+        hubProxy.on('receiveEcho', functions.receiveEchoMessage);
+        hubProxy.on('receiveBroadcast', functions.receiveBroadcastMessage);
         hubProxy.on('harvest', root.harvest);
         hubProxy.on('harvestComplete', functions.harvestComplete);
 
@@ -56,8 +56,9 @@
 
     root.harvest = function(clientId) {
         console.log("Harvesting " + clientId);
-        functions.findClient(clientId).done(function(client) {
-            client.socket.invoke('getData', { Messages: client.messages });
+        functions.findClient(clientId).done(function (client) {
+            var messages = client.messages.length === 0 ? functions.getMessages(client) : client.messages;
+            client.socket.invoke('getData', { Messages: messages });
         }).fail(function (error){});
     };
     
@@ -65,7 +66,7 @@
         $.each(options.clients, function (index, client) {
             if (client.messagesSent++ < options.numberOfMessages) {
                 //console.log("Sending message from client " + client.clientId + " time: " + new Date().toString());
-                client.socket.invoke(test, new models.Message("1337", client.clientId));                
+                client.socket.invoke(test, new models.Message("1337", client.clientId, client.messagesSent));                
             } else if(!client.complete) {
                 client.complete = true;
                 console.log("Sending complete for client " + client.clientId);
