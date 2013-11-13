@@ -111,6 +111,50 @@ namespace SignalRLoadUnitTests
         }
 
         [Test]
+        public void CalcNumberOfMessagesSentFromServerInIntervalFromStart_should_return_0_if_no_messages()
+        {
+            _instance.SendEvents = new List<SendEvent>();
+
+            _instance.CalcNumberOfMessagesSentFromServerInIntervalFromStart(0, 1).ShouldBeEquivalentTo(0);
+        }
+
+        [Test]
+        public void CalcNumberOfMessagesSentFromServerInIntervalFromStart_should_return_number_of_messages_in_interval()
+        {
+            var events = new List<SendEvent>();
+            events.Add(new SendEvent{NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(100).ToMilliseconds()});
+            events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(200).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 1, TimeStamp = _instance.StartTime.AddMilliseconds(999).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 1, TimeStamp = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() });
+
+            _instance.SendEvents = events;
+
+            var numberOfMessages = _instance.CalcNumberOfMessagesSentFromServerInIntervalFromStart(0, 1);
+            var messagesInNext = _instance.CalcNumberOfMessagesSentFromServerInIntervalFromStart(1, 2);
+
+            numberOfMessages.ShouldBeEquivalentTo(21);
+            messagesInNext.ShouldBeEquivalentTo(1);
+        }
+
+        [Test]
+        public void CalcNumberOfMessagesSentFromServerInIntervalFromStart_should_return_number_of_messages_in_large_interval()
+        {
+            var events = new List<SendEvent>();
+            events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(2000).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 1, TimeStamp = _instance.StartTime.AddMilliseconds(9999).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 1, TimeStamp = _instance.StartTime.AddMilliseconds(10000).ToMilliseconds() });
+
+            _instance.SendEvents = events;
+
+            var numberOfMessages = _instance.CalcNumberOfMessagesSentFromServerInIntervalFromStart(0, 10);
+            var messagesInNext = _instance.CalcNumberOfMessagesSentFromServerInIntervalFromStart(10, 20);
+
+            numberOfMessages.ShouldBeEquivalentTo(21);
+            messagesInNext.ShouldBeEquivalentTo(1);
+        }
+
+        [Test]
         public void BuildXAxis_should_give_one_and_two_if_elapsed_time_was_one_second_with_spacing_one()
         {
             var expectedAxis = new[] { "1", "2" };
@@ -187,7 +231,7 @@ namespace SignalRLoadUnitTests
             };
 
             var data = _instance.MakeDataSeries(2, 1);
-            var expecedData = new[] {"16", "4"};
+            var expecedData = new[] {16, 4};
 
             data.ShouldAllBeEquivalentTo(expecedData);
 
@@ -213,9 +257,43 @@ namespace SignalRLoadUnitTests
             };
 
             var data = _instance.MakeDataSeries(11, 1);
-            var expecedData = new[] { "0", "4", "0", "4", "0", "4", "0", "0", "0", "4", "4" };
+            var expecedData = new[] { 0, 4, 0, 4, 0, 4, 0, 0, 0, 4, 4 };
 
             data.ShouldAllBeEquivalentTo(expecedData);
+        }
+
+        [Test]
+        public void MakeMessagesSentPrSecondDataSeries_should_a_series_of_data_containing_number_of_messages_sent_for_each_interval()
+        {
+            var events = new List<SendEvent>();
+            events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(100).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(200).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 1, TimeStamp = _instance.StartTime.AddMilliseconds(999).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 1, TimeStamp = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() });
+
+            _instance.SendEvents = events;
+
+            var expectedSeries = new[] {21, 1};
+            var series = _instance.MakeMessagesSentPrSecondDataSeries(2, 1);
+
+            series.ShouldAllBeEquivalentTo(expectedSeries);
+        }
+
+        [Test]
+        public void MakeMessagesSentPrSecondDataSeries_should_be_able_to_handle_zero_in_an_interval()
+        {
+            var events = new List<SendEvent>();
+            events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 10, TimeStamp = _instance.StartTime.AddMilliseconds(2000).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 1, TimeStamp = _instance.StartTime.AddMilliseconds(9999).ToMilliseconds() });
+            events.Add(new SendEvent { NumberOfMessages = 1, TimeStamp = _instance.StartTime.AddMilliseconds(10000).ToMilliseconds() });
+
+            _instance.SendEvents = events;
+
+            var expectedSeries = new[] { 0, 10, 10, 0, 0, 0, 0, 0, 0, 1, 1 };
+            var series = _instance.MakeMessagesSentPrSecondDataSeries(11, 1);
+
+            series.ShouldAllBeEquivalentTo(expectedSeries);
         }
 
         [Test]

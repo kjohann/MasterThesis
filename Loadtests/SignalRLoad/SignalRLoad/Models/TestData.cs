@@ -10,6 +10,7 @@ namespace SignalRLoad.Models
     public class TestData
     {
         public List<TestDataEntity> TestDataEntities { get; set; }
+        public List<SendEvent> SendEvents { get; set; }
         public DateTime StartTime { get; set; }
 
         public TestData()
@@ -94,6 +95,20 @@ namespace SignalRLoad.Models
             return data;
         }
 
+        public int[] MakeMessagesSentPrSecondDataSeries(int length, int spacing)
+        {
+            var data = new int[length];
+            
+            var from = 0;
+            for (var i = 0; i < data.Length; i++)
+            {
+                data[i] += CalcNumberOfMessagesSentFromServerInIntervalFromStart(from, from + spacing);
+                from += spacing;
+            }
+
+            return data;
+        }
+
         public int CalcNumberOfMessagesInIntervalFromStart(int from, int to, IEnumerable<Message> messages, bool client = false)
         {
             if (client)
@@ -106,7 +121,14 @@ namespace SignalRLoad.Models
                 Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.SentFromServer) - StartTime).Seconds) < to);
         }
 
-        public string[] BuildYAxis(int[] allData)
+        public int CalcNumberOfMessagesSentFromServerInIntervalFromStart(int from, int to) 
+        {   
+            return SendEvents.Where(x => Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.TimeStamp) - StartTime).Seconds) >= from && 
+                Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.TimeStamp) - StartTime).Seconds) < to)
+                .Sum(x => x.NumberOfMessages);
+        }
+
+        public string[] BuildYAxis(int[] allData) //Need or introduce higher spacing?
         {
             var max = allData.Max(x => x);
 
