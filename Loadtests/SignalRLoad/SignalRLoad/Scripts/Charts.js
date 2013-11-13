@@ -2,8 +2,14 @@
     root.getCharts = function(data) {        
         data.Type = "Messages";
         console.log(data);
-        $.post(loadTest.options.chartUrl, data).done(function(chart) {
-            $("#messagesChart").highcharts(getChart(chart));
+        $.post(loadTest.options.chartUrl, data).done(function(status) {
+            if (status) {
+                console.log(status);
+                $.get(loadTest.options.chartUrl).done(function(charts) {
+                    $("#messagesChart").highcharts(getChart(charts[0]));
+                });
+            }
+            
         });
     };
     

@@ -12,19 +12,30 @@ namespace SignalRLoad.Controllers
 {
     public class ChartsController : ApiController
     {
-        public Chart Post(ChartPostModel model)
+        public ChartsRepo ChartsRepo { get; set; }
+
+        public ChartsController()
         {
-            //need to send dates as milliseconds since 1970!
-           // var model = JsonConvert.DeserializeObject<ChartPostModel>(json);
+            ChartsRepo = ChartsRepo.GetInstance();
+        }
+
+        public string Post(ChartPostModel model)
+        {          
             if (model.Type == "Messages")
             {
-                return MessagesReceivedAtServerAndSentFromClientsPrSecond(model);
+                ChartsRepo.Charts.Add(MessagesReceivedAtServerAndSentFromClientsPrSecond(model));
+                return "Calculation complete for chart: " + model.Type;
             }
 
             return null;
         }
 
-        private Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(ChartPostModel model)
+        public IEnumerable<Chart> GetCharts()
+        {
+            return ChartsRepo.Charts;
+        } 
+
+        private static Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(ChartPostModel model)
         {
             var testData = new TestData
             {
