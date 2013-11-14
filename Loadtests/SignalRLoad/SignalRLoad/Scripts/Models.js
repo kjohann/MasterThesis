@@ -12,7 +12,7 @@
     root.Message = function(payload, clientId, messagesSentByClient) {
         var self = this;
         self.sentFromClient = new Date().getTime();
-        self.sentFromServer = new Date().getTime(); //Just to init
+        self.receivedAtServer = new Date().getTime(); //Just to init
         self.receivedAtClient = new Date().getTime(); //Just to init
         self.payload = payload;
         self.clientId = clientId;

@@ -29,11 +29,11 @@ namespace SignalRLoadUnitTests
         [Test] //Check that everything works together
         public void MessagesReceivedAtServerAndSentFromClientsPrSecond_should_produce_a_chart_with_two_series()
         {
-            var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds(), SentFromClient = _instance.StartTime.AddMilliseconds(500).ToMilliseconds() };
-            var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(3000).ToMilliseconds(), SentFromClient = _instance.StartTime.AddMilliseconds(2500).ToMilliseconds() };
-            var message3 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(5000).ToMilliseconds(), SentFromClient = _instance.StartTime.AddMilliseconds(4500).ToMilliseconds() };
-            var message4 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(9999).ToMilliseconds(), SentFromClient = _instance.StartTime.AddMilliseconds(9499).ToMilliseconds() };
-            var message5 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(10200).ToMilliseconds(), SentFromClient = _instance.StartTime.AddMilliseconds(10000).ToMilliseconds() };
+            var message1 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds(), SentFromClient = _instance.StartTime.AddMilliseconds(500).ToMilliseconds() };
+            var message2 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(3000).ToMilliseconds(), SentFromClient = _instance.StartTime.AddMilliseconds(2500).ToMilliseconds() };
+            var message3 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(5000).ToMilliseconds(), SentFromClient = _instance.StartTime.AddMilliseconds(4500).ToMilliseconds() };
+            var message4 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(9999).ToMilliseconds(), SentFromClient = _instance.StartTime.AddMilliseconds(9499).ToMilliseconds() };
+            var message5 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(10200).ToMilliseconds(), SentFromClient = _instance.StartTime.AddMilliseconds(10000).ToMilliseconds() };
 
             var messages = new List<Message> { message1, message2, message3, message4, message5 };
 
@@ -147,11 +147,11 @@ namespace SignalRLoadUnitTests
         [Test]
         public void MakeMessagesSentFromClientOrReceivedByServerDataSeries_should_a_series_of_data_containing_number_of_messages_sent_for_each_interval()
         {
-            var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(100).ToMilliseconds() };
-            var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(300).ToMilliseconds() };
-            var message3 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(500).ToMilliseconds() };
-            var message4 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(999).ToMilliseconds() };
-            var message5 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
+            var message1 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(100).ToMilliseconds() };
+            var message2 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(300).ToMilliseconds() };
+            var message3 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(500).ToMilliseconds() };
+            var message4 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(999).ToMilliseconds() };
+            var message5 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
 
             var messages = new List<Message> { message1, message2, message3, message4, message5 };
             _instance.TestDataEntities = new List<TestDataEntity>
@@ -172,11 +172,11 @@ namespace SignalRLoadUnitTests
         [Test]
         public void MakeMessagesSentFromClientOrReceivedByServerDataSeries_should_be_able_to_handle_zero_in_an_interval()
         {
-            var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
-            var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(3000).ToMilliseconds() };
-            var message3 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(5000).ToMilliseconds() };
-            var message4 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(9999).ToMilliseconds() };
-            var message5 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(10000).ToMilliseconds() };
+            var message1 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
+            var message2 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(3000).ToMilliseconds() };
+            var message3 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(5000).ToMilliseconds() };
+            var message4 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(9999).ToMilliseconds() };
+            var message5 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(10000).ToMilliseconds() };
 
             var messages = new List<Message> { message1, message2, message3, message4, message5 };
 
@@ -231,11 +231,11 @@ namespace SignalRLoadUnitTests
         [Test]
         public void CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart_should_return_only_messages_within_the_interval()
         {
-            var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(100).ToMilliseconds() };
-            var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(300).ToMilliseconds() };
-            var message3 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(500).ToMilliseconds() };
-            var message4 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(999).ToMilliseconds() };
-            var message5 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
+            var message1 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(100).ToMilliseconds() };
+            var message2 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(300).ToMilliseconds() };
+            var message3 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(500).ToMilliseconds() };
+            var message4 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(999).ToMilliseconds() };
+            var message5 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
 
             var messages =  new List<Message> { message1, message2, message3, message4, message5 };
 
@@ -255,11 +255,11 @@ namespace SignalRLoadUnitTests
         [Test]
         public void CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart_should_be_able_to_handle_larger_intervals()
         {
-            var message1 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
-            var message2 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(3000).ToMilliseconds() };
-            var message3 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(5000).ToMilliseconds() };
-            var message4 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(9999).ToMilliseconds() };
-            var message5 = new Message { SentFromServer = _instance.StartTime.AddMilliseconds(10000).ToMilliseconds() };
+            var message1 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(1000).ToMilliseconds() };
+            var message2 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(3000).ToMilliseconds() };
+            var message3 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(5000).ToMilliseconds() };
+            var message4 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(9999).ToMilliseconds() };
+            var message5 = new Message { ReceivedAtServer = _instance.StartTime.AddMilliseconds(10000).ToMilliseconds() };
 
             var messages = new List<Message> { message1, message2, message3, message4, message5 };
 

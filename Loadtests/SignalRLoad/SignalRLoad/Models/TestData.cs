@@ -141,8 +141,8 @@ namespace SignalRLoad.Models
                     Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.SentFromClient) - StartTime).Seconds) < to);
             }
 
-            return messages.Count(x => Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.SentFromServer) - StartTime).Seconds) >= from && 
-                Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.SentFromServer) - StartTime).Seconds) < to);
+            return messages.Count(x => Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.ReceivedAtServer) - StartTime).Seconds) >= from && 
+                Round(false, (DateUtils.FromMillisecondsSinceEpoch(x.ReceivedAtServer) - StartTime).Seconds) < to);
         }
 
         public int CalcNumberOfMessagesSentFromServerInIntervalFromStart(int from, int to) 

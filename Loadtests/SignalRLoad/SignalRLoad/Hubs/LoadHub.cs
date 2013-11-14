@@ -37,18 +37,20 @@ namespace SignalRLoad.Hubs
 
         public void Echo(Message message)
         {
-            _monitor.RegisterReceivedMessage();
-            message.SentFromServer = DateTime.Now.AddHours(-1).ToMilliseconds();    //One hour time difference from client for some reason         
+            message.ReceivedAtServer = DateTime.Now.AddHours(-1).ToMilliseconds();    //One hour time difference from client for some reason  
+            _monitor.RegisterReceivedMessage();                   
             Clients.Caller.receiveEcho(message);
-            _monitor.RegisterSentEchoMessage(message.SentFromServer);
+            var sent = DateTime.Now.AddHours(-1).ToMilliseconds();
+            _monitor.RegisterSentEchoMessage(sent);
         }
 
         public void Broadcast(Message message)
         {
-            _monitor.RegisterReceivedMessage();
-            message.SentFromServer = DateTime.Now.AddHours(-1).ToMilliseconds();  //One hour time difference from client for some reason
+            message.ReceivedAtServer = DateTime.Now.AddHours(-1).ToMilliseconds();  //One hour time difference from client for some reason
+            _monitor.RegisterReceivedMessage();            
             Clients.All.receiveBroadcast(message);
-            _monitor.RegisterSentBroadcastMessage(message.SentFromServer);
+            var sent = DateTime.Now.AddHours(-1).ToMilliseconds();
+            _monitor.RegisterSentBroadcastMessage(sent);
         }
 
         public void Complete(string clientId)
