@@ -1,7 +1,6 @@
 ﻿(function(options, root, dom) {
     root.receiveEchoMessage = function (message) {         
         root.findClient(message.ClientId).done(function (foundClient) {
-            //console.log("received message on client " + message.ClientId + " time sent: " + new Date(message.sentFromClient).toString());
             message.ReceivedAtClient = new Date().getTime();
             foundClient.messages.push(message);
         }).fail(function (error) { }); //really just ignore
@@ -25,7 +24,8 @@
         }
     };
 
-    root.promoteToMaster = function (clientId) { 
+    root.promoteToMaster = function () {
+        var clientId = options.instanceId;
         root.findClient(clientId).done(function (foundClient) {
             foundClient.master = true;
             options.masterId = clientId;

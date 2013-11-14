@@ -27,16 +27,8 @@
             comm.start(test);
         });
 
-        $("#masterBtn").click(function() {
-            var id = $("#masterTxt").val();
-            if (!id) {
-                alert("Provide an id!");
-                return;
-            }
-
-            functions.promoteToMaster(id);
+        $("#masterBtn").click(function() {            
+            functions.promoteToMaster();
         });
-
-        //comm.initConnection();
     });
 })(loadTest.options, loadTest.charts, loadTest.communications, loadTest.clientFunctions)

@@ -3,7 +3,6 @@
     var initLock = 0;
     var connectionsTried = 0;
     root.initConnection = function () {
-        //for (var i = 0; i < options.numberOfClientsPrBrowser; i++) {
         var clientId = connectionsTried + options.instanceId;
         var connection = $.hubConnection();
         var hubProxy = connection.createHubProxy('loadHub');
@@ -30,7 +29,6 @@
             dom.showMasterPromotion();
             dom.hideInit();
         }
-        //}
     };
 
     root.start = function(test) {
@@ -65,7 +63,6 @@
     function sendMessages(test) {
         $.each(options.clients, function (index, client) {
             if (client.messagesSent++ < options.numberOfMessages) {
-                //console.log("Sending message from client " + client.clientId + " time: " + new Date().toString());
                 client.socket.invoke(test, new models.Message("1337", client.clientId, client.messagesSent));                
             } else if(!client.complete) {
                 client.complete = true;
