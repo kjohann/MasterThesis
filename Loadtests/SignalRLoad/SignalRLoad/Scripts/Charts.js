@@ -1,17 +1,34 @@
 ﻿(function(root) { 
     root.getCharts = function(data) {        
-        data.Type = "Messages";
-        console.log(data);
-        $.post(loadTest.options.chartUrl, data).done(function(status) {
-            if (status) {
-                console.log(status);
-                $.get(loadTest.options.chartUrl).done(function(charts) {
-                    $("#messagesChart").highcharts(getChart(charts[0]));
+        $.when(postMessagesSentReceivedChart(data), postMessagesSentServerChart(data)).done(function(sentReceivedStatus, sentServerStatus) {
+            if (sentReceivedStatus != null && sentServerStatus != null) {
+                getCharts().done(function(charts) {
+                    $.each(charts, function(index, chart) {
+                        var highChart = getChart(chart);
+                        if (chart.Title === "Messages sent from clients and received by server pr. second") {
+                            $("#messagesSentReceivedChart").highcharts(highChart);
+                        } else if (chart.Title === "Messages sent from server pr. second") {
+                            $("#messagesSentFromServerChart").highcharts(highChart);
+                        }
+                    });
                 });
             }
-            
         });
     };
+    
+    function postMessagesSentReceivedChart(data) {
+        data.Type = "MessagesSentReceived";
+        return $.post(loadTest.options.chartUrl, data);
+    }
+    
+    function postMessagesSentServerChart(data) {
+        data.Type = "MessagesSentServer";
+        return $.post(loadTest.options.chartUrl, data);
+    }
+    
+    function getCharts() {
+        return $.get(loadTest.options.chartUrl);
+    }
     
     function getChart(chart) {
         return {

@@ -20,11 +20,16 @@ namespace SignalRLoad.Controllers
         }
 
         public string Post(ChartPostModel model)
-        {          
-            if (model.Type == "Messages")
+        {
+            if (model.Type == "MessagesSentReceived")
             {
                 ChartsRepo.Charts.Add(MessagesReceivedAtServerAndSentFromClientsPrSecond(model));
                 return "Calculation complete for chart: " + model.Type;
+            }
+            else if (model.Type == "MessagesSentServer")
+            {
+                ChartsRepo.Charts.Add(MessagesSentFromServerPrSecond(model));
+                return "Calculation complete for chart " + model.Type;
             }
 
             return null;
@@ -32,7 +37,9 @@ namespace SignalRLoad.Controllers
 
         public IEnumerable<Chart> GetCharts()
         {
-            return ChartsRepo.Charts;
+            var charts = ChartsRepo.Charts;
+            ChartsRepo.Charts = new List<Chart>();
+            return charts;
         } 
 
         private static Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(ChartPostModel model)
@@ -44,6 +51,17 @@ namespace SignalRLoad.Controllers
             };
 
             return testData.MessagesReceivedAtServerAndSentFromClientsPrSecond(1, model.Duration, true);
+        }
+
+        private static Chart MessagesSentFromServerPrSecond(ChartPostModel model)
+        {
+            var testData = new TestData
+            {
+                SendEvents = model.SendEvents,
+                StartTime = DateUtils.FromMillisecondsSinceEpoch(model.StartTime)
+            };
+
+            return testData.MessagesSentByServerPrSecond(1, model.Duration, true);
         }
     }
 }
