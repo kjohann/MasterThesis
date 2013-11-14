@@ -3,11 +3,11 @@
         options: {
             chartUrl: "/api/charts",
             masterId: 0, //will be 0 for all browsers that does not have the master
-            connectionInterval: 200, //delay between connecting clients 
-            numberOfClientsTotal: 5,
-            numberOfClientsPrBrowser: 5,
-            messageInterval: 200,
-            numberOfMessages: 200, //(pr. client) use this with messageInterval to calculate expected duration
+            connectionInterval: 0, //delay between connecting clients 
+            numberOfClientsTotal: 0,
+            numberOfClientsPrBrowser: 0,
+            messageInterval: 0,
+            numberOfMessages: 0, //(pr. client) use this with messageInterval to calculate expected duration
             instanceId: 1, //will be id of the first client
             clients: [] //able to hold several clients
         }
