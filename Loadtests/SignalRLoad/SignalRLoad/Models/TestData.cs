@@ -13,13 +13,14 @@ namespace SignalRLoad.Models
         public List<TestDataEntity> TestDataEntities { get; set; }
         public List<SendEvent> SendEvents { get; set; }
         public DateTime StartTime { get; set; }
+        public List<int> SentFromClientEvents { get; set; }
 
         public TestData()
         {
             TestDataEntities = new List<TestDataEntity>();
         }
  
-
+        //receive data as parameters
         public Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(int spacing, long durationInMillis, bool includeZero = false)
         {
             var chart = new Chart
@@ -104,19 +105,20 @@ namespace SignalRLoad.Models
 
         public int[] MakeMessagesSentFromClientOrReceivedByServerDataSeries(int length, int spacing, bool client = false)
         {
-            var data = new int[length];
+            return SentFromClientEvents.ToArray();
+            //var data = new int[length];
 
-            foreach (var entity in TestDataEntities)
-            {
-                var from = 0;
-                for (var i = 0; i < data.Length; i++)
-                {
-                    data[i] += CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(from, from + spacing, entity.Messages, client);
-                    from += spacing;
-                }
-            }
+            //foreach (var entity in TestDataEntities)
+            //{
+            //    var from = 0;
+            //    for (var i = 0; i < data.Length; i++)
+            //    {
+            //        data[i] += CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(from, from + spacing, entity.Messages, client);
+            //        from += spacing;
+            //    }
+            //}
 
-            return data;
+            //return data;
         }
 
         public int[] MakeMessagesSentFromServerPrSecondDataSeries(int length, int spacing)

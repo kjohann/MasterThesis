@@ -12,6 +12,7 @@ namespace SignalRLoad.Controllers
 {
     public class ChartsController : ApiController
     {
+        //ChartsPostModel should receive data series in some fashion - can probalby do static.
         public ChartsRepo ChartsRepo { get; set; }
 
         public ChartsController()
@@ -21,15 +22,14 @@ namespace SignalRLoad.Controllers
 
         public string Post(ChartPostModel model)
         {
-            if (model.Type == "MessagesSentReceived")
+            switch (model.Type)
             {
-                ChartsRepo.Charts.Add(MessagesReceivedAtServerAndSentFromClientsPrSecond(model));
-                return "Calculation complete for chart: " + model.Type;
-            }
-            else if (model.Type == "MessagesSentServer")
-            {
-                ChartsRepo.Charts.Add(MessagesSentFromServerPrSecond(model));
-                return "Calculation complete for chart " + model.Type;
+                case "MessagesSentReceived":
+                    ChartsRepo.Charts.Add(MessagesReceivedAtServerAndSentFromClientsPrSecond(model));
+                    return "Calculation complete for chart: " + model.Type;
+                case "MessagesSentServer":
+                    ChartsRepo.Charts.Add(MessagesSentFromServerPrSecond(model));
+                    return "Calculation complete for chart " + model.Type;
             }
 
             return null;
