@@ -16,40 +16,33 @@ namespace SignalRLoad.Hubs
         {
             _monitor = Monitor.GetInstance();
         }
-        //Remove this..
-        public void Hello(long timeInMillis)
-        {            
-            var date = new DateTime(1970,1,1).AddMilliseconds(timeInMillis);
-            Clients.Caller.hello((date- new DateTime(1970, 1, 1)).TotalMilliseconds);
-        }
-
+     
         public void InitTest(string testToRun, int numberOfClients, int testDurationInMillis)
         {
             _monitor.Reset();
             _monitor.ExpectedTestDurationInMillis = testDurationInMillis;
             _monitor.NumberOfClients = numberOfClients;            
 
-            _monitor.StartTime = DateTime.Now.AddHours(-1); //One hour time difference from client for some reason
+            _monitor.StartTime = DateTime.UtcNow; //One hour time difference from client for some reason
             _monitor.Stopwatch.Start();
-
             Clients.All.initTest(testToRun);
         }
 
         public void Echo(Message message)
         {
-            message.ReceivedAtServer = DateTime.Now.AddHours(-1).ToMilliseconds();    //One hour time difference from client for some reason  
+            message.ReceivedAtServer = DateTime.UtcNow.ToMilliseconds();    //One hour time difference from client for some reason  
             _monitor.RegisterReceivedMessage();                   
             Clients.Caller.receiveEcho(message);
-            var sent = DateTime.Now.AddHours(-1).ToMilliseconds();
+            var sent = DateTime.UtcNow.ToMilliseconds();
             _monitor.RegisterSentEchoMessage(sent);
         }
 
         public void Broadcast(Message message)
         {
-            message.ReceivedAtServer = DateTime.Now.AddHours(-1).ToMilliseconds();  //One hour time difference from client for some reason
+            message.ReceivedAtServer = DateTime.UtcNow.ToMilliseconds();  //One hour time difference from client for some reason
             _monitor.RegisterReceivedMessage();            
             Clients.All.receiveBroadcast(message);
-            var sent = DateTime.Now.AddHours(-1).ToMilliseconds();
+            var sent = DateTime.UtcNow.ToMilliseconds();
             _monitor.RegisterSentBroadcastMessage(sent);
         }
 
