@@ -46,11 +46,12 @@ namespace SignalRLoad.Controllers
         {
             var testData = new TestData
             {
-                TestDataEntities = model.Entities,
                 StartTime = DateUtils.FromMillisecondsSinceEpoch(model.StartTime)
             };
-
-            return testData.MessagesReceivedAtServerAndSentFromClientsPrSecond(1, model.Duration, true);
+            //decide spacing from clientside
+            //return testData.MessagesReceivedAtServerAndSentFromClientsPrSecond(1, model.Duration, true);
+            return testData.MessagesReceivedAtServerAndSentFromClientsPrSecond1(1, model.ReceivedAtServerEvents.ToArray(),
+                model.SentFromClientEvents.ToArray());
         }
 
         private static Chart MessagesSentFromServerPrSecond(ChartPostModel model)
@@ -61,7 +62,7 @@ namespace SignalRLoad.Controllers
                 StartTime = DateUtils.FromMillisecondsSinceEpoch(model.StartTime)
             };
 
-            return testData.MessagesSentByServerPrSecond(1, model.Duration, true);
+            return testData.MessagesSentByServerPrSecond1(1, model.SentFromServerEvents.ToArray());
         }
     }
 }

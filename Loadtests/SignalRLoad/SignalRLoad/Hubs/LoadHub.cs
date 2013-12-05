@@ -69,10 +69,13 @@ namespace SignalRLoad.Hubs
             {
                 Clients.All.harvestComplete(new
                 {
-                    Entities = _monitor.TestDataEntities,
+                    Entities = _monitor.TestDataEntities, //replace
                     Duration = _monitor.Duration,
                     StartTime = _monitor.StartTime.ToMilliseconds(),
-                    SendEvents = _monitor.SendEvents
+                    SendEvents = _monitor.SendEvents, //remove
+                    SentFromClientEvents = _monitor.SentFromClientEvents,
+                    ReceivedAtServerEvents = _monitor.ReceivedAtServerEvents,
+                    SentFromServerEvents = _monitor.SentFromServerEvents
                 });
             }
         }

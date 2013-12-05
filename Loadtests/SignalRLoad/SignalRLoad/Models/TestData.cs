@@ -19,60 +19,61 @@ namespace SignalRLoad.Models
         {
             TestDataEntities = new List<TestDataEntity>();
         }
- 
-        //receive data as parameters
-        public Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(int spacing, long durationInMillis, bool includeZero = false)
+
+        //refactored
+        public Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(int spacing, int[] serverSet, int[] clientSet)
         {
+            var xAxis = new string[serverSet.Length];
+            for(var i = 0; i < xAxis.Length; i++)
+            {
+                xAxis[i] = i.ToString(CultureInfo.InvariantCulture);
+            }
+            
             var chart = new Chart
             {
                 Title = Titles.MessagesSentFromClientsAndReceivedByServerPrSecond,
-                XAxis = BuildXAxis(spacing, durationInMillis, includeZero),
+                XAxis = xAxis,
                 YAxisTitle = "Messages"
             };
-            var series = new List<Series>();    
-            var serverData = MakeMessagesSentFromClientOrReceivedByServerDataSeries(chart.XAxis.Length, spacing);                   
+            var series = new List<Series>();
 
             series.Add(new Series
-            { 
+            {
                 Name = Titles.MessagesReceivedByServerPrSecondSeries,
-                Data = serverData.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray() 
+                Data = serverSet.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray()
             });
 
-            var clientData = MakeMessagesSentFromClientOrReceivedByServerDataSeries(chart.XAxis.Length, spacing, true);
 
             series.Add(new Series
             {
                 Name = Titles.MessagesSentFromClientsPrSecondSeries,
-                Data = clientData.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray()
+                Data = clientSet.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray()
             });
 
-            chart.Series = series;
-            
-            var combinedData = new int[serverData.Length + clientData.Length];
-            serverData.CopyTo(combinedData, 0);
-            clientData.CopyTo(combinedData, serverData.Length);
-            
-            chart.YAxis = BuildYAxis(combinedData);
-
+            chart.Series = series;           
             return chart;
         }
-
-        public Chart MessagesSentByServerPrSecond(int spacing, long durationInMillis, bool includeZero = false)
+        //refactored
+        public Chart MessagesSentByServerPrSecond(int spacing, int[] dataSet) 
         {
+            var xAxis = new string[dataSet.Length];
+            for (var i = 0; i < xAxis.Length; i++)
+            {
+                xAxis[i] = i.ToString(CultureInfo.InvariantCulture);
+            }
             var chart = new Chart
             {
                 Title = Titles.MessagesSentFromServerPrSecond,
-                XAxis = BuildXAxis(spacing, durationInMillis, includeZero),
+                XAxis = xAxis,
                 YAxisTitle = "Messages"
             };
 
-            var series = new List<Series>();
-            var data = MakeMessagesSentFromServerPrSecondDataSeries(chart.XAxis.Length, spacing);
+            var series = new List<Series>();           
 
             series.Add(new Series
             {
                 Name = Titles.GeneralMessagesSeries,
-                Data = data.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray()
+                Data = dataSet.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray()
             });
 
             chart.Series = series;
@@ -105,20 +106,20 @@ namespace SignalRLoad.Models
 
         public int[] MakeMessagesSentFromClientOrReceivedByServerDataSeries(int length, int spacing, bool client = false)
         {
-            return SentFromClientEvents.ToArray();
-            //var data = new int[length];
+            //return SentFromClientEvents.ToArray();
+            var data = new int[length];
 
-            //foreach (var entity in TestDataEntities)
-            //{
-            //    var from = 0;
-            //    for (var i = 0; i < data.Length; i++)
-            //    {
-            //        data[i] += CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(from, from + spacing, entity.Messages, client);
-            //        from += spacing;
-            //    }
-            //}
+            foreach (var entity in TestDataEntities)
+            {
+                var from = 0;
+                for (var i = 0; i < data.Length; i++)
+                {
+                    data[i] += CalcNumberOfMessagesSendFromClientOrReceivedByServerInIntervalFromStart(from, from + spacing, entity.Messages, client);
+                    from += spacing;
+                }
+            }
 
-            //return data;
+            return data;
         }
 
         public int[] MakeMessagesSentFromServerPrSecondDataSeries(int length, int spacing)
