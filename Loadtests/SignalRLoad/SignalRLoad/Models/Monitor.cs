@@ -65,7 +65,7 @@ namespace SignalRLoad.Models
 
         public void AddEvent(List<int> eventStore, int key, int nrOfEvents = 1)
         {
-            while (key > eventStore.Count)
+            while (key > eventStore.Count) //cope with intervals without events in them (unlikely, but still..)
             {
                 eventStore.Add(0);
             }

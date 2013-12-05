@@ -71,6 +71,36 @@ namespace SignalRLoadUnitTests
             var expected = new[] {1};
             _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expected);
         }
+        //Here
+        [Test]
+        public void Broadcast_should_set_ReceivedAtServer_in_message()
+        {
+            _loadHub.Broadcast(_message);
+            _message.ReceivedAtServer.Should().NotBe(0);
+        }
 
+        [Test]
+        public void Broadcast_should_register_a_ReceivedAtServerEvent_in_monitor()
+        {
+            _loadHub.Broadcast(_message);
+            var expected = new[] { 1 };
+            _monitor.ReceivedAtServerEvents.ShouldAllBeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Broadcast_should_register_a_SentFromClientEvent_in_monitor()
+        {
+            _loadHub.Broadcast(_message);
+            var expected = new[] { 1 };
+            _monitor.SentFromClientEvents.ShouldAllBeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Broadcast_should_register_SentFromServerEvents_corresponding_to_number_of_clients_in_monitor()
+        {
+            _loadHub.Broadcast(_message);
+            var expected = new[] { 100 };
+            _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expected);
+        }
     }
 }
