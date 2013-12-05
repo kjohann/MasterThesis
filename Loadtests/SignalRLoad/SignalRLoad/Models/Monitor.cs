@@ -63,8 +63,12 @@ namespace SignalRLoad.Models
             return up ? (int)Math.Ceiling(value) : (int)Math.Floor(value);
         }
 
-        private static void AddEvent(List<int> eventStore, int key, int nrOfEvents = 1)
+        public void AddEvent(List<int> eventStore, int key, int nrOfEvents = 1)
         {
+            while (key > eventStore.Count)
+            {
+                eventStore.Add(0);
+            }
             if (eventStore.Count == key)
             {
                 eventStore.Add(nrOfEvents);

@@ -161,6 +161,15 @@ namespace SignalRLoadUnitTests
             _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expectedData);
         }
 
+        [Test]
+        public void AddEvent_should_fill_in_zero_events_if_key_points_to_an_out_of_bounds_index()
+        {
+            var eventStore = new List<int> {1, 2};
+            _monitor.AddEvent(eventStore, 10);
+            var expected = new[] {1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+            eventStore.ShouldAllBeEquivalentTo(expected);
+        }
+
         private IEnumerable<long> GetDummyMillisecondValues(int eventInterval, int totalNumber)
         {
             var values = new List<long>();
