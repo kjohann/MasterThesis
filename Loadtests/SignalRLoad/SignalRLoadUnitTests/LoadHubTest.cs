@@ -102,5 +102,25 @@ namespace SignalRLoadUnitTests
             var expected = new[] { 100 };
             _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expected);
         }
+
+        [Test]
+        public void Complete_should_add_clientId_to_monitor_completed_list()
+        {
+            _loadHub.Complete("1337");
+            _monitor.CompletedClients.Count.Should().Be(1);
+            _monitor.Duration.Should().Be(0); //not complete yet
+        }
+
+        [Test]
+        public void Complete_should_set_duration_in_monitor_if_all_clients_have_completed()
+        {
+            for (var i = 0; i < _monitor.NumberOfClients; i++)
+            {
+                _loadHub.Complete(i + "");
+            }
+
+            _monitor.CompletedClients.Count.Should().Be(_monitor.NumberOfClients);
+            _monitor.Duration.Should().NotBe(0);
+        }
     }
 }
