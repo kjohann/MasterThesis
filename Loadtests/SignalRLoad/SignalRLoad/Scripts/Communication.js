@@ -33,8 +33,7 @@
 
     root.start = function(test) {
         functions.findClient(options.masterId).done(function(client) {
-            var testDuration = options.numberOfMessages * options.messageInterval;
-            client.socket.invoke('initTest', test, options.numberOfClientsTotal, testDuration);
+            client.socket.invoke('initTest', test, options.numberOfClientsTotal);
             dom.changeOnStart();
         }).fail(function(error) {
             console.log(error.message);

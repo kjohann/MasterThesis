@@ -17,10 +17,9 @@ namespace SignalRLoad.Hubs
             _monitor = Monitor.GetInstance();
         }
      
-        public void InitTest(string testToRun, int numberOfClients, int testDurationInMillis)
+        public void InitTest(string testToRun, int numberOfClients)
         {
             _monitor.Reset();
-            _monitor.ExpectedTestDurationInMillis = testDurationInMillis;
             _monitor.NumberOfClients = numberOfClients;            
 
             _monitor.StartTime = DateTime.UtcNow; //One hour time difference from client for some reason
