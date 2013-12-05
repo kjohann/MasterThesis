@@ -14,8 +14,8 @@ namespace SignalRLoad.Models
         public int ExpectedTestDurationInMillis { get; set; } //Probably delete
         public long MessagesReceived { get; set; } //Probably delete
         public long MessagesSent { get; set; } //Probably delete
-        public HashSet<string> CompletedClients { get; set; } 
-        public Stopwatch Stopwatch { get; set; } //Probably delete and just use DateTime
+        public HashSet<string> CompletedClients { get; set; }
+        public long Duration { get; set; }
         public List<TestDataEntity> TestDataEntities { get; set; }
         public DateTime StartTime { get; set; }
         public List<SendEvent> SendEvents { get; set; } //Probably delete
@@ -136,7 +136,7 @@ namespace SignalRLoad.Models
             MessagesReceived = 0;
             MessagesSent = 0;
             CompletedClients = new HashSet<string>();
-            Stopwatch = new Stopwatch();
+            Duration = 0;
             TestDataEntities = new List<TestDataEntity>();
             SendEvents = new List<SendEvent>();
             SentFromClientEvents = new List<int>();

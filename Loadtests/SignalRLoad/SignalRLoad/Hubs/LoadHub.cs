@@ -11,6 +11,7 @@ namespace SignalRLoad.Hubs
     public class LoadHub : Hub
     {
         private readonly Monitor _monitor;
+        private const int Spacing = 1;
 
         public LoadHub()
         {
@@ -23,26 +24,31 @@ namespace SignalRLoad.Hubs
             _monitor.NumberOfClients = numberOfClients;            
 
             _monitor.StartTime = DateTime.UtcNow; //One hour time difference from client for some reason
-            _monitor.Stopwatch.Start();
             Clients.All.initTest(testToRun);
         }
 
         public void Echo(Message message)
         {
             message.ReceivedAtServer = DateTime.UtcNow.ToMilliseconds();    //One hour time difference from client for some reason  
-            _monitor.RegisterReceivedMessage();                   
+            //_monitor.RegisterReceivedMessage();                   
+            _monitor.RegisterReceivedAtServerEvent(message.ReceivedAtServer, Spacing);
+            _monitor.RegisterSentFromClientEvent(message.SentFromClient, Spacing);
             Clients.Caller.receiveEcho(message);
             var sent = DateTime.UtcNow.ToMilliseconds();
-            _monitor.RegisterSentEchoMessage(sent);
+            //_monitor.RegisterSentEchoMessage(sent);
+            _monitor.RegisterSentFromServerEvent(sent, false, Spacing);
         }
 
         public void Broadcast(Message message)
         {
             message.ReceivedAtServer = DateTime.UtcNow.ToMilliseconds();  //One hour time difference from client for some reason
-            _monitor.RegisterReceivedMessage();            
+            //_monitor.RegisterReceivedMessage();            
+            _monitor.RegisterReceivedAtServerEvent(message.ReceivedAtServer, Spacing);
+            _monitor.RegisterSentFromClientEvent(message.SentFromClient, Spacing);
             Clients.All.receiveBroadcast(message);
             var sent = DateTime.UtcNow.ToMilliseconds();
-            _monitor.RegisterSentBroadcastMessage(sent);
+            //_monitor.RegisterSentBroadcastMessage(sent);
+            _monitor.RegisterSentFromServerEvent(sent, true, Spacing);
         }
 
         public void Complete(string clientId)
@@ -51,8 +57,8 @@ namespace SignalRLoad.Hubs
             Clients.Caller.harvest(clientId); 
 
             if (!_monitor.Complete()) return;
-            
-            _monitor.Stopwatch.Stop();
+
+            _monitor.Duration = DateTime.UtcNow.ToMilliseconds() - _monitor.StartTime.ToMilliseconds();
         }
 
         public void GetData(TestDataEntity testData)
@@ -64,7 +70,7 @@ namespace SignalRLoad.Hubs
                 Clients.All.harvestComplete(new
                 {
                     Entities = _monitor.TestDataEntities,
-                    Duration = _monitor.Stopwatch.ElapsedMilliseconds,
+                    Duration = _monitor.Duration,
                     StartTime = _monitor.StartTime.ToMilliseconds(),
                     SendEvents = _monitor.SendEvents
                 });
