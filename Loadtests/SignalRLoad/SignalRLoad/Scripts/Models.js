@@ -11,12 +11,12 @@
 
     root.Message = function(payload, clientId, messagesSentByClient) {
         var self = this;
-        self.sentFromClient = new Date().getTime();
-        self.receivedAtServer = new Date().getTime(); //Just to init
-        self.receivedAtClient = new Date().getTime(); //Just to init
-        self.payload = payload;
-        self.clientId = clientId;
-        self.messageId = clientId + "" + messagesSentByClient;
+        self.SentFromClient = new Date().getTime();
+        self.ReceivedAtServer = new Date().getTime(); //Just to init
+        self.ReceivedAtClient = new Date().getTime(); //Just to init
+        self.Payload = payload;
+        self.ClientId = clientId;
+        self.MessageId = clientId + "" + messagesSentByClient;
     };
 
 })(loadTest.models = loadTest.models || {});
