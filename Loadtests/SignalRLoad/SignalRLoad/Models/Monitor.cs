@@ -33,23 +33,46 @@ namespace SignalRLoad.Models
 
         public void RegisterSentFromClientEvent(long millisecondsSinceEpoch, int spacing = 1)
         {
+            var key = GetKey(millisecondsSinceEpoch, spacing);
+            AddEvent(SentFromClientEvents, key);
+        }
+
+        public void RegisterReceivedAtServerEvent(long millisecondsSinceEpoch, int spacing = 1)
+        {
+            var key = GetKey(millisecondsSinceEpoch, spacing);
+            AddEvent(ReceivedAtServerEvents, key);
+        }
+
+        public void RegisterSentFromServerEvent(long millisecondsSinceEpoch, bool broadcast, int spacing = 1)
+        {
+            var key = GetKey(millisecondsSinceEpoch, spacing);
+            var nrOfEvents = broadcast ? NumberOfClients : 1;
+            AddEvent(SentFromServerEvents, key, nrOfEvents);
+        }
+
+        private int GetKey(long millisecondsSinceEpoch, int spacing)
+        {
             var start = StartTime.ToMilliseconds();
             var milliSecondsSinceStart = millisecondsSinceEpoch - start;
-            var seconds = Round(false, milliSecondsSinceStart / 1000);
-            var key = Round(false, seconds / spacing);
-            if (SentFromClientEvents.Count == key)
-            {
-                SentFromClientEvents.Add(1);
-            }
-            else
-            {
-                SentFromClientEvents[key]++;
-            }
+            var seconds = Round(false, (double)milliSecondsSinceStart / 1000);
+            return Round(false, (double)seconds / spacing);
         }
 
         private static int Round(bool up, double value)
         {
             return up ? (int)Math.Ceiling(value) : (int)Math.Floor(value);
+        }
+
+        private static void AddEvent(List<int> eventStore, int key, int nrOfEvents = 1)
+        {
+            if (eventStore.Count == key)
+            {
+                eventStore.Add(nrOfEvents);
+            }
+            else
+            {
+                eventStore[key] += nrOfEvents;
+            }
         }
 
 
@@ -75,17 +98,17 @@ namespace SignalRLoad.Models
             return TestDataEntities.Count() == NumberOfClients;
         }
 
-        public int OverTime(int actualTimeInMillis)
+        public int OverTime(int actualTimeInMillis) //remove
         {
             return actualTimeInMillis - ExpectedTestDurationInMillis;
         }
 
-        public void RegisterReceivedMessage()
+        public void RegisterReceivedMessage() //remove
         {
             MessagesReceived++;
         }
 
-        public void RegisterSentEchoMessage(long timeStamp)
+        public void RegisterSentEchoMessage(long timeStamp) //remove
         {
             MessagesSent++;
             SendEvents.Add(new SendEvent
@@ -96,7 +119,7 @@ namespace SignalRLoad.Models
 
         }
 
-        public void RegisterSentBroadcastMessage(long timeStamp)
+        public void RegisterSentBroadcastMessage(long timeStamp) //remove
         {
             MessagesSent += NumberOfClients;
             SendEvents.Add(new SendEvent
