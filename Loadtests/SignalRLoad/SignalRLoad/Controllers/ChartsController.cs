@@ -50,7 +50,7 @@ namespace SignalRLoad.Controllers
             };
             //decide spacing from clientside
             //return testData.MessagesReceivedAtServerAndSentFromClientsPrSecond(1, model.Duration, true);
-            return testData.MessagesReceivedAtServerAndSentFromClientsPrSecond1(1, model.ReceivedAtServerEvents.ToArray(),
+            return testData.MessagesReceivedAtServerAndSentFromClientsPrSecond(1, model.ReceivedAtServerEvents.ToArray(),
                 model.SentFromClientEvents.ToArray());
         }
 
@@ -62,7 +62,7 @@ namespace SignalRLoad.Controllers
                 StartTime = DateUtils.FromMillisecondsSinceEpoch(model.StartTime)
             };
 
-            return testData.MessagesSentByServerPrSecond1(1, model.SentFromServerEvents.ToArray());
+            return testData.MessagesSentByServerPrSecond(1, model.SentFromServerEvents.ToArray());
         }
     }
 }

@@ -19,8 +19,7 @@ namespace SignalRLoad.Models
         {
             TestDataEntities = new List<TestDataEntity>();
         }
-
-        //refactored
+        
         public Chart MessagesReceivedAtServerAndSentFromClientsPrSecond(int spacing, int[] serverSet, int[] clientSet)
         {
             var xAxis = new string[serverSet.Length];
@@ -53,7 +52,7 @@ namespace SignalRLoad.Models
             chart.Series = series;           
             return chart;
         }
-        //refactored
+        
         public Chart MessagesSentByServerPrSecond(int spacing, int[] dataSet) 
         {
             var xAxis = new string[dataSet.Length];
@@ -81,24 +80,20 @@ namespace SignalRLoad.Models
             return chart;
         }
        
-        public string[] BuildXAxis(int spacing, long timeElapsed, bool includeZero = false)
+        /// <summary>
+        /// Gets the spacing for the axis as parameter. The length is the length of a data
+        /// set that has this spacing already, so the method needs not manage this.
+        /// </summary>
+        /// <param name="spacing"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public string[] BuildXAxis(int spacing, int length)
         {
-            var secondsElapsed = (double) timeElapsed/spacing;
-            secondsElapsed = (secondsElapsed/1000);
-            var seconds = Round(true, secondsElapsed);
-            var length = seconds;
-
-            if (includeZero || ((int) secondsElapsed) == seconds)
-            {
-                length = length + 1;
-            }
-
             var xAxis = new string[length];
 
             for (var i = 0; i < xAxis.Length; i++)
             {
-                var baseNum = includeZero ? i : i + 1;
-                xAxis[i] = (baseNum * spacing).ToString(CultureInfo.InvariantCulture);
+                xAxis[i] = (i * spacing).ToString(CultureInfo.InvariantCulture);
             }
 
             return xAxis;
