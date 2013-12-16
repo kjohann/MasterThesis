@@ -33,7 +33,7 @@
 
     root.start = function(test) {
         functions.findClient(options.masterId).done(function(client) {
-            client.socket.invoke('initTest', test, options.numberOfClientsTotal);
+            client.socket.invoke('initTest', test, options.numberOfClientsTotal, options.spacing);
             dom.changeOnStart();
         }).fail(function(error) {
             console.log(error.message);

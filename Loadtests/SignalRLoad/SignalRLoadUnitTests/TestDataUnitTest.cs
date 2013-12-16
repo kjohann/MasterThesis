@@ -22,8 +22,7 @@ namespace SignalRLoadUnitTests
         {
             _instance = new TestData
             {
-                StartTime = new DateTime(2013, 11, 3, 13, 37, 0),
-                TestDataEntities = new List<TestDataEntity>()
+                StartTime = new DateTime(2013, 11, 3, 13, 37, 0),        
             };
         }
 

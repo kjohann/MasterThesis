@@ -7,7 +7,7 @@ namespace SignalRLoad.Models
 {
     public class Series
     {
-        public string[] Data { get; set; }
+        public int[] Data { get; set; }
         public string Name { get; set; }
     }
 }

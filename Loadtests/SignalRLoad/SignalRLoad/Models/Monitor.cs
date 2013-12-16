@@ -11,20 +11,12 @@ namespace SignalRLoad.Models
     {
         private static Monitor _instance;
         public int NumberOfClients { get; set; }
-        public int ExpectedTestDurationInMillis { get; set; } //Probably delete
-        public long MessagesReceived { get; set; } //Probably delete
-        public long MessagesSent { get; set; } //Probably delete
         public HashSet<string> CompletedClients { get; set; }
         public long Duration { get; set; }
         public List<TestDataEntity> TestDataEntities { get; set; }
         public DateTime StartTime { get; set; }
-        public List<SendEvent> SendEvents { get; set; } //Probably delete
+        public int Spacing { get; set; }
 
-        /*
-         * Refactor stuff: Unbind messages from id parameter, so that client and
-         * server only have to keep track of number of messages sent in a given interval from
-         * StartTime. Hopefully, that will work a lot better.
-         */
         // key: reprecents number of seconds * wanted spacing from startTime
         //value: the number of messages in that interval
         public List<int> SentFromClientEvents { get; set; }
@@ -79,9 +71,6 @@ namespace SignalRLoad.Models
             }
         }
 
-
-        //End refactor stuff
-
         private Monitor()
         {
             Reset();            
@@ -102,50 +91,16 @@ namespace SignalRLoad.Models
             return TestDataEntities.Count() == NumberOfClients;
         }
 
-        public int OverTime(int actualTimeInMillis) //remove
-        {
-            return actualTimeInMillis - ExpectedTestDurationInMillis;
-        }
-
-        public void RegisterReceivedMessage() //remove
-        {
-            MessagesReceived++;
-        }
-
-        public void RegisterSentEchoMessage(long timeStamp) //remove
-        {
-            MessagesSent++;
-            SendEvents.Add(new SendEvent
-            {
-                NumberOfMessages = 1,
-                TimeStamp = timeStamp
-            });
-
-        }
-
-        public void RegisterSentBroadcastMessage(long timeStamp) //remove
-        {
-            MessagesSent += NumberOfClients;
-            SendEvents.Add(new SendEvent
-            {
-                NumberOfMessages = NumberOfClients,
-                TimeStamp = timeStamp
-            });
-        }
-
         public void Reset()
         {
             NumberOfClients = 0;
-            ExpectedTestDurationInMillis = 0;
-            MessagesReceived = 0;
-            MessagesSent = 0;
             CompletedClients = new HashSet<string>();
             Duration = 0;
             TestDataEntities = new List<TestDataEntity>();
-            SendEvents = new List<SendEvent>();
             SentFromClientEvents = new List<int>();
             ReceivedAtServerEvents = new List<int>();
             SentFromServerEvents = new List<int>();
+            Spacing = 0;
         }
     }
 }

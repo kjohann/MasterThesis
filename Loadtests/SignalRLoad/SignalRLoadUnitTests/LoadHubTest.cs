@@ -29,7 +29,7 @@ namespace SignalRLoadUnitTests
         public void InitTest_resets_monitor()
         {
             _monitor.Duration = 1337; 
-            _loadHub.InitTest("echo", 1000);
+            _loadHub.InitTest("echo", 1000, 1);
             _monitor.Duration.Should().Be(0);
         }
 
@@ -37,8 +37,9 @@ namespace SignalRLoadUnitTests
         public void InitTest_sets_incoming_parameters_in_monitor()
         {
             const int numberOfClients = 1000;
-            _loadHub.InitTest("echo", numberOfClients);
+            _loadHub.InitTest("echo", numberOfClients, 1);
             _monitor.NumberOfClients.ShouldBeEquivalentTo(numberOfClients);
+            _monitor.Spacing.ShouldBeEquivalentTo(1);
         }
 
         [Test]
