@@ -35,8 +35,6 @@ namespace SignalRLoadUnitTests
             var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
   
             chart.Series.Count.Should().Be(2);
-            chart.Series[0].Data.ShouldAllBeEquivalentTo(serverSet);            
-            chart.Series[1].Data.ShouldAllBeEquivalentTo(clientSet);
         }
 
         [Test]
@@ -97,6 +95,60 @@ namespace SignalRLoadUnitTests
 
             stopWatch.ElapsedMilliseconds.Should().BeLessOrEqualTo(1000);
 
+        }
+
+        [Test]
+        public void MessagesSentByServerPrSecond_should_produce_a_chart_with_one_series()
+        {
+            var dataSet = GetDummyDataSet(100, 500).ToArray();
+
+            var chart = _instance.MessagesSentByServerPrSecond(10, dataSet);
+
+            chart.Series.Count.Should().Be(1);
+        }
+
+        [Test]
+        public void MessagesSentByServerPrSecond_should_produce_a_chart_with_correct_dataSet()
+        {
+            var dataSet = GetDummyDataSet(100, 500).ToArray();
+
+            var chart = _instance.MessagesSentByServerPrSecond(10, dataSet);
+
+            chart.Series[0].Data.ShouldAllBeEquivalentTo(dataSet);
+        }
+
+        [Test]
+        public void MessagesSentByServerPrSecond_should_produce_a_chart_with_x_axis_having_same_length_as_dataSet()
+        {
+            var dataSet = GetDummyDataSet(100, 500).ToArray();
+
+            var chart = _instance.MessagesSentByServerPrSecond(10, dataSet);
+
+            chart.XAxis.Length.Should().Be(dataSet.Length);
+        }
+
+        [Test]
+        public void MessagesSentByServerPrSecond_should_give_chart_with_correct_title_and_name_for_series()
+        {
+            var dataSet = GetDummyDataSet(100, 500).ToArray();
+
+            var chart = _instance.MessagesSentByServerPrSecond(10, dataSet);
+
+            chart.Title.Should().Be(Titles.MessagesSentFromServerPrSecond);
+            chart.Series[0].Name.Should().Be(Titles.GeneralMessagesSeries);
+        }
+
+        [Test]
+        public void MessagesSentByServerPrSecond_should_not_take_more_than_one_second_with_large_dataSet()
+        {
+            var stopwatch = new Stopwatch();
+            var dataSet = GetDummyDataSet(100, 500).ToArray();
+            
+            stopwatch.Start();
+            var chart = _instance.MessagesSentByServerPrSecond(10, dataSet);
+            stopwatch.Stop();
+
+            stopwatch.ElapsedMilliseconds.Should().BeLessOrEqualTo(1000);
         }
 
         [Test]
