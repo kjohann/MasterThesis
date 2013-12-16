@@ -26,7 +26,78 @@ namespace SignalRLoadUnitTests
             };
         }
 
- 
+        [Test]
+        public void MessagesReceivedAtServerAndSentFromClientsPrSecond_should_produce_a_chart_with_two_series()
+        {
+            var serverSet = GetDummyDataSet(100, 50).ToArray();
+            var clientSet = GetDummyDataSet(100, 40).ToArray(); //This difference is just for testing purposes
+
+            var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
+  
+            chart.Series.Count.Should().Be(2);
+            chart.Series[0].Data.ShouldAllBeEquivalentTo(serverSet);            
+            chart.Series[1].Data.ShouldAllBeEquivalentTo(clientSet);
+        }
+
+        [Test]
+        public void MessagesReceivedAtServerAndSentFromClientsPrSecond_should_produce_a_chart_with_serverData_as_the_first_series()
+        {
+            var serverSet = GetDummyDataSet(100, 50).ToArray();
+            var clientSet = GetDummyDataSet(100, 40).ToArray(); //This difference is just for testing purposes
+
+            var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
+            
+            chart.Series[0].Data.ShouldAllBeEquivalentTo(serverSet);
+        }
+        
+        [Test]
+        public void MessagesReceivedAtServerAndSentFromClientsPrSecond_should_produce_a_chart_with_clientData_as_the_second_series()
+        {
+            var serverSet = GetDummyDataSet(100, 50).ToArray();
+            var clientSet = GetDummyDataSet(100, 40).ToArray(); //This difference is just for testing purposes
+
+            var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
+
+            chart.Series[1].Data.ShouldAllBeEquivalentTo(clientSet);
+        }
+        [Test]
+        public void MessagesReceivedAtServerAndSentFromClientsPrSecond_should_produce_a_chart_with_x_axis_having_same_length_as_dataSets()
+        {
+            var serverSet = GetDummyDataSet(100, 50).ToArray();
+            var clientSet = GetDummyDataSet(100, 40).ToArray(); //This difference is just for testing purposes
+
+            var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
+            
+            chart.XAxis.Length.Should().Be(serverSet.Length);
+        }
+
+        [Test]
+        public void MessagesReceivedAtServerAndSentFromClientsPrSecond_should_give_chart_with_correct_title_and_name_for_series()
+        {
+            var serverSet = GetDummyDataSet(100, 50).ToArray();
+            var clientSet = GetDummyDataSet(100, 40).ToArray(); //This difference is just for testing purposes
+
+            var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
+            
+            chart.Title.Should().Be(Titles.MessagesSentFromClientsAndReceivedByServerPrSecond);
+            chart.Series[0].Name.Should().Be(Titles.MessagesReceivedByServerPrSecondSeries);
+            chart.Series[1].Name.Should().Be(Titles.MessagesSentFromClientsPrSecondSeries);
+        }
+
+        [Test]
+        public void MessagesReceivedAtServerAndSentFromClientsPrSecond_should_not_take_more_than_one_second_with_large_dataSet()
+        {
+            var stopWatch = new Stopwatch();
+            var serverSet = GetDummyDataSet(1000, 50).ToArray();
+            var clientSet = GetDummyDataSet(1000, 40).ToArray(); //This difference is just for testing purposes
+
+            stopWatch.Start();
+            var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
+            stopWatch.Stop();
+
+            stopWatch.ElapsedMilliseconds.Should().BeLessOrEqualTo(1000);
+
+        }
 
         [Test]
         public void BuildXAxis_should_give_an_axis_consisting_of_numbers_from_zero_and_up_with_given_spacing_this_with_one()
@@ -113,6 +184,14 @@ namespace SignalRLoadUnitTests
             }
 
             return strings;
+        }
+
+        private static IEnumerable<int> GetDummyDataSet(int length, int numberPrInterval)
+        {
+            for (var i = 0; i < length; i++)
+            {
+                yield return numberPrInterval;
+            }
         }
     }
 }
