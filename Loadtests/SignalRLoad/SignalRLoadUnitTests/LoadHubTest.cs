@@ -23,6 +23,7 @@ namespace SignalRLoadUnitTests
             _monitor.NumberOfClients = 100;
             _monitor.StartTime = DateTime.UtcNow;
             _message = new Message { SentFromClient = _monitor.StartTime.AddMilliseconds(50).ToMilliseconds() };
+            _monitor.Spacing = 1;
         }
 
         [Test]
@@ -37,9 +38,9 @@ namespace SignalRLoadUnitTests
         public void InitTest_sets_incoming_parameters_in_monitor()
         {
             const int numberOfClients = 1000;
-            _loadHub.InitTest("echo", numberOfClients, 1);
+            _loadHub.InitTest("echo", numberOfClients, 10);
             _monitor.NumberOfClients.ShouldBeEquivalentTo(numberOfClients);
-            _monitor.Spacing.ShouldBeEquivalentTo(1);
+            _monitor.Spacing.ShouldBeEquivalentTo(10);
         }
 
         [Test]
@@ -72,7 +73,7 @@ namespace SignalRLoadUnitTests
             var expected = new[] {1};
             _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expected);
         }
-        //Here
+
         [Test]
         public void Broadcast_should_set_ReceivedAtServer_in_message()
         {
