@@ -1,25 +1,18 @@
-﻿(function(options, root, functions, models, dom) {
-    options.frameWork = "SignalR";
+﻿(function(options, root, functions, models, dom, socket) {
     var initLock = 0;
     var connectionsTried = 0;
     root.initConnection = function () {
         var clientId = connectionsTried + options.instanceId;
-        var connection = $.hubConnection();
-        var hubProxy = connection.createHubProxy('loadHub');
 
-        hubProxy.on('initTest', root.initTest);
-        hubProxy.on('receiveEcho', functions.receiveEchoMessage);
-        hubProxy.on('receiveBroadcast', functions.receiveBroadcastMessage);
-        hubProxy.on('harvest', root.harvest);
-        hubProxy.on('harvestComplete', functions.harvestComplete);
+        var socketInstance = new socket.SocketInstance();
+        socketInstance.bind("initTest", root.initTest);
+        socketInstance.bind('receiveEcho', functions.receiveEchoMessage);
+        socketInstance.bind('receiveBroadcast', functions.receiveBroadcastMessage);
+        socketInstance.bind('harvest', root.harvest);
+        socketInstance.bind('harvestComplete', functions.harvestComplete);
 
-        options.clients.push(new models.Client(clientId, hubProxy));
-
-        connection.start().done(function() {
-            console.log("Connected");
-        }).fail(function() {
-            console.log("Error connecting");
-        });
+        options.clients.push(new models.Client(clientId, socketInstance));
+        socketInstance.start();
 
         if (++connectionsTried < options.numberOfClientsPrBrowser) {
             setTimeout(function () {
@@ -33,7 +26,7 @@
 
     root.start = function(test) {
         functions.findClient(options.masterId).done(function(client) {
-            client.socket.invoke('initTest', test, options.numberOfClientsTotal, options.spacing);
+            client.socket.invoke(["initTest", test, options.numberOfClientsTotal, options.spacing]);
             dom.changeOnStart();
         }).fail(function(error) {
             console.log(error.message);
@@ -55,18 +48,18 @@
         console.log("Harvesting " + clientId);
         functions.findClient(clientId).done(function (client) {
             var messages = client.messages.length === 0 ? functions.getMessages(client) : client.messages;
-            client.socket.invoke('getData', { Messages: messages });
+            client.socket.invoke(["getData", { Messages: messages }]);
         }).fail(function (error){});
     };
     
     function sendMessages(test) {
         $.each(options.clients, function (index, client) {
             if (client.messagesSent++ < options.numberOfMessages) {
-                client.socket.invoke(test, new models.Message("1337", client.clientId, client.messagesSent));                
+                client.socket.invoke([test, new models.Message("1337", client.clientId, client.messagesSent)]);
             } else if(!client.complete) {
                 client.complete = true;
                 console.log("Sending complete for client " + client.clientId);
-                client.socket.invoke('complete', client.clientId);
+                client.socket.invoke(['complete', client.clientId]);
             }
         });
         
@@ -74,4 +67,4 @@
             sendMessages(test);
         }, options.messageInterval);        
     }
-})(loadTest.options, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions, loadTest.models, loadTest.dom);
+})(loadTest.options, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions, loadTest.models, loadTest.dom, loadTest.socket);
