@@ -1,4 +1,4 @@
-﻿(function(root) {
+﻿(function(root, options) {
     options.frameWork = "SignalR";
 
     root.SocketInstance = function () {
@@ -10,7 +10,8 @@
             self.commObj.on(functionName, functionToCall);
         };
 
-        self.invoke = function(args) {
+        self.invoke = function() {
+            var args = Array.prototype.slice.call(arguments);
             self.commObj.invoke.apply(self.commObj, args);
         };
 
@@ -24,4 +25,4 @@
     };
     
 
-})(loadTest.socket = loadTest.socket || {});
+})(loadTest.socket = loadTest.socket || {}, loadTest.options);

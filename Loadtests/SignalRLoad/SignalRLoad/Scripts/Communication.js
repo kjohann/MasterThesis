@@ -26,7 +26,7 @@
 
     root.start = function(test) {
         functions.findClient(options.masterId).done(function(client) {
-            client.socket.invoke(["initTest", test, options.numberOfClientsTotal, options.spacing]);
+            client.socket.invoke("initTest", test, options.numberOfClientsTotal, options.spacing);
             dom.changeOnStart();
         }).fail(function(error) {
             console.log(error.message);
@@ -48,18 +48,18 @@
         console.log("Harvesting " + clientId);
         functions.findClient(clientId).done(function (client) {
             var messages = client.messages.length === 0 ? functions.getMessages(client) : client.messages;
-            client.socket.invoke(["getData", { Messages: messages }]);
+            client.socket.invoke("getData", { Messages: messages });
         }).fail(function (error){});
     };
     
     function sendMessages(test) {
         $.each(options.clients, function (index, client) {
             if (client.messagesSent++ < options.numberOfMessages) {
-                client.socket.invoke([test, new models.Message("1337", client.clientId, client.messagesSent)]);
+                client.socket.invoke(test, new models.Message("1337", client.clientId, client.messagesSent));
             } else if(!client.complete) {
                 client.complete = true;
                 console.log("Sending complete for client " + client.clientId);
-                client.socket.invoke(['complete', client.clientId]);
+                client.socket.invoke('complete', client.clientId);
             }
         });
         
