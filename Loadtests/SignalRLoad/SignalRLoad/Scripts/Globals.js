@@ -10,7 +10,8 @@
             messageInterval: 0,
             numberOfMessages: 0, //(pr. client) use this with messageInterval to calculate expected duration
             instanceId: 1, //will be id of the first client
-            clients: [] //able to hold several clients
+            clients: [], //able to hold several clients
+            latencyEvents: [] //will hold accumulated latency within each interval (time)
         }
     };    
     //example regarding instanceId and clients: 5 clients pr. browser: instanceId will be 1 and it will hold clients with ids 1, 2, 3, 4 and 5. Next instanceId will be 6

@@ -1,11 +1,7 @@
 ﻿(function(options, root, dom) {
     root.receiveMessage = function(message) {
-        root.findClient(message.ClientId).done(function(foundClient) {
-            if (foundClient.messages[message.MessageId] === undefined) {
-                message.ReceivedAtClient = new Date().getTime();
-                foundClient.messages["m"+message.MessageId] = message;
-            }
-        });
+        registerReceivedEvent(message);
+        registerLatency(message);
     };
 
     root.harvestComplete = function(data) {
@@ -50,6 +46,20 @@
 
         return deferred.promise();
     };
+    
+    function registerReceivedEvent(message) {
+        root.findClient(message.ClientId).done(function (foundClient) {
+            if (foundClient.messages[message.MessageId] === undefined) {
+                message.ReceivedAtClient = new Date().getTime();
+                foundClient.messages["m" + message.MessageId] = message;
+            }
+        });
+    }
+    
+    function registerLatency(message) {
+        var latency = message.ReceivedAtClient - message.SentFromClient;
+        options.latencyEvents[message.Key] += latency;
+    }
 
     function clientNotFound(error) { 
         console.log(error.message);
