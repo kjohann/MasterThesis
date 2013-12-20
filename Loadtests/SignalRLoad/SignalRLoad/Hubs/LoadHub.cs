@@ -30,22 +30,16 @@ namespace SignalRLoad.Hubs
 
         public void Echo(Message message)
         {
-            message.ReceivedAtServer = DateTime.UtcNow.ToMilliseconds();    //One hour time difference from client for some reason                   
-            _monitor.RegisterReceivedAtServerEvent(message.ReceivedAtServer, _monitor.Spacing);
-            _monitor.RegisterSentFromClientEvent(message.SentFromClient, _monitor.Spacing);
-            Clients.Caller.receiveEcho(message);
-            var sent = DateTime.UtcNow.ToMilliseconds();
-            _monitor.RegisterSentFromServerEvent(sent, false, _monitor.Spacing);
+            RegisterReceivedAndSentFromClientEvents(message);
+            Clients.Caller.receiveMessage(message);
+            RegisterSentFromServerEvent(false);
         }
 
         public void Broadcast(Message message)
         {
-            message.ReceivedAtServer = DateTime.UtcNow.ToMilliseconds();  //One hour time difference from client for some reason           
-            _monitor.RegisterReceivedAtServerEvent(message.ReceivedAtServer, _monitor.Spacing);
-            _monitor.RegisterSentFromClientEvent(message.SentFromClient, _monitor.Spacing);
-            Clients.All.receiveBroadcast(message);
-            var sent = DateTime.UtcNow.ToMilliseconds();
-            _monitor.RegisterSentFromServerEvent(sent, true, _monitor.Spacing);
+            RegisterReceivedAndSentFromClientEvents(message);
+            Clients.All.receiveMessage(message);
+            RegisterSentFromServerEvent(true);
         }
 
         public void Complete(string clientId)
@@ -74,6 +68,19 @@ namespace SignalRLoad.Hubs
                     Spacing = _monitor.Spacing
                 });
             }
+        }
+
+        private void RegisterReceivedAndSentFromClientEvents(Message message)
+        {
+            message.ReceivedAtServer = DateTime.UtcNow.ToMilliseconds();    //One hour time difference from client for some reason                   
+            _monitor.RegisterReceivedAtServerEvent(message.ReceivedAtServer, _monitor.Spacing);
+            _monitor.RegisterSentFromClientEvent(message.SentFromClient, _monitor.Spacing);
+        }
+
+        private void RegisterSentFromServerEvent(bool broadCast)
+        {
+            var sent = DateTime.UtcNow.ToMilliseconds();
+            _monitor.RegisterSentFromServerEvent(sent, broadCast, _monitor.Spacing);
         }
     }
 }

@@ -6,8 +6,7 @@
 
         var socketInstance = new socket.SocketInstance();
         socketInstance.bind("initTest", root.initTest);
-        socketInstance.bind('receiveEcho', functions.receiveEchoMessage);
-        socketInstance.bind('receiveBroadcast', functions.receiveBroadcastMessage);
+        socketInstance.bind('receiveMessage', functions.receiveMessage);
         socketInstance.bind('harvest', root.harvest);
         socketInstance.bind('harvestComplete', functions.harvestComplete);
 

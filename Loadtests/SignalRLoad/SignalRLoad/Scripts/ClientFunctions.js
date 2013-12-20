@@ -1,12 +1,5 @@
 ﻿(function(options, root, dom) {
-    root.receiveEchoMessage = function (message) {         
-        root.findClient(message.ClientId).done(function (foundClient) {
-            message.ReceivedAtClient = new Date().getTime();
-            foundClient.messages.push(message);
-        }).fail(function (error) { }); //really just ignore
-    };
-
-    root.receiveBroadcastMessage = function(message) {
+    root.receiveMessage = function(message) {
         root.findClient(message.ClientId).done(function(foundClient) {
             if (foundClient.messages[message.MessageId] === undefined) {
                 message.ReceivedAtClient = new Date().getTime();
