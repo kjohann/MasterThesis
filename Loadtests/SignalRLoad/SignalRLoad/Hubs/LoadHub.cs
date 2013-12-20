@@ -5,6 +5,7 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using SignalRLoad.Extensions;
 using SignalRLoad.Models;
+using SignalRLoad.Utils;
 
 namespace SignalRLoad.Hubs
 {
@@ -17,13 +18,13 @@ namespace SignalRLoad.Hubs
             _monitor = Monitor.GetInstance();
         }
      
-        public void InitTest(string testToRun, int numberOfClients, int spacing)
+        public void InitTest(string testToRun, int numberOfClients, int spacing, long startTime)
         {
             _monitor.Reset();
             _monitor.NumberOfClients = numberOfClients;
             _monitor.Spacing = spacing;
 
-            _monitor.StartTime = DateTime.UtcNow; //One hour time difference from client for some reason
+            _monitor.StartTime = DateUtils.FromMillisecondsSinceEpoch(startTime); //One hour time difference from client for some reason
             Clients.All.initTest(testToRun);
         }
 
