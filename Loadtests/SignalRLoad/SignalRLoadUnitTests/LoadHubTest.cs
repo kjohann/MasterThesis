@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Threading;
 using NUnit.Framework;
 using SignalRLoad.Extensions;
 using SignalRLoad.Models;
 using SignalRLoadUnitTests.Hubs;
 using FluentAssertions;
+using Monitor = SignalRLoad.Models.Monitor;
 
 namespace SignalRLoadUnitTests
 {
@@ -136,7 +138,7 @@ namespace SignalRLoadUnitTests
             {
                 _loadHub.Complete(i + "");
             }
-
+            Thread.Sleep(10);
             _monitor.CompletedClients.Count.Should().Be(_monitor.NumberOfClients);
             _monitor.Duration.Should().NotBe(0);
         }
