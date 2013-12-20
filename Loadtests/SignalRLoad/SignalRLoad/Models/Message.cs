@@ -10,5 +10,6 @@ namespace SignalRLoad.Models
         public string Payload { get; set; }
         public string ClientId { get; set; }
         public string MessageId { get; set; }
+        public int Key { get; set; }
     }
 }

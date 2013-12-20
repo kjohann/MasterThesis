@@ -93,6 +93,14 @@ namespace SignalRLoadUnitTests
         }
 
         [Test]
+        public void Echo_should_add_key_to_message()
+        {
+            _message.Key = 1337; //Will definitely not be this after echo-call
+            _loadHub.Echo(_message);
+            _message.Key.Should().Be(0);
+        }
+
+        [Test]
         public void Broadcast_should_set_ReceivedAtServer_in_message()
         {
             _loadHub.Broadcast(_message);
@@ -121,6 +129,14 @@ namespace SignalRLoadUnitTests
             _loadHub.Broadcast(_message);
             var expected = new[] { 100 };
             _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Broadcast_should_add_key_to_message()
+        {
+            _message.Key = 1337; //Will definitely not be this after broadcast-call
+            _loadHub.Broadcast(_message);
+            _message.Key.Should().Be(0);
         }
 
         [Test]

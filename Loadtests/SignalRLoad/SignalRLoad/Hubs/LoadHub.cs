@@ -74,7 +74,8 @@ namespace SignalRLoad.Hubs
         {
             message.ReceivedAtServer = DateTime.UtcNow.ToMilliseconds();    //One hour time difference from client for some reason                   
             _monitor.RegisterReceivedAtServerEvent(message.ReceivedAtServer, _monitor.Spacing);
-            _monitor.RegisterSentFromClientEvent(message.SentFromClient, _monitor.Spacing);
+            var key = _monitor.RegisterSentFromClientEvent(message.SentFromClient, _monitor.Spacing);
+            message.Key = key;
         }
 
         private void RegisterSentFromServerEvent(bool broadCast)
