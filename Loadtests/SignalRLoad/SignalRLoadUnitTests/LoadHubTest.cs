@@ -30,17 +30,33 @@ namespace SignalRLoadUnitTests
         public void InitTest_resets_monitor()
         {
             _monitor.Duration = 1337; 
-            _loadHub.InitTest("echo", 1000, 1);
+            _loadHub.InitTest("echo", 1000, 1, 100000000);
             _monitor.Duration.Should().Be(0);
         }
 
         [Test]
-        public void InitTest_sets_incoming_parameters_in_monitor()
+        public void InitTest_sets_number_of_clients_in_monitor()
         {
             const int numberOfClients = 1000;
-            _loadHub.InitTest("echo", numberOfClients, 10);
+            _loadHub.InitTest("echo", numberOfClients, 10, 1337);
             _monitor.NumberOfClients.ShouldBeEquivalentTo(numberOfClients);
+        }
+
+        [Test]
+        public void InitTest_sets_spacing_in_monitor()
+        {
+            const int numberOfClients = 1000;
+            _loadHub.InitTest("echo", numberOfClients, 10, 1337);
             _monitor.Spacing.ShouldBeEquivalentTo(10);
+        }
+
+        [Test]
+        public void InitTest_sets_incoming_startTime_as_date_in_monitor()
+        {
+            const int numberOfClients = 1000;
+            var startTime = DateTime.UtcNow;
+            _loadHub.InitTest("echo", numberOfClients, 10, startTime.ToMilliseconds());
+            _monitor.StartTime.ToMilliseconds().ShouldBeEquivalentTo(startTime.ToMilliseconds());
         }
 
         [Test]
