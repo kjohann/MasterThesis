@@ -23,10 +23,11 @@ namespace SignalRLoad.Models
         public List<int> ReceivedAtServerEvents { get; set; }
         public List<int> SentFromServerEvents { get; set; }
 
-        public void RegisterSentFromClientEvent(long millisecondsSinceEpoch, int spacing = 1)
+        public int RegisterSentFromClientEvent(long millisecondsSinceEpoch, int spacing = 1)
         {
             var key = GetKey(millisecondsSinceEpoch, spacing);
             AddEvent(SentFromClientEvents, key);
+            return key;
         }
 
         public void RegisterReceivedAtServerEvent(long millisecondsSinceEpoch, int spacing = 1)

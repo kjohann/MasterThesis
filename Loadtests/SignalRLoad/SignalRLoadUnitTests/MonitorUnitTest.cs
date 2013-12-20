@@ -1,21 +1,7 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using NUnit.Framework;
-using FluentAssertions;
-//var test = new List<int>();
-//test.Add(1337);
-//test.Add(1);
-//int outVal1 = test[0];
-//int outVal2 = test[1];
-//outVal1.ShouldBeEquivalentTo(1337);
-//outVal2.ShouldBeEquivalentTo(1);
-//test[0]++;
-//test[1]++;
-//outVal1 = test[0];
-//outVal2 = test[1];
-//outVal1.ShouldBeEquivalentTo(1338);
-//outVal2.ShouldBeEquivalentTo(2);                
+using FluentAssertions;               
 using SignalRLoad.Extensions;
 using SignalRLoad.Models;
 
@@ -65,6 +51,20 @@ namespace SignalRLoadUnitTests
 
             var expectedData = new[] {99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1};
             _monitor.SentFromClientEvents.ShouldAllBeEquivalentTo(expectedData);
+        }
+
+        [Test]
+        public void RegisterSentFromClientEvent_should_return_the_corresponding_key_for_the_event_with_spacing_one()
+        {
+            var startLong = _monitor.StartTime.ToMilliseconds();
+            _monitor.RegisterSentFromClientEvent(startLong + 999).Should().Be(0);
+        }
+
+        [Test]
+        public void RegisterSentFromClientEvent_should_return_the_corresponding_key_for_the_event_with_spacing_more_than_one()
+        {
+            var startLong = _monitor.StartTime.ToMilliseconds();
+            _monitor.RegisterSentFromClientEvent(startLong + 100000, 10).Should().Be(10);
         }
 
         [Test]
