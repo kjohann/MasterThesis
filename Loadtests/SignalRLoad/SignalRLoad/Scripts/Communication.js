@@ -1,6 +1,7 @@
 ﻿(function(options, root, functions, models, dom, socket) {
     var initLock = 0;
     var connectionsTried = 0;
+    var harvestLock = 0;
     root.initConnection = function () {
         var clientId = connectionsTried + options.instanceId;
 
@@ -43,14 +44,14 @@
         }
     }; 
 
-    root.harvest = function(clientId) {
-        console.log("Harvesting " + clientId);
-        functions.findClient(clientId).done(function (client) {
-            var messages = client.messages.length === 0 ? functions.getMessages(client) : client.messages;
-            client.socket.invoke("getData", { Messages: messages });
-        }).fail(function (error){});
+    root.harvest = function() {
+        if (harvestLock++ < 1) {
+            var client = options.clients[0];
+            console.log("Harvesting...");
+            client.socket.invoke("getData", { LatencyData: options.latencyEvents }, options.numberOfClientsPrBrowser);
+        }
     };
-    
+
     function sendMessages(test) {
         $.each(options.clients, function (index, client) {
             if (client.messagesSent++ < options.numberOfMessages) {

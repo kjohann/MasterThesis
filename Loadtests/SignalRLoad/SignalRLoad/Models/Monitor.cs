@@ -16,6 +16,7 @@ namespace SignalRLoad.Models
         public List<TestDataEntity> TestDataEntities { get; set; }
         public DateTime StartTime { get; set; }
         public int Spacing { get; set; }
+        public int Harvested { get; set; }
 
         // key: reprecents number of seconds * wanted spacing from startTime
         //value: the number of messages in that interval
@@ -89,7 +90,7 @@ namespace SignalRLoad.Models
 
         public bool HarvestedAll()
         {
-            return TestDataEntities.Count() == NumberOfClients;
+            return Harvested == NumberOfClients;
         }
 
         public void Reset()
@@ -102,6 +103,7 @@ namespace SignalRLoad.Models
             ReceivedAtServerEvents = new List<int>();
             SentFromServerEvents = new List<int>();
             Spacing = 0;
+            Harvested = 0;
         }
     }
 }

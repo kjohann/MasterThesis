@@ -17,6 +17,9 @@
             options.connectionInterval = parseInt($("#connInterval").val());
             options.numberOfClientsTotal = parseInt($("#numberOfClients").val());
             options.numberOfClientsPrBrowser = parseInt($("#numberOfClients").val());
+            for (var i = 0; i < options.numberOfClientsPrBrowser; i++) {
+                options.latencyEvents[i] = 0; //init to numbers
+            }
             comm.initConnection();
         });            
 

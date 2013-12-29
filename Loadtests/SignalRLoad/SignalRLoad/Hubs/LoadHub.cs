@@ -45,16 +45,17 @@ namespace SignalRLoad.Hubs
         public void Complete(string clientId)
         {
             _monitor.CompletedClients.Add(clientId);
-            Clients.Caller.harvest(clientId); 
 
             if (!_monitor.Complete()) return;
 
             _monitor.Duration = DateTime.UtcNow.ToMilliseconds() - _monitor.StartTime.ToMilliseconds();
+            Clients.All.harvest();
         }
 
-        public void GetData(TestDataEntity testData)
+        public void GetData(TestDataEntity testData, int numberOfClientsInBrowser)
         {
             _monitor.TestDataEntities.Add(testData);
+            _monitor.Harvested += numberOfClientsInBrowser;
 
             if (_monitor.HarvestedAll())
             {
@@ -65,7 +66,8 @@ namespace SignalRLoad.Hubs
                     SentFromClientEvents = _monitor.SentFromClientEvents,
                     ReceivedAtServerEvents = _monitor.ReceivedAtServerEvents,
                     SentFromServerEvents = _monitor.SentFromServerEvents,
-                    Spacing = _monitor.Spacing
+                    Spacing = _monitor.Spacing,
+                    LatencyData = _monitor.TestDataEntities
                 });
             }
         }
