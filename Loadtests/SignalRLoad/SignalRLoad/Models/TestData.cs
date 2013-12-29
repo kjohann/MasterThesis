@@ -60,6 +60,34 @@ namespace SignalRLoad.Models
 
             return chart;
         }
+
+        public Chart AverageLatencyPrSecond(int spacing, List<TestDataEntity> entities, int[] clientData)
+        {
+            var chart = new Chart
+            {
+                Title = "Average Latency Pr. Second",
+                XAxis = BuildXAxis(spacing, clientData.Length),
+                YAxisTitle = "Average milliseconds"
+            };
+
+            var averages = new List<int>();
+
+            for (var i = 0; i < clientData.Length; i++)
+            {
+                var totalLatency = 0;
+                for (var j = 0; j < entities.Count; j++)
+                {
+                    totalLatency += entities[j].LatencyData[i];
+                    
+                    if (j != entities.Count - 1) continue;
+                    
+                    var average = totalLatency/clientData[i];
+                    averages.Add(average);
+                }
+            }
+
+            return chart;
+        }
        
         /// <summary>
         /// Gets the spacing for the axis as parameter. The length is the length of a data
@@ -78,6 +106,28 @@ namespace SignalRLoad.Models
             }
 
             return xAxis;
+        }
+
+        public double[] GetAverageLatencyData(List<TestDataEntity> entities, int[] clientData)
+        {
+            var averages = new List<double>();
+
+            for (var i = 0; i < clientData.Length; i++)
+            {
+                var totalLatency = 0.00;
+                for (var j = 0; j < entities.Count; j++)
+                {
+                    totalLatency += entities[j].LatencyData[i];
+
+                    if (j != entities.Count - 1) continue;
+
+                    var average = totalLatency / clientData[i];
+                    var formatted = String.Format("{0:0.00}", average);
+                    averages.Add(Convert.ToDouble(formatted));
+                }
+            }
+
+            return averages.ToArray();
         }
 
         public string[] BuildYAxis(int[] allData) //Need or introduce higher spacing?

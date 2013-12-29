@@ -191,6 +191,47 @@ namespace SignalRLoadUnitTests
         }
 
         [Test]
+        public void GetAverageLatencyData_should_calculate_average_values_from_all_TestDataEntities()
+        {
+            var entities = GetTestDataEntities(3, 15, 120);
+            var clientData = GetDummyDataSet(15, 6).ToArray();
+
+            var expectedData = new[] {60,60,60,60,60,60,60,60,60,60,60,60,60,60,60};
+
+            _instance.GetAverageLatencyData(entities, clientData).ShouldAllBeEquivalentTo(expectedData);
+        }
+
+        [Test]
+        public void GetAverageLatencyData_should_be_able_to_handle_uneven_number_of_clients_pr_browser()
+        {
+            var entities = GetTestDataEntities(5, 10, 140);
+            var clientData = GetDummyDataSet(10, 9).ToArray();
+          
+            var expectedData = new[] {77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78};
+
+            _instance.GetAverageLatencyData(entities, clientData).ShouldAllBeEquivalentTo(expectedData);
+        }
+
+        [Test]
+        public void GetAverageLatencyData_should_be_able_to_handle_large_data_sets()
+        {
+            var entities = GetTestDataEntities(10, 300, 100);
+            var clientData = GetDummyDataSet(300, 60).ToArray();
+            
+            var stopWatch = new Stopwatch();
+            
+            stopWatch.Start();
+            var data = _instance.GetAverageLatencyData(entities, clientData);
+            stopWatch.Stop();
+
+            stopWatch.ElapsedMilliseconds.Should().BeLessOrEqualTo(1000);     
+            foreach (var d in data) //because shouldAllBeEqual takes to long
+            {
+                d.ShouldBeEquivalentTo(16.67);
+            }
+        }
+
+        [Test]
         public void BuildYAxis_should_return_values_from_zero_up_to_and_including_the_maximum_value_if_less_than_fifty()
         {
             var data = new[] { 1, 10, 32, 21, 15, 17, 19, 2, 2, 49, 48, 43, 6 };
@@ -244,6 +285,25 @@ namespace SignalRLoadUnitTests
             {
                 yield return numberPrInterval;
             }
+        }
+
+        private static List<TestDataEntity> GetTestDataEntities(int numberOfBrowsers, int lengthOfSequence, int accumulatedLatencyPrInterval)
+        {
+            var entities = new List<TestDataEntity>();
+            for (var i = 0; i < numberOfBrowsers; i++)
+            {
+                var list = new List<int>();
+                for (var j = 0; j < lengthOfSequence; j++)
+                {
+                    list.Add(accumulatedLatencyPrInterval);
+                }
+                //pr. browser
+                entities.Add(new TestDataEntity
+                {
+                    LatencyData = list
+                });
+            }
+            return entities;
         }
     }
 }

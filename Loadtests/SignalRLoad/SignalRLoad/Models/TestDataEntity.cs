@@ -10,6 +10,6 @@ namespace SignalRLoad.Models
     /// </summary>
     public class TestDataEntity
     {
-        public IEnumerable<int> LatencyData { get; set; }
+        public List<int> LatencyData { get; set; }
     }
 }
