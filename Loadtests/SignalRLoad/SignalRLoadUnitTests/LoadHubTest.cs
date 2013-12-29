@@ -152,9 +152,9 @@ namespace SignalRLoadUnitTests
         {
             for (var i = 0; i < _monitor.NumberOfClients; i++)
             {
+                Thread.Sleep(2);
                 _loadHub.Complete(i + "");
-            }
-            Thread.Sleep(10);
+            }            
             _monitor.CompletedClients.Count.Should().Be(_monitor.NumberOfClients);
             _monitor.Duration.Should().NotBe(0);
         }
