@@ -45,7 +45,7 @@ namespace SignalRLoadUnitTests
 
             var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
             
-            chart.Series[0].Data.ShouldAllBeEquivalentTo(serverSet);
+            ((Series<int>)(chart.Series[0])).Data.ShouldAllBeEquivalentTo(serverSet);
         }
         
         [Test]
@@ -56,7 +56,7 @@ namespace SignalRLoadUnitTests
 
             var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
 
-            chart.Series[1].Data.ShouldAllBeEquivalentTo(clientSet);
+            ((Series<int>)(chart.Series[1])).Data.ShouldAllBeEquivalentTo(clientSet);
         }
         [Test]
         public void MessagesReceivedAtServerAndSentFromClientsPrSecond_should_produce_a_chart_with_x_axis_having_same_length_as_dataSets()
@@ -78,8 +78,8 @@ namespace SignalRLoadUnitTests
             var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
             
             chart.Title.Should().Be(Titles.MessagesSentFromClientsAndReceivedByServerPrSecond);
-            chart.Series[0].Name.Should().Be(Titles.MessagesReceivedByServerPrSecondSeries);
-            chart.Series[1].Name.Should().Be(Titles.MessagesSentFromClientsPrSecondSeries);
+            ((Series<int>)(chart.Series[0])).Name.Should().Be(Titles.MessagesReceivedByServerPrSecondSeries);
+            ((Series<int>)(chart.Series[1])).Name.Should().Be(Titles.MessagesSentFromClientsPrSecondSeries);
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace SignalRLoadUnitTests
 
             var chart = _instance.MessagesSentByServerPrSecond(10, dataSet);
 
-            chart.Series[0].Data.ShouldAllBeEquivalentTo(dataSet);
+            ((Series<int>)(chart.Series[0])).Data.ShouldAllBeEquivalentTo(dataSet);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace SignalRLoadUnitTests
             var chart = _instance.MessagesSentByServerPrSecond(10, dataSet);
 
             chart.Title.Should().Be(Titles.MessagesSentFromServerPrSecond);
-            chart.Series[0].Name.Should().Be(Titles.GeneralMessagesSeries);
+            ((Series<int>)(chart.Series[0])).Name.Should().Be(Titles.GeneralMessagesSeries);
         }
 
         [Test]

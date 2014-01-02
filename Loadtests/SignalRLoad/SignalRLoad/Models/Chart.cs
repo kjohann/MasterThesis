@@ -10,7 +10,7 @@ namespace SignalRLoad.Models
         public string Title { get; set; }
         public string[] XAxis { get; set; }
         public string[] YAxis { get; set; }
-        public List<Series> Series { get; set; }
+        public List<ISeries> Series { get; set; }
         public string YAxisTitle { get; set; }
     }
 }

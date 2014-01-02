@@ -18,14 +18,14 @@ namespace SignalRLoad.Models
                 XAxis = xAxis,
                 YAxisTitle = "Messages"
             };
-            var series = new List<Series>
+            var series = new List<ISeries>
             {
-                new Series
+                new Series<int>
                 {
                     Name = Titles.MessagesReceivedByServerPrSecondSeries,
                     Data = serverSet
                 },
-                new Series
+                new Series<int>
                 {
                     Name = Titles.MessagesSentFromClientsPrSecondSeries,
                     Data = clientSet
@@ -47,9 +47,9 @@ namespace SignalRLoad.Models
                 YAxisTitle = "Messages"
             };
 
-            var series = new List<Series>
+            var series = new List<ISeries>
             {
-                new Series
+                new Series<int>
                 {
                     Name = Titles.GeneralMessagesSeries,
                     Data = dataSet
