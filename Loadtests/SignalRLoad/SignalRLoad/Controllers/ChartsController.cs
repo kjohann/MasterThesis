@@ -30,6 +30,9 @@ namespace SignalRLoad.Controllers
                 case "MessagesSentServer":
                     ChartsRepo.Charts.Add(MessagesSentFromServerPrSecond(model));
                     return "Calculation complete for chart " + model.Type;
+                case "AverageLatency":
+                    ChartsRepo.Charts.Add(AverageLatency(model));
+                    return "Calculation complete for chart " + model.Type;
             }
 
             return null;
@@ -61,6 +64,16 @@ namespace SignalRLoad.Controllers
             };
 
             return testData.MessagesSentByServerPrSecond(model.Spacing, model.SentFromServerEvents.ToArray());
+        }
+
+        private static Chart AverageLatency(ChartPostModel model)
+        {
+            var testData = new TestData
+            {
+                StartTime = DateUtils.FromMillisecondsSinceEpoch(model.StartTime)
+            };
+
+            return testData.AverageLatencyPrSecond(model.Spacing, model.TestDataEntities, model.SentFromClientEvents.ToArray());
         }
     }
 }

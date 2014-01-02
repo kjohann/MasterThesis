@@ -13,6 +13,7 @@ namespace SignalRLoad.Models
         public List<int> SentFromClientEvents { get; set; }
         public List<int> ReceivedAtServerEvents { get; set; }
         public List<int> SentFromServerEvents { get; set; }
+        public List<TestDataEntity> TestDataEntities { get; set; }
         public int Spacing { get; set; }
     }
 }
