@@ -1,7 +1,8 @@
 ﻿(function(root) { 
     root.getCharts = function(data) {        
-        $.when(postMessagesSentReceivedChart(data), postMessagesSentServerChart(data)).done(function(sentReceivedStatus, sentServerStatus) {
-            if (sentReceivedStatus != null && sentServerStatus != null) {
+        $.when(postMessagesSentReceivedChart(data), postMessagesSentServerChart(data), postAverageLatencyData(data))
+            .done(function (sentReceivedStatus, sentServerStatus, averageStatus) {
+            if (sentReceivedStatus != null && sentServerStatus != null && averageStatus != null) {
                 getCharts().done(function(charts) {
                     $.each(charts, function(index, chart) {
                         var highChart = getChart(chart);
@@ -9,6 +10,8 @@
                             $("#messagesSentReceivedChart").highcharts(highChart);
                         } else if (chart.Title === "Messages sent from server pr. second") {
                             $("#messagesSentFromServerChart").highcharts(highChart);
+                        } else {
+                            $("#averageLatencyChart").highcharts(highChart);
                         }
                     });
                 });
@@ -23,6 +26,11 @@
     
     function postMessagesSentServerChart(data) {
         data.Type = "MessagesSentServer";
+        return $.post(loadTest.options.chartUrl, data);
+    }
+    
+    function postAverageLatencyData(data) {
+        data.Type = "AverageLatency";
         return $.post(loadTest.options.chartUrl, data);
     }
     

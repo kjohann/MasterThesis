@@ -58,6 +58,10 @@
     
     function registerLatency(message) {
         var latency = message.ReceivedAtClient - message.SentFromClient;
+        if (!options.latencyEvents[message.Key]) {
+            console.log("Pushing new index: " + options.latencyEvents.length + " Key: " + message.Key + " data: " + options.latencyEvents[message.Key]);
+            options.latencyEvents.push(0);
+        }
         options.latencyEvents[message.Key] += latency;
     }
 

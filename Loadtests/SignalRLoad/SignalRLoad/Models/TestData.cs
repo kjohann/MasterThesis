@@ -107,14 +107,15 @@ namespace SignalRLoad.Models
 
         public double[] GetAverageLatencyData(List<TestDataEntity> entities, int[] clientData)
         {
-            var averages = new List<double>();
+            var averages = new List<double>();            
 
             for (var i = 0; i < clientData.Length; i++)
             {
                 var totalLatency = 0.00;
                 for (var j = 0; j < entities.Count; j++)
                 {
-                    totalLatency += entities[j].LatencyData[i];
+                    var testEntities = entities[j].LatencyData.ToArray();
+                    totalLatency += testEntities[i];
 
                     if (j != entities.Count - 1) continue;
 

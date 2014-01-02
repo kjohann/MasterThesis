@@ -67,7 +67,7 @@ namespace SignalRLoad.Hubs
                     ReceivedAtServerEvents = _monitor.ReceivedAtServerEvents,
                     SentFromServerEvents = _monitor.SentFromServerEvents,
                     Spacing = _monitor.Spacing,
-                    LatencyData = _monitor.TestDataEntities
+                    TestDataEntities = _monitor.TestDataEntities
                 });
             }
         }
