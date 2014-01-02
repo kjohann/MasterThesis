@@ -65,26 +65,23 @@ namespace SignalRLoad.Models
         {
             var chart = new Chart
             {
-                Title = "Average Latency Pr. Second",
+                Title = Titles.AverageLatency,
                 XAxis = BuildXAxis(spacing, clientData.Length),
                 YAxisTitle = "Average milliseconds"
             };
 
-            var averages = new List<int>();
+            var averages = GetAverageLatencyData(entities, clientData);
 
-            for (var i = 0; i < clientData.Length; i++)
+            var series = new List<ISeries>
             {
-                var totalLatency = 0;
-                for (var j = 0; j < entities.Count; j++)
+                new Series<double>
                 {
-                    totalLatency += entities[j].LatencyData[i];
-                    
-                    if (j != entities.Count - 1) continue;
-                    
-                    var average = totalLatency/clientData[i];
-                    averages.Add(average);
+                    Name = Titles.AverageLatencySeries,
+                    Data = averages
                 }
-            }
+            };
+
+            chart.Series = series;
 
             return chart;
         }

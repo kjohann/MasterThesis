@@ -152,6 +152,68 @@ namespace SignalRLoadUnitTests
         }
 
         [Test]
+        public void AverageLatencyPrSecond_should_produce_a_chart_with_one_series()
+        {
+            var entities = GetTestDataEntities(3, 15, 120);
+            var clientData = GetDummyDataSet(15, 6).ToArray();
+
+            var chart = _instance.AverageLatencyPrSecond(1, entities, clientData);
+
+            chart.Series.Count.Should().Be(1);
+        }
+
+        [Test]
+        public void AverageLatencyPrSecond_should_produce_a_chart_with_correct_dataSet()
+        {
+            var entities = GetTestDataEntities(3, 15, 120);
+            var clientData = GetDummyDataSet(15, 6).ToArray();
+
+            var expectedData = new[] { 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60 };
+
+            var chart = _instance.AverageLatencyPrSecond(10, entities, clientData);
+
+            ((Series<double>)(chart.Series[0])).Data.ShouldAllBeEquivalentTo(expectedData);
+        }
+
+        [Test]
+        public void AverageLatencyPrSecond_should_produce_a_chart_with_x_axis_having_same_length_as_incoming_clientData()
+        {
+            var entities = GetTestDataEntities(3, 15, 120);
+            var clientData = GetDummyDataSet(15, 6).ToArray();
+
+            var chart = _instance.AverageLatencyPrSecond(1, entities, clientData);
+
+            chart.XAxis.Length.Should().Be(clientData.Length);
+        }
+
+        [Test]
+        public void AverageLatencyPrSecond_should_give_chart_with_correct_title_and_name_for_series()
+        {
+            var entities = GetTestDataEntities(3, 15, 120);
+            var clientData = GetDummyDataSet(15, 6).ToArray();
+
+            var chart = _instance.AverageLatencyPrSecond(1, entities, clientData);
+
+            chart.Title.Should().Be(Titles.AverageLatency);
+            chart.Series[0].Name.Should().Be(Titles.AverageLatencySeries);
+        }
+
+        [Test]
+        public void AverageLatencyPrSecond_should_not_take_more_than_one_second_with_large_dataSet()
+        {
+            var entities = GetTestDataEntities(10, 300, 100);
+            var clientData = GetDummyDataSet(300, 60).ToArray();
+
+            var stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+            _instance.AverageLatencyPrSecond(1, entities, clientData);
+            stopwatch.Stop();
+
+            stopwatch.ElapsedMilliseconds.Should().BeLessOrEqualTo(1000);
+        }
+
+        [Test]
         public void BuildXAxis_should_give_an_axis_consisting_of_numbers_from_zero_and_up_with_given_spacing_this_with_one()
         {
             var expectedAxis = new[] { "0", "1", "2", "3", "4", "5" };
@@ -213,7 +275,7 @@ namespace SignalRLoadUnitTests
         }
 
         [Test]
-        public void GetAverageLatencyData_should_be_able_to_handle_large_data_sets()
+        public void GetAverageLatencyData_should_be_able_to_handle_large_data_sets_in_less_than_one_second()
         {
             var entities = GetTestDataEntities(10, 300, 100);
             var clientData = GetDummyDataSet(300, 60).ToArray();
