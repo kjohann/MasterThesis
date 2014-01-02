@@ -2,6 +2,6 @@
 {
     public interface ISeries
     {
-
+        string Name { get; set; }
     }
 }

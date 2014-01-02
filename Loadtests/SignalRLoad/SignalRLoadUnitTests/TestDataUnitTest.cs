@@ -78,8 +78,8 @@ namespace SignalRLoadUnitTests
             var chart = _instance.MessagesReceivedAtServerAndSentFromClientsPrSecond(10, serverSet, clientSet);
             
             chart.Title.Should().Be(Titles.MessagesSentFromClientsAndReceivedByServerPrSecond);
-            ((Series<int>)(chart.Series[0])).Name.Should().Be(Titles.MessagesReceivedByServerPrSecondSeries);
-            ((Series<int>)(chart.Series[1])).Name.Should().Be(Titles.MessagesSentFromClientsPrSecondSeries);
+            chart.Series[0].Name.Should().Be(Titles.MessagesReceivedByServerPrSecondSeries);
+            chart.Series[1].Name.Should().Be(Titles.MessagesSentFromClientsPrSecondSeries);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace SignalRLoadUnitTests
             var chart = _instance.MessagesSentByServerPrSecond(10, dataSet);
 
             chart.Title.Should().Be(Titles.MessagesSentFromServerPrSecond);
-            ((Series<int>)(chart.Series[0])).Name.Should().Be(Titles.GeneralMessagesSeries);
+            chart.Series[0].Name.Should().Be(Titles.GeneralMessagesSeries);
         }
 
         [Test]
