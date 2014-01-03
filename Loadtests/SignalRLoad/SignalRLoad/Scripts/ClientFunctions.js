@@ -58,11 +58,15 @@
     
     function registerLatency(message) {
         var latency = message.ReceivedAtClient - message.SentFromClient;
-        if (!options.latencyEvents[message.Key]) {
-            console.log("Pushing new index: " + options.latencyEvents.length + " Key: " + message.Key + " data: " + options.latencyEvents[message.Key]);
+        if (isNaN(options.latencyEvents[message.Key])) {
             options.latencyEvents.push(0);
         }
-        options.latencyEvents[message.Key] += latency;
+
+        if (!options.registeredMessages[message.MessageId]) {           
+            options.latencyEvents[message.Key] += latency;
+        }
+
+        options.registeredMessages[message.MessageId] = true;
     }
 
     function clientNotFound(error) { 

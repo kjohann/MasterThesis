@@ -16,7 +16,7 @@
         self.ReceivedAtClient = new Date().getTime(); //Just to init
         self.Payload = payload;
         self.ClientId = clientId;
-        self.MessageId = clientId + "" + messagesSentByClient;
+        self.MessageId = "c:" + clientId + "m:" + messagesSentByClient;
     };
 
 })(loadTest.models = loadTest.models || {});
