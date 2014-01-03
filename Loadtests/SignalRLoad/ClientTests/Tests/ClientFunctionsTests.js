@@ -118,4 +118,50 @@ describe("Clientfunctions", function () {
         domMock.restore();
 
     });
+    it("promoteToMaster should promote the client with same id as the instanceId to master", function() {
+        var domStub1 = sinon.stub(loadTest.dom, "hideMasterPromotion");
+        var domStub2 = sinon.stub(loadTest.dom, "showStart");
+        loadTest.options.instanceId = 1;
+
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(2, null));
+        loadTest.options.clients.push(new loadTest.models.Client(1, null));
+
+        loadTest.clientFunctions.promoteToMaster();
+
+        loadTest.options.masterId.should.equal(1);
+
+        domStub1.restore();
+        domStub2.restore();
+    });
+    it("promoteToMaster should only promote one client to master", function() {
+        var domMock = sinon.mock(loadTest.dom);
+        domMock.expects("showStart").atMost(1);
+        loadTest.options.instanceId = 1;
+
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(2, null));
+        loadTest.options.clients.push(new loadTest.models.Client(1, null));
+
+        loadTest.clientFunctions.promoteToMaster();
+
+        domMock.verify();
+
+        domMock.restore();
+    });
+    it("promotoToMaster should not promote if no client matches the instanceId", function() {
+        var domMock = sinon.mock(loadTest.dom);
+        domMock.expects("showStart").atMost(0);
+        loadTest.options.instanceId = 5;
+
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(2, null));
+        loadTest.options.clients.push(new loadTest.models.Client(1, null));
+
+        loadTest.clientFunctions.promoteToMaster();
+
+        domMock.verify();
+
+        domMock.restore();
+    });
 });
