@@ -16,16 +16,23 @@
         
         <!--Scripts under test -->
         <script src="../SignalRLoad/Scripts/Globals.js"></script>
+        <script src="../SignalRLoad/Scripts/Socket.js"></script>
         <script src="../SignalRLoad/Scripts/Models.js"></script>
+        <script src="../SignalRLoad/Scripts/Dom.js"></script>
+        <script src="../SignalRLoad/Scripts/Charts.js"></script>
         <script src="../SignalRLoad/Scripts/ClientFunctions.js"></script>
         <script src="../SignalRLoad/Scripts/Communication.js"></script>
         
-        <!--Tests-->
-
-
+        <!--Setup-->
         <script type="text/javascript">
             mocha.setup('bdd');
+        </script> 
+
+        <!--Tests-->
+        <script src="Tests/ClientFunctionsTests.js"></script>        
+        <script type="text/javascript">
             mocha.run();
-        </script>    
+        </script> 
+           
     </body>
 </html>
