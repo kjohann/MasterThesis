@@ -164,4 +164,14 @@ describe("Clientfunctions", function () {
 
         domMock.restore();
     });
+    it("getMessages moves all messages from the associative array of a client to an indexed array", function() {
+        var client = new loadTest.models.Client(1, null);
+        client.messages["c:1m:1"] = new loadTest.models.Message("1337", 1, 1);
+        client.messages["c:1m:2"] = new loadTest.models.Message("1337", 1, 2);
+
+        var messages = loadTest.clientFunctions.getMessages(client);
+
+        messages[0].MessageId.should.equal("c:1m:1");
+        messages[1].MessageId.should.equal("c:1m:2");
+    });
 });
