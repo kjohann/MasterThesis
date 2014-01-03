@@ -174,4 +174,26 @@ describe("Clientfunctions", function () {
         messages[0].MessageId.should.equal("c:1m:1");
         messages[1].MessageId.should.equal("c:1m:2");
     });
+    it("findClient should resolve a promise with the found client if successful", function(done) {
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(2, null));
+        loadTest.options.clients.push(new loadTest.models.Client(1, null));
+
+        loadTest.clientFunctions.findClient(1).done(function(client) {
+            client.clientId.should.equal(1);
+            done();
+        });
+
+    });
+    it("findClient should reject a promise with a message stating that the client wasn't found if unsuccessful", function (done) {
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(2, null));
+        loadTest.options.clients.push(new loadTest.models.Client(1, null));
+
+        loadTest.clientFunctions.findClient(1337).fail(function (msgObj) {
+            msgObj.message.should.equal("Couldn't find client with id: 1337");
+            done();
+        });
+
+    });
 });
