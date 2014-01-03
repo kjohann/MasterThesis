@@ -4,7 +4,7 @@
             if (foundClient.messages[message.MessageId] === undefined) {
                 message.ReceivedAtClient = new Date().getTime();
                 foundClient.messages[message.MessageId] = message;
-                registerLatency(message);
+                root.registerLatency(message);
             }
         });
     };
@@ -51,15 +51,15 @@
 
         return deferred.promise();
     };
-        
-    function registerLatency(message) {        
+
+    root.registerLatency = function(message) {
         var latency = message.ReceivedAtClient - message.SentFromClient;
         if (isNaN(options.latencyEvents[message.Key])) {
             options.latencyEvents.push(0);
         }
 
         options.latencyEvents[message.Key] += latency;
-    }
+    };
 
     function clientNotFound(error) { 
         console.log(error.message);
