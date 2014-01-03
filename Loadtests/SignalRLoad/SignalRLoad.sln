@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRLoad", "SignalRLoad\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRLoadUnitTests", "SignalRLoadUnitTests\SignalRLoadUnitTests.csproj", "{2397534F-7BC1-4106-8266-C61B17C1A770}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientTests", "ClientTests\ClientTests.csproj", "{C1AE3E26-4E89-4AC4-85A0-8F683E1D9378}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{2397534F-7BC1-4106-8266-C61B17C1A770}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2397534F-7BC1-4106-8266-C61B17C1A770}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2397534F-7BC1-4106-8266-C61B17C1A770}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1AE3E26-4E89-4AC4-85A0-8F683E1D9378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1AE3E26-4E89-4AC4-85A0-8F683E1D9378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1AE3E26-4E89-4AC4-85A0-8F683E1D9378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1AE3E26-4E89-4AC4-85A0-8F683E1D9378}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
