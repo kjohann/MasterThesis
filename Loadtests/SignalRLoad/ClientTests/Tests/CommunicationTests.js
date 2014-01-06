@@ -131,6 +131,113 @@ describe("Communication", function() {
 
         socketStub.restore();
     });
+    it("start should not call invoke if no master client is present", function() {
+        var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
+        functionsStub.returns(getDeferred(false, { message: "error" }));
+
+        resetOpts();
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+
+        loadTest.communications.start("echo");
+
+        fakeSocket.invokeCalled.should.equal(0);
+
+        functionsStub.restore();
+    });
+    it("start should call invoke with 'initTest' as first argument when master client is present", function() {
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+        
+        var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
+        functionsStub.returns(getDeferred(true, client));
+        var domStub = sinon.stub(loadTest.dom, "changeOnStart");
+
+        setOpts(1, 1337, 1, 10);
+
+        loadTest.communications.start("echo");
+
+        fakeSocket.invokeArgs[0].should.equal("initTest");
+
+        functionsStub.restore();
+        domStub.restore();
+    });
+    it("start should call invoke with provided test as second argument when master client is present", function () {
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+
+        var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
+        functionsStub.returns(getDeferred(true, client));
+        var domStub = sinon.stub(loadTest.dom, "changeOnStart");
+
+        setOpts(1, 1337, 1, 10);
+
+        loadTest.communications.start("echo");
+
+        fakeSocket.invokeArgs[1].should.equal("echo");
+
+        functionsStub.restore();
+        domStub.restore();
+    });
+    it("start should call invoke with total number of clients as third argument when master client is present", function () {
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+
+        var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
+        functionsStub.returns(getDeferred(true, client));
+        var domStub = sinon.stub(loadTest.dom, "changeOnStart");
+
+        setOpts(1, 1337, 1, 10);
+
+        loadTest.communications.start("echo");
+
+        fakeSocket.invokeArgs[2].should.equal(10);
+
+        functionsStub.restore();
+        domStub.restore();
+    });
+    it("start should call invoke with spacing as fourth argument when master client is present", function () {
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+
+        var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
+        functionsStub.returns(getDeferred(true, client));
+        var domStub = sinon.stub(loadTest.dom, "changeOnStart");
+
+        setOpts(1, 1337, 1, 10);
+
+        loadTest.communications.start("echo");
+
+        fakeSocket.invokeArgs[3].should.equal(10);
+
+        functionsStub.restore();
+        domStub.restore();
+    });
+    it("start should call invoke with the current date in milliseconds as fifth argument when master client is present", function () {
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+
+        var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
+        functionsStub.returns(getDeferred(true, client));
+        var domStub = sinon.stub(loadTest.dom, "changeOnStart");
+        var dateStub = sinon.stub(window, "Date");
+        dateStub.returns({ getTime: function () { return 42; } });
+
+        setOpts(1, 1337, 1, 10);
+
+        loadTest.communications.start("echo");
+
+        fakeSocket.invokeArgs[4].should.equal(42);
+
+        functionsStub.restore();
+        domStub.restore();
+    });
 });
 
 function FakeSocket() {
@@ -147,16 +254,36 @@ function FakeSocket() {
     };
     self.invoke = function() {
         self.invokeCalled++;
+        self.invokeArgs = Array.prototype.slice.call(arguments);
     };
     self.start = function() {
         self.startCalled++;
     };  
 }
 
-function setOpts(instanceId, connectionInterval, numberOfClientsPrBrowser) {
+function setOpts(instanceId, connectionInterval, numberOfClientsPrBrowser, spacing) {
     loadTest.options.instanceId = instanceId;
     loadTest.options.connectionInterval = connectionInterval;
+    loadTest.options.numberOfClientsPrBrowser = numberOfClientsPrBrowser;
+    loadTest.options.numberOfClientsTotal = numberOfClientsPrBrowser * 10; //a random number, no significance
+    resetOpts();
+    
+    if (spacing) {
+        loadTest.options.spacing = spacing;
+    }
+}
+
+function resetOpts() {
     loadTest.options.connectionsTried = 0;
     loadTest.options.clients = [];
-    loadTest.options.numberOfClientsPrBrowser = numberOfClientsPrBrowser;
+}
+
+function getDeferred(resolve, withObj) {
+    var deferred = new $.Deferred();
+    if (resolve) {
+        deferred.resolve(withObj);
+    } else {
+        deferred.reject(withObj);
+    }
+    return deferred.promise();
 }
