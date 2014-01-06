@@ -12,8 +12,13 @@
             instanceId: 1, //will be id of the first client
             clients: [], //able to hold several clients
             latencyEvents: [], //will hold accumulated latency within each interval (time)
-            registeredMessages: []
-        }
+            registeredMessages: [],
+            locks: {
+                initLock: 0,
+                connectionsTried: 0,
+                harvestLock: 0
+            }
+        },
     };    
     //example regarding instanceId and clients: 5 clients pr. browser: instanceId will be 1 and it will hold clients with ids 1, 2, 3, 4 and 5. Next instanceId will be 6
 })();

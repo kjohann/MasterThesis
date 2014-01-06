@@ -1,9 +1,6 @@
-﻿(function(options, root, functions, models, dom, socket) {
-    var initLock = 0;
-    var connectionsTried = 0;
-    var harvestLock = 0;
+﻿(function(options, root, functions, models, dom, socket) {    
     root.initConnection = function () {
-        var clientId = connectionsTried + options.instanceId;
+        var clientId = options.locks.connectionsTried + options.instanceId;
 
         var socketInstance = new socket.SocketInstance();
         socketInstance.bind("initTest", root.initTest);
@@ -14,7 +11,7 @@
         options.clients.push(new models.Client(clientId, socketInstance));
         socketInstance.start();
 
-        if (++connectionsTried < options.numberOfClientsPrBrowser) {
+        if (++options.locks.connectionsTried < options.numberOfClientsPrBrowser) {
             setTimeout(function () {
                 root.initConnection();
             }, options.connectionInterval);
@@ -34,7 +31,7 @@
     };
     
     root.initTest = function(test) {
-        if (initLock++ < 1) { //call only once
+        if (options.locks.initLock++ < 1) { //call only once
             if (test === 'echo' || test === 'broadcast') {
                 console.log("Initializing");
                 sendMessages(test);
@@ -45,7 +42,7 @@
     }; 
 
     root.harvest = function() {
-        if (harvestLock++ < 1) {
+        if (options.locks.harvestLock++ < 1) {
             var client = options.clients[0];
             console.log("Harvesting...");
             client.socket.invoke("getData", { LatencyData: options.latencyEvents }, options.numberOfClientsPrBrowser);
