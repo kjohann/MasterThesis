@@ -1,6 +1,6 @@
 ﻿(function(options, root, functions, models, dom, socket) {    
     root.initConnection = function () {
-        var clientId = options.locks.connectionsTried + options.instanceId;
+        var clientId = options.connectionsTried + options.instanceId;
 
         var socketInstance = new socket.SocketInstance();
         socketInstance.bind("initTest", root.initTest);
@@ -11,7 +11,7 @@
         options.clients.push(new models.Client(clientId, socketInstance));
         socketInstance.start();
 
-        if (++options.locks.connectionsTried < options.numberOfClientsPrBrowser) {
+        if (++options.connectionsTried < options.numberOfClientsPrBrowser) {
             setTimeout(function () {
                 root.initConnection();
             }, options.connectionInterval);

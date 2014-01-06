@@ -13,9 +13,9 @@
             clients: [], //able to hold several clients
             latencyEvents: [], //will hold accumulated latency within each interval (time)
             registeredMessages: [],
+            connectionsTried: 0,
             locks: {
-                initLock: 0,
-                connectionsTried: 0,
+                initLock: 0,                
                 harvestLock: 0
             }
         },
