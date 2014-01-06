@@ -159,7 +159,7 @@ describe("Communication", function() {
 
         loadTest.communications.start("echo");
 
-        fakeSocket.invokeArgs[0].should.equal("initTest");
+        fakeSocket.invokeArgs[0][0].should.equal("initTest");
 
         functionsStub.restore();
         domStub.restore();
@@ -177,7 +177,7 @@ describe("Communication", function() {
 
         loadTest.communications.start("echo");
 
-        fakeSocket.invokeArgs[1].should.equal("echo");
+        fakeSocket.invokeArgs[0][1].should.equal("echo");
 
         functionsStub.restore();
         domStub.restore();
@@ -195,7 +195,7 @@ describe("Communication", function() {
 
         loadTest.communications.start("echo");
 
-        fakeSocket.invokeArgs[2].should.equal(10);
+        fakeSocket.invokeArgs[0][2].should.equal(10);
 
         functionsStub.restore();
         domStub.restore();
@@ -208,12 +208,13 @@ describe("Communication", function() {
         var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
         functionsStub.returns(getDeferred(true, client));
         var domStub = sinon.stub(loadTest.dom, "changeOnStart");
+        loadTest.options.spacing = 11;
 
-        setOpts(1, 1337, 1, 10);
+        setOpts(1, 1337, 1);
 
         loadTest.communications.start("echo");
 
-        fakeSocket.invokeArgs[3].should.equal(10);
+        fakeSocket.invokeArgs[0][3].should.equal(11);
 
         functionsStub.restore();
         domStub.restore();
@@ -229,14 +230,188 @@ describe("Communication", function() {
         var dateStub = sinon.stub(window, "Date");
         dateStub.returns({ getTime: function () { return 42; } });
 
-        setOpts(1, 1337, 1, 10);
+        setOpts(1, 1337, 1);
 
         loadTest.communications.start("echo");
 
-        fakeSocket.invokeArgs[4].should.equal(42);
+        fakeSocket.invokeArgs[0][4].should.equal(42);
 
         functionsStub.restore();
         domStub.restore();
+        dateStub.restore();
+    });
+    it("initTest should log an error if the provided test argument is neither 'echo' nor 'broadcast'", function() {
+        var consoleMock = sinon.mock(window.console);
+        consoleMock.expects("error").calledWithExactly("No such test!");
+        resetOpts();
+
+        loadTest.communications.initTest("NoSuchThing");
+
+        consoleMock.verify();
+
+        consoleMock.restore();
+    });
+    it("initTest should do work only once (indicated by a console.log) even if initTest is called several times", function() {
+        var consoleMock = sinon.mock(window.console);
+        consoleMock.expects("log").exactly(1);
+        resetOpts();
+
+        loadTest.communications.initTest("echo");
+
+        consoleMock.verify();
+
+        consoleMock.restore();
+    });
+    it("initTest should iterates over all clients and calls invoke on each clients socket", function() {
+        this.clock = sinon.useFakeTimers();
+        resetOpts();
+
+        var fakeSocket1 = new FakeSocket();
+        var client1 = new loadTest.models.Client(1, fakeSocket1);
+        var fakeSocket2 = new FakeSocket();
+        var client2 = new loadTest.models.Client(2, fakeSocket2);
+        loadTest.options.clients.push(client1);
+        loadTest.options.clients.push(client2);
+        loadTest.options.numberOfMessages = 1;
+        loadTest.options.messageInterval = 200;
+        loadTest.options.allComplete = false;
+
+        loadTest.communications.initTest("echo");
+        this.clock.tick(10);
+        loadTest.options.allComplete = true;
+
+        client1.socket.invokeCalled.should.equal(1);
+        client2.socket.invokeCalled.should.equal(1);
+
+        this.clock.restore();
+    });
+    it("initTest should call invoke on the clients socket with the given test as first argument", function() {
+        this.clock = sinon.useFakeTimers();
+        resetOpts();
+
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+        loadTest.options.numberOfMessages = 1;
+        loadTest.options.messageInterval = 200;
+        loadTest.options.allComplete = false;
+        
+        loadTest.communications.initTest("broadcast");
+        this.clock.tick(10);
+        loadTest.options.allComplete = true;
+
+        client.socket.invokeArgs[0][0].should.equal("broadcast");
+
+        this.clock.restore();
+    });
+    it("initTest should call invoke on the clients socket with a Message containing the clientId and the number of messages sent by the client", function() {
+        this.clock = sinon.useFakeTimers();
+        resetOpts();        
+
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+        loadTest.options.numberOfMessages = 1;
+        loadTest.options.messageInterval = 200;
+        loadTest.options.allComplete = false;
+
+        var msg = new loadTest.models.Message("1337", 1, 1);
+        loadTest.communications.initTest("broadcast");
+        this.clock.tick(10);
+        loadTest.options.allComplete = true;
+
+        
+        client.socket.invokeArgs[0][1].ClientId.should.equal(msg.ClientId);
+        client.socket.invokeArgs[0][1].MessageId.should.equal(msg.MessageId);
+
+        this.clock.restore();
+    });
+    it("initTest should not send more messages pr. client than the number of messages specified", function () {
+        this.clock = sinon.useFakeTimers();
+        resetOpts();
+
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+        loadTest.options.numberOfMessages = 5;
+        loadTest.options.messageInterval = 200;
+        loadTest.options.allComplete = false;
+
+        loadTest.communications.initTest("broadcast");
+        this.clock.tick(810);
+        loadTest.options.allComplete = true;
+
+        client.socket.invokeCalled.should.equal(5);
+
+        this.clock.restore();
+    });
+    it("initTest should call invoke on the clients socket with 'complete' as first argument when the client has sent its specified number of messages", function() {
+        this.clock = sinon.useFakeTimers();
+        resetOpts();
+
+        var fakeSocket1 = new FakeSocket();
+        var client1 = new loadTest.models.Client(1, fakeSocket1);
+        var fakeSocket2 = new FakeSocket();
+        var client2 = new loadTest.models.Client(2, fakeSocket2);
+        loadTest.options.clients.push(client1);
+        loadTest.options.clients.push(client2);
+        loadTest.options.numberOfMessages = 1;
+        loadTest.options.messageInterval = 200;
+        loadTest.options.allComplete = false;
+
+        loadTest.communications.initTest("echo");
+        this.clock.tick(210);
+        loadTest.options.allComplete = true;
+
+        client1.socket.invokeArgs[1][0].should.equal("complete");
+        client2.socket.invokeArgs[1][0].should.equal("complete");
+
+        this.clock.restore();
+    });
+    it("initTest should call invoke on the clients socket with the clients id as second argument when the client has sent its specified number of messages", function () {
+        this.clock = sinon.useFakeTimers();
+        resetOpts();
+
+        var fakeSocket1 = new FakeSocket();
+        var client1 = new loadTest.models.Client(1, fakeSocket1);
+        var fakeSocket2 = new FakeSocket();
+        var client2 = new loadTest.models.Client(2, fakeSocket2);
+        loadTest.options.clients.push(client1);
+        loadTest.options.clients.push(client2);
+        loadTest.options.numberOfMessages = 1;
+        loadTest.options.messageInterval = 200;
+        loadTest.options.allComplete = false;
+
+        loadTest.communications.initTest("echo");
+        this.clock.tick(210);
+        loadTest.options.allComplete = true;
+
+        client1.socket.invokeArgs[1][1].should.equal(client1.clientId);
+        client2.socket.invokeArgs[1][1].should.equal(client2.clientId);
+
+        this.clock.restore();
+    });
+    it("initTest should invoke the clients socket with 'complete' only once", function() {
+        this.clock = sinon.useFakeTimers();
+        resetOpts();
+
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+        loadTest.options.numberOfMessages = 5;
+        loadTest.options.messageInterval = 200;
+        loadTest.options.allComplete = false;
+
+        loadTest.communications.initTest("broadcast");
+        this.clock.tick(1810);
+
+        loadTest.options.allComplete = true;
+
+        //the index indicates the second to last invoke call, which should not be a complete call
+        client.socket.invokeArgs[client.socket.invokeCalled - 2][0].should.not.equal("complete");
+        client.socket.invokeArgs[client.socket.invokeCalled - 1][0].should.equal("complete");
+        
+        this.clock.restore();
     });
 });
 
@@ -246,6 +421,7 @@ function FakeSocket() {
     self.bindFirstArg = [];
     self.bindSecondArg = [];
     self.invokeCalled = 0;
+    self.invokeArgs = [];
     self.startCalled = 0;
     self.bind = function(functionName, functionToCall) {
         self.bindCalled++;
@@ -254,28 +430,25 @@ function FakeSocket() {
     };
     self.invoke = function() {
         self.invokeCalled++;
-        self.invokeArgs = Array.prototype.slice.call(arguments);
+        self.invokeArgs.push(Array.prototype.slice.call(arguments));
     };
     self.start = function() {
         self.startCalled++;
     };  
 }
 
-function setOpts(instanceId, connectionInterval, numberOfClientsPrBrowser, spacing) {
+function setOpts(instanceId, connectionInterval, numberOfClientsPrBrowser) {
     loadTest.options.instanceId = instanceId;
     loadTest.options.connectionInterval = connectionInterval;
     loadTest.options.numberOfClientsPrBrowser = numberOfClientsPrBrowser;
     loadTest.options.numberOfClientsTotal = numberOfClientsPrBrowser * 10; //a random number, no significance
-    resetOpts();
-    
-    if (spacing) {
-        loadTest.options.spacing = spacing;
-    }
+    resetOpts();       
 }
 
 function resetOpts() {
     loadTest.options.connectionsTried = 0;
     loadTest.options.clients = [];
+    loadTest.options.locks.initLock = 0;
 }
 
 function getDeferred(resolve, withObj) {

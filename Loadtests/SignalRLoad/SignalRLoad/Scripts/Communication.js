@@ -43,6 +43,7 @@
 
     root.harvest = function() {
         if (options.locks.harvestLock++ < 1) {
+            options.locks.allComplete = true;
             var client = options.clients[0];
             console.log("Harvesting...");
             client.socket.invoke("getData", { LatencyData: options.latencyEvents }, options.numberOfClientsPrBrowser);
@@ -61,7 +62,9 @@
         });
         
         setTimeout(function () {
-            sendMessages(test);
+            if (!options.locks.allComplete) {
+                sendMessages(test);
+            }
         }, options.messageInterval);        
     }
 })(loadTest.options, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions, loadTest.models, loadTest.dom, loadTest.socket);
