@@ -274,7 +274,6 @@ describe("Communication", function() {
         loadTest.options.clients.push(client2);
         loadTest.options.numberOfMessages = 1;
         loadTest.options.messageInterval = 200;
-        loadTest.options.allComplete = false;
 
         loadTest.communications.initTest("echo");
         this.clock.tick(10);
@@ -294,7 +293,6 @@ describe("Communication", function() {
         loadTest.options.clients.push(client);
         loadTest.options.numberOfMessages = 1;
         loadTest.options.messageInterval = 200;
-        loadTest.options.allComplete = false;
         
         loadTest.communications.initTest("broadcast");
         this.clock.tick(10);
@@ -313,7 +311,6 @@ describe("Communication", function() {
         loadTest.options.clients.push(client);
         loadTest.options.numberOfMessages = 1;
         loadTest.options.messageInterval = 200;
-        loadTest.options.allComplete = false;
 
         var msg = new loadTest.models.Message("1337", 1, 1);
         loadTest.communications.initTest("broadcast");
@@ -335,7 +332,6 @@ describe("Communication", function() {
         loadTest.options.clients.push(client);
         loadTest.options.numberOfMessages = 5;
         loadTest.options.messageInterval = 200;
-        loadTest.options.allComplete = false;
 
         loadTest.communications.initTest("broadcast");
         this.clock.tick(810);
@@ -357,7 +353,6 @@ describe("Communication", function() {
         loadTest.options.clients.push(client2);
         loadTest.options.numberOfMessages = 1;
         loadTest.options.messageInterval = 200;
-        loadTest.options.allComplete = false;
 
         loadTest.communications.initTest("echo");
         this.clock.tick(210);
@@ -380,7 +375,6 @@ describe("Communication", function() {
         loadTest.options.clients.push(client2);
         loadTest.options.numberOfMessages = 1;
         loadTest.options.messageInterval = 200;
-        loadTest.options.allComplete = false;
 
         loadTest.communications.initTest("echo");
         this.clock.tick(210);
@@ -412,6 +406,85 @@ describe("Communication", function() {
         client.socket.invokeArgs[client.socket.invokeCalled - 1][0].should.equal("complete");
         
         this.clock.restore();
+    });
+    it("harvest should only call invoke once", function() {
+        resetOpts();
+        
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+
+        loadTest.communications.harvest();
+        loadTest.communications.harvest();
+
+        client.socket.invokeCalled.should.equal(1);
+    });
+    it("harvest should only call invoke once and only for the first client", function () {
+        resetOpts();
+
+        var fakeSocket1 = new FakeSocket();
+        var client1 = new loadTest.models.Client(1, fakeSocket1);
+        var fakeSocket2 = new FakeSocket();
+        var client2 = new loadTest.models.Client(2, fakeSocket2);
+        loadTest.options.clients.push(client1);
+        loadTest.options.clients.push(client2);
+
+        loadTest.communications.harvest();
+        loadTest.communications.harvest();
+
+        client2.socket.invokeCalled.should.equal(0);        
+    });
+    it("harvest should set allCompleted to true", function() {
+        resetOpts();
+
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+
+        loadTest.communications.harvest();
+
+        loadTest.options.locks.allComplete.should.equal(true);
+    });
+    it("harvest should call invoke with 'getData' as first argument", function() {
+        resetOpts();
+
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+
+        loadTest.communications.harvest();
+
+        client.socket.invokeArgs[0][0].should.equal("getData");
+    });
+    it("harvest should call invoke with the accumulated latencyEvents as second argument", function () {
+        resetOpts();
+
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+        loadTest.options.latencyEvents = [];
+        loadTest.options.latencyEvents.push(42);
+        loadTest.options.latencyEvents.push(1337);
+
+        loadTest.communications.harvest();
+
+        var expectedEvents = [];
+        expectedEvents.push(42);
+        expectedEvents.push(1337);
+
+        client.socket.invokeArgs[0][1].LatencyData[0].should.equal(expectedEvents[0]);
+        client.socket.invokeArgs[0][1].LatencyData[1].should.equal(expectedEvents[1]);
+    });
+    it("harvest should call invoke with numberOfClientsPrBrowser as third argument", function () {
+        setOpts(1, 200, 5);
+
+        var fakeSocket = new FakeSocket();
+        var client = new loadTest.models.Client(1, fakeSocket);
+        loadTest.options.clients.push(client);
+
+        loadTest.communications.harvest();
+
+        client.socket.invokeArgs[0][2].should.equal(5);
     });
 });
 
@@ -449,6 +522,8 @@ function resetOpts() {
     loadTest.options.connectionsTried = 0;
     loadTest.options.clients = [];
     loadTest.options.locks.initLock = 0;
+    loadTest.options.locks.harvestLock = 0;
+    loadTest.options.locks.allComplete = false;
 }
 
 function getDeferred(resolve, withObj) {
