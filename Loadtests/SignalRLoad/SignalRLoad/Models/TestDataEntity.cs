@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace SignalRLoad.Models
 {
     /// <summary>
-    /// Contains test data for a single client
+    /// Contains test data for a single browser
     /// </summary>
     public class TestDataEntity
     {

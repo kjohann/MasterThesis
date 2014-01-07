@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SignalRLoad.Models
+﻿namespace SignalRLoad.Models
 {
     public class Message
     {
