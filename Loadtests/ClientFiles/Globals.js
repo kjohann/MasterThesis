@@ -1,7 +1,7 @@
 ﻿(function() {
     window.loadTest = window.loadTest || {
         options: {
-            chartUrl: "/api/charts",
+            chartUrl: "http://localhost/ChartsAPI/api/charts",
             spacing: 1,
             masterId: 0, //will be 0 for all browsers that does not have the master
             connectionInterval: 0, //delay between connecting clients 
