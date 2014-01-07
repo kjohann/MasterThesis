@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.AspNet.SignalR;
-using SignalRLoad.Extensions;
+using Shared.Extensions;
+using Shared.Models;
+using Shared.Utils;
 using SignalRLoad.Models;
-using SignalRLoad.Utils;
 
 namespace SignalRLoad.Hubs
 {

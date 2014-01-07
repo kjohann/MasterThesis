@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading;
-using NUnit.Framework;
-using SignalRLoad.Extensions;
-using SignalRLoad.Models;
-using SignalRLoadUnitTests.Hubs;
 using FluentAssertions;
+using NUnit.Framework;
+using Shared.Extensions;
+using SignalRLoad.Models;
 using Monitor = SignalRLoad.Models.Monitor;
 
-namespace SignalRLoadUnitTests
+namespace SignalRLoadUnitTests.Hubs
 {
     [TestFixture]
     public class LoadHubTest

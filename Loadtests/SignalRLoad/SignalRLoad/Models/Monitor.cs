@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SignalRLoad.Extensions;
+using Shared.Extensions;
+using Shared.Models;
 
 namespace SignalRLoad.Models
 {

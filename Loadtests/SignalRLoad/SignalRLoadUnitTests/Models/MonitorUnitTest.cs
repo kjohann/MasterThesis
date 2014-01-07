@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions;
 using NUnit.Framework;
-using FluentAssertions;               
-using SignalRLoad.Extensions;
+using Shared.Extensions;
 using SignalRLoad.Models;
 
-namespace SignalRLoadUnitTests
+namespace SignalRLoadUnitTests.Models
 {
 
     [TestFixture]
