@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Client side tests</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../Libs/Styles/mocha.css" />
+    </head>
+    <body>
+        <div id="mocha"></div>
+        <!--Libs-->
+        <script src="../Libs/Scripts/mocha.js"></script>
+        <script src="../Libs/Scripts/chai.js"></script>
+        <script src="../Libs/Scripts/sinon.js"></script>
+        <script src="../Libs/Scripts/jquery-1.6.4.min.js"></script>
+        
+        <!--Scripts under test -->
+        <script src="../Globals.js"></script>
+        <script src="../Socket.js"></script>
+        <script src="../Models.js"></script>
+        <script src="../Dom.js"></script>
+        <script src="../Charts.js"></script>
+        <script src="../ClientFunctions.js"></script>
+        <script src="../Communication.js"></script>
+        
+        <!--Setup-->
+        <script type="text/javascript">
+            mocha.setup('bdd');
+        </script> 
+
+        <!--Tests-->
+        <script src="ClientFunctionsTests.js"></script>  
+        <script src="CommunicationTests.js"></script>    
+        <script src="ModelsTest.js"></script>  
+        <script type="text/javascript">
+            mocha.run();
+        </script> 
+           
+    </body>
+</html>
