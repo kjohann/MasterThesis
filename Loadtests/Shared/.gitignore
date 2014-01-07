@@ -1,0 +1,10 @@
+*.csproj
+*.config
+*-vsdoc.js
+*.min.js
+*.nupkg
+*.nuspec
+readme.txt
+*.dll
+*.xml
+/packages/*
