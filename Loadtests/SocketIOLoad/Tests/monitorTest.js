@@ -71,10 +71,20 @@ describe("monitor", function() {
         monitor.receivedAtServerEvents.shouldAllBeEqual(expectedData);
     });
     it("registerReceivedAtServerEvent should register an event also with different spacing", function() {
+        var values = getDummyMillisecondValues(200, 20);
+        registerReceivedAtServerEvents(values, 5);
 
+        var expectedData = [24, 16];
+
+        monitor.receivedAtServerEvents.shouldAllBeEqual(expectedData);
     });
     it("registerReceivedAtServerEvent should be able to handle large data sets", function() {
+        var values = getDummyMillisecondValues(100, 1000);
+        registerReceivedAtServerEvents(values, 10);
 
+        var expectedData = [99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1];
+
+        monitor.receivedAtServerEvents.shouldAllBeEqual(expectedData);
     });
     it("registerSentFromServerEvent should register an echo event within the correct interval", function() {
 
@@ -132,6 +142,7 @@ function registerReceivedAtServerEvents(values, spacing) {
 Array.prototype.shouldAllBeEqual = function (array2) {
     if(this.length != array2.length) {
         this.length.should.equal(array2.length);
+        console.log("Different lengths");
         return;
     }
 
