@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
 using Shared.Extensions;
+using Shared.Models;
 using SignalRLoad.Models;
 
 namespace SignalRLoadUnitTests.Models
@@ -20,6 +21,32 @@ namespace SignalRLoadUnitTests.Models
             _monitor.Reset();
             _monitor.StartTime = new DateTime(2013, 11, 3, 13, 37, 0);
             _monitor.NumberOfClients = 100;
+        }
+
+        [Test]
+        public void Reset_sets_all_public_fields_of_the_monitor_exept_startTime_back_to_initial_values()
+        {
+            _monitor.CompletedClients.Add("Something");
+            _monitor.Duration = 1000;
+            _monitor.Harvested = 10;
+            _monitor.NumberOfClients = 10;
+            _monitor.ReceivedAtServerEvents.Add(5);
+            _monitor.SentFromClientEvents.Add(5);
+            _monitor.SentFromServerEvents.Add(25);
+            _monitor.Spacing = 10;            
+            _monitor.TestDataEntities.Add(new TestDataEntity());
+
+            _monitor.Reset();
+
+            _monitor.CompletedClients.Should().BeEmpty();
+            _monitor.Duration.Should().Be(0);
+            _monitor.Harvested.Should().Be(0);
+            _monitor.NumberOfClients.Should().Be(0);
+            _monitor.ReceivedAtServerEvents.Should().BeEmpty();
+            _monitor.SentFromClientEvents.Should().BeEmpty();
+            _monitor.SentFromServerEvents.Should().BeEmpty();
+            _monitor.Spacing.Should().Be(0);
+            _monitor.TestDataEntities.Should().BeEmpty();
         }
 
         [Test]
