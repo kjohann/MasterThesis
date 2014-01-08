@@ -25,6 +25,36 @@ Monitor.prototype.reset = function() {
     self.sentFromServerEvents = [];
 }
 
+Monitor.prototype.registerSentFromClientEvent = function(millisecondsSinceEpoch, spacing) {
+    var sp = spacing ? spacing : 1;
+    var key = getKey(millisecondsSinceEpoch, sp, this);
+    this.addEvent(this.sentFromClientEvents, key);
+    return key;
+}
+
+Monitor.prototype.addEvent = function (eventStore, key, numberOfEvents) {
+    var nrOE = numberOfEvents ? numberOfEvents : 1;
+
+    while(key > eventStore.length) {
+        eventStore.push(0);
+    }
+    if(eventStore.length === key) {
+        eventStore.push(nrOE);
+    } else {
+        eventStore[key] += nrOE;
+    }
+}
+
+function getKey(millisecondsSinceEpoch, spacing, monitor) {
+    var millisecondsSinceStart = millisecondsSinceEpoch - monitor.startTime;
+    var seconds = round(false, millisecondsSinceStart / 1000);
+    return round(false, seconds / spacing);
+}
+
+function round(up, value) {
+    return up ? Math.ceil(value) : Math.floor(value);
+}
+
 var instance = null;
 
 exports.getInstance = function() {

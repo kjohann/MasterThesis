@@ -2,7 +2,7 @@ var monitor = require("../Server/monitor.js").getInstance();
 var should = require('chai').should();
 
 describe("monitor", function() {
-    before(function() {
+    beforeEach(function() {
         monitor.reset();
         monitor.startTime = new Date("2014-1-8").getTime();
         monitor.numberOfClients = 100;
@@ -159,7 +159,8 @@ function getDummyMillisecondValues(eventInterval, totalNumber) {
 function registerSentFromClientEvents(values, spacing) {
     var sp = spacing ? spacing : 1;
 
-    for(var value in values) {
+    for(var i = 0; i < values.length; i++) {
+        var value = values[i];
         monitor.registerSentFromClientEvent(value, sp);
     }
 }
@@ -167,7 +168,8 @@ function registerSentFromClientEvents(values, spacing) {
 function registerReceivedAtServerEvents(values, spacing) {
     var sp = spacing ? spacing : 1;
 
-    for(var value in values) {
+    for(var i = 0; i < values.length; i++) {
+        var value = values[i];
         monitor.registerReceivedAtServerEvent(value, sp);
     }
 }
@@ -175,7 +177,8 @@ function registerReceivedAtServerEvents(values, spacing) {
 function registerSentFromServerEvents(values, broadcast, spacing) {
     var sp = spacing ? spacing : 1;
 
-    for(var value in values) {
+    for(var i = 0; i < values.length; i++) {
+        var value = values[i];
         monitor.registerSentFromServerEvent(value, broadcast, sp);
     }
 }
