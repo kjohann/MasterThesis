@@ -32,6 +32,12 @@ Monitor.prototype.registerSentFromClientEvent = function(millisecondsSinceEpoch,
     return key;
 }
 
+Monitor.prototype.registerReceivedAtServerEvent = function(millisecondsSinceEpoch, spacing) {
+    var sp = spacing ? spacing : 1;
+    var key = getKey(millisecondsSinceEpoch, sp, this);
+    this.addEvent(this.receivedAtServerEvents, key);
+}
+
 Monitor.prototype.addEvent = function (eventStore, key, numberOfEvents) {
     var nrOE = numberOfEvents ? numberOfEvents : 1;
 
