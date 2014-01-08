@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using FluentAssertions;
 using NUnit.Framework;
 using Shared.Extensions;
+using Shared.Models;
 using SignalRLoad.Models;
 using Monitor = SignalRLoad.Models.Monitor;
 
@@ -156,6 +158,39 @@ namespace SignalRLoadUnitTests.Hubs
             }            
             _monitor.CompletedClients.Count.Should().Be(_monitor.NumberOfClients);
             _monitor.Duration.Should().NotBe(0);
+        }
+
+        [Test]
+        public void GetData_should_add_incoming_data_to_monitor()
+        {
+            var testData = new TestDataEntity
+            {
+                LatencyData = new List<int> {300, 300, 300}
+            };
+
+            _loadHub.GetData(testData, 5);
+
+            _monitor.TestDataEntities[0].Should().Be(testData);
+        }
+
+        [Test]
+        public void GetData_should_increment_number_of_harvested_clients_in_monitor_with_nrOfClientsInBrowser()
+        {
+            _loadHub.GetData(new TestDataEntity(), 10);
+
+            _monitor.Harvested.Should().Be(10);
+        }
+
+        [Test]
+        public void GetData_should_only_yield_harvestedAll_when_all_clients_are_harvested()
+        {
+            _monitor.NumberOfClients = 15;
+
+            for (var i = 0; i < 3; i++)
+            {
+                _loadHub.GetData(new TestDataEntity(), 5);
+                _monitor.HarvestedAll().Should().Be(i == 2);
+            }
         }
     }
 }

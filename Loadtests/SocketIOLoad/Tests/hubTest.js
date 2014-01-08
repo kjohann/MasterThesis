@@ -44,5 +44,13 @@ describe("hub", function() {
     it("complete should set duration in monitor if all clients have completed", function() {
 
     });
+    it("getData should add incoming data to monitor", function() {
 
+    });
+    it("getData should increment number of harvested clients in monitor with nrOfClientsInBrowser", function() {
+
+    });
+    it("getData should only yield harvestedAll when all clients are harvested", function() {
+
+    });
 });
