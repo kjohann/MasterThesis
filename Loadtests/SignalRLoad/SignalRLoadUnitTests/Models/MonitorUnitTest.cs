@@ -128,7 +128,6 @@ namespace SignalRLoadUnitTests.Models
         [Test]
         public void RegisterSentFromServerEvent_should_register_an_echo_event_within_the_correct_interval()
         {
-            _monitor.NumberOfClients = 100;
             var values = GetDummyMillisecondValues(200, 20);
             RegisterSentFromServerEvents(values, false);
 
