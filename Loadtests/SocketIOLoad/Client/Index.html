@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Load test for: </title>     
+        <script src="Libs/jquery-1.6.4.min.js"></script>
+        <script src="Libs/highcharts.js"></script>
+        <script src="Globals.js"></script>
+        <script src="Socket.js"></script>
+        <script src="Models.js"></script>
+        <script src="Dom.js"></script>
+        <script src="Charts.js"></script>
+        <script src="ClientFunctions.js"></script>
+        <script src="Communication.js"></script>
+        <script src="Main.js"></script>
+    </head>
+    <body>
+        <div id="pageContainer">
+            <h1 id="header">Load test of : Socket.IO</h1>
+            <select id="type">
+                <option value="echo">Echo</option>
+                <option value="broadcast">Broadcast</option>
+            </select>
+            <div id="master">
+                <button id="masterBtn">Promote first client</button>
+            </div>
+            <input id="numberOfClients" type="text" placeholder="Number of clients"/>
+            <input id="connInterval" type="text" placeholder="Connection interval"/>
+            <button id="connect">Init connections</button>            
+            <input id="msgInterval" type="text" placeholder="Message interval"/>
+            <input id="msgs" type="text" placeholder="Number of messages"/>
+            <button id="init">Start test</button>
+            <h2 id="running">Running...</h2>
+            <button id="getCharts">Get results</button>
+            <div id="charts">
+                <div id="messagesSentReceivedChart" style="height:400px;"></div>
+                <div id="messagesSentFromServerChart" style="height:400px;"></div>
+                <div id="averageLatencyChart" style="height:400px;"></div>
+            </div>
+        </div> 
+    </body>
+</html>
