@@ -39,7 +39,7 @@ describe("monitor", function() {
         monitor.sentFromClientEvents.shouldAllBeEqual(expectedData);
     });
     it("registerSentFromClientEvent should register an event also with different spacing", function() {
-        var values = getDummyMillisecondValues(200, 20);
+        var values = getDummyMillisecondValues(200, 40);
         registerSentFromClientEvents(values, 5);
 
         var expectedData = [24, 16];
@@ -71,7 +71,7 @@ describe("monitor", function() {
         monitor.receivedAtServerEvents.shouldAllBeEqual(expectedData);
     });
     it("registerReceivedAtServerEvent should register an event also with different spacing", function() {
-        var values = getDummyMillisecondValues(200, 20);
+        var values = getDummyMillisecondValues(200, 40);
         registerReceivedAtServerEvents(values, 5);
 
         var expectedData = [24, 16];
@@ -87,25 +87,58 @@ describe("monitor", function() {
         monitor.receivedAtServerEvents.shouldAllBeEqual(expectedData);
     });
     it("registerSentFromServerEvent should register an echo event within the correct interval", function() {
+        var values = getDummyMillisecondValues(200, 20);
+        registerSentFromServerEvents(values, false);
 
+        var expectedData = [4, 5, 5, 5, 1];
+
+        monitor.sentFromServerEvents.shouldAllBeEqual(expectedData);
     });
     it("registerSentFromServerEvent should register a broadcast event within the correct interval", function() {
+        var values = getDummyMillisecondValues(200, 20);
+        registerSentFromServerEvents(values, true);
 
+        var expectedData = [400, 500, 500, 500, 100];
+
+        monitor.sentFromServerEvents.shouldAllBeEqual(expectedData);
     });
     it("registerSentFromServerEvent should register an echo event also with different spacing", function() {
+        var values = getDummyMillisecondValues(200, 40);
+        registerSentFromServerEvents(values, false, 5);
 
+        var expectedData = [24, 16];
+
+        monitor.sentFromServerEvents.shouldAllBeEqual(expectedData);
     });
     it("registerSentFromServerEvent should register a broadcast event also with different spacing", function() {
+        var values = getDummyMillisecondValues(200, 40);
+        registerSentFromServerEvents(values, true, 5);
 
+        var expectedData = [2400, 1600];
+
+        monitor.sentFromServerEvents.shouldAllBeEqual(expectedData);
     });
     it("registerSentFromServerEvent should be able to handle large dataSets with echo", function() {
+        var values = getDummyMillisecondValues(100, 1000);
+        registerSentFromServerEvents(values, false, 10);
 
+        var expectedData = [ 99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1];
+
+        monitor.sentFromServerEvents.shouldAllBeEqual(expectedData);
     });
     it("registerSentFromServerEvent should be able to handle large dataSets with broadcast", function() {
+        var values = getDummyMillisecondValues(100, 1000);
+        registerSentFromServerEvents(values, true, 10);
 
+        var expectedData = [ 9900, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 100];
+
+        monitor.sentFromServerEvents.shouldAllBeEqual(expectedData);
     });
     it("addEvent should fill in zero events if key points to an out of bounds index", function() {
-
+        var eventStore = [1,2];
+        monitor.addEvent(eventStore, 10);
+        var expectedData = [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1];
+        eventStore.shouldAllBeEqual(expectedData);
     });
 });
 
@@ -136,6 +169,14 @@ function registerReceivedAtServerEvents(values, spacing) {
 
     for(var value in values) {
         monitor.registerReceivedAtServerEvent(value, sp);
+    }
+}
+
+function registerSentFromServerEvents(values, broadcast, spacing) {
+    var sp = spacing ? spacing : 1;
+
+    for(var value in values) {
+        monitor.registerSentFromServerEvent(value, broadcast, sp);
     }
 }
 
