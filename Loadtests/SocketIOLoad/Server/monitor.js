@@ -38,6 +38,13 @@ Monitor.prototype.registerReceivedAtServerEvent = function(millisecondsSinceEpoc
     this.addEvent(this.receivedAtServerEvents, key);
 }
 
+Monitor.prototype.registerSentFromServerEvent = function(millisecondsSinceEpoch, broadCast, spacing) {
+    var sp = spacing ? spacing : 1;
+    var key = getKey(millisecondsSinceEpoch, sp, this);
+    var nrOfEvents = broadCast ? this.numberOfClients : 1;
+    this.addEvent(this.sentFromServerEvents, key, nrOfEvents);
+}
+
 Monitor.prototype.addEvent = function (eventStore, key, numberOfEvents) {
     var nrOE = numberOfEvents ? numberOfEvents : 1;
 
