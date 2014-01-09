@@ -25,6 +25,15 @@ exports.complete = function(clientId) {
     monitor.duration = new Date().getTime() - monitor.startTime;
 }
 
+exports.getData = function(testData, numberOfClientsInBrowser) {
+    monitor.testDataEntities.push(testData);
+    monitor.harvested += numberOfClientsInBrowser;
+
+    return monitor.harvestedAll();
+
+    //Or: if(monitor.harvestedAll() callback(obj);
+}
+
 function registerReceivedAndSentFromClientEvents(message) {
     message.ReceivedAtServer = new Date().getTime();
     monitor.registerReceivedAtServerEvent(message.ReceivedAtServer, monitor.spacing);

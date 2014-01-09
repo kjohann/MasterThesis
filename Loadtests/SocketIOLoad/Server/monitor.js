@@ -62,6 +62,10 @@ Monitor.prototype.complete = function() {
     return this.completedClients.length === this.numberOfClients;
 }
 
+Monitor.prototype.harvestedAll = function() {
+    return this.harvested === this.numberOfClients;
+}
+
 function getKey(millisecondsSinceEpoch, spacing, monitor) {
     var millisecondsSinceStart = millisecondsSinceEpoch - monitor.startTime;
     var seconds = round(false, millisecondsSinceStart / 1000);
