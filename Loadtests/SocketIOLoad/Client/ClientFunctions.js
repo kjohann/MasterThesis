@@ -54,7 +54,7 @@
 
     root.registerLatency = function(message) {
         var latency = message.ReceivedAtClient - message.SentFromClient;
-        if (isNaN(options.latencyEvents[message.Key])) {
+        while (isNaN(options.latencyEvents[message.Key])) {
             options.latencyEvents.push(0);
         }
 
