@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+import static util.AssertUtils.*;
 
 public class MonitorTest {
 	private Monitor _monitor;
@@ -47,12 +48,22 @@ public class MonitorTest {
 	
 	@Test
 	public void registerSentFromClientEvent_should_register_an_event_within_the_correct_interval() {
+		List<Long> values = getDummyMillisecondValues(200, 20);
+		registerSentFromClientEvents(values);
 		
+		List<Integer> expectedData = getList(4, 5, 5, 5, 1);
+		
+		assertListEquals(expectedData, _monitor.sentFromClientEvents);
 	}
 	
 	@Test
     public void registerSentFromClientEvent_should_register_an_event_also_with_different_spacing() {
-    	
+		List<Long> values = getDummyMillisecondValues(200, 40);
+		registerSentFromClientEvents(values, 5);
+		
+		List<Integer> expectedData = getList(24, 16);
+		
+		assertListEquals(expectedData, _monitor.sentFromClientEvents);
     }
 
 	@Test
@@ -169,5 +180,15 @@ public class MonitorTest {
         {
             _monitor.registerSentFromServerEvent(value, broadCast, spacing);
         }
+    }
+    
+    private <T> List<T> getList(T ...data) {
+    	List<T> list = new ArrayList<T>();
+    	
+    	for(T d : data) {
+    		list.add(d);
+    	}
+    	
+    	return list;
     }
 }
