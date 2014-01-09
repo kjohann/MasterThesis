@@ -1,7 +1,7 @@
 ﻿var should = chai.should();
 
 describe("Clientfunctions", function () {
-    it("recieveMessage should register received message in the corresponding clients messages array", function() {
+   it("recieveMessage should register received message in the corresponding clients messages array", function() {
         var dateStub = sinon.stub(window, "Date");
         dateStub.returns({getTime: function () { return 0; }});
 
@@ -9,7 +9,8 @@ describe("Clientfunctions", function () {
         loadTest.options.clients.push(new loadTest.models.Client(1, null));
         var message = new loadTest.models.Message("1337", 1, 1);
         dateStub.returns({ getTime: function () { return 42; } });
-
+        message.Key = 0;
+        
         loadTest.clientFunctions.receiveMessage(message);
 
         loadTest.options.clients[0].messages[message.MessageId].MessageId.should.equal(message.MessageId);
@@ -24,6 +25,7 @@ describe("Clientfunctions", function () {
         loadTest.options.clients.push(new loadTest.models.Client(1, null));
         var message = new loadTest.models.Message("1337", 1, 1);
         dateStub.returns({ getTime: function () { return 42; } });
+        message.Key = 0;
 
         loadTest.clientFunctions.receiveMessage(message);
 
