@@ -7,7 +7,7 @@ describe("hub", function() {
     beforeEach(function() {
         hub.monitor.reset();
         hub.monitor.numberOfClients = 100;
-        hub.monitor.startTime = new Date("2014-1-8").getTime();
+        hub.monitor.startTime = new Date().getTime();
         message = {SentFromClient: hub.monitor.startTime + 50};
         hub.monitor.spacing = 1;
     });
@@ -34,7 +34,7 @@ describe("hub", function() {
     });
     it("echo should set receivedAtServer in message", function() {
         hub.echo(message);
-        message.receivedAtServer.should.not.be(0);
+        message.ReceivedAtServer.should.not.equal(0);
     });
     it("echo should register a receivedAtServerEvent in monitor", function() {
         hub.echo(message);
