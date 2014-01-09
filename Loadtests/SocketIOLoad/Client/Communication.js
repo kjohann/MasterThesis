@@ -4,9 +4,9 @@
 
         var socketInstance = new socket.SocketInstance();
         socketInstance.bind("initTest", root.initTest);
-        socketInstance.bind('receiveMessage', functions.receiveMessage);
-        socketInstance.bind('harvest', root.harvest);
-        socketInstance.bind('harvestComplete', functions.harvestComplete);
+        socketInstance.bind("receiveMessage", functions.receiveMessage);
+        socketInstance.bind("harvest", root.harvest);
+        socketInstance.bind("harvestComplete", functions.harvestComplete);
 
         options.clients.push(new models.Client(clientId, socketInstance));
         socketInstance.start();
