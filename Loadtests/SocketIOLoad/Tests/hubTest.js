@@ -18,18 +18,18 @@ describe("hub", function() {
     });
     it("initTest sets number of clients in monitor", function() {
         var nrOfClients = 1000;
-        hub.intTest("echo", nrOfClients, 10, 1337);
+        hub.initTest("echo", nrOfClients, 10, 1337);
         hub.monitor.numberOfClients.should.equal(nrOfClients);
     });
     it("initTest sets spacing in monitor", function() {
         var nrOfClients = 1000;
-        hub.intTest("echo", nrOfClients, 10, 1337);
+        hub.initTest("echo", nrOfClients, 10, 1337);
         hub.monitor.spacing.should.equal(10);
     });
     it("initTest sets incoming startTime in monitor", function() {
         var nrOfClients = 1000;
         var start = new Date().getTime();
-        hub.intTest("echo", nrOfClients, 10, start);
+        hub.initTest("echo", nrOfClients, 10, start);
         hub.monitor.startTime.should.equal(start);
     });
     it("echo should set receivedAtServer in message", function() {
