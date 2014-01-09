@@ -20,9 +20,10 @@ exports.broadcast = function(message) {
 exports.complete = function(clientId) {
     monitor.completedClients.push(clientId);
 
-    if(!monitor.complete()) return;
+    if(!monitor.complete()) return false;
 
     monitor.duration = new Date().getTime() - monitor.startTime;
+    return true;
 }
 
 exports.getData = function(testData, numberOfClientsInBrowser) {
