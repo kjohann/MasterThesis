@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -26,9 +27,147 @@ public class MonitorTest {
         _monitor.harvested = 10;
         _monitor.numberOfClients = 10;
         _monitor.receivedAtServerEvents.add(5);
-        _monitor.rentFromClientEvents.add(5);
+        _monitor.sentFromClientEvents.add(5);
         _monitor.sentFromServerEvents.add(25);
         _monitor.spacing = 10;            
         _monitor.testDataEntities.add(new TestDataEntity());
+        
+        _monitor.reset();
+        
+        assertEquals(_monitor.completedClients.size(), 0);
+        assertEquals(_monitor.duration, 0);
+        assertEquals(_monitor.harvested, 0);
+        assertEquals(_monitor.numberOfClients, 0);
+        assertEquals(_monitor.receivedAtServerEvents.size(), 0);
+        assertEquals(_monitor.sentFromClientEvents.size(), 0);
+        assertEquals(_monitor.sentFromServerEvents.size(), 0);
+        assertEquals(_monitor.spacing, 0);
+        assertEquals(_monitor.testDataEntities.size(), 0);
 	}
+	
+	@Test
+	public void registerSentFromClientEvent_should_register_an_event_within_the_correct_interval() {
+		
+	}
+	
+	@Test
+    public void registerSentFromClientEvent_should_register_an_event_also_with_different_spacing() {
+    	
+    }
+
+	@Test
+    public void registerSentFromClientEvent_should_be_able_to_handle_large_dataSets() {
+        
+    }
+
+	@Test
+    public void registerSentFromClientEvent_should_return_the_corresponding_key_for_the_event_with_spacing_one() {
+
+    }
+
+	@Test
+    public void registerSentFromClientEvent_should_return_the_corresponding_key_for_the_event_with_spacing_more_than_one() {
+
+    }
+
+	@Test
+    public void registerReceivedAtServerEvent_should_register_an_event_within_the_correct_interval() {
+          
+    }
+
+	@Test
+    public void registerReceivedAtServerEvent_should_register_an_event_also_with_different_spacing() {
+    
+    }
+
+	@Test
+    public void registerReceivedAtServerEvent_should_be_able_to_handle_large_dataSets() {
+        
+    }
+
+	@Test
+    public void registerSentFromServerEvent_should_register_an_echo_event_within_the_correct_interval() {
+        
+    }
+
+	@Test
+    public void registerSentFromServerEvent_should_register_a_broadcast_event_within_the_correct_interval() {       
+    
+	}
+
+	@Test
+    public void registerSentFromServerEvent_should_register_an_echo_event_also_with_different_spacing() {
+        
+    }
+
+	@Test
+    public void registerSentFromServerEvent_should_register_a_boradcast_event_also_with_different_spacing() {
+       
+    }
+
+	@Test
+    public void registerSentFromServerEvent_should_be_able_to_handle_large_dataSets_with_echo() {
+        
+    }
+
+	@Test
+    public void registerSentFromServerEvent_should_be_able_to_handle_large_dataSets_with_broadcast() {
+       
+    }
+
+	@Test
+    public void addEvent_should_fill_in_zero_events_if_key_points_to_an_out_of_bounds_index() {
+    	
+    }
+	
+	private List<Long> getDummyMillisecondValues(int eventInterval, int totalNumber) {
+		List<Long> values = new ArrayList<Long>();
+		
+		long startLong = _monitor.startTime;
+
+        for (int i = 0; i < totalNumber; i++)
+        {
+            long value = startLong + eventInterval;
+            startLong += eventInterval;
+            values.add(value);
+        }
+		
+		return values;
+	}
+	
+	private void registerSentFromClientEvents(List<Long> values) {
+		registerSentFromClientEvents(values, 1);
+	}
+	
+	private void registerSentFromClientEvents(List<Long> values, int spacing)
+    {
+        for (long value : values)
+        {
+            _monitor.registerSentFromClientEvent(value, spacing);
+        }
+    }
+
+	private void registerReceivedAtServerEvents(List<Long> values) {
+		registerReceivedAtServerEvents(values, 1);
+	}
+	
+    private void registerReceivedAtServerEvents(List<Long> values, int spacing)
+    {
+    	for (long value : values)
+        {
+            _monitor.registerReceivedAtServerEvent(value, spacing);
+        }
+    }
+
+    private void registerSentFromServerEvents(List<Long> values, boolean broadCast) {
+    	registerSentFromServerEvents(values, broadCast, 1);
+    }
+    
+    private void registerSentFromServerEvents(List<Long> values, boolean broadCast, int spacing)
+    {
+    	for (long value : values)
+        {
+            _monitor.registerSentFromServerEvent(value, broadCast, spacing);
+        }
+    }
 }
