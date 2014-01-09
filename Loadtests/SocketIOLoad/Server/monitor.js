@@ -58,6 +58,10 @@ Monitor.prototype.addEvent = function (eventStore, key, numberOfEvents) {
     }
 }
 
+Monitor.prototype.complete = function() {
+    return this.completedClients.length === this.numberOfClients;
+}
+
 function getKey(millisecondsSinceEpoch, spacing, monitor) {
     var millisecondsSinceStart = millisecondsSinceEpoch - monitor.startTime;
     var seconds = round(false, millisecondsSinceStart / 1000);

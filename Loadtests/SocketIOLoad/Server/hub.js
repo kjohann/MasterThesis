@@ -17,6 +17,14 @@ exports.broadcast = function(message) {
     registerSentFromServerEvent(true);
 }
 
+exports.complete = function(clientId) {
+    monitor.completedClients.push(clientId);
+
+    if(!monitor.complete()) return;
+
+    monitor.duration = new Date().getTime() - monitor.startTime;
+}
+
 function registerReceivedAndSentFromClientEvents(message) {
     message.ReceivedAtServer = new Date().getTime();
     monitor.registerReceivedAtServerEvent(message.ReceivedAtServer, monitor.spacing);
