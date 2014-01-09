@@ -12,6 +12,11 @@ exports.echo = function(message) {
     registerSentFromServerEvent(false);
 }
 
+exports.broadcast = function(message) {
+    registerReceivedAndSentFromClientEvents(message);
+    registerSentFromServerEvent(true);
+}
+
 function registerReceivedAndSentFromClientEvents(message) {
     message.ReceivedAtServer = new Date().getTime();
     monitor.registerReceivedAtServerEvent(message.ReceivedAtServer, monitor.spacing);

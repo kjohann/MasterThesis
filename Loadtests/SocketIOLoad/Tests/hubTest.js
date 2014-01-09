@@ -32,7 +32,7 @@ describe("hub", function() {
         hub.initTest("echo", nrOfClients, 10, start);
         hub.monitor.startTime.should.equal(start);
     });
-    it("echo should set receivedAtServer in message", function() {
+    it("echo should set ReceivedAtServer in message", function() {
         hub.echo(message);
         message.ReceivedAtServer.should.not.equal(0);
     });
@@ -56,9 +56,9 @@ describe("hub", function() {
         hub.echo(message);
         message.Key.should.equal(0);
     });
-    it("broadcast should set receivedAtServer in message", function() {
+    it("broadcast should set ReceivedAtServer in message", function() {
         hub.broadcast(message);
-        message.receivedAtServer.should.not.equal(0);
+        message.ReceivedAtServer.should.not.equal(0);
     });
     it("broadcast should register a receivedAtServerEvent in monitor", function() {
         hub.broadcast(message);
