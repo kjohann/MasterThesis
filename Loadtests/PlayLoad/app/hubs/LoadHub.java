@@ -1,16 +1,18 @@
 package hubs;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
-import models.Message;
-import models.Monitor;
-import models.TestDataEntity;
+import models.*;
 
 public class LoadHub { //yes, I'm stealing terminology from SignalR - more for the sake of consistency really.
 	private Monitor _monitor;
+	public Map<String, Socket> members;
 	
 	public LoadHub() {
 		_monitor = Monitor.getInstance();
+		members = new HashMap<>(); 
 	}
 	
 	public void initTest(String testTorRun, int numberOfClients, int spacing, long startTime) {
