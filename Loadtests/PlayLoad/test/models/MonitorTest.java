@@ -92,18 +92,33 @@ public class MonitorTest {
 
 	@Test
     public void registerReceivedAtServerEvent_should_register_an_event_within_the_correct_interval() {
+          List<Long> values = getDummyMillisecondValues(200, 20);
+          registerReceivedAtServerEvents(values);
           
+          List<Integer> expectedData = getList(4, 5, 5, 5, 1);
+          
+          assertListEquals(expectedData, _monitor.receivedAtServerEvents);
     }
 
 	@Test
     public void registerReceivedAtServerEvent_should_register_an_event_also_with_different_spacing() {
-    
+		List<Long> values = getDummyMillisecondValues(200, 40);
+        registerReceivedAtServerEvents(values);
+        
+        List<Integer> expectedData = getList(24, 16);
+        
+        assertListEquals(expectedData, _monitor.receivedAtServerEvents);
     }
 
 	@Test
     public void registerReceivedAtServerEvent_should_be_able_to_handle_large_dataSets() {
+        List<Long> values = getDummyMillisecondValues(100, 1000);
+        registerReceivedAtServerEvents(values, 10);
         
-    }
+        List<Integer> expectedData = getList(99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1);
+        
+        assertListEquals(expectedData, _monitor.receivedAtServerEvents);
+	}
 
 	@Test
     public void registerSentFromServerEvent_should_register_an_echo_event_within_the_correct_interval() {
