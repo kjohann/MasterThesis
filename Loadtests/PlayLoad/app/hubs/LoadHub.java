@@ -10,6 +10,10 @@ public class LoadHub { //yes, I'm stealing terminology from SignalR - more for t
 
 	public void echo(Message _message) {
 		// TODO Auto-generated method stub		
+	}
+
+	public void broadcast(Message _message) {
+		// TODO Auto-generated method stub		
 	} 
 
 }

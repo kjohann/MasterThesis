@@ -102,27 +102,41 @@ public class LoadHubTest {
 
     @Test
     public void broadcast_should_set_ReceivedAtServer_in_message() {
-  
+    	_loadHub.broadcast(_message);
+    	
+    	assertNotSame(0, _message.ReceivedAtServer);
     }
 
     @Test
     public void broadcast_should_register_a_ReceivedAtServerEvent_in_monitor() {
-      
+    	_loadHub.broadcast(_message);
+    	List<Integer> expectedData = getList(1);
+    	
+    	assertListEquals(expectedData, _monitor.receivedAtServerEvents);
     }
 
     @Test
     public void broadcast_should_register_a_SentFromClientEvent_in_monitor() {
-        
+    	_loadHub.broadcast(_message);
+    	List<Integer> expectedData = getList(1);
+    	
+    	assertListEquals(expectedData, _monitor.sentFromClientEvents);
     }
 
     @Test
     public void broadcast_should_register_SentFromServerEvents_corresponding_to_number_of_clients_in_monitor() {
-        
+    	_loadHub.broadcast(_message);
+    	List<Integer> expectedData = getList(100);
+    	
+    	assertListEquals(expectedData, _monitor.sentFromServerEvents);
     }
 
     @Test
     public void broadcast_should_add_key_to_message() {
-       
+    	_message.Key = 1337; //Will definitely not be this after broadcast-call
+        _loadHub.broadcast(_message);
+        
+        assertEquals(0, _message.Key);
     }
 
     @Test
