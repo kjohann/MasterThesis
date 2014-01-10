@@ -1,5 +1,7 @@
 package hubs;
 
+import java.util.Calendar;
+
 import models.Message;
 import models.Monitor;
 import models.TestDataEntity;
@@ -19,12 +21,14 @@ public class LoadHub { //yes, I'm stealing terminology from SignalR - more for t
         _monitor.startTime = startTime;
 	}
 
-	public void echo(Message _message) {
-		// TODO Auto-generated method stub		
+	public void echo(Message message) {
+		registerReceivedAndSentFromClientEvents(message);
+        registerSentFromServerEvent(false);		
 	}
 
-	public void broadcast(Message _message) {
-		// TODO Auto-generated method stub		
+	public void broadcast(Message message) {
+		registerReceivedAndSentFromClientEvents(message);
+        registerSentFromServerEvent(true);		
 	}
 
 	public void complete(String clientId) {
@@ -34,5 +38,19 @@ public class LoadHub { //yes, I'm stealing terminology from SignalR - more for t
 	public void getData(TestDataEntity testData, int numberOfClientsInBrowser) {
 		// TODO Auto-generated method stub
 	} 
+	
+	private void registerReceivedAndSentFromClientEvents(Message message)
+    {
+        message.ReceivedAtServer = Calendar.getInstance().getTimeInMillis();                   
+        _monitor.registerReceivedAtServerEvent(message.ReceivedAtServer, _monitor.spacing);
+        int key = _monitor.registerSentFromClientEvent(message.SentFromClient, _monitor.spacing);
+        message.Key = key;
+    }
+
+    private void registerSentFromServerEvent(boolean broadCast)
+    {
+        long sent = Calendar.getInstance().getTimeInMillis();
+        _monitor.registerSentFromServerEvent(sent, broadCast, _monitor.spacing);
+    }
 
 }
