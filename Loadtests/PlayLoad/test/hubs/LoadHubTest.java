@@ -56,8 +56,8 @@ public class LoadHubTest {
     public void initTest_sets_incoming_startTime_in_monitor() {
     	final int numberOfClients = 1000;
     	_loadHub.initTest("echo", numberOfClients, 10, 1337);
-    	long startTime = Calendar.getInstance().getTimeInMillis();
-    	_loadHub.initTest("echo", numberOfClients, 10, startTime);
+    	long startTime = Calendar.getInstance().getTimeInMillis() + 50;
+    	_loadHub.initTest("echo", numberOfClients, 10, startTime + 50);
     	
     	assertEquals(startTime, _monitor.startTime);
     }
@@ -65,8 +65,8 @@ public class LoadHubTest {
     @Test
     public void echo_should_set_ReceivedAtServer_in_message() {
     	_loadHub.echo(_message);
-    	
-    	assertNotSame(0, _message.ReceivedAtServer);
+    	System.out.println(_message.ReceivedAtServer);
+    	assertTrue(0 != _message.ReceivedAtServer);
     }
 
     @Test
@@ -105,7 +105,7 @@ public class LoadHubTest {
     public void broadcast_should_set_ReceivedAtServer_in_message() {
     	_loadHub.broadcast(_message);
     	
-    	assertNotSame(0, _message.ReceivedAtServer);
+    	assertTrue(0 != _message.ReceivedAtServer);
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LoadHubTest {
         }      
     	
     	assertEquals(_monitor.numberOfClients, _monitor.completedClients);
-    	assertNotSame(0, _monitor.duration);
+    	assertTrue(0 != _monitor.duration);
     }
 
     @Test
