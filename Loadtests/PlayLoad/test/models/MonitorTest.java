@@ -122,32 +122,62 @@ public class MonitorTest {
 
 	@Test
     public void registerSentFromServerEvent_should_register_an_echo_event_within_the_correct_interval() {
+		List<Long> values = getDummyMillisecondValues(200, 20);
+        registerSentFromServerEvents(values, false);
         
+        List<Integer> expectedData = getList(4, 5, 5, 5, 1);
+        
+        assertListEquals(expectedData, _monitor.sentFromServerEvents);
     }
 
 	@Test
     public void registerSentFromServerEvent_should_register_a_broadcast_event_within_the_correct_interval() {       
-    
+		List<Long> values = getDummyMillisecondValues(200, 20);
+        registerSentFromServerEvents(values, true);
+        
+        List<Integer> expectedData = getList(400, 500, 500, 500, 100);
+        
+        assertListEquals(expectedData, _monitor.sentFromServerEvents);
 	}
 
 	@Test
     public void registerSentFromServerEvent_should_register_an_echo_event_also_with_different_spacing() {
+		List<Long> values = getDummyMillisecondValues(200, 40);
+        registerSentFromServerEvents(values, false, 5);
         
+        List<Integer> expectedData = getList(24, 16);
+        
+        assertListEquals(expectedData, _monitor.sentFromServerEvents);
     }
 
 	@Test
     public void registerSentFromServerEvent_should_register_a_boradcast_event_also_with_different_spacing() {
-       
+		List<Long> values = getDummyMillisecondValues(200, 40);
+        registerSentFromServerEvents(values, true, 5);
+        
+        List<Integer> expectedData = getList(2400, 1600);
+        
+        assertListEquals(expectedData, _monitor.sentFromServerEvents);
     }
 
 	@Test
     public void registerSentFromServerEvent_should_be_able_to_handle_large_dataSets_with_echo() {
+		List<Long> values = getDummyMillisecondValues(100, 1000);
+        registerSentFromServerEvents(values, false, 10);
         
+        List<Integer> expectedData = getList(99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1);
+        
+        assertListEquals(expectedData, _monitor.sentFromServerEvents);
     }
 
 	@Test
     public void registerSentFromServerEvent_should_be_able_to_handle_large_dataSets_with_broadcast() {
-       
+		List<Long> values = getDummyMillisecondValues(100, 1000);
+        registerSentFromServerEvents(values, true, 10);
+        
+        List<Integer> expectedData = getList(9900, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 100);
+        
+        assertListEquals(expectedData, _monitor.sentFromServerEvents);
     }
 
 	@Test
