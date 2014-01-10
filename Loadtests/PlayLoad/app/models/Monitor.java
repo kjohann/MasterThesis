@@ -55,5 +55,15 @@ public class Monitor {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void addEvent(List<Integer> eventStore, int key) {
+		addEvent(eventStore, key, 1);
+		
+	}
+
+	public void addEvent(List<Integer> eventStore, int key, int spacing) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

@@ -182,7 +182,10 @@ public class MonitorTest {
 
 	@Test
     public void addEvent_should_fill_in_zero_events_if_key_points_to_an_out_of_bounds_index() {
-    	
+    	List<Integer> eventStore = getList(1, 2);
+    	_monitor.addEvent(eventStore, 10);
+    	List<Integer> expectedData = getList(1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+    	assertListEquals(expectedData, eventStore);
     }
 	
 	private List<Long> getDummyMillisecondValues(int eventInterval, int totalNumber) {
