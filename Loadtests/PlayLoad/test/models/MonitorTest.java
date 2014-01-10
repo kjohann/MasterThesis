@@ -13,7 +13,7 @@ public class MonitorTest {
 	
 	@Before
 	public void setUp() {
-		_monitor = _monitor.getInstance();
+		_monitor = Monitor.getInstance();
 		_monitor.reset();
 		Calendar c = Calendar.getInstance();
 		c.set(2014, 1, 9);
