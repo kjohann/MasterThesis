@@ -14,6 +14,10 @@ public class LoadHub { //yes, I'm stealing terminology from SignalR - more for t
 
 	public void broadcast(Message _message) {
 		// TODO Auto-generated method stub		
+	}
+
+	public void complete(String clientId) {
+		// TODO Auto-generated method stub		
 	} 
 
 }

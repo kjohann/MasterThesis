@@ -141,12 +141,21 @@ public class LoadHubTest {
 
     @Test
     public void complete_should_add_clientId_to_monitor_completed_list() {
-        
+    	_loadHub.complete("1337");
+        assertEquals(1, _monitor.completedClients.size());
+        assertEquals(0, _monitor.duration);  //not complete yet
     }
 
     @Test
-    public void complete_should_set_duration_in_monitor_if_all_clients_have_completed() {
-       
+    public void complete_should_set_duration_in_monitor_if_all_clients_have_completed() throws InterruptedException {
+    	for (int i = 0; i < _monitor.numberOfClients; i++)
+        {
+            Thread.sleep(2);
+            _loadHub.complete(i + "");
+        }      
+    	
+    	assertEquals(_monitor.numberOfClients, _monitor.completedClients);
+    	assertNotSame(0, _monitor.duration);
     }
 
     @Test
