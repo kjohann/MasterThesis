@@ -1,6 +1,7 @@
 package hubs;
 
 import models.Message;
+import models.TestDataEntity;
 
 public class LoadHub { //yes, I'm stealing terminology from SignalR - more for the sake of consistency really.
 
@@ -18,6 +19,10 @@ public class LoadHub { //yes, I'm stealing terminology from SignalR - more for t
 
 	public void complete(String clientId) {
 		// TODO Auto-generated method stub		
+	}
+
+	public void getData(TestDataEntity testData, int numberOfClientsInBrowser) {
+		// TODO Auto-generated method stub
 	} 
 
 }

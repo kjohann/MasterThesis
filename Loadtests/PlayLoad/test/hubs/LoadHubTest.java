@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.Message;
 import models.Monitor;
+import models.TestDataEntity;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -160,17 +161,30 @@ public class LoadHubTest {
 
     @Test
     public void getData_should_add_incoming_data_to_monitor() {
+        TestDataEntity testData = new TestDataEntity();
+        testData.LatencyData = getList(300, 300, 300);
         
+        _loadHub.getData(testData, 5);
+        
+        assertEquals(testData, _monitor.testDataEntities.get(0));
     }
     
     @Test
     public void getData_should_increment_number_of_harvested_clients_in_monitor_with_nrOfClientsInBrowser() {
+        _loadHub.getData(new TestDataEntity(), 10);
         
+        assertEquals(10, _monitor.harvested);
     }
 
     @Test
     public void getData_should_only_yield_harvestedAll_when_all_clients_are_harvested() {
-        
+    	_monitor.numberOfClients = 15;
+
+        for (int i = 0; i < 3; i++)
+        {
+            _loadHub.getData(new TestDataEntity(), 5);
+            assertEquals(i == 2, _monitor.harvestedAll());
+        }
     }
 	
 }

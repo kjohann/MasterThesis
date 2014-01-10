@@ -1,5 +1,7 @@
 package models;
 
-public class TestDataEntity {
+import java.util.List;
 
+public class TestDataEntity {
+	public List<Integer> LatencyData;
 }

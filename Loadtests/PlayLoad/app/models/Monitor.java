@@ -101,4 +101,12 @@ public class Monitor {
 		return up ? (int)Math.ceil(value) : (int)Math.floor(value);
 	}
 
+	public boolean harvestedAll() {
+		return harvested == numberOfClients;
+	}
+	
+	public boolean complete() {
+		return completedClients.size() == numberOfClients;
+	}
+
 }
