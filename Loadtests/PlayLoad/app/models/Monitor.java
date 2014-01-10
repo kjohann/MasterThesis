@@ -17,7 +17,7 @@ public class Monitor {
 	public List<Integer> sentFromClientEvents;
 	public List<Integer> receivedAtServerEvents;
 	public int harvested;
-	public int duration;
+	public long duration;
 	public Set<String> completedClients;
 
 	public static Monitor getInstance() {

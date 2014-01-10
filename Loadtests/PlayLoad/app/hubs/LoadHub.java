@@ -31,8 +31,13 @@ public class LoadHub { //yes, I'm stealing terminology from SignalR - more for t
         registerSentFromServerEvent(true);		
 	}
 
-	public void complete(String clientId) {
-		// TODO Auto-generated method stub		
+	public boolean complete(String clientId) {
+		 _monitor.completedClients.add(clientId);
+
+        if (!_monitor.complete()) return false;
+
+        _monitor.duration = Calendar.getInstance().getTimeInMillis() - _monitor.startTime;
+        return true;
 	}
 
 	public void getData(TestDataEntity testData, int numberOfClientsInBrowser) {

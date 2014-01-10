@@ -155,7 +155,7 @@ public class LoadHubTest {
             _loadHub.complete(i + "");
         }      
     	
-    	assertEquals(_monitor.numberOfClients, _monitor.completedClients);
+    	assertEquals(_monitor.numberOfClients, _monitor.completedClients.size());
     	assertTrue(0 != _monitor.duration);
     }
 
