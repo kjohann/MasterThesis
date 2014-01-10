@@ -103,7 +103,7 @@ public class MonitorTest {
 	@Test
     public void registerReceivedAtServerEvent_should_register_an_event_also_with_different_spacing() {
 		List<Long> values = getDummyMillisecondValues(200, 40);
-        registerReceivedAtServerEvents(values);
+        registerReceivedAtServerEvents(values, 5);
         
         List<Integer> expectedData = getList(24, 16);
         

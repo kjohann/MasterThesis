@@ -55,13 +55,12 @@ public class Monitor {
 	}
 	
 	public void registerReceivedAtServerEvent(long millisecondsSinceEpoch) {
-		// TODO Auto-generated method stub
 		registerReceivedAtServerEvent(millisecondsSinceEpoch, 1);
 	}
 
 	public void registerReceivedAtServerEvent(long millisecondsSinceEpoch, int spacing) {
-		// TODO Auto-generated method stub
-		
+		int key = getKey(millisecondsSinceEpoch, spacing);
+		addEvent(receivedAtServerEvents, key);
 	}
 
 	public void registerSentFromServerEvent(long millisecondsSinceEpoch, boolean broadCast) {
