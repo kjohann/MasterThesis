@@ -68,17 +68,26 @@ public class MonitorTest {
 
 	@Test
     public void registerSentFromClientEvent_should_be_able_to_handle_large_dataSets() {
+        List<Long> values = getDummyMillisecondValues(100, 1000);
+        registerSentFromClientEvents(values, 10);
         
+        List<Integer> expectedData = getList(99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1);
+        
+        assertListEquals(expectedData, _monitor.sentFromClientEvents);
     }
 
 	@Test
     public void registerSentFromClientEvent_should_return_the_corresponding_key_for_the_event_with_spacing_one() {
-
+		long startLong = _monitor.startTime;
+		int key = _monitor.registerSentFromClientEvent(startLong + 999);
+		assertEquals(key, 0);
     }
 
 	@Test
     public void registerSentFromClientEvent_should_return_the_corresponding_key_for_the_event_with_spacing_more_than_one() {
-
+		long startLong = _monitor.startTime;
+		int key = _monitor.registerSentFromClientEvent(startLong + 100000, 10);
+		assertEquals(key, 10);
     }
 
 	@Test

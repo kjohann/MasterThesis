@@ -26,9 +26,19 @@ public class Monitor {
 		
 	}
 
-	public void registerSentFromClientEvent(long value, int spacing) {
-		// TODO Auto-generated method stub
+	public int registerSentFromClientEvent(long value) {
+		return registerSentFromClientEvent(value, 1);
 		
+	}
+	
+	public int registerSentFromClientEvent(long value, int spacing) {
+		return 0;
+		
+	}
+	
+	public void registerReceivedAtServerEvent(long value) {
+		// TODO Auto-generated method stub
+		registerReceivedAtServerEvent(value, 1);
 	}
 
 	public void registerReceivedAtServerEvent(long value, int spacing) {
@@ -36,6 +46,11 @@ public class Monitor {
 		
 	}
 
+	public void registerSentFromServerEvent(long value, boolean broadCast) {
+		// TODO Auto-generated method stub
+		registerSentFromServerEvent(value, broadCast, 1);
+	}
+	
 	public void registerSentFromServerEvent(long value, boolean broadCast, int spacing) {
 		// TODO Auto-generated method stub
 		
