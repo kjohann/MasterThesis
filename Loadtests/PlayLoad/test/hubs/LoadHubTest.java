@@ -1,12 +1,14 @@
 package hubs;
 
 import java.util.Calendar;
+import java.util.List;
 
 import models.Message;
 import models.Monitor;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+import static util.AssertUtils.*;
 
 public class LoadHubTest {
 	private LoadHub _loadHub;
@@ -61,27 +63,41 @@ public class LoadHubTest {
 
     @Test
     public void echo_should_set_ReceivedAtServer_in_message() {
+    	_loadHub.echo(_message);
     	
+    	assertNotSame(0, _message.ReceivedAtServer);
     }
 
     @Test
     public void echo_should_register_a_ReceivedAtServerEvent_in_monitor() {
-        
+    	_loadHub.echo(_message);
+    	List<Integer> expectedData = getList(1);
+    	
+    	assertListEquals(expectedData, _monitor.receivedAtServerEvents);
     }
 
     @Test
     public void echo_should_register_a_SentFromClientEvent_in_monitor() {
-        
+    	_loadHub.echo(_message);
+    	List<Integer> expectedData = getList(1);
+    	
+    	assertListEquals(expectedData, _monitor.sentFromClientEvents);
     }
 
     @Test
     public void echo_should_register_a_SentFromServerEvent_in_monitor() {
-       
+    	_loadHub.echo(_message);
+    	List<Integer> expectedData = getList(1);
+    	
+    	assertListEquals(expectedData, _monitor.sentFromServerEvents);
     }
 
     @Test
     public void echo_should_add_key_to_message() {
+    	_message.Key = 1337; //Will definitely not be this after echo-call
+        _loadHub.echo(_message);
         
+        assertEquals(0, _message.Key);
     }
 
     @Test

@@ -237,15 +237,5 @@ public class MonitorTest {
         {
             _monitor.registerSentFromServerEvent(value, broadCast, spacing);
         }
-    }
-    
-    private <T> List<T> getList(T ...data) {
-    	List<T> list = new ArrayList<T>();
-    	
-    	for(T d : data) {
-    		list.add(d);
-    	}
-    	
-    	return list;
-    }
+    }    
 }
