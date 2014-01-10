@@ -57,7 +57,7 @@ public class LoadHubTest {
     	final int numberOfClients = 1000;
     	_loadHub.initTest("echo", numberOfClients, 10, 1337);
     	long startTime = Calendar.getInstance().getTimeInMillis() + 50;
-    	_loadHub.initTest("echo", numberOfClients, 10, startTime + 50);
+    	_loadHub.initTest("echo", numberOfClients, 10, startTime);
     	
     	assertEquals(startTime, _monitor.startTime);
     }

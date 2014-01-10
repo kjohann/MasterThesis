@@ -1,12 +1,22 @@
 package hubs;
 
 import models.Message;
+import models.Monitor;
 import models.TestDataEntity;
 
 public class LoadHub { //yes, I'm stealing terminology from SignalR - more for the sake of consistency really.
+	private Monitor _monitor;
+	
+	public LoadHub() {
+		_monitor = Monitor.getInstance();
+	}
+	
+	public void initTest(String testTorRun, int numberOfClients, int spacing, long startTime) {
+		_monitor.reset();
+        _monitor.numberOfClients = numberOfClients;
+        _monitor.spacing = spacing;
 
-	public void initTest(String testTorRun, int numberOfClients, int spacing, long star) {
-		// TODO Auto-generated method stub		
+        _monitor.startTime = startTime;
 	}
 
 	public void echo(Message _message) {
