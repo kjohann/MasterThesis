@@ -40,8 +40,11 @@ public class LoadHub { //yes, I'm stealing terminology from SignalR - more for t
         return true;
 	}
 
-	public void getData(TestDataEntity testData, int numberOfClientsInBrowser) {
-		// TODO Auto-generated method stub
+	public boolean getData(TestDataEntity testData, int numberOfClientsInBrowser) {
+		 _monitor.testDataEntities.add(testData);
+         _monitor.harvested += numberOfClientsInBrowser;
+         
+         return _monitor.harvestedAll();
 	} 
 	
 	private void registerReceivedAndSentFromClientEvents(Message message)
