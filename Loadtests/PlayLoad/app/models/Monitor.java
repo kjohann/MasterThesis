@@ -63,19 +63,18 @@ public class Monitor {
 		addEvent(receivedAtServerEvents, key);
 	}
 
-	public void registerSentFromServerEvent(long millisecondsSinceEpoch, boolean broadCast) {
-		// TODO Auto-generated method stub
-		registerSentFromServerEvent(millisecondsSinceEpoch, broadCast, 1);
+	public void registerSentFromServerEvent(long millisecondsSinceEpoch, boolean broadcast) {
+		registerSentFromServerEvent(millisecondsSinceEpoch, broadcast, 1);
 	}
 	
-	public void registerSentFromServerEvent(long millisecondsSinceEpoch, boolean broadCast, int spacing) {
-		// TODO Auto-generated method stub
-		
+	public void registerSentFromServerEvent(long millisecondsSinceEpoch, boolean broadcast, int spacing) {
+		int key = getKey(millisecondsSinceEpoch, spacing);
+		int nrOfEvents = broadcast ? numberOfClients : 1;
+		addEvent(sentFromServerEvents, key, nrOfEvents);
 	}
 	
 	public void addEvent(List<Integer> eventStore, int key) {
-		addEvent(eventStore, key, 1);
-		
+		addEvent(eventStore, key, 1);		
 	}
 
 	public void addEvent(List<Integer> eventStore, int key, int nrOfEvents) {
