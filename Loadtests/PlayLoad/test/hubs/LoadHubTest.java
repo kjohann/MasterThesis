@@ -65,7 +65,6 @@ public class LoadHubTest {
     @Test
     public void echo_should_set_ReceivedAtServer_in_message() {
     	_loadHub.echo(_message);
-    	System.out.println(_message.ReceivedAtServer);
     	assertTrue(0 != _message.ReceivedAtServer);
     }
 
