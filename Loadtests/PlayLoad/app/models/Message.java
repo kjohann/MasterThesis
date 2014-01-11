@@ -21,4 +21,60 @@ public class Message {
         this.ClientId = ClientId;
         this.MessageId = MessageId;
     }
+    
+    public long getSentFromClient() {
+		return SentFromClient;
+	}
+
+	public void setSentFromClient(long sentFromClient) {
+		SentFromClient = sentFromClient;
+	}
+
+	public long getReceivedAtServer() {
+		return ReceivedAtServer;
+	}
+
+	public void setReceivedAtServer(long receivedAtServer) {
+		ReceivedAtServer = receivedAtServer;
+	}
+
+	public long getReceivedAtClient() {
+		return ReceivedAtClient;
+	}
+
+	public void setReceivedAtClient(long receivedAtClient) {
+		ReceivedAtClient = receivedAtClient;
+	}
+
+	public String getPayload() {
+		return Payload;
+	}
+
+	public void setPayload(String payload) {
+		Payload = payload;
+	}
+
+	public String getClientId() {
+		return ClientId;
+	}
+
+	public void setClientId(String clientId) {
+		ClientId = clientId;
+	}
+
+	public String getMessageId() {
+		return MessageId;
+	}
+
+	public void setMessageId(String messageId) {
+		MessageId = messageId;
+	}
+
+	public int getKey() {
+		return Key;
+	}
+
+	public void setKey(int key) {
+		Key = key;
+	}
 }
