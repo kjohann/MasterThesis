@@ -58,7 +58,24 @@ public class Application extends Controller {
     
     public static void routeMessage(JsonNode event) {
     	String messageKind = event.get("messageKind").asText();
-    	//call correct
+    	String cid = event.get("cid").asText();
+    	Socket socket = _loadHub.members.get(cid);
+    	if(messageKind.equals("initTest")) {
+//    		_loadHub.initTest(testTorRun, numberOfClients, spacing, startTime);
+//    		socket.sendMessage(response);
+    	} else if(messageKind.equals("echo")) {
+//    		_loadHub.echo(message);
+//    		socket.sendMessage(response);
+    	} else if(messageKind.equals("broadcast")) {
+//    		_loadHub.echo(message);
+//    		socket.sendMessage(response);
+    	} else if(messageKind.equals("complete")) {
+//    		_loadHub.complete(clientId);
+//    		socket.sendMessage(response);
+    	} else if(messageKind.equals("getData")) {
+//    		_loadHub.getData(testData, numberOfClientsInBrowser);
+//    		socket.sendMessage(response);
+    	}
     }
   
 }
