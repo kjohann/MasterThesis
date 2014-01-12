@@ -73,11 +73,10 @@ public class Application extends Controller {
     		int spacing = JSONHelper.getValueAt(2, data).asInt();
     		long startTime = JSONHelper.getValueAt(2, data).asLong();
     		_loadHub.initTest(testToRun, numberOfClients, spacing, startTime);
-    		for(Socket s : _loadHub.members.values()) {
-    			ObjectNode response = Json.newObject();
-    			response.put("messageKind", "initTest");
-    			response.put("testToRun", testToRun);
-    		}
+    		ObjectNode response = Json.newObject();
+			response.put("messageKind", "initTest");
+			response.put("testToRun", testToRun);
+    		sendToAll(response);
     	} else if(messageKind.equals("echo")) {
     		Socket socket = _loadHub.members.get(cid);
     		ObjectNode node = (ObjectNode)JSONHelper.getValueAt(0, data);
@@ -85,8 +84,10 @@ public class Application extends Controller {
     		_loadHub.echo(message);    		
     		socket.sendMessage(JSONHelper.writeObjectToJson(message));
     	} else if(messageKind.equals("broadcast")) {
-//    		_loadHub.echo(message);
-//    		socket.sendMessage(response);
+    		ObjectNode node = (ObjectNode)JSONHelper.getValueAt(0, data);
+    		Message message = JSONHelper.getObject(node, Message.class);
+    		_loadHub.broadcast(message);
+    		sendToAll(JSONHelper.writeObjectToJson(message));
     	} else if(messageKind.equals("complete")) {
 //    		_loadHub.complete(clientId);
 //    		socket.sendMessage(response);
@@ -94,6 +95,12 @@ public class Application extends Controller {
 //    		_loadHub.getData(testData, numberOfClientsInBrowser);
 //    		socket.sendMessage(response);
     	}
+    }
+    
+    private static void sendToAll(ObjectNode event) {
+    	for(Socket s : _loadHub.members.values()) {
+			s.sendMessage(event);
+		}
     }
   
 }
