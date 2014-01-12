@@ -1,6 +1,9 @@
 package util;
 
+import java.util.Iterator;
+
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
 
 public class JSONHelper {
 	private JsonNode event;
@@ -25,5 +28,32 @@ public class JSONHelper {
 		}
 		
 		return kind.asText();
+	}
+	
+	public ArrayNode getArrayNode(String key) {
+		JsonNode kind = event.get(key);
+		if(kind == null) {
+			throw new IllegalArgumentException(key + "is not present in JSON");
+		} else if(!kind.isArray()) {
+			throw new IllegalArgumentException(key + "is not an array");
+		}
+		
+		return (ArrayNode) kind;
+		
+	}
+	
+	public static JsonNode getValueAt(int index, ArrayNode node) {
+		int count = 0;
+		
+		Iterator<JsonNode> iterator = node.getElements();
+		
+		while(iterator.hasNext()) {
+			JsonNode next = iterator.next();
+			if(count++ == index) {
+				return next;
+			}
+		}
+		
+		throw new ArrayIndexOutOfBoundsException("The index  " + index + " is not present in the ArrayNode");
 	}
 }
