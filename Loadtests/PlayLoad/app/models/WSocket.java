@@ -11,8 +11,7 @@ public class WSocket implements Socket {
 
 	@Override
 	public void sendMessage(ObjectNode event) {
-		// TODO Auto-generated method stub
-		
+		channel.write(event);		
 	}
 
 }

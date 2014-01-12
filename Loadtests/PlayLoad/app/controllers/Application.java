@@ -42,6 +42,8 @@ public class Application extends Controller {
 				event.put("cid", cid);
 				socket.sendMessage(event);
 				
+				_loadHub.members.put(cid, socket);
+				
 				in.onMessage(new Callback<JsonNode>() {
 					
 					@Override
