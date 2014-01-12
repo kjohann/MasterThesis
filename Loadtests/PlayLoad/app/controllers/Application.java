@@ -1,8 +1,12 @@
 package controllers;
 
+import java.io.IOException;
+
 import hubs.LoadHub;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
@@ -58,7 +62,7 @@ public class Application extends Controller {
     	};
     }      
     
-    public static void routeMessage(JsonNode event) {
+    public static void routeMessage(JsonNode event) throws JsonParseException, JsonMappingException, IOException {
     	JSONHelper helper = new JSONHelper(event);
     	String messageKind = helper.getMessageKind();
     	String cid = helper.getCid();    	
@@ -76,8 +80,10 @@ public class Application extends Controller {
     		}
     	} else if(messageKind.equals("echo")) {
     		Socket socket = _loadHub.members.get(cid);
-//    		_loadHub.echo(message);
-//    		socket.sendMessage(response);
+    		ObjectNode node = (ObjectNode)JSONHelper.getValueAt(0, data);
+    		Message message = JSONHelper.getObject(node, Message.class);
+    		_loadHub.echo(message);    		
+    		socket.sendMessage(JSONHelper.writeObjectToJson(message));
     	} else if(messageKind.equals("broadcast")) {
 //    		_loadHub.echo(message);
 //    		socket.sendMessage(response);
