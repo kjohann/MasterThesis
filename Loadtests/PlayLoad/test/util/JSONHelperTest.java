@@ -1,7 +1,14 @@
 package util;
 
+import java.io.IOException;
+
+import models.Message;
+import models.TestDataEntity;
+
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
@@ -12,6 +19,7 @@ import static org.junit.Assert.*;
 import static util.AssertUtils.*;
 
 import util.JSONHelper;
+import views.html.helper.input;
 
 public class JSONHelperTest {
 	private JSONHelper _helper;
@@ -104,6 +112,59 @@ public class JSONHelperTest {
 		arrayNode.add("string1"); arrayNode.add(1); arrayNode.add(2); arrayNode.add(100L);
 		
 		JSONHelper.getValueAt(42, arrayNode);
+	}
+	
+	@Test
+	public void getObject_should_get_the_object_instance_from_the_provided_JsonNode() throws JsonParseException, JsonMappingException, IOException {
+		ObjectNode event = Json.newObject();
+		Message input = new Message(1, 1, "1337", "1", "c:1m:2");
+		input.Key = 1;
+		event.put("SentFromClient", input.SentFromClient);
+		event.put("ReceivedAtServer", input.ReceivedAtServer);
+		event.put("ReceivedAtClient", input.ReceivedAtClient);
+		event.put("Payload", input.Payload);
+		event.put("ClientId", input.ClientId);
+		event.put("MessageId", input.MessageId);
+		event.put("Key", input.Key);
+		
+		Message message = JSONHelper.getObject(event, Message.class);
+		
+		assertTrue(input.equals(message));
+	}
+	
+	@Test
+	public void getObject_should_get_the_object_instance_from_the_provided_JsonNode_also_with_some_fields_not_specified() throws JsonParseException, JsonMappingException, IOException {
+		ObjectNode event = Json.newObject();
+		Message input = new Message(1, 1, "1337", "1", "c:1m:2");
+		event.put("SentFromClient", input.SentFromClient);
+		event.put("ReceivedAtServer", input.ReceivedAtServer);
+		event.put("Payload", input.Payload);
+		event.put("ClientId", input.ClientId);
+		event.put("MessageId", input.MessageId);
+		
+		Message message = JSONHelper.getObject(event, Message.class);
+		
+		assertTrue(input.equals(message));
+	}
+	
+	@Test
+	public void getObject_should_get_the_object_instance_from_the_provided_JsonNode_when_the_instance_has_an_ArrayList_prop() throws JsonParseException, JsonMappingException, IOException {
+		ObjectNode event = Json.newObject();
+		
+		JsonFactory factory = new JsonFactory();
+		ObjectMapper om = new ObjectMapper(factory);
+		ArrayNode arrayNode = om.createArrayNode();
+		arrayNode.add(100); arrayNode.add(100); arrayNode.add(100);
+		
+		event.put("LatencyData", arrayNode);
+		
+		TestDataEntity entity = new TestDataEntity();
+		entity.LatencyData.add(100); entity.LatencyData.add(100); entity.LatencyData.add(100);
+		
+		TestDataEntity output = JSONHelper.getObject(event, TestDataEntity.class);		
+		
+		assertTrue(entity.equals(output));
+		
 	}
 	
 }

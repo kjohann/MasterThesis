@@ -1,9 +1,16 @@
 package util;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
+
+import com.avaje.ebeaninternal.server.cluster.mcast.Message;
 
 public class JSONHelper {
 	private JsonNode event;
@@ -56,4 +63,13 @@ public class JSONHelper {
 		
 		throw new ArrayIndexOutOfBoundsException("The index  " + index + " is not present in the ArrayNode");
 	}
+	
+	public static <T> T getObject(ObjectNode node, Class<T> type) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = node.toString();
+		
+		return mapper.readValue(json, type);
+		
+	}
+	
 }

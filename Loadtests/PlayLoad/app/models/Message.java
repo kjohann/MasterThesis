@@ -15,11 +15,12 @@ public class Message {
     		String Payload, String ClientId, String MessageId) {
     	
     	this.SentFromClient = SentFromClient;
-    	this. ReceivedAtServer = ReceivedAtServer;
-        this.ReceivedAtClient = 0;
+    	this.ReceivedAtServer = ReceivedAtServer;
+    	this.ReceivedAtClient = 0;
         this.Payload = Payload;
         this.ClientId = ClientId;
         this.MessageId = MessageId;
+        this.Key = 0;
     }
     
     public long getSentFromClient() {
@@ -76,5 +77,15 @@ public class Message {
 
 	public void setKey(int key) {
 		Key = key;
+	}
+	
+	public boolean equals(Message msg) {
+		return this.SentFromClient == msg.SentFromClient &&
+				this.ReceivedAtClient == msg.ReceivedAtClient &&
+				this.ReceivedAtServer == msg.ReceivedAtServer &&
+				this.Payload.equals(msg.Payload) &&
+				this.ClientId.equals(msg.ClientId) &&
+				this.MessageId.equals(msg.MessageId) &&
+				this.Key == msg.Key;
 	}
 }
