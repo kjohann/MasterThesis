@@ -22,6 +22,7 @@ import util.JSONHelper;
 
 public class Application extends Controller {	
    private static final LoadHub _loadHub = new LoadHub();
+   private static final Monitor _monitor = Monitor.getInstance();
 	
 	public static Result index() {
     	return ok(index.render("Your new application is ready."));
@@ -71,7 +72,7 @@ public class Application extends Controller {
     		String testToRun = JSONHelper.getValueAt(0, data).asText();
     		int numberOfClients = JSONHelper.getValueAt(1, data).asInt();
     		int spacing = JSONHelper.getValueAt(2, data).asInt();
-    		long startTime = JSONHelper.getValueAt(2, data).asLong();
+    		long startTime = JSONHelper.getValueAt(3, data).asLong();
     		_loadHub.initTest(testToRun, numberOfClients, spacing, startTime);
     		ObjectNode response = Json.newObject();
 			response.put("messageKind", "initTest");
@@ -102,8 +103,23 @@ public class Application extends Controller {
 				sendToAll(response);
 			}
     	} else if(messageKind.equals("getData")) {
-//    		_loadHub.getData(testData, numberOfClientsInBrowser);
-//    		socket.sendMessage(response);
+    		ObjectNode node = (ObjectNode)JSONHelper.getValueAt(0, data);
+    		TestDataEntity testData = JSONHelper.getObject(node, TestDataEntity.class);
+    		int numberOfClientsInBrowser = JSONHelper.getValueAt(1, data).asInt();
+    		if(_loadHub.getData(testData, numberOfClientsInBrowser)){
+    			ObjectNode response = Json.newObject();
+    			response.put("messageKind", "harvestComplete");
+    			
+    			response.put("Duration", _monitor.duration);
+    			response.put("StartTime", _monitor.startTime);
+    			response.put("SentFromClientEvents", JSONHelper.writeObjectToJson(_monitor.sentFromClientEvents));
+    			response.put("ReceivedAtServerEvents", JSONHelper.writeObjectToJson(_monitor.receivedAtServerEvents));
+    			response.put("SentFromServerEvents", JSONHelper.writeObjectToJson(_monitor.sentFromServerEvents));
+    			response.put("Spacing", _monitor.spacing);
+    			response.put("TestDataEntities", JSONHelper.writeObjectToJson(_monitor.testDataEntities));    			
+    			
+    			sendToAll(response);
+    		}
     	}
     }
     
