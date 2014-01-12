@@ -3,12 +3,16 @@ package util;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
+
+import play.libs.Json;
 
 import com.avaje.ebeaninternal.server.cluster.mcast.Message;
 
@@ -68,8 +72,12 @@ public class JSONHelper {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = node.toString();
 		
-		return mapper.readValue(json, type);
-		
+		return mapper.readValue(json, type);		
+	}
+	
+	public static <T> ObjectNode writeObjectToJson(T toWrite) throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.convertValue(toWrite, ObjectNode.class);		
 	}
 	
 }

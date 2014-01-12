@@ -9,14 +9,6 @@ public class TestDataEntity {
 	public TestDataEntity() {
 		LatencyData = new ArrayList<Integer>();
 	}
-
-	public List<Integer> getLatencyData() {
-		return LatencyData;
-	}
-
-	public void setLatencyData(List<Integer> latencyData) {
-		LatencyData = latencyData;
-	}
 	
 	public boolean equals(TestDataEntity entity) {
 		if(entity.LatencyData.size() != this.LatencyData.size()) {

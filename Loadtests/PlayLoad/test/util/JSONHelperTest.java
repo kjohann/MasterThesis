@@ -6,6 +6,7 @@ import models.Message;
 import models.TestDataEntity;
 
 import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -16,10 +17,8 @@ import org.junit.*;
 
 import play.libs.Json;
 import static org.junit.Assert.*;
-import static util.AssertUtils.*;
 
 import util.JSONHelper;
-import views.html.helper.input;
 
 public class JSONHelperTest {
 	private JSONHelper _helper;
@@ -163,8 +162,44 @@ public class JSONHelperTest {
 		
 		TestDataEntity output = JSONHelper.getObject(event, TestDataEntity.class);		
 		
-		assertTrue(entity.equals(output));
+		assertTrue(entity.equals(output));		
+	}
+	
+	@Test
+	public void writeObjectToJson_should_write_a_message_to_an_ObjectNode() throws JsonGenerationException, JsonMappingException, IOException {
+		Message message = new Message(1, 1, "test", "1", "c:1m:100");
+		ObjectNode event = Json.newObject();
 		
+		event.put("SentFromClient", message.SentFromClient);
+		event.put("ReceivedAtServer", message.ReceivedAtServer);
+		event.put("ReceivedAtClient", message.ReceivedAtClient);
+		event.put("Payload", message.Payload);
+		event.put("ClientId", message.ClientId);
+		event.put("MessageId", message.MessageId);
+		event.put("Key", message.Key);
+		
+		ObjectNode node = JSONHelper.writeObjectToJson(message);
+		
+		assertEquals(event, node);
+	}
+	
+	@Test
+	public void writeObjectToJson_should_write_a_TestDataEntity_to_an_ObjectNode() throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectNode event = Json.newObject();
+		
+		JsonFactory factory = new JsonFactory();
+		ObjectMapper om = new ObjectMapper(factory);
+		ArrayNode arrayNode = om.createArrayNode();
+		arrayNode.add(100); arrayNode.add(100); arrayNode.add(100);
+		
+		event.put("LatencyData", arrayNode);
+		
+		TestDataEntity entity = new TestDataEntity();
+		entity.LatencyData.add(100); entity.LatencyData.add(100); entity.LatencyData.add(100);
+		
+		ObjectNode node = JSONHelper.writeObjectToJson(entity);
+		
+		assertEquals(event, node);
 	}
 	
 }
