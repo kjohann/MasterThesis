@@ -1,6 +1,8 @@
 package util;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import models.Message;
 import models.TestDataEntity;
@@ -202,4 +204,20 @@ public class JSONHelperTest {
 		assertEquals(event, node);
 	}
 	
+	@Test
+	public void writeObjectToJson_should_be_able_to_handle_a_list_of_integers() {
+		JsonFactory factory = new JsonFactory();
+		ObjectMapper om = new ObjectMapper(factory);
+		ArrayNode arrayNode = om.createArrayNode();
+		arrayNode.add(100); arrayNode.add(100); arrayNode.add(100);
+		
+		List<Integer> list = new ArrayList<>();
+		list.add(100); list.add(100); list.add(100);
+		
+		ArrayNode node = JSONHelper.writeIntListToJson(list);
+		
+		assertEquals(arrayNode, node);
+	}
+	
 }
+	

@@ -2,7 +2,9 @@ package util;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 
+import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
@@ -79,5 +81,17 @@ public class JSONHelper {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.convertValue(toWrite, ObjectNode.class);		
 	}
+	
+	public static ArrayNode writeIntListToJson(List<Integer> toWrite) {
+		JsonFactory factory = new JsonFactory();
+		ObjectMapper om = new ObjectMapper(factory);
+		ArrayNode arrayNode = om.createArrayNode();
+		
+		for(int value : toWrite) {
+			arrayNode.add(value);
+		}
+		
+		return arrayNode;
+	}	
 	
 }

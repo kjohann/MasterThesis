@@ -114,9 +114,9 @@ public class Application extends Controller {
     			
     			response.put("Duration", _monitor.duration);
     			response.put("StartTime", _monitor.startTime);
-    			response.put("SentFromClientEvents", JSONHelper.writeObjectToJson(_monitor.sentFromClientEvents));
-    			response.put("ReceivedAtServerEvents", JSONHelper.writeObjectToJson(_monitor.receivedAtServerEvents));
-    			response.put("SentFromServerEvents", JSONHelper.writeObjectToJson(_monitor.sentFromServerEvents));
+    			response.put("SentFromClientEvents", JSONHelper.writeIntListToJson(_monitor.sentFromClientEvents));
+    			response.put("ReceivedAtServerEvents", JSONHelper.writeIntListToJson(_monitor.receivedAtServerEvents));
+    			response.put("SentFromServerEvents", JSONHelper.writeIntListToJson(_monitor.sentFromServerEvents));
     			response.put("Spacing", _monitor.spacing);
     			response.put("TestDataEntities", JSONHelper.writeObjectToJson(_monitor.testDataEntities));    			
     			
