@@ -81,16 +81,26 @@ public class Application extends Controller {
     		Socket socket = _loadHub.members.get(cid);
     		ObjectNode node = (ObjectNode)JSONHelper.getValueAt(0, data);
     		Message message = JSONHelper.getObject(node, Message.class);
-    		_loadHub.echo(message);    		
-    		socket.sendMessage(JSONHelper.writeObjectToJson(message));
+    		_loadHub.echo(message);
+    		ObjectNode response = Json.newObject();
+    		response.put("messageKind", "receiveMessage");
+    		response.put("data", JSONHelper.writeObjectToJson(message));
+    		socket.sendMessage(response);
     	} else if(messageKind.equals("broadcast")) {
     		ObjectNode node = (ObjectNode)JSONHelper.getValueAt(0, data);
     		Message message = JSONHelper.getObject(node, Message.class);
     		_loadHub.broadcast(message);
-    		sendToAll(JSONHelper.writeObjectToJson(message));
+    		ObjectNode response = Json.newObject();
+    		response.put("messageKind", "receiveMessage");
+    		response.put("data", JSONHelper.writeObjectToJson(message));
+    		sendToAll(response);
     	} else if(messageKind.equals("complete")) {
-//    		_loadHub.complete(clientId);
-//    		socket.sendMessage(response);
+    		String clientId = JSONHelper.getValueAt(0, data).asText();
+			if(_loadHub.complete(clientId)) {
+				ObjectNode response = Json.newObject();
+	    		response.put("messageKind", "harvest");
+				sendToAll(response);
+			}
     	} else if(messageKind.equals("getData")) {
 //    		_loadHub.getData(testData, numberOfClientsInBrowser);
 //    		socket.sendMessage(response);
