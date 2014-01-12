@@ -3,6 +3,7 @@ package controllers;
 import hubs.LoadHub;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 import play.*;
@@ -13,6 +14,7 @@ import play.mvc.*;
 
 import views.html.*;
 import models.*;
+import util.JSONHelper;
 
 public class Application extends Controller {	
    private static final LoadHub _loadHub = new LoadHub();
@@ -57,13 +59,23 @@ public class Application extends Controller {
     }      
     
     public static void routeMessage(JsonNode event) {
-    	String messageKind = event.get("messageKind").asText();
-    	String cid = event.get("cid").asText();
-    	Socket socket = _loadHub.members.get(cid);
+    	JSONHelper helper = new JSONHelper(event);
+    	String messageKind = helper.getMessageKind();
+    	String cid = helper.getCid();    	
+    	ArrayNode data = helper.getArrayNode("data");
     	if(messageKind.equals("initTest")) {
-//    		_loadHub.initTest(testTorRun, numberOfClients, spacing, startTime);
-//    		socket.sendMessage(response);
+    		String testToRun = JSONHelper.getValueAt(0, data).asText();
+    		int numberOfClients = JSONHelper.getValueAt(1, data).asInt();
+    		int spacing = JSONHelper.getValueAt(2, data).asInt();
+    		long startTime = JSONHelper.getValueAt(2, data).asLong();
+    		_loadHub.initTest(testToRun, numberOfClients, spacing, startTime);
+    		for(Socket s : _loadHub.members.values()) {
+    			ObjectNode response = Json.newObject();
+    			response.put("messageKind", "initTest");
+    			response.put("testToRun", testToRun);
+    		}
     	} else if(messageKind.equals("echo")) {
+    		Socket socket = _loadHub.members.get(cid);
 //    		_loadHub.echo(message);
 //    		socket.sendMessage(response);
     	} else if(messageKind.equals("broadcast")) {
