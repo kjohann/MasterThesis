@@ -180,7 +180,7 @@ public class JSONHelperTest {
 		event.put("MessageId", message.MessageId);
 		event.put("Key", message.Key);
 		
-		ObjectNode node = JSONHelper.writeObjectToJson(message);
+		JsonNode node = JSONHelper.writeObjectToJson(message);
 		
 		assertEquals(event, node);
 	}
@@ -199,13 +199,13 @@ public class JSONHelperTest {
 		TestDataEntity entity = new TestDataEntity();
 		entity.LatencyData.add(100); entity.LatencyData.add(100); entity.LatencyData.add(100);
 		
-		ObjectNode node = JSONHelper.writeObjectToJson(entity);
+		JsonNode node = JSONHelper.writeObjectToJson(entity); 
 		
 		assertEquals(event, node);
 	}
 	
 	@Test
-	public void writeObjectToJson_should_be_able_to_handle_a_list_of_integers() {
+	public void writeListToJson_should_be_able_to_handle_a_list_of_integers() throws JsonGenerationException, JsonMappingException, IOException {
 		JsonFactory factory = new JsonFactory();
 		ObjectMapper om = new ObjectMapper(factory);
 		ArrayNode arrayNode = om.createArrayNode();
@@ -214,9 +214,27 @@ public class JSONHelperTest {
 		List<Integer> list = new ArrayList<>();
 		list.add(100); list.add(100); list.add(100);
 		
-		ArrayNode node = JSONHelper.writeIntListToJson(list);
+		ArrayNode node = JSONHelper.writeListToJson(list); 
 		
 		assertEquals(arrayNode, node);
+	}
+	
+	@Test
+	public void writeListToJson_should_be_able_to_handle_a_list_of_TestDataEntities() throws JsonGenerationException, JsonMappingException, IOException {
+		JsonFactory factory = new JsonFactory();
+		ObjectMapper om = new ObjectMapper(factory);
+		ArrayNode arrayNode = om.createArrayNode();
+		TestDataEntity entity1 = new TestDataEntity(); entity1.LatencyData.add(42); entity1.LatencyData.add(1337);
+		arrayNode.add(JSONHelper.writeObjectToJson(entity1));
+		TestDataEntity entity2 = new TestDataEntity(); entity2.LatencyData.add(101); entity2.LatencyData.add(1990);
+		arrayNode.add(JSONHelper.writeObjectToJson(entity2));
+		
+		List<TestDataEntity> entities = new ArrayList<>();
+		entities.add(entity1); entities.add(entity2);
+		
+		ArrayNode node = JSONHelper.writeListToJson(entities);
+		
+		assertEquals(arrayNode, node);		
 	}
 	
 }

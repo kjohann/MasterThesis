@@ -10,7 +10,7 @@
 		} else if(response.messageKind === "harvest") {
 			self.functions[response.messageKind]();
 		} else if(response.messageKind === "harvestComplete") {
-			self.functions[response.messageKind]();
+			self.functions[response.messageKind](response.data);
 		} else if(response.messageKind === "cid") {
 			self.cid = response.cid;
 		}

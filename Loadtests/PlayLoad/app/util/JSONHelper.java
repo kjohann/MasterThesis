@@ -77,18 +77,18 @@ public class JSONHelper {
 		return mapper.readValue(json, type);		
 	}
 	
-	public static <T> ObjectNode writeObjectToJson(T toWrite) throws JsonGenerationException, JsonMappingException, IOException {
+	public static <T> JsonNode writeObjectToJson(T toWrite) throws JsonGenerationException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		return mapper.convertValue(toWrite, ObjectNode.class);		
+		return mapper.convertValue(toWrite, JsonNode.class);		
 	}
 	
-	public static ArrayNode writeIntListToJson(List<Integer> toWrite) {
+	public static <T> ArrayNode writeListToJson(List<T> toWrite) throws JsonGenerationException, JsonMappingException, IOException {
 		JsonFactory factory = new JsonFactory();
 		ObjectMapper om = new ObjectMapper(factory);
 		ArrayNode arrayNode = om.createArrayNode();
 		
-		for(int value : toWrite) {
-			arrayNode.add(value);
+		for(T value : toWrite) {
+			arrayNode.add(writeObjectToJson(value));			
 		}
 		
 		return arrayNode;

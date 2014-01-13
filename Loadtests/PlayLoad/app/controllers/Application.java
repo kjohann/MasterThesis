@@ -112,13 +112,16 @@ public class Application extends Controller {
     			ObjectNode response = Json.newObject();
     			response.put("messageKind", "harvestComplete");
     			
-    			response.put("Duration", _monitor.duration);
-    			response.put("StartTime", _monitor.startTime);
-    			response.put("SentFromClientEvents", JSONHelper.writeIntListToJson(_monitor.sentFromClientEvents));
-    			response.put("ReceivedAtServerEvents", JSONHelper.writeIntListToJson(_monitor.receivedAtServerEvents));
-    			response.put("SentFromServerEvents", JSONHelper.writeIntListToJson(_monitor.sentFromServerEvents));
-    			response.put("Spacing", _monitor.spacing);
-    			response.put("TestDataEntities", JSONHelper.writeObjectToJson(_monitor.testDataEntities));    			
+    			ObjectNode dataObj = Json.newObject();
+    			dataObj.put("Duration", _monitor.duration);
+    			dataObj.put("StartTime", _monitor.startTime);
+    			dataObj.put("SentFromClientEvents", JSONHelper.writeListToJson(_monitor.sentFromClientEvents));
+    			dataObj.put("ReceivedAtServerEvents", JSONHelper.writeListToJson(_monitor.receivedAtServerEvents));
+    			dataObj.put("SentFromServerEvents", JSONHelper.writeListToJson(_monitor.sentFromServerEvents));
+    			dataObj.put("Spacing", _monitor.spacing);
+    			dataObj.put("TestDataEntities", JSONHelper.writeListToJson(_monitor.testDataEntities));    			
+    			
+    			response.put("data", dataObj);
     			
     			sendToAll(response);
     		}
