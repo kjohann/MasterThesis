@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import models.Message;
+import models.TestDataEntity;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 import subscriptions.listeners.JsonSubscriptionListener;
 import util.JSONHelper;
@@ -26,7 +30,89 @@ public class JsonSubscription {
     	String cid = helper.getCid();    
     	ArrayNode data = helper.getArrayNode("data");
     	
-    	//route message to listener -> listener calls hub --> sends response
+    	if(messageKind.equals("initTest")) {
+    		String testToRun = JSONHelper.getValueAt(0, data).asText();
+    		int numberOfClients = JSONHelper.getValueAt(1, data).asInt();
+    		int spacing = JSONHelper.getValueAt(2, data).asInt();
+    		long startTime = JSONHelper.getValueAt(3, data).asLong();
+    		
+    		initTest(cid, testToRun, numberOfClients, spacing, startTime);
+    	} else if(messageKind.equals("echo")) {
+    		ObjectNode node = (ObjectNode)JSONHelper.getValueAt(0, data);
+    		Message message = JSONHelper.getObject(node, Message.class);
+    		
+    		echo(cid, message);
+    	} else if(messageKind.equals("broadcast")) {
+    		ObjectNode node = (ObjectNode)JSONHelper.getValueAt(0, data);
+    		Message message = JSONHelper.getObject(node, Message.class);
+    		
+    		broadcast(cid, message);
+    	} else if(messageKind.equals("complete")) {
+    		String clientId = JSONHelper.getValueAt(0, data).asText();	
+    		complete(clientId);
+    	} else if(messageKind.equals("getData")) {
+    		ObjectNode node = (ObjectNode)JSONHelper.getValueAt(0, data);
+    		TestDataEntity testData = JSONHelper.getObject(node, TestDataEntity.class);
+    		int numberOfClientsInBrowser = JSONHelper.getValueAt(1, data).asInt();
+    		getData(cid, testData, numberOfClientsInBrowser);
+    	}
+	}
+	
+	private void initTest(final String cid, final String testToRun, final int numberOfClients, final int spacing, final long startTime) {
+		final JsonSubscriptionListener localListener = listener;
+		Runnable task = new Runnable() {
+			@Override
+			public void run() {
+				localListener.initTest(cid, testToRun, numberOfClients, spacing, startTime);				
+			}			
+		};
+		
+		executor.execute(task);
+	}
+	private void echo(final String cid, final Message message) {
+		final JsonSubscriptionListener localListener = listener;
+		Runnable task = new Runnable() {
+			@Override
+			public void run() {
+				localListener.echo(cid, message);
+			}			
+		};
+		
+		executor.execute(task);
+	}
+	private void broadcast(final String cid, final Message message) {
+		final JsonSubscriptionListener localListener = listener;
+		Runnable task = new Runnable() {
+			@Override
+			public void run() {
+				localListener.broadcast(cid, message);
+			}			
+		};
+		
+		executor.execute(task);
+	}
+	private void complete(final String cid) {
+		final JsonSubscriptionListener localListener = listener;
+		Runnable task = new Runnable() {
+			@Override
+			public void run() {
+				localListener.complete(cid);
+			}			
+		};
+		
+		executor.execute(task);
+	}
+	
+	private void getData(final String cid, final TestDataEntity testData, final int numberOfClientsInBrowser) {
+		final JsonSubscriptionListener localListener = listener;
+		Runnable task = new Runnable() {
+			@Override
+			public void run() {
+				localListener.getData(cid, testData, numberOfClientsInBrowser);
+			}			
+		};
+		
+		executor.execute(task);
 	}
 	
 	public synchronized void setListener(JsonSubscriptionListener listener) {
