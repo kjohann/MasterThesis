@@ -1,8 +1,7 @@
 ﻿(function(root, options) {
     options.frameWork = "Play";
     
-    function onMessage(json, self) {
-    	var response = JSON.parse(json);
+    function onMessage(response, self) {
 		if(response.messageKind === "initTest") {
 			self.functions[response.messageKind](response.testToRun);
 		} else if(response.messageKind === "receiveMessage") {
@@ -22,16 +21,33 @@
         self.functions = [];
         self.commObj;
         
-        if(!transport) {
+        if(!transport || transport === "websocket") {
+            options.transport = "websocket";
         	var WS =  window['MozWebSocket'] ? MozWebSocket : WebSocket;
         	var url = "ws://localhost:9000/wsConnect";
         	self.commObj = new WS(url);
         	self.commObj.onmessage = function(data) {
-        		onMessage(data.data, self);
+        		onMessage(JSON.parse(data.data), self);
         	};
         } else {
-        	//comet
+        	$('<iframe id="comet" src="/comet">').appendTo('body'); 
+            self.commObj = {
+                send: function(json) {
+                    $.ajax({
+                        url:"/cmsg",
+                        type:"POST",
+                        data:json,
+                        contentType:"application/json; charset=utf-8",
+                        dataType:"json"
+                    });
+                },
+                onmessage: function(data) {
+
+                }
+            };
         }
+
+        console.log("Connected");
 
         self.bind = function(functionName, functionToCall) {
             self.functions[functionName] = functionToCall  
@@ -49,9 +65,19 @@
         };
 
         self.start = function() {
-            //may not need to do any work depending on the framework
+            //no need with Play            
         };
     };
-    
 
+    window.routeMessage = function(data) { //need a global function to route all receiveEvents through
+        if(data.messageKind === "cid") {
+            onMessage(data, options.clients[options.clients.length - 1].socket);
+        } else {
+            $.each(options.clients, function(i, client) {
+                if(data.cid === client.socket.cid) {
+                    onMessage(data, client.socket);
+                }
+            });
+        }
+    }        
 })(loadTest.socket = loadTest.socket || {}, loadTest.options);

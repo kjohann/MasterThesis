@@ -2,7 +2,7 @@
     root.initConnection = function () {
         var clientId = options.connectionsTried + options.instanceId;
 
-        var socketInstance = new socket.SocketInstance();
+        var socketInstance = new socket.SocketInstance(options.transport);
         socketInstance.bind("initTest", root.initTest);
         socketInstance.bind('receiveMessage', functions.receiveMessage);
         socketInstance.bind('harvest', root.harvest);
