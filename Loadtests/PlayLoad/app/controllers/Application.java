@@ -11,6 +11,7 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 import play.*;
+import play.libs.Comet;
 import play.libs.F.Callback;
 import play.libs.F.Callback0;
 import play.libs.Json;
@@ -63,7 +64,39 @@ public class Application extends Controller {
 			}
     		
     	};
-    }      
+    }     
+    
+    public static Result comet() {
+    	final String cid = String.valueOf(ctx().id());
+    	
+    	return ok(new Comet("parent.routeMessage") {
+
+			@Override
+			public void onConnected() {
+				CSocket socket = new CSocket();
+				socket.channel = this;
+				
+				ObjectNode event = Json.newObject();
+				event.put("messageKind", "cid");
+				event.put("cid", cid);
+				socket.sendMessage(event);
+				
+				_loadHub.members.put(cid, socket);				
+			}
+    		
+    	});
+    }
+    
+    public static Result cmsg() throws JsonParseException, JsonMappingException, IOException {
+    	JsonNode event = request().body().asJson();
+    	if(event == null) {
+    		return badRequest("Expecting json data");
+    	}
+    	
+    	routeMessage(event);
+    	
+    	return ok();
+    }
     
     public static void routeMessage(JsonNode event) throws JsonParseException, JsonMappingException, IOException {
     	JSONHelper helper = new JSONHelper(event);
@@ -78,6 +111,7 @@ public class Application extends Controller {
     		_loadHub.initTest(testToRun, numberOfClients, spacing, startTime);
     		ObjectNode response = Json.newObject();
 			response.put("messageKind", "initTest");
+			response.put("cid", cid);
 			response.put("testToRun", testToRun);
     		sendToAll(response);
     	} else if(messageKind.equals("echo")) {
@@ -87,6 +121,7 @@ public class Application extends Controller {
     		_loadHub.echo(message);
     		ObjectNode response = Json.newObject();
     		response.put("messageKind", "receiveMessage");
+    		response.put("cid", cid);
     		response.put("data", JSONHelper.writeObjectToJson(message));
     		socket.sendMessage(response);
     	} else if(messageKind.equals("broadcast")) {
@@ -95,6 +130,7 @@ public class Application extends Controller {
     		_loadHub.broadcast(message);
     		ObjectNode response = Json.newObject();
     		response.put("messageKind", "receiveMessage");
+    		response.put("cid", cid);
     		response.put("data", JSONHelper.writeObjectToJson(message));
     		sendToAll(response);
     	} else if(messageKind.equals("complete")) {
@@ -102,6 +138,7 @@ public class Application extends Controller {
 			if(_loadHub.complete(clientId)) {
 				ObjectNode response = Json.newObject();
 	    		response.put("messageKind", "harvest");
+	    		response.put("cid", cid);
 				sendToAll(response);
 			}
     	} else if(messageKind.equals("getData")) {
@@ -111,7 +148,7 @@ public class Application extends Controller {
     		if(_loadHub.getData(testData, numberOfClientsInBrowser)){
     			ObjectNode response = Json.newObject();
     			response.put("messageKind", "harvestComplete");
-    			
+    			response.put("cid", cid);
     			ObjectNode dataObj = Json.newObject();
     			dataObj.put("Duration", _monitor.duration);
     			dataObj.put("StartTime", _monitor.startTime);

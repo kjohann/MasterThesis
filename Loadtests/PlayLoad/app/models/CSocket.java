@@ -2,12 +2,14 @@ package models;
 
 import org.codehaus.jackson.node.ObjectNode;
 
-public class CSocket implements Socket {
+import play.libs.Comet;
 
+public class CSocket implements Socket {
+	public Comet channel;
+	
 	@Override
 	public void sendMessage(ObjectNode event) {
-		// TODO Auto-generated method stub
-		
+		channel.sendMessage(event);		
 	}
 
 }
