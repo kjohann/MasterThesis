@@ -11,6 +11,7 @@ import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
@@ -237,5 +238,19 @@ public class JSONHelperTest {
 		assertEquals(arrayNode, node);		
 	}
 	
+	@Test
+	public void getJsonNodeFromJson_should_be_able_to_retrieve_json_as_JsonNode() throws JsonProcessingException, IOException {
+		ObjectNode event = new ObjectNode(JsonNodeFactory.instance);
+		ObjectNode subNode = new ObjectNode(JsonNodeFactory.instance);
+		subNode.put("sub", "SubZero");
+		event.put("test1", 1337);
+		event.put("subObj", subNode);
+		
+		String json = event.toString();
+		
+		ObjectNode node = (ObjectNode)JSONHelper.getJsonNodeFromJson(json);
+		
+		assertEquals(event, node);
+	}
 }
 	

@@ -8,9 +8,9 @@ import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
@@ -89,5 +89,10 @@ public class JSONHelper {
 		
 		return arrayNode;
 	}	
+	
+	public static JsonNode getJsonNodeFromJson(String json) throws JsonProcessingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.readTree(json);
+	}
 	
 }
