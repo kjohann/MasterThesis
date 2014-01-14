@@ -150,13 +150,13 @@ public class LoadAdapter implements SmartDataProvider {
 		
 		private void sendToAll(String json) {
 			HashMap<String, String> update = new HashMap<>();
-			update.put("json", json);
+			update.put("bjson", json);
 			listener.smartUpdate(broadCastHandle, update, false);
 		}
 		
 		private void send(String json, Object handle) {
 			HashMap<String, String> update = new HashMap<>();
-			update.put("json", json);
+			update.put("ejson", json);
 			listener.smartUpdate(handle, update, false);
 		}
 		
