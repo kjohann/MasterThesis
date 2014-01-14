@@ -3,8 +3,6 @@ package adapters;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.codehaus.jackson.JsonProcessingException;
 

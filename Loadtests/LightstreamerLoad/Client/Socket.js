@@ -51,27 +51,19 @@
 
             var cid = self.cid;
 
-            var echoSub = new Subscription("DISTINCT", cid, ["ejson"]);
+            var echoSub = new Subscription("RAW", cid, ["ejson"]);
             echoSub.addListener({
                 onItemUpdate: function(data) {
                     var json = JSON.parse(data.getValue("ejson"));
-                    $.each(options.clients, function(i, client) {
-                        if(json.cid === client.socket.cid) {
-                            onMessage(json, client.socket);
-                        }
-                    });
+                    onMessage(json, self);
                 }
             });
 
-            var broadcastSub = new Subscription("DISTINCT", "broadcastJson", ["bjson"]);
+            var broadcastSub = new Subscription("RAW", "broadcastJson", ["bjson"]);
             broadcastSub.addListener({
                 onItemUpdate: function(data) {
                     var json = JSON.parse(data.getValue("bjson"));
-                    $.each(options.clients, function(i, client) {
-                        if(json.cid === client.socket.cid) {
-                            onMessage(json, client.socket);
-                        }
-                    });
+                    onMessage(json, self);
                 }
             });
 
@@ -80,8 +72,10 @@
 
             self.commObj.subscribe(echoSub);
             self.commObj.subscribe(broadcastSub);
+
+            console.log("Connected");
         };
     };
-    
+
 
 })(loadTest.socket = loadTest.socket || {}, loadTest.options);

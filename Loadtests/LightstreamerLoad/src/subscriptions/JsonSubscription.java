@@ -20,7 +20,7 @@ public class JsonSubscription {
 	private JsonSubscriptionListener listener;
 	
 	public JsonSubscription() {
-		executor = Executors.newCachedThreadPool(); //test vs newSingleThreadExecutor()?
+		executor = Executors.newCachedThreadPool(); //test vs newSingleThreadExecutor()? newCachedThreadPool
 	}
 	
 	public synchronized void routeMessage(String json) throws JsonProcessingException, IOException {
@@ -103,7 +103,7 @@ public class JsonSubscription {
 		final JsonSubscriptionListener localListener = listener;
 		Runnable task = new Runnable() {
 			@Override
-			public void run() {
+			public void run() {				
 				localListener.complete(cid);
 			}			
 		};
