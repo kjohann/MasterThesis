@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.codehaus.jackson.JsonProcessingException;
 
@@ -15,7 +16,7 @@ import com.lightstreamer.interfaces.metadata.MetadataProviderException;
 import com.lightstreamer.interfaces.metadata.NotificationException;
 
 public class LoadMetadataAdapter extends LiteralBasedProvider {
-	private volatile JsonSubscription subscription;
+	private volatile JsonSubscription subscription;	
 	
 	@Override
 	public void init(Map arg0, File arg1) throws MetadataProviderException {

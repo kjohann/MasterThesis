@@ -7,8 +7,10 @@ import java.util.concurrent.Executors;
 import models.Message;
 import models.TestDataEntity;
 
+import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
@@ -74,7 +76,11 @@ public class JsonSubscription {
 		Runnable task = new Runnable() {
 			@Override
 			public void run() {
-				localListener.echo(cid, message);
+				try {
+					localListener.echo(cid, message);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}			
 		};
 		
@@ -85,7 +91,11 @@ public class JsonSubscription {
 		Runnable task = new Runnable() {
 			@Override
 			public void run() {
-				localListener.broadcast(cid, message);
+				try {
+					localListener.broadcast(cid, message);			
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}			
 		};
 		
@@ -103,12 +113,16 @@ public class JsonSubscription {
 		executor.execute(task);
 	}
 	
-	private void getData(final String cid, final TestDataEntity testData, final int numberOfClientsInBrowser) {
+	private void getData(final String cid, final TestDataEntity testData, final int numberOfClientsInBrowser)  {
 		final JsonSubscriptionListener localListener = listener;
 		Runnable task = new Runnable() {
 			@Override
 			public void run() {
-				localListener.getData(cid, testData, numberOfClientsInBrowser);
+				try {
+					localListener.getData(cid, testData, numberOfClientsInBrowser) ;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}			
 		};
 		
