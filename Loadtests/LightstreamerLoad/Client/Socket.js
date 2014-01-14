@@ -1,8 +1,10 @@
 ﻿(function(root, options) {
-    options.frameWork = null;
+    options.frameWork = "Lightstreamer";
 
     root.SocketInstance = function () {
         var self = this;
+
+
 
         self.bind = function(functionName, functionToCall) {
             //Binds the function with name functionName to functionToCall  

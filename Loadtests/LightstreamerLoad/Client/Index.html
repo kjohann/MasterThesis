@@ -3,8 +3,10 @@
 <html>
     <head>
         <title>Load test for: </title>     
-        <script src="Libs/Scripts/jquery-1.6.4.min.js"></script>          
-        <script src="Libs/Scripts/highcharts.js"></script>
+        <script src="Libs/jquery-1.6.4.min.js"></script>
+        <script src="Libs/highcharts.js"></script>
+        <script src="Libs/require.js"></script>
+        <script src="Libs/lightstreamer.js"></script>
         <script src="Globals.js"></script>
         <script src="Socket.js"></script>
         <script src="Models.js"></script>
@@ -15,6 +17,12 @@
         <script src="Main.js"></script>
     </head>
     <body>
+        <div id="broadCastSource" data-source="lightstreamer">
+            <span data-source="lightstreamer" data-field="json" style="display:none"></span>
+        </div>
+        <div id="echoSource" data-source="lightstreamer">
+            <span data-source="lightstreamer" data-field="json" style="display:none"></span>
+        </div>
         <div id="pageContainer">
             <h1 id="header">Load test of :</h1>
             <select id="type">
