@@ -58,7 +58,7 @@
         }
 
         return chartsArr;
-    }
+    };
 
     root.findSeries = function(seriesName, charts) {
         var longest = 0;
@@ -79,5 +79,43 @@
             series: seriesArr,
             longest: longest
         };
+    };
+
+    root.getAverageSentReceivedChart = function(chartsArray, spacing) {
+        var chart = {
+            Title: "Messages sent from clients and received by server pr. second",
+            XAxis: [],
+            Series: [],
+            YAxisTitle: "Messages"
+        }
+
+        var firstSeries = "Received by server", secondSeries = "Sent from clients";
+
+        var receivedSeries = root.getCalculatedAveragesOfSeries(chart.Title, firstSeries, chartsArray);
+        var sentSeries = root.getCalculatedAveragesOfSeries(chart.Title, secondSeries, chartsArray);
+
+        chart.XAxis = buildXAxis(receivedSeries.length, spacing);
+
+        chart.Series.push({
+            Data: receivedSeries,
+            Name: firstSeries
+        });
+
+        chart.Series.push({
+            Data: sentSeries,
+            Name: secondSeries
+        });
+
+        return chart;
+    };
+
+    function buildXAxis(length, spacing) {
+        var axis = [];
+
+        for(var i = 0; i < length; i++) {
+            axis.push((i * spacing).toString());
+        }
+
+        return axis;
     }
 })(merger);
