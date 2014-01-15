@@ -82,72 +82,45 @@
     };
 
     root.getAverageSentReceivedChart = function(chartsArray, spacing) {
-        var chart = {
-            Title: "Messages sent from clients and received by server pr. second",
-            XAxis: [],
-            Series: [],
-            YAxisTitle: "Messages"
-        };
-
-        var firstSeries = "Received by server", secondSeries = "Sent from clients";
-
-        var receivedSeries = root.getCalculatedAveragesOfSeries(chart.Title, firstSeries, chartsArray);
-        var sentSeries = root.getCalculatedAveragesOfSeries(chart.Title, secondSeries, chartsArray);
-
-        chart.XAxis = buildXAxis(receivedSeries.length, spacing);
-
-        chart.Series.push({
-            Data: receivedSeries,
-            Name: firstSeries
-        });
-
-        chart.Series.push({
-            Data: sentSeries,
-            Name: secondSeries
-        });
-
-        return chart;
+        var chartTitle = "Messages sent from clients and received by server pr. second";
+        var yAxisTitle = "Messages";
+        var seriesNames = ["Received by server", "Sent from clients"];
+        return getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing);
     };
 
     root.getAverageSentFromServerChart = function(chartsArray, spacing) {
-        var chart = {
-            Title: "Messages sent from server pr. second",
-            XAxis: [],
-            Series: [],
-            YAxisTitle: "Messages"
-        };
-
-        var series = root.getCalculatedAveragesOfSeries(chart.Title, "Messages", chartsArray);
-
-        chart.XAxis = buildXAxis(series.length, spacing);
-
-        chart.Series.push({
-            Data: series,
-            Name: "Messages"
-        });
-
-        return chart;
+        var chartTitle = "Messages sent from server pr. second";
+        var yAxisTitle = "Messages";
+        var seriesNames = ["Messages"];
+        return getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing);
     };
 
     root.getAverageLatencyChart = function(chartsArray, spacing) {
+        var chartTitle = "Average Latency";
+        var yAxisTitle = "Average milliseconds";
+        var seriesNames = ["Average latency (ms)"];
+        return getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing);
+    };
+
+    function getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing) {
         var chart = {
-            Title: "Average Latency",
-            XAxis: [],
+            Title: chartTitle,
             Series: [],
-            YAxisTitle: "Average milliseconds"
+            YAxisTitle: yAxisTitle
         };
 
-        var series = root.getCalculatedAveragesOfSeries(chart.Title, "Average latency (ms)", chartsArray);
+        for(var i = 0; i < seriesNames.length; i++) {
+            var series = root.getCalculatedAveragesOfSeries(chart.Title, seriesNames[i], chartsArray);
+            chart.Series.push({
+                Data: series,
+                Name: seriesNames[i]
+            });
+        }
 
-        chart.XAxis = buildXAxis(series.length, spacing);
-
-        chart.Series.push({
-            Data: series,
-            Name: "Average latency (ms)"
-        });
+        chart.XAxis = buildXAxis(chart.Series[0].Data.length, spacing);
 
         return chart;
-    };
+    }
 
     function buildXAxis(length, spacing) {
         var axis = [];
