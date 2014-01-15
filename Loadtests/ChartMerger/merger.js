@@ -129,6 +129,26 @@
         return chart;
     };
 
+    root.getAverageLatencyChart = function(chartsArray, spacing) {
+        var chart = {
+            Title: "Average Latency",
+            XAxis: [],
+            Series: [],
+            YAxisTitle: "Average milliseconds"
+        };
+
+        var series = root.getCalculatedAveragesOfSeries(chart.Title, "Average latency (ms)", chartsArray);
+
+        chart.XAxis = buildXAxis(series.length, spacing);
+
+        chart.Series.push({
+            Data: series,
+            Name: "Average latency (ms)"
+        });
+
+        return chart;
+    };
+
     function buildXAxis(length, spacing) {
         var axis = [];
 

@@ -84,5 +84,16 @@ describe("merger", function() {
         chart.XAxis.shouldAllBeEqual(expected.XAxis);
         chart.YAxisTitle.should.equal(expected.YAxisTitle);
         chart.Series[0].Data.shouldAllBeEqual(expected.Series[0].Data);
-    })
+    });
+    //averageCeption :)
+    it("getAverageLatencyChart should return a chart with average latency chart with average values", function() {
+        var chartsArray = [wsObj[0], wsObj[1], wsObj[3], wsObj[4]];
+
+        var chart = merger.getAverageLatencyChart(chartsArray, 1);
+        var expected = wsObj[4].Charts[2];
+        chart.Title.should.equal(expected.Title);
+        chart.XAxis.shouldAllBeEqual(expected.XAxis);
+        chart.YAxisTitle.should.equal(expected.YAxisTitle);
+        chart.Series[0].Data.shouldAllBeEqual(expected.Series[0].Data);
+    });
 });

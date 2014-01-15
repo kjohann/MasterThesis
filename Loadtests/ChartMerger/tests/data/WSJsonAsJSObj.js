@@ -197,7 +197,7 @@ window.merger.wsOjb = [{
             },
             {
                 "Title": "Average Latency",
-                "XAxis": ["0", "1", "2", "3", "4"],
+                "XAxis": ["0", "1", "2", "3", "4", "5", "6"],
                 "YAxis": null,
                 "Series": [{
                     "Data": [55.05, 48.04, 131.82, 54.25, 54.25, 54.25, 48.04],
