@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>Chart merger</title>
-    <script src="jquery-1.6.4.min.js"></script>
+    <script src="libs/jquery-1.6.4.min.js"></script>
+    <script src="libs/highcharts.js"></script>
     <script src="init.js"></script>
     <script src="merger.js"></script>
     <script src="util.js"></script>
@@ -14,6 +15,11 @@
     <div>
         <label for="fileInput">Select a file: </label>
         <input type="file" id="fileInput">
+    </div>
+    <div id="charts">
+        <div id="messagesSentReceivedChart" style="height:400px;"></div>
+        <div id="messagesSentFromServerChart" style="height:400px;"></div>
+        <div id="averageLatencyChart" style="height:400px;"></div>
     </div>
 
 </body>
