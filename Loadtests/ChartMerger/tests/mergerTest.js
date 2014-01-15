@@ -64,7 +64,7 @@ describe("merger", function() {
         series.longest.should.equal(7);
     });
     it("getAverageSentReceivedChart should return a chart with sent/received series with average values", function() {
-        //The values in lpObj[4] is equal to all the average values
+        //The values in lpObj/wsObj[4] is equal to all the average values
         var chartsArray = [lpObj[0], lpObj[1], lpObj[3], lpObj[4]];
 
         var chart = merger.getAverageSentReceivedChart(chartsArray, 1);
@@ -75,4 +75,14 @@ describe("merger", function() {
         chart.Series[0].Data.shouldAllBeEqual(expected.Series[0].Data);
         chart.Series[1].Data.shouldAllBeEqual(expected.Series[1].Data);
     });
+    it("getAverageSentFromServerChart should return a chart with sent from server series with average values", function() {
+        var chartsArray = [wsObj[0], wsObj[1], wsObj[3], wsObj[4]];
+
+        var chart = merger.getAverageSentFromServerChart(chartsArray, 1);
+        var expected = wsObj[4].Charts[1];
+        chart.Title.should.equal(expected.Title);
+        chart.XAxis.shouldAllBeEqual(expected.XAxis);
+        chart.YAxisTitle.should.equal(expected.YAxisTitle);
+        chart.Series[0].Data.shouldAllBeEqual(expected.Series[0].Data);
+    })
 });

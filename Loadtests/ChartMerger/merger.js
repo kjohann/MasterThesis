@@ -87,7 +87,7 @@
             XAxis: [],
             Series: [],
             YAxisTitle: "Messages"
-        }
+        };
 
         var firstSeries = "Received by server", secondSeries = "Sent from clients";
 
@@ -104,6 +104,26 @@
         chart.Series.push({
             Data: sentSeries,
             Name: secondSeries
+        });
+
+        return chart;
+    };
+
+    root.getAverageSentFromServerChart = function(chartsArray, spacing) {
+        var chart = {
+            Title: "Messages sent from server pr. second",
+            XAxis: [],
+            Series: [],
+            YAxisTitle: "Messages"
+        };
+
+        var series = root.getCalculatedAveragesOfSeries(chart.Title, "Messages", chartsArray);
+
+        chart.XAxis = buildXAxis(series.length, spacing);
+
+        chart.Series.push({
+            Data: series,
+            Name: "Messages"
         });
 
         return chart;
