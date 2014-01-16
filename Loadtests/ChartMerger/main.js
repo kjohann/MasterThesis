@@ -1,4 +1,4 @@
-(function(merger, util) {
+(function(merger, util, chartsHelper) {
     $(function(){
         $("#fileInput").bind("change", function() {
             util.readFileAsJson(this.files[0]).done(function(data) {
@@ -19,7 +19,8 @@
                 alert("Select a framework!");
             }
             var charts = merger.getAverageChartsOfSingleFramework(frameworks[0], merger.rawData, merger.spacing);
-            console.log(charts);
+
+            chartsHelper.displayCharts(charts);
         });
 
         $("#all").click(function() {
@@ -32,7 +33,7 @@
 
             var charts = merger.getAverageChartsCombined(merger.rawData, merger.spacing, frameworks);
 
-            console.log(charts);
+            chartsHelper.displayCharts(charts);
         });
     });
-})(merger, merger.util);
+})(merger, merger.util, merger.charts);
