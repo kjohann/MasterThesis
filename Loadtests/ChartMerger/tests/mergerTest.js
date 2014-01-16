@@ -4,7 +4,21 @@ var lpObj = window.merger.lpObj;
 var socketIO = "Socket.IO", signalR = "SignalR", play = "Play", ls = "Lightstreamer";
 
 describe("merger", function() {
-    it("getAverageChartsCombine should return null if it does not find at least three charts", function() {
+    it("calling getAverageChartsCombined with one frameworkName should return same result as getAverageChartsOfSingleFramework", function() {
+        var allComb = merger.getAverageChartsCombined(lpObj, 1, ["Play"]);
+        var frameworkAvg = merger.getAverageChartsOfSingleFramework("Play", lpObj, 1);
+
+        allComb.length.should.equal(frameworkAvg.length);
+        allComb[0].Title.should.equal(frameworkAvg[0].Title);
+        allComb[1].Title.should.equal(frameworkAvg[1].Title);
+        allComb[2].Title.should.equal(frameworkAvg[2].Title);
+
+        allComb[0].Series[0].Data.shouldAllBeEqual(frameworkAvg[0].Series[0].Data);
+        allComb[0].Series[1].Data.shouldAllBeEqual(frameworkAvg[0].Series[1].Data);
+        allComb[1].Series[0].Data.shouldAllBeEqual(frameworkAvg[1].Series[0].Data);
+        allComb[2].Series[0].Data.shouldAllBeEqual(frameworkAvg[2].Series[0].Data);
+    });
+    it("getAverageChartsCombined should return null if it does not find at least three charts", function() {
         var allComb = merger.getAverageChartsCombined(lpObj, 1, ["NonExistent"]);
 
         should.not.exist(allComb);

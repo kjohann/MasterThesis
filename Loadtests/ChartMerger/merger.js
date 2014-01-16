@@ -2,68 +2,35 @@
     root.getAverageChartsCombined = function(allChartsArray, spacing, frameworkNames) {
         var frameworks = frameworkNames ? frameworkNames : ["SignalR", "Socket.IO", "Play", "Lightstreamer", "SockJS"];
 
-        var charts = [];
+        var sentReceivedCharts = [], sentFromServerCharts = [], averageLatencyCharts = [];
         for(var i = 0; i < frameworks.length; i++) {
-            var concat = root.getAverageChartsOfSingleFramework(frameworks[i], allChartsArray, spacing);
-            if(concat) {
-                charts = charts.concat(concat);
+            var charts = root.getAverageChartsOfSingleFramework(frameworks[i], allChartsArray, spacing);
+            if(charts) {
+                sentReceivedCharts.push(charts[0]);
+                sentFromServerCharts.push(charts[1]);
+                averageLatencyCharts.push(charts[2]);
             }
         }
 
-        if(charts.length < 3) return null;
+        if(sentReceivedCharts.length < 1) return null;
 
-        var receivedAtServerSeriesObj = root.findSeries(charts[0].Series[0].Name, charts);
-        var receivedAtServerData = getAverageSeries(receivedAtServerSeriesObj.longest, receivedAtServerSeriesObj.series.map(function(serie) {
-            return serie.Data;
-        }));
+        var receivedAtServerSeriesObj = root.findSeries(sentReceivedCharts[0].Series[0].Name, sentReceivedCharts);
+        var sentFromClientSeriesObj = root.findSeries(sentReceivedCharts[0].Series[1].Name, sentReceivedCharts);
+        var sentReceivedChart = sentReceivedCharts[0];
+        sentReceivedChart.Series[0].Data = getAverageSeries(receivedAtServerSeriesObj.longest,
+            receivedAtServerSeriesObj.series.map(function(serie) {return serie.Data;}));
+        sentReceivedChart.Series[1].Data = getAverageSeries(sentFromClientSeriesObj.longest,
+            sentFromClientSeriesObj.series.map(function(serie) {return serie.Data;}));
 
-        var sentFromClientsSeriesObj = root.findSeries(charts[0].Series[1].Name, charts);
-        var sentFromClientsData = getAverageSeries(sentFromClientsSeriesObj.longest, sentFromClientsSeriesObj.series.map(function(serie){
-            return serie.Data;
-        }));
+        var sentFromServerSeriesObj = root.findSeries(sentFromServerCharts[0].Series[0].Name, sentFromServerCharts);
+        var sentFromServerChart = sentFromServerCharts[0];
+        sentFromServerChart.Series[0].Data = getAverageSeries(sentFromServerSeriesObj.longest,
+            sentFromServerSeriesObj.series.map(function(serie) {return serie.Data;}));
 
-        var sentReceivedChart = {
-            Title: charts[0].Title,
-            XAxis: buildXAxis(sentFromClientsSeriesObj.longest, spacing),
-            YAxisTitle: charts[0].YAxisTitle,
-            Series: [{
-                Name: charts[0].Series[0].Name,
-                Data: receivedAtServerData
-            }, {
-                Name: charts[0].Series[1].Name,
-                Data: sentFromClientsData
-            }]
-        };
-
-        var sentFromServerSeriesObj = root.findSeries(charts[1].Series[0].Name, charts);
-        var sentFromServerData = getAverageSeries(sentFromServerSeriesObj.longest, sentFromServerSeriesObj.series.map(function(serie) {
-            return serie.Data;
-        }));
-
-        var sentFromServerChart = {
-            Title: charts[1].Title,
-            XAxis: buildXAxis(sentFromServerSeriesObj.longest, spacing),
-            YAxisTitle: charts[1].YAxisTitle,
-            Series: [{
-                Name: charts[1].Series[0].Name,
-                Data: sentFromServerData
-            }]
-        };
-
-        var averageLatencySeriesObj = root.findSeries(charts[2].Series[0].Name, charts);
-        var averageLatencyData = getAverageSeries(averageLatencySeriesObj.longest, averageLatencySeriesObj.series.map(function(serie) {
-            return serie.Data;
-        }));
-
-        var averageLatencyChart = {
-            Title: charts[2].Title,
-            XAxis: buildXAxis(averageLatencySeriesObj.longest, spacing),
-            YAxisTitle: charts[2].YAxisTitle,
-            Series: [{
-                Name: charts[2].Series[0].Name,
-                Data: averageLatencyData
-            }]
-        };
+        var averageLatencySeriesObj = root.findSeries(averageLatencyCharts[0].Series[0].Name, averageLatencyCharts);
+        var averageLatencyChart = averageLatencyCharts[0];
+        averageLatencyChart.Series[0].Data = getAverageSeries(averageLatencySeriesObj.longest,
+            averageLatencySeriesObj.series.map(function(serie) {return serie.Data;}));
 
         return [sentReceivedChart, sentFromServerChart, averageLatencyChart];
     };
