@@ -17,6 +17,10 @@ describe("merger", function() {
         allComb[0].Series[1].Data.shouldAllBeEqual(frameworkAvg[0].Series[1].Data);
         allComb[1].Series[0].Data.shouldAllBeEqual(frameworkAvg[1].Series[0].Data);
         allComb[2].Series[0].Data.shouldAllBeEqual(frameworkAvg[2].Series[0].Data);
+
+        allComb[0].XAxis.shouldAllBeEqual(frameworkAvg[0].XAxis);
+        allComb[1].XAxis.shouldAllBeEqual(frameworkAvg[0].XAxis);
+        allComb[2].XAxis.shouldAllBeEqual(frameworkAvg[0].XAxis);
     });
     it("getAverageChartsCombined should return null if it does not find at least three charts", function() {
         var allComb = merger.getAverageChartsCombined(lpObj, 1, ["NonExistent"]);
@@ -28,6 +32,7 @@ describe("merger", function() {
         var expectedSentReceivedSeries = [50, 50, 30, 50, 20, 20, 30];
         var expectedSentSeries = [1000, 1000, 600, 1000, 400, 400, 600];
         var expectedLatencySeries = [110.10, 96.08, 263.64, 108.50, 108.50, 108.50, 96.08];
+        var expectedAxis = ["0", "1", "2", "3", "4", "5", "6"];
 
         allComb.length.should.equal(3);
         allComb[0].Title.should.equal("Messages sent from clients and received by server pr. second");
@@ -38,6 +43,10 @@ describe("merger", function() {
         allComb[0].Series[1].Data.shouldAllBeEqual(expectedSentReceivedSeries);
         allComb[1].Series[0].Data.shouldAllBeEqual(expectedSentSeries);
         allComb[2].Series[0].Data.shouldAllBeEqual(expectedLatencySeries);
+
+        allComb[0].XAxis.shouldAllBeEqual(expectedAxis);
+        allComb[1].XAxis.shouldAllBeEqual(expectedAxis);
+        allComb[2].XAxis.shouldAllBeEqual(expectedAxis);
     });
     it("getAverageChartsOfSingleFramework should return null if the specified framework is not in the data", function() {
         var frameworkAvg = merger.getAverageChartsOfSingleFramework("Socket.1337", lpObj, 1);
@@ -49,6 +58,7 @@ describe("merger", function() {
         var expectedSentReceivedSeries = [50, 50, 30, 50, 20, 20, 30];
         var expectedSentSeries = [1000, 1000, 600, 1000, 400, 400, 600];
         var expectedLatencySeries = [110.10, 96.08, 263.64, 108.50, 108.50, 108.50, 96.08];
+        var expectedAxis = ["0", "1", "2", "3", "4", "5", "6"];
 
         frameworkAvg.length.should.equal(3);
         frameworkAvg[0].Title.should.equal("Messages sent from clients and received by server pr. second");
@@ -59,6 +69,10 @@ describe("merger", function() {
         frameworkAvg[0].Series[1].Data.shouldAllBeEqual(expectedSentReceivedSeries);
         frameworkAvg[1].Series[0].Data.shouldAllBeEqual(expectedSentSeries);
         frameworkAvg[2].Series[0].Data.shouldAllBeEqual(expectedLatencySeries);
+
+        frameworkAvg[0].XAxis.shouldAllBeEqual(expectedAxis);
+        frameworkAvg[1].XAxis.shouldAllBeEqual(expectedAxis);
+        frameworkAvg[2].XAxis.shouldAllBeEqual(expectedAxis);
     });
     it("arrangeData should return an associative array containing an array for each framework", function() {
         var arr = merger.arrangeData(wsObj);
