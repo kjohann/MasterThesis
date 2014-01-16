@@ -1,4 +1,85 @@
 (function(root) {
+    root.getAverageChartsCombined = function(allChartsArray, spacing, frameworkNames) {
+        var frameworks = frameworkNames ? frameworkNames : ["SignalR", "Socket.IO", "Play", "Lightstreamer", "SockJS"];
+
+        var charts = [];
+        for(var i = 0; i < frameworks.length; i++) {
+            var concat = root.getAverageChartsOfSingleFramework(frameworks[i], allChartsArray, spacing);
+            if(concat) {
+                charts = charts.concat(concat);
+            }
+        }
+
+        if(charts.length < 3) return null;
+
+        var receivedAtServerSeriesObj = root.findSeries(charts[0].Series[0].Name, charts);
+        var receivedAtServerData = getAverageSeries(receivedAtServerSeriesObj.longest, receivedAtServerSeriesObj.series.map(function(serie) {
+            return serie.Data;
+        }));
+
+        var sentFromClientsSeriesObj = root.findSeries(charts[0].Series[1].Name, charts);
+        var sentFromClientsData = getAverageSeries(sentFromClientsSeriesObj.longest, sentFromClientsSeriesObj.series.map(function(serie){
+            return serie.Data;
+        }));
+
+        var sentReceivedChart = {
+            Title: charts[0].Title,
+            XAxis: buildXAxis(sentFromClientsSeriesObj.longest, spacing),
+            YAxisTitle: charts[0].YAxisTitle,
+            Series: [{
+                Name: charts[0].Series[0].Name,
+                Data: receivedAtServerData
+            }, {
+                Name: charts[0].Series[1].Name,
+                Data: sentFromClientsData
+            }]
+        };
+
+        var sentFromServerSeriesObj = root.findSeries(charts[1].Series[0].Name, charts);
+        var sentFromServerData = getAverageSeries(sentFromServerSeriesObj.longest, sentFromServerSeriesObj.series.map(function(serie) {
+            return serie.Data;
+        }));
+
+        var sentFromServerChart = {
+            Title: charts[1].Title,
+            XAxis: buildXAxis(sentFromServerSeriesObj.longest, spacing),
+            YAxisTitle: charts[1].YAxisTitle,
+            Series: [{
+                Name: charts[1].Series[0].Name,
+                Data: sentFromServerData
+            }]
+        };
+
+        var averageLatencySeriesObj = root.findSeries(charts[2].Series[0].Name, charts);
+        var averageLatencyData = getAverageSeries(averageLatencySeriesObj.longest, averageLatencySeriesObj.series.map(function(serie) {
+            return serie.Data;
+        }));
+
+        var averageLatencyChart = {
+            Title: charts[2].Title,
+            XAxis: buildXAxis(averageLatencySeriesObj.longest, spacing),
+            YAxisTitle: charts[2].YAxisTitle,
+            Series: [{
+                Name: charts[2].Series[0].Name,
+                Data: averageLatencyData
+            }]
+        };
+
+        return [sentReceivedChart, sentFromServerChart, averageLatencyChart];
+    };
+
+    root.getAverageChartsOfSingleFramework = function(framework, allChartsArray, spacing) {
+        var frameworkData = root.arrangeData(allChartsArray);
+
+        if(!frameworkData[framework]) return null;
+
+        return [
+            root.getAverageSentReceivedChart(frameworkData[framework], spacing),
+            root.getAverageSentFromServerChart(frameworkData[framework], spacing),
+            root.getAverageLatencyChart(frameworkData[framework], spacing)
+        ]
+    };
+
     root.arrangeData = function(allChartsArray) {
         //returns an associative array where each
         // key contains an array of the charts of the framework the key represents
@@ -25,25 +106,7 @@
         });
         var longestSeries = seriesObj.longest;
 
-        var averageSeries = [];
-
-        for(var j = 0; j < longestSeries; j++) {
-            var accumulated = 0;
-            var dividend = 0;
-            for(var i = 0; i < series.length; i++) {
-                var data = series[i];
-                var increment = data[j] !== undefined ? data[j] : 0;
-                dividend += increment === 0 ? 0 : 1;
-                accumulated += increment;
-
-                if(i != series.length - 1) continue;
-
-                var average = accumulated / dividend;
-                averageSeries.push(average);
-            }
-        }
-
-        return averageSeries;
+        return getAverageSeries(longestSeries, series);
     };
 
     root.findCharts = function(chartName, chartsArray) {
@@ -101,6 +164,28 @@
         var seriesNames = ["Average latency (ms)"];
         return getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing);
     };
+
+    function getAverageSeries(longestSeries, series) {
+        var averageSeries = [];
+
+        for(var j = 0; j < longestSeries; j++) {
+            var accumulated = 0;
+            var dividend = 0;
+            for(var i = 0; i < series.length; i++) {
+                var data = series[i];
+                var increment = data[j] !== undefined ? data[j] : 0;
+                dividend += increment === 0 ? 0 : 1;
+                accumulated += increment;
+
+                if(i != series.length - 1) continue;
+
+                var average = accumulated / dividend;
+                averageSeries.push(average);
+            }
+        }
+
+        return averageSeries;
+    }
 
     function getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing) {
         var chart = {
