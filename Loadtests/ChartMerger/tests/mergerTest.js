@@ -4,7 +4,7 @@ var lpObj = window.merger.lpObj;
 var socketIO = "Socket.IO", signalR = "SignalR", play = "Play", ls = "Lightstreamer";
 
 describe("merger", function() {
-    it("calling getAverageChartsCombined with one frameworkName should return same result as getAverageChartsOfSingleFramework", function() {
+    it("calling getAverageChartsCombined with one frameworkName should give same series as getAverageChartsOfSingleFramework", function() {
         var allComb = merger.getAverageChartsCombined(lpObj, 1, ["Play"]);
         var frameworkAvg = merger.getAverageChartsOfSingleFramework("Play", lpObj, 1);
 
@@ -28,25 +28,25 @@ describe("merger", function() {
         should.not.exist(allComb);
     })
     it("getAverageChartsCombined should combine all framworkdata into three charts with average data", function() {
-        var allComb = merger.getAverageChartsCombined(lpObj, 1);
-        var expectedSentReceivedSeries = [50, 50, 30, 50, 20, 20, 30];
-        var expectedSentSeries = [1000, 1000, 600, 1000, 400, 400, 600];
-        var expectedLatencySeries = [110.10, 96.08, 263.64, 108.50, 108.50, 108.50, 96.08];
-        var expectedAxis = ["0", "1", "2", "3", "4", "5", "6"];
+        var allComb = merger.getAverageChartsCombined(lpObj, 1, ["SignalR", "Socket.IO", "Play", "Lightstreamer"]);
 
         allComb.length.should.equal(3);
         allComb[0].Title.should.equal("Messages sent from clients and received by server pr. second");
         allComb[1].Title.should.equal("Messages sent from server pr. second");
         allComb[2].Title.should.equal("Average Latency");
 
-        allComb[0].Series[0].Data.shouldAllBeEqual(expectedSentReceivedSeries);
-        allComb[0].Series[1].Data.shouldAllBeEqual(expectedSentReceivedSeries);
-        allComb[1].Series[0].Data.shouldAllBeEqual(expectedSentSeries);
-        allComb[2].Series[0].Data.shouldAllBeEqual(expectedLatencySeries);
+        allComb[0].Series.length.should.equal(8);
+        allComb[0].Series[2].Name.should.equal("Socket.IO-Received by server");
+        allComb[0].Series[4].Data.shouldAllBeEqual([50, 50, 30, 50, 20]);
 
-        allComb[0].XAxis.shouldAllBeEqual(expectedAxis);
-        allComb[1].XAxis.shouldAllBeEqual(expectedAxis);
-        allComb[2].XAxis.shouldAllBeEqual(expectedAxis);
+        allComb[1].Series.length.should.equal(4);
+        allComb[1].Series[3].Name.should.equal("Lightstreamer-Messages");
+        allComb[1].Series[1].Data.shouldAllBeEqual([1000, 1000, 600, 1000, 400, 400, 600]);
+
+        allComb[2].Series.length.should.equal(4);
+        allComb[2].Series[0].Name.should.equal("SignalR-Average latency (ms)");
+        allComb[2].Series[2].Data.shouldAllBeEqual([110.10, 96.08, 263.64, 108.50, 108.50]);
+
     });
     it("getAverageChartsOfSingleFramework should return null if the specified framework is not in the data", function() {
         var frameworkAvg = merger.getAverageChartsOfSingleFramework("Socket.1337", lpObj, 1);
