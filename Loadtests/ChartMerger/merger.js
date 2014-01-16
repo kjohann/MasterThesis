@@ -16,68 +16,12 @@
         }
 
         if(sentReceivedCharts.length < 1) return null;
-        var sentReceivedChart = {Title: sentReceivedCharts[0].Title, YAxisTitle: sentReceivedCharts[0].YAxisTitle, Series: []},
-            sentFromServerChart = {Title: sentFromServerCharts[0].Title, YAxisTitle: sentFromServerCharts[0].YAxisTitle, Series: []},
-            averageLatencyChart = {Title: averageLatencyCharts[0].Title, YAxisTitle: averageLatencyCharts[0].YAxisTitle, Series: []};
 
-        var longestSentRec = 0, longestSent = 0, longestLatency = 0;
-        for(var i = 0; i < sentReceivedCharts.length; i++) {
-            sentReceivedChart.Series.push({
-                Name: sentReceivedCharts[i].framework + "-" + sentReceivedCharts[i].Series[0].Name,
-                Data: sentReceivedCharts[i].Series[0].Data
-            });
-            sentReceivedChart.Series.push({
-                Name: sentReceivedCharts[i].framework + "-" + sentReceivedCharts[i].Series[1].Name,
-                Data: sentReceivedCharts[i].Series[1].Data
-            });
-            if(sentReceivedCharts[i].Series[1].Data.length > longestSentRec) {
-                longestSentRec =  sentReceivedCharts[i].Series[1].Data.length;
-            }
-            sentFromServerChart.Series.push({
-                Name: sentFromServerCharts[i].framework + "-" + sentFromServerCharts[i].Series[0].Name,
-                Data: sentFromServerCharts[i].Series[0].Data
-            });
-
-            if(sentFromServerCharts[i].Series[0].Data.length > longestSent) {
-                longestSent =  sentFromServerCharts[i].Series[0].Data.length;
-            }
-            averageLatencyChart.Series.push({
-                Name: averageLatencyCharts[i].framework + "-" + averageLatencyCharts[i].Series[0].Name,
-                Data: averageLatencyCharts[i].Series[0].Data
-            });
-
-            if(averageLatencyCharts[i].Series[0].Data.length > longestLatency) {
-                longestLatency =  averageLatencyCharts[i].Series[0].Data.length;
-            }
-        }
-
-        sentReceivedChart.XAxis = buildXAxis(longestSentRec, spacing);
-        sentFromServerChart.XAxis = buildXAxis(longestSent, spacing);
-        averageLatencyChart.XAxis = buildXAxis(longestLatency, spacing);
-
-
-//        var receivedAtServerSeriesObj = root.findSeries(sentReceivedCharts[0].Series[0].Name, sentReceivedCharts);
-//        var sentFromClientSeriesObj = root.findSeries(sentReceivedCharts[0].Series[1].Name, sentReceivedCharts);
-//        var sentReceivedChart = sentReceivedCharts[0];
-//        sentReceivedChart.XAxis = buildXAxis(receivedAtServerSeriesObj.longest, spacing);
-//        sentReceivedChart.Series[0].Data = getAverageSeries(receivedAtServerSeriesObj.longest,
-//            receivedAtServerSeriesObj.series.map(function(serie) {return serie.Data;}));
-//        sentReceivedChart.Series[1].Data = getAverageSeries(sentFromClientSeriesObj.longest,
-//            sentFromClientSeriesObj.series.map(function(serie) {return serie.Data;}));
-//
-//        var sentFromServerSeriesObj = root.findSeries(sentFromServerCharts[0].Series[0].Name, sentFromServerCharts);
-//        var sentFromServerChart = sentFromServerCharts[0];
-//        sentFromServerChart.XAxis = buildXAxis(sentFromServerSeriesObj.longest, spacing);
-//        sentFromServerChart.Series[0].Data = getAverageSeries(sentFromServerSeriesObj.longest,
-//            sentFromServerSeriesObj.series.map(function(serie) {return serie.Data;}));
-//
-//        var averageLatencySeriesObj = root.findSeries(averageLatencyCharts[0].Series[0].Name, averageLatencyCharts);
-//        var averageLatencyChart = averageLatencyCharts[0];
-//        averageLatencyChart.XAxis = buildXAxis(averageLatencySeriesObj.longest, spacing);
-//        averageLatencyChart.Series[0].Data = getAverageSeries(averageLatencySeriesObj.longest,
-//            averageLatencySeriesObj.series.map(function(serie) {return serie.Data;}));
-
-        return [sentReceivedChart, sentFromServerChart, averageLatencyChart];
+        return [
+            getCombinedChart(sentReceivedCharts, spacing),
+            getCombinedChart(sentFromServerCharts, spacing),
+            getCombinedChart(averageLatencyCharts, spacing)
+        ];
     };
 
     root.getAverageChartsOfSingleFramework = function(framework, allChartsArray, spacing) {
@@ -176,6 +120,27 @@
         var seriesNames = ["Average latency (ms)"];
         return getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing);
     };
+
+    function getCombinedChart(charts, spacing) {
+        var chart = {Title: charts[0].Title, YAxisTitle: charts[0].YAxisTitle, Series: []};
+        for(var i = 0; i < charts.length; i++) {
+            var longestSeries = 0;
+            for(var j = 0; j < charts[i].Series.length; j++) {
+                chart.Series.push({
+                    Name: charts[i].framework + "-" + charts[i].Series[j].Name,
+                    Data: charts[i].Series[j].Data
+                });
+
+                if(charts[i].Series[j].Data.length > longestSeries) {
+                    longestSeries = charts[i].Series[j].Data.length;
+                }
+            }
+
+            chart.XAxis = buildXAxis(longestSeries, spacing);
+        }
+
+        return chart;
+    }
 
     function getAverageSeries(longestSeries, series) {
         var averageSeries = [];
