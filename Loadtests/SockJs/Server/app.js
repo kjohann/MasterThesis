@@ -19,7 +19,8 @@ var clients = [];
 var loadServer = sockjs.createServer();
     loadServer.on('connection', function(conn) {
     clients[conn.id] = conn;
-    conn.on('data', function(args) {
+    conn.on('data', function(json) {
+        var args = JSON.parse(json);
         var method = args[0];
         if(method !== 'echo') { //do broadcast
             for(var client in clients) {
@@ -37,55 +38,37 @@ loadServer.installHandlers(server, {prefix:'/load'});
 function routeMessage(args, conn) {
     var method = args[0];
     if(method === 'initTest') {
-
+        var testToRun = args[1], numberOfClients = args[2],
+            spacing = args[3], startTime = args[4];
+        hub.initTest(testToRun, numberOfClients, spacing, startTime);
+        conn.write(JSON.stringify(['initTest', testToRun]));
     } else if (method === 'echo') {
-
+        var message = args[1];
+        hub.echo(message);
+        conn.write(JSON.stringify(['receiveMessage', message]));
     } else if(method === 'broadcast') {
-
+        var message = args[1];
+        hub.broadcast(message);
+        conn.write(JSON.stringify(['receiveMessage', message]));
     } else if(method === 'complete') {
-
+        var clientId = args[1];
+        if(hub.complete(clientId)) {
+            conn.write(JSON.stringify(['harvest']));
+        }
     } else if(method === 'getData') {
-
+        var testData = args[1], numberOfClientsPrBrowser = args[2];
+        if(hub.getData(testData, numberOfClientsPrBrowser)) {
+            conn.write(JSON.stringify(['harvestComplete', {
+                Duration: hub.monitor.duration,
+                StartTime: hub.monitor.startTime,
+                SentFromClientEvents: hub.monitor.sentFromClientEvents,
+                ReceivedAtServerEvents: hub.monitor.receivedAtServerEvents,
+                SentFromServerEvents: hub.monitor.sentFromServerEvents,
+                Spacing: hub.monitor.spacing,
+                TestDataEntities: hub.monitor.testDataEntities
+            }]));
+        }
     }
 }
-
-//io.sockets.on('connection', function(socket) {
-//    socket.on('initTest', function(args) {
-//        var testToRun = args[0], numberOfClients = args[1],
-//            spacing = args[2], startTime = args[3];
-//        hub.initTest(testToRun, numberOfClients, spacing, startTime);
-//        io.sockets.emit('initTest', testToRun);
-//    });
-//    socket.on('echo', function(args) {
-//        var message = args[0];
-//        hub.echo(message);
-//        socket.emit('receiveMessage', message);
-//    });
-//    socket.on('broadcast', function(args) {
-//        var message = args[0];
-//        hub.broadcast(message);
-//        io.sockets.emit('receiveMessage', message);
-//    });
-//    socket.on('complete', function(args) {
-//        var clientId = args[0];
-//        if(hub.complete(clientId)) {
-//            io.sockets.emit('harvest');
-//        }
-//    });
-//    socket.on('getData', function(args) {
-//        var testData = args[0], numberOfClientsPrBrowser = args[1];
-//        if(hub.getData(testData, numberOfClientsPrBrowser)) {
-//            io.sockets.emit('harvestComplete', {
-//                Duration: hub.monitor.duration,
-//                StartTime: hub.monitor.startTime,
-//                SentFromClientEvents: hub.monitor.sentFromClientEvents,
-//                ReceivedAtServerEvents: hub.monitor.receivedAtServerEvents,
-//                SentFromServerEvents: hub.monitor.sentFromServerEvents,
-//                Spacing: hub.monitor.spacing,
-//                TestDataEntities: hub.monitor.testDataEntities
-//            });
-//        }
-//    })
-//});
 
 
