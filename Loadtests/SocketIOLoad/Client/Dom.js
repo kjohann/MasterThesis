@@ -1,8 +1,7 @@
 ﻿(function(root) {
-    root.hideInit = function() {
-        $("#connInterval").hide();
+    root.hideInitShowStart = function () {
         $("#connect").hide();
-        $("#numberOfClients").hide();
+        $("#start").show();
     };
 
     root.showStart = function() {
@@ -23,7 +22,6 @@
 
     root.changeOnHarvestComplete = function() {
         $("#getCharts").show();
-        $("#running").hide();
     };
 
     root.showMasterPromotion = function() {

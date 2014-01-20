@@ -1,43 +1,96 @@
 ﻿<!DOCTYPE html>
 
 <html>
-    <head>
-        <title>Load test for: </title>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="Libs/jquery-1.6.4.min.js"></script>
-        <script src="Libs/highcharts.js"></script>
-        <script src="Globals.js"></script>
-        <script src="Socket.js"></script>
-        <script src="Models.js"></script>
-        <script src="Dom.js"></script>
-        <script src="Charts.js"></script>
-        <script src="ClientFunctions.js"></script>
-        <script src="Communication.js"></script>
-        <script src="Main.js"></script>
-    </head>
-    <body>
-        <div id="pageContainer">
-            <h1 id="header">Load test of : Socket.IO</h1>
-            <select id="type">
-                <option value="echo">Echo</option>
-                <option value="broadcast">Broadcast</option>
-            </select>
-            <div id="master">
-                <button id="masterBtn">Promote first client</button>
-            </div>
-            <input id="numberOfClients" type="text" placeholder="Number of clients"/>
-            <input id="connInterval" type="text" placeholder="Connection interval"/>
-            <button id="connect">Init connections</button>            
-            <input id="msgInterval" type="text" placeholder="Message interval"/>
-            <input id="msgs" type="text" placeholder="Number of messages"/>
-            <button id="init">Start test</button>
-            <h2 id="running">Running...</h2>
-            <button id="getCharts">Get results</button>
-            <div id="charts">
-                <div id="messagesSentReceivedChart" style="height:400px;"></div>
-                <div id="messagesSentFromServerChart" style="height:400px;"></div>
-                <div id="averageLatencyChart" style="height:400px;"></div>
-            </div>
-        </div> 
-    </body>
+<head>
+    <title>Load test for: </title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="Libs/jquery-1.6.4.min.js"></script>
+    <script src="Libs/highcharts.js"></script>
+    <script src="Globals.js"></script>
+    <script src="Socket.js"></script>
+    <script src="Models.js"></script>
+    <script src="Dom.js"></script>
+    <script src="Charts.js"></script>
+    <script src="ClientFunctions.js"></script>
+    <script src="Communication.js"></script>
+    <script src="Main.js"></script>
+</head>
+<body>
+<div id="pageContainer">
+    <div>
+        <h1 id="header">Load test of :</h1>
+        <table>
+            <tr>
+                <td>
+                    <label for="chartAPIInput">Url for chart API:</label>
+                    <input id="chartAPIInput" type="text" placeholder="absolute path" value="http://localhost/ChartsAPI/api/charts"/>
+                </td>
+                <td>
+                    <label for="transports">Transport:</label>
+                    <label id="transports"><b>Has to be configured on server!</b></label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="spacing">Spacing of x-axis:</label>
+                    <input id="spacing" type="number" value="1"/>
+                </td>
+                <td>
+                    <label for="instanceId">Id of this browser:</label>
+                    <input id="instanceId" type="number" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="totalClients">Total number of clients:</label>
+                    <input id="totalClients" type="number"/>
+                </td>
+                <td>
+                    <label for="clientsBrowser">Number of clients in browser</label>
+                    <input id="clientsBrowser" type="number"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="connInterval">Connection interval</label>
+                    <input id="connInterval" type="number"/>
+                </td>
+                <td>
+                    <label for="msgs">Number of messages pr. client</label>
+                    <input id="msgs" type="number"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="msgInterval">Message interval (in ms)</label>
+                    <input id="msgInterval" type="number"/>
+                </td>
+                <td>
+                    <label for="type">Type of test:</label>
+                    <select id="type">
+                        <option value="echo">Echo</option>
+                        <option value="broadcast">Broadcast</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="masterBtn">Master?</label>
+                    <input id="masterBtn" type="checkbox"/>
+                </td>
+                <td>
+                    <button id="connect">Init connections</button>
+                    <button id="start" style="display: none">Start test</button>
+                </td>
+            </tr>
+            <tr><td><div id="info"><h2>Console:</h2></div></td></tr>
+        </table>
+    </div>
+    <div id="charts">
+        <div id="messagesSentReceivedChart" style="height:400px;"></div>
+        <div id="messagesSentFromServerChart" style="height:400px;"></div>
+        <div id="averageLatencyChart" style="height:400px;"></div>
+    </div>
+</div>
+</body>
 </html>

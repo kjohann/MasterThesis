@@ -1,13 +1,11 @@
 ﻿(function(root, options) {
     options.frameWork = null;
 
-    root.SocketInstance = function () {
+    root.SocketInstance = function (transport)  {
         var self = this;
         var socketIO = io.connect('http://localhost:1337', {
             'force new connection': true
         });
-
-        console.log("Connection tried - if no errors - prob ok");
 
         self.bind = function(functionName, functionToCall) {
             socketIO.on(functionName, functionToCall);
@@ -22,9 +20,9 @@
         };
 
         self.start = function() {
-            //No need with Socket.IO
+            loadTest.log("Connected");
         };
     };
-    
+
 
 })(loadTest.socket = loadTest.socket || {}, loadTest.options);
