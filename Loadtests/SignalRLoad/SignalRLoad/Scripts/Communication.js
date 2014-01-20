@@ -1,4 +1,4 @@
-﻿(function(options, root, functions, models, dom, socket) {    
+﻿(function (options, root, functions, models, dom, socket) {
     root.initConnection = function () {
         var clientId = options.connectionsTried + options.instanceId;
 
@@ -20,26 +20,26 @@
         }
     };
 
-    root.start = function(test) {
-        functions.findClient(options.masterId).done(function(client) {
-            client.socket.invoke("initTest", test, options.numberOfClientsTotal, options.spacing, new Date().getTime());            
-        }).fail(function(error) {
+    root.start = function (test) {
+        functions.findClient(options.masterId).done(function (client) {
+            client.socket.invoke("initTest", test, options.numberOfClientsTotal, options.spacing, new Date().getTime());
+        }).fail(function (error) {
             console.log(error.message);
         });
     };
-    
-    root.initTest = function(test) {
+
+    root.initTest = function (test) {
         if (options.locks.initLock++ < 1) { //call only once
             if (test === 'echo' || test === 'broadcast') {
                 loadTest.log("Running test...");
                 sendMessages(test);
             } else {
-                loadTest.log("No such test!");
+                loadTest.log("No such test!", true);
             }
         }
-    }; 
+    };
 
-    root.harvest = function() {
+    root.harvest = function () {
         if (options.locks.harvestLock++ < 1) {
             options.locks.allComplete = true;
             var client = options.clients[0];
@@ -52,17 +52,17 @@
         $.each(options.clients, function (index, client) {
             if (client.messagesSent++ < options.numberOfMessages) {
                 client.socket.invoke(test, new models.Message("1337", client.clientId, client.messagesSent));
-            } else if(!client.complete) {
+            } else if (!client.complete) {
                 client.complete = true;
                 loadTest.log("Sending complete for client " + client.clientId);
                 client.socket.invoke('complete', client.clientId);
             }
         });
-        
+
         setTimeout(function () {
             if (!options.locks.allComplete) {
                 sendMessages(test);
             }
-        }, options.messageInterval);        
+        }, options.messageInterval);
     }
 })(loadTest.options, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions, loadTest.models, loadTest.dom, loadTest.socket);

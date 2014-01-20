@@ -15,6 +15,13 @@ app.get('/', function(req, res) {
     res.sendfile(pathname + '/Index.html');
 }) ;
 
+io.set('transports', [
+    'websocket'
+    , 'htmlfile'
+    , 'xhr-polling'
+    , 'jsonp-polling'
+]);
+
 io.sockets.on('connection', function(socket) {
     socket.on('initTest', function(args) {
         var testToRun = args[0], numberOfClients = args[1],

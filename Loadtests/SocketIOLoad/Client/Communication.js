@@ -29,13 +29,12 @@
     };
 
     root.initTest = function(test) {
-        loadTest.log("InitCalled");
         if (options.locks.initLock++ < 1) { //call only once
             if (test === 'echo' || test === 'broadcast') {
                 loadTest.log("Running test...");
                 sendMessages(test);
             } else {
-                loadTest.log("No such test!");
+                loadTest.log("No such test!", true);
             }
         }
     };

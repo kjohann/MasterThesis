@@ -20,8 +20,12 @@
                 allComplete: false
             }
         },
-        log : function(msg) {
-            console.log(msg);
+        log : function(msg, error) {
+            if(!error) {
+                console.log(msg);
+            } else {
+                console.error(error);
+            }
             $("#info").append(msg + "<br>");
         }
     };
