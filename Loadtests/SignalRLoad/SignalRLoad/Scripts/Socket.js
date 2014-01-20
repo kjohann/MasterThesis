@@ -1,7 +1,7 @@
 ﻿(function(root, options) {
     options.frameWork = "SignalR";
 
-    root.SocketInstance = function () {
+    root.SocketInstance = function (transport) {
         var self = this;
         self.connection = $.hubConnection();
         self.commObj = self.connection.createHubProxy("loadHub");
@@ -16,10 +16,12 @@
         };
 
         self.start = function() {
-            self.connection.start().done(function () {
-                console.log("Connected");
+            self.connection.start({
+                transport: transport
+            }).done(function () {
+                loadTest.log("Connected");
             }).fail(function () {
-                console.log("Error connecting");
+                loadTest.log("Error connecting");
             });
         };
     };

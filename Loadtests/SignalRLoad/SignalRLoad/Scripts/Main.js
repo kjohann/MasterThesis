@@ -2,33 +2,43 @@
     $(function () {
         $("#header").append(options.frameWork);
         $("#getCharts").hide();
-        $("#running").hide();
-        $("#init").hide();
-        $("#type").hide();
-        $("#master").hide();
-        $("#msgInterval").hide();
-        $("#msgs").hide();
         
         $("#getCharts").click(function () {
             charts.getCharts(loadTest.data);
         });
 
         $("#connect").click(function() {
-            options.connectionInterval = parseInt($("#connInterval").val());
-            options.numberOfClientsTotal = parseInt($("#numberOfClients").val());
-            options.numberOfClientsPrBrowser = parseInt($("#numberOfClients").val());
+            options.chartUrl = getValue("#chartAPIInput");
+            options.transport = getValue("#transports");
+            options.spacing = getValueAsInt("#spacing");
+            options.instanceId = getValueAsInt("#instanceId");
+            options.numberOfClientsTotal = getValueAsInt("#totalClients");
+            options.numberOfClientsPrBrowser = getValueAsInt("#clientsBrowser");
+            options.connectionInterval = getValueAsInt("#connInterval");
+            options.numberOfMessages = getValueAsInt("#msgs");
+            options.messageInterval = getValueAsInt("#msgInterval");
+            options.testType = $("#type").val();            
+            
+            if ($("#masterBtn")[0].checked) {
+                options.masterId = options.instanceId;
+            }
             comm.initConnection();
         });            
 
-        $("#init").click(function () {
-            var test = $("#type").val();
-            options.messageInterval = parseInt($("#msgInterval").val());
-            options.numberOfMessages = parseInt($("#msgs").val());
-            comm.start(test);
+        $("#start").click(function () {            
+            if (options.masterId !== 0) {
+                functions.promoteToMaster();
+            }
+            comm.start(options.testType);
         });
-
-        $("#masterBtn").click(function() {            
-            functions.promoteToMaster();
-        });
+        
     });
+    
+    function getValueAsInt(id) {
+        return parseInt($(id).val());
+    }
+    
+    function getValue(id) {
+        return $(id).val();
+    }
 })(loadTest.options, loadTest.charts, loadTest.communications, loadTest.clientFunctions)

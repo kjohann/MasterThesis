@@ -7,6 +7,7 @@
             connectionInterval: 0, //delay between connecting clients 
             numberOfClientsTotal: 0,
             numberOfClientsPrBrowser: 0,
+            transport: 'longPolling',
             messageInterval: 0,
             numberOfMessages: 0, //(pr. client) use this with messageInterval to calculate expected duration
             instanceId: 1, //will be id of the first client
@@ -20,6 +21,10 @@
                 allComplete: false
 }
         },
+        log: function (msg) {
+            console.log(msg);
+            $("#info").append(msg + "<br>");
+        }
     };    
     //example regarding instanceId and clients: 5 clients pr. browser: instanceId will be 1 and it will hold clients with ids 1, 2, 3, 4 and 5. Next instanceId will be 6
 })();
