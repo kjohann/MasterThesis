@@ -121,8 +121,6 @@ describe("Clientfunctions", function () {
 
     });
     it("promoteToMaster should promote the client with same id as the instanceId to master", function() {
-        var domStub1 = sinon.stub(loadTest.dom, "hideMasterPromotion");
-        var domStub2 = sinon.stub(loadTest.dom, "showStart");
         loadTest.options.instanceId = 1;
 
         loadTest.options.clients = [];
@@ -132,13 +130,8 @@ describe("Clientfunctions", function () {
         loadTest.clientFunctions.promoteToMaster();
 
         loadTest.options.masterId.should.equal(1);
-
-        domStub1.restore();
-        domStub2.restore();
     });
     it("promoteToMaster should only promote one client to master", function() {
-        var domMock = sinon.mock(loadTest.dom);
-        domMock.expects("showStart").atMost(1);
         loadTest.options.instanceId = 1;
 
         loadTest.options.clients = [];
@@ -147,13 +140,10 @@ describe("Clientfunctions", function () {
 
         loadTest.clientFunctions.promoteToMaster();
 
-        domMock.verify();
-
-        domMock.restore();
+        loadTest.options.clients[0].master.should.be.false;
+        loadTest.options.clients[1].master.should.be.true;
     });
     it("promotoToMaster should not promote if no client matches the instanceId", function() {
-        var domMock = sinon.mock(loadTest.dom);
-        domMock.expects("showStart").atMost(0);
         loadTest.options.instanceId = 5;
 
         loadTest.options.clients = [];
@@ -162,9 +152,8 @@ describe("Clientfunctions", function () {
 
         loadTest.clientFunctions.promoteToMaster();
 
-        domMock.verify();
-
-        domMock.restore();
+        loadTest.options.clients[0].master.should.be.false;
+        loadTest.options.clients[1].master.should.be.false;
     });
     it("getMessages moves all messages from the associative array of a client to an indexed array", function() {
         var client = new loadTest.models.Client(1, null);

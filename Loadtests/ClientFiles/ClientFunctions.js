@@ -11,7 +11,7 @@
 
     root.harvestComplete = function(data) {
         if (options.masterId != 0) { //do only once
-            console.log("Harvest complete");
+            loadTest.log("Harvest complete");
             options.masterId = 0;
             dom.changeOnHarvestComplete();
             loadTest.data = data;
@@ -23,9 +23,7 @@
         root.findClient(clientId).done(function (foundClient) {
             foundClient.master = true;
             options.masterId = clientId;
-            console.log("Promoted client with id " + foundClient.clientId + " to master");
-            dom.hideMasterPromotion();
-            dom.showStart();
+            loadTest.log("Promoted client with id " + foundClient.clientId + " to master");
         }).fail(clientNotFound);
     };
 
@@ -61,7 +59,7 @@
         options.latencyEvents[message.Key] += latency;
     };
 
-    function clientNotFound(error) { 
+    function clientNotFound(error) {
         console.log(error.message);
     }
 })(loadTest.options, loadTest.clientFunctions = loadTest.clientFunctions || {}, loadTest.dom)

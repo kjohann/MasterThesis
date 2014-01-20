@@ -153,7 +153,6 @@ describe("Communication", function() {
         
         var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
         functionsStub.returns(getDeferred(true, client));
-        var domStub = sinon.stub(loadTest.dom, "changeOnStart");
 
         setOpts(1, 1337, 1, 10);
 
@@ -162,7 +161,6 @@ describe("Communication", function() {
         fakeSocket.invokeArgs[0][0].should.equal("initTest");
 
         functionsStub.restore();
-        domStub.restore();
     });
     it("start should call invoke with provided test as second argument when master client is present", function () {
         var fakeSocket = new FakeSocket();
@@ -171,7 +169,6 @@ describe("Communication", function() {
 
         var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
         functionsStub.returns(getDeferred(true, client));
-        var domStub = sinon.stub(loadTest.dom, "changeOnStart");
 
         setOpts(1, 1337, 1, 10);
 
@@ -180,7 +177,6 @@ describe("Communication", function() {
         fakeSocket.invokeArgs[0][1].should.equal("echo");
 
         functionsStub.restore();
-        domStub.restore();
     });
     it("start should call invoke with total number of clients as third argument when master client is present", function () {
         var fakeSocket = new FakeSocket();
@@ -189,7 +185,6 @@ describe("Communication", function() {
 
         var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
         functionsStub.returns(getDeferred(true, client));
-        var domStub = sinon.stub(loadTest.dom, "changeOnStart");
 
         setOpts(1, 1337, 1, 10);
 
@@ -198,7 +193,6 @@ describe("Communication", function() {
         fakeSocket.invokeArgs[0][2].should.equal(10);
 
         functionsStub.restore();
-        domStub.restore();
     });
     it("start should call invoke with spacing as fourth argument when master client is present", function () {
         var fakeSocket = new FakeSocket();
@@ -207,7 +201,6 @@ describe("Communication", function() {
 
         var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
         functionsStub.returns(getDeferred(true, client));
-        var domStub = sinon.stub(loadTest.dom, "changeOnStart");
         loadTest.options.spacing = 11;
 
         setOpts(1, 1337, 1);
@@ -217,7 +210,6 @@ describe("Communication", function() {
         fakeSocket.invokeArgs[0][3].should.equal(11);
 
         functionsStub.restore();
-        domStub.restore();
     });
     it("start should call invoke with the current date in milliseconds as fifth argument when master client is present", function () {
         var fakeSocket = new FakeSocket();
@@ -226,7 +218,6 @@ describe("Communication", function() {
 
         var functionsStub = sinon.stub(loadTest.clientFunctions, "findClient");
         functionsStub.returns(getDeferred(true, client));
-        var domStub = sinon.stub(loadTest.dom, "changeOnStart");
         var dateStub = sinon.stub(window, "Date");
         dateStub.returns({ getTime: function () { return 42; } });
 
@@ -237,7 +228,6 @@ describe("Communication", function() {
         fakeSocket.invokeArgs[0][4].should.equal(42);
 
         functionsStub.restore();
-        domStub.restore();
         dateStub.restore();
     });
     it("initTest should log an error if the provided test argument is neither 'echo' nor 'broadcast'", function() {
@@ -262,7 +252,7 @@ describe("Communication", function() {
 
         consoleMock.restore();
     });
-    it("initTest should iterates over all clients and calls invoke on each clients socket", function() {
+    it("initTest should iterate over all clients and calls invoke on each clients socket", function() {
         this.clock = sinon.useFakeTimers();
         resetOpts();
 
