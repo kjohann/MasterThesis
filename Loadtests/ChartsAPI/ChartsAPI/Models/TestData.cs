@@ -116,7 +116,10 @@ namespace ChartsAPI.Models
                 for (var j = 0; j < entities.Count; j++)
                 {
                     var testEntities = entities[j].LatencyData.ToArray();
-                    totalLatency += testEntities[i];
+                    if (i < testEntities.Count())
+                    {
+                        totalLatency += testEntities[i];
+                    }
 
                     if (j != entities.Count - 1) continue;
 

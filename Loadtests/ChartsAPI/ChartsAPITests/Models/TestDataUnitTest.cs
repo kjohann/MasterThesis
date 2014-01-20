@@ -209,7 +209,7 @@ namespace ChartsAPITests.Models
             stopwatch.Stop();
 
             stopwatch.ElapsedMilliseconds.Should().BeLessOrEqualTo(1000);
-        }
+        }        
 
         [Test]
         public void BuildXAxis_should_give_an_axis_consisting_of_numbers_from_zero_and_up_with_given_spacing_this_with_one()
@@ -268,6 +268,17 @@ namespace ChartsAPITests.Models
             var clientData = GetDummyDataSet(10, 9).ToArray();
           
             var expectedData = new[] {77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78};
+
+            _instance.GetAverageLatencyData(entities, clientData).ShouldAllBeEquivalentTo(expectedData);
+        }
+
+        [Test]
+        public void GetAverageLatencyData_should_be_able_to_handle_entities_with_different_lengths()
+        {
+            var entities = GetTestDataEntities(5, 10, 140, true);
+            var clientData = GetDummyDataSet(12, 9).ToArray();
+
+            var expectedData = new[] { 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 77.78, 15.56, 15.56 };
 
             _instance.GetAverageLatencyData(entities, clientData).ShouldAllBeEquivalentTo(expectedData);
         }
@@ -347,7 +358,7 @@ namespace ChartsAPITests.Models
             }
         }
 
-        private static List<TestDataEntity> GetTestDataEntities(int numberOfBrowsers, int lengthOfSequence, int accumulatedLatencyPrInterval)
+        private static List<TestDataEntity> GetTestDataEntities(int numberOfBrowsers, int lengthOfSequence, int accumulatedLatencyPrInterval, bool firstLonger = false)
         {
             var entities = new List<TestDataEntity>();
             for (var i = 0; i < numberOfBrowsers; i++)
@@ -356,6 +367,13 @@ namespace ChartsAPITests.Models
                 for (var j = 0; j < lengthOfSequence; j++)
                 {
                     list.Add(accumulatedLatencyPrInterval);
+                }
+
+                if (firstLonger)
+                {
+                    list.Add(accumulatedLatencyPrInterval);
+                    list.Add(accumulatedLatencyPrInterval);
+                    firstLonger = false;
                 }
                 //pr. browser
                 entities.Add(new TestDataEntity
