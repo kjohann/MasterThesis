@@ -1,7 +1,7 @@
 ﻿(function(root, options) {
     options.frameWork = null;
 
-    root.SocketInstance = function () {
+    root.SocketInstance = function (transport) {
         var self = this;
 
         self.bind = function(functionName, functionToCall) {
