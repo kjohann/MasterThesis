@@ -13,11 +13,12 @@
         }
     }
 
-    root.SocketInstance = function () {
+    root.SocketInstance = function (transport) {
         var self = this;
         self.functions = [];
 
         self.commObj = new loadTest.lsUtils.LightstreamerClient(null, "LOAD");
+        self.commObj.connectionOptions.setForcedTransport(transport);
         self.commObj.connect();
 
         self.bind = function(functionName, functionToCall) {
@@ -73,7 +74,7 @@
             self.commObj.subscribe(echoSub);
             self.commObj.subscribe(broadcastSub);
 
-            console.log("Connected");
+            loadTest.log("Connected");
         };
     };
 

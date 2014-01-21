@@ -24,27 +24,82 @@
             <span data-source="lightstreamer" data-field="ejson" style="display:none"></span>
         </div>
         <div id="pageContainer">
-            <h1 id="header">Load test of :</h1>
-            <select id="type">
-                <option value="echo">Echo</option>
-                <option value="broadcast">Broadcast</option>
-            </select>
-            <div id="master">
-                <button id="masterBtn">Promote first client</button>
+            <div>
+                <h1 id="header">Load test of :</h1>
+                <table>
+                    <tr>
+                        <td>
+                            <label for="chartAPIInput">Url for chart API:</label>
+                            <input id="chartAPIInput" type="text" placeholder="absolute path" value="http://localhost/ChartsAPI/api/charts"/>
+                        </td>
+                        <td>
+                            <label for="transports">Transport:</label>
+                            <input type="text" id="transports"/>
+                            <!-- Available transports: WS-STREAMING, HTTP-STREAMING, WS-POLLING, HTTP-POLLING-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="spacing">Spacing of x-axis:</label>
+                            <input id="spacing" type="number" value="1"/>
+                        </td>
+                        <td>
+                            <label for="instanceId">Id of this browser:</label>
+                            <input id="instanceId" type="number" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="totalClients">Total number of clients:</label>
+                            <input id="totalClients" type="number"/>
+                        </td>
+                        <td>
+                            <label for="clientsBrowser">Number of clients in browser</label>
+                            <input id="clientsBrowser" type="number"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="connInterval">Connection interval</label>
+                            <input id="connInterval" type="number"/>
+                        </td>
+                        <td>
+                            <label for="msgs">Number of messages pr. client</label>
+                            <input id="msgs" type="number"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="msgInterval">Message interval (in ms)</label>
+                            <input id="msgInterval" type="number"/>
+                        </td>
+                        <td>
+                            <label for="type">Type of test:</label>
+                            <select id="type">
+                                <option value="echo">Echo</option>
+                                <option value="broadcast">Broadcast</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="masterBtn">Master?</label>
+                            <input id="masterBtn" type="checkbox"/>
+                        </td>
+                        <td>
+                            <button id="connect">Init connections</button>
+                            <button id="start" style="display: none">Start test</button>
+                            <button id="getCharts" style="display:none">Get charts</button>
+                        </td>
+                    </tr>
+                    <tr><td><div id="info"><h2>Console:</h2></div></td></tr>
+                </table>
             </div>
-            <input id="numberOfClients" type="text" placeholder="Number of clients"/>
-            <input id="connInterval" type="text" placeholder="Connection interval"/>
-            <button id="connect">Init connections</button>            
-            <input id="msgInterval" type="text" placeholder="Message interval"/>
-            <input id="msgs" type="text" placeholder="Number of messages"/>
-            <button id="init">Start test</button>
-            <h2 id="running">Running...</h2>
-            <button id="getCharts">Get results</button>
             <div id="charts">
                 <div id="messagesSentReceivedChart" style="height:400px;"></div>
                 <div id="messagesSentFromServerChart" style="height:400px;"></div>
                 <div id="averageLatencyChart" style="height:400px;"></div>
             </div>
-        </div> 
+        </div>
     </body>
 </html>

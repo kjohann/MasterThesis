@@ -47,7 +47,7 @@
             };
         }
 
-        console.log("Connected");
+        loadTest.log("Connected");
 
         self.bind = function(functionName, functionToCall) {
             self.functions[functionName] = functionToCall  
