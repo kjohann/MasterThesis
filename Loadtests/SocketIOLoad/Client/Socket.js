@@ -1,5 +1,5 @@
 ﻿(function(root, options) {
-    options.frameWork = null;
+    options.frameWork = "Socket.IO";
 
     root.SocketInstance = function (transport)  {
         var self = this;
