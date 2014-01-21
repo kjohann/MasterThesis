@@ -13,10 +13,10 @@
         }
     }
 
-    root.SocketInstance = function () {
+    root.SocketInstance = function (transport) {
         var self = this;
         self.functions = [];
-        self.commObj = new SockJS("http://127.0.0.1:1337/load");
+        self.commObj = new SockJS("http://127.0.0.1:1337/load", null, {protocols_whitelist: [transport]});
 
         self.commObj.onopen = function() {
             console.log("Connected");

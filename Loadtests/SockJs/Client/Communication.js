@@ -1,12 +1,12 @@
-﻿(function(options, root, functions, models, dom, socket) {    
+﻿(function(options, root, functions, models, dom, socket) {
     root.initConnection = function () {
         var clientId = options.connectionsTried + options.instanceId;
 
-        var socketInstance = new socket.SocketInstance();
+        var socketInstance = new socket.SocketInstance(options.transport);
         socketInstance.bind("initTest", root.initTest);
-        socketInstance.bind("receiveMessage", functions.receiveMessage);
-        socketInstance.bind("harvest", root.harvest);
-        socketInstance.bind("harvestComplete", functions.harvestComplete);
+        socketInstance.bind('receiveMessage', functions.receiveMessage);
+        socketInstance.bind('harvest', root.harvest);
+        socketInstance.bind('harvestComplete', functions.harvestComplete);
 
         options.clients.push(new models.Client(clientId, socketInstance));
         socketInstance.start();
@@ -16,36 +16,34 @@
                 root.initConnection();
             }, options.connectionInterval);
         } else {
-            dom.showMasterPromotion();
-            dom.hideInit();
+            dom.hideInitShowStart();
         }
     };
 
     root.start = function(test) {
         functions.findClient(options.masterId).done(function(client) {
             client.socket.invoke("initTest", test, options.numberOfClientsTotal, options.spacing, new Date().getTime());
-            dom.changeOnStart();
         }).fail(function(error) {
-            console.log(error.message);
-        });
+                console.log(error.message);
+            });
     };
-    
+
     root.initTest = function(test) {
         if (options.locks.initLock++ < 1) { //call only once
             if (test === 'echo' || test === 'broadcast') {
-                console.log("Initializing");
+                loadTest.log("Running test...");
                 sendMessages(test);
             } else {
-                console.error("No such test!");
+                loadTest.log("No such test!", true);
             }
         }
-    }; 
+    };
 
     root.harvest = function() {
         if (options.locks.harvestLock++ < 1) {
             options.locks.allComplete = true;
             var client = options.clients[0];
-            console.log("Harvesting...");
+            loadTest.log("Harvesting...");
             client.socket.invoke("getData", { LatencyData: options.latencyEvents }, options.numberOfClientsPrBrowser);
         }
     };
@@ -56,15 +54,15 @@
                 client.socket.invoke(test, new models.Message("1337", client.clientId, client.messagesSent));
             } else if(!client.complete) {
                 client.complete = true;
-                console.log("Sending complete for client " + client.clientId);
+                loadTest.log("Sending complete for client " + client.clientId);
                 client.socket.invoke('complete', client.clientId);
             }
         });
-        
+
         setTimeout(function () {
             if (!options.locks.allComplete) {
                 sendMessages(test);
             }
-        }, options.messageInterval);        
+        }, options.messageInterval);
     }
 })(loadTest.options, loadTest.communications = loadTest.communications || {}, loadTest.clientFunctions, loadTest.models, loadTest.dom, loadTest.socket);
