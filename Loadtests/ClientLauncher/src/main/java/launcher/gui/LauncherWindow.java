@@ -226,6 +226,17 @@ public class LauncherWindow {
 		ddmTestType.setFont(new Font("Arial", Font.PLAIN, 14));
 		ddmTestType.setBounds(378, 139, 134, 20);
 		settingsPanel.add(ddmTestType);
+		
+		JLabel lblFramework = new JLabel("Framework:");
+		lblFramework.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblFramework.setBounds(283, 12, 85, 14);
+		settingsPanel.add(lblFramework);
+		
+		JComboBox ddmFramework = new JComboBox();
+		ddmFramework.setModel(new DefaultComboBoxModel(new String[] {"SignalR", "Socket.IO", "Play", "Lightstreamer", "SockJS"}));
+		ddmFramework.setFont(new Font("Arial", Font.PLAIN, 14));
+		ddmFramework.setBounds(370, 9, 134, 20);
+		settingsPanel.add(ddmFramework);
 		frmClientLauncher.setVisible(true);
 	}
 }
