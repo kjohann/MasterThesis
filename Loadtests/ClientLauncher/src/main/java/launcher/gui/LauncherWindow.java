@@ -23,6 +23,7 @@ public class LauncherWindow {
 	public JTextField txtNumberOfBrowsers, txtChartUrl, txtSpacing, txtNumberOfClientsTotal,
 					txtConnInterval, txtMessageInterval, txtTransport, txtNumClientsInBrowser, txtNumMessagesClient, txtServerUrl;
 	public JComboBox ddmTestType, ddmFramework;
+	public JLabel lblValidationSummary;
 	private EventListener listener;
 
 	/**
@@ -233,7 +234,7 @@ public class LauncherWindow {
 		ddmFramework.setBounds(370, 9, 134, 20);
 		settingsPanel.add(ddmFramework);
 		
-		JLabel lblValidationSummary = new JLabel("");
+		lblValidationSummary = new JLabel("");
 		lblValidationSummary.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
 		lblValidationSummary.setForeground(Color.RED);
 		lblValidationSummary.setBounds(0, 235, 543, 25);
