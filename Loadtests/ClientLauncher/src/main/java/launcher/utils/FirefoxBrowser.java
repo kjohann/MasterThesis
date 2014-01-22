@@ -1,9 +1,4 @@
-package launcher.browser;
-
-import java.util.List;
-
-import launcher.utils.FrameworkTransportMapper;
-import launcher.utils.InputOutputUtil;
+package launcher.utils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
