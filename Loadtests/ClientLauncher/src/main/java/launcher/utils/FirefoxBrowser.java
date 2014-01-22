@@ -25,7 +25,7 @@ public class FirefoxBrowser {
 		fill(find(By.id("chartAPIInput")), url);
 	}
 	
-	public void setTransport(String framework, String transport) {
+	public void setTransport(String transport) {
 		fill(find(By.id("transports")), transport);		
 	}
 	

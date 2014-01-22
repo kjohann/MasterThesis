@@ -79,8 +79,29 @@ public class Processor {
 		for(int i = 0; i < numberOfBrowsers; i++) {
 			FirefoxBrowser browser = new FirefoxBrowser();
 			browser.navigate(serverUrl);
+			browser.setChartAPIUrl(chartUrl);
+			browser.setTransport(transport);
+			browser.setSpacing(spacing);
+			browser.setBrowserId(getBrowserId(i));
+			browser.setTotalNumberOfClients(totalNumberOfClients);
+			browser.setNumberOfClientsInBrowser(numberOfClientsInBrowser);
+			browser.setConnectionInterval(connectionInterval);
+			browser.setNumberOfMessagesPrClient(numberOfMessagesPrClient);
+			browser.setMessageInterval(messageInterval);
+			browser.setTestType(typeOfTest.toLowerCase());
+			if(i == 0) {
+				browser.makeMaster();
+			}
+//			browser.clickInitTest();
 			
 			browsers.add(browser);
 		}
+	}
+	
+	private String getBrowserId(int currentIndex) {
+		int numberOfClientsPrBrowser = InputOutputUtil.getIntValue(numberOfClientsInBrowser);
+		
+		int id = numberOfClientsPrBrowser * currentIndex;
+		return String.valueOf(id);
 	}
 }
