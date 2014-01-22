@@ -1,7 +1,5 @@
 package launcher.gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -12,34 +10,26 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
-import java.awt.Component;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
-import java.awt.GridLayout;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
 
 public class LauncherWindow {
 
-	private JFrame frmClientLauncher;
-	private JTextField txtNumberOfBrowsers;
-	private JTextField txtChartUrl;
-	private JTextField txtSpacing;
-	private JTextField txtNumberOfClientsTotal;
-	private JTextField txtConnInterval;
-	private JTextField txtMessageInterval;
-	private JTextField txtTransport;
-	private JTextField txtNumClientsInBrowser;
-	private JTextField txtNumMessagesClient;
+	private JFrame frmClientLauncher; 
+	public JTextField txtNumberOfBrowsers, txtChartUrl, txtSpacing, txtNumberOfClientsTotal,
+					txtConnInterval, txtMessageInterval, txtTransport, txtNumClientsInBrowser, txtNumMessagesClient;
+	public JComboBox ddmTestType, ddmFramework;
 	private EventListener listener;
 
 	/**
 	 * Create the application.
 	 */
 	public LauncherWindow() {
-		listener = new EventListener(frmClientLauncher);
+		listener = new EventListener(this);
 		initialize();
 	}
 
@@ -226,7 +216,7 @@ public class LauncherWindow {
 		btnResetFields.addActionListener(listener);
 		settingsPanel.add(btnResetFields);
 		
-		JComboBox ddmTestType = new JComboBox();
+		ddmTestType = new JComboBox();
 		ddmTestType.setModel(new DefaultComboBoxModel(new String[] {"Echo", "Broadcast"}));
 		ddmTestType.setFont(new Font("Arial", Font.PLAIN, 14));
 		ddmTestType.setBounds(378, 139, 134, 20);
@@ -237,7 +227,7 @@ public class LauncherWindow {
 		lblFramework.setBounds(283, 12, 85, 14);
 		settingsPanel.add(lblFramework);
 		
-		JComboBox ddmFramework = new JComboBox();
+		ddmFramework = new JComboBox();
 		ddmFramework.setModel(new DefaultComboBoxModel(new String[] {"SignalR", "Socket.IO", "Play", "Lightstreamer", "SockJS"}));
 		ddmFramework.setFont(new Font("Arial", Font.PLAIN, 14));
 		ddmFramework.setBounds(370, 9, 134, 20);
