@@ -250,6 +250,7 @@ public class LauncherWindow {
 		settingsPanel.add(lblHost);
 		
 		txtServerUrl = new JTextField();
+		txtServerUrl.setText("http://");
 		txtServerUrl.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtServerUrl.setColumns(100);
 		txtServerUrl.setBounds(78, 10, 190, 20);

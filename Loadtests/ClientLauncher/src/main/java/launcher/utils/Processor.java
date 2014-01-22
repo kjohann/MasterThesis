@@ -92,7 +92,8 @@ public class Processor {
 			if(i == 0) {
 				browser.makeMaster();
 			}
-//			browser.clickInitTest();
+
+			browser.clickInitTest();
 			
 			browsers.add(browser);
 		}

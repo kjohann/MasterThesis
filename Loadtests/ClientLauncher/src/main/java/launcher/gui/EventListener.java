@@ -25,7 +25,7 @@ public class EventListener implements ActionListener, KeyListener  {
 				mainFrame.lblValidationSummary.setText("One or more fields has errors - check transports!");
 			}
 		} else if(event.getActionCommand() == "Reset fields") {
-			
+			resetFields();
 		} else if(event.getActionCommand() == "Close browsers") {
 			processor.closeBrowsers();
 		}
@@ -33,7 +33,6 @@ public class EventListener implements ActionListener, KeyListener  {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -60,7 +59,20 @@ public class EventListener implements ActionListener, KeyListener  {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
+	}
+	
+	private void resetFields() {
+		mainFrame.txtServerUrl.setText("http://");
+		mainFrame.txtNumberOfBrowsers.setText("");
+		mainFrame.txtTransport.setText("");
+		mainFrame.txtSpacing.setText("");
+		mainFrame.txtNumClientsInBrowser.setText("");
+		mainFrame.txtNumberOfClientsTotal.setText("");
+		mainFrame.txtNumMessagesClient.setText("");
+		mainFrame.txtConnInterval.setText("");
+		mainFrame.txtMessageInterval.setText("");
+		mainFrame.ddmFramework.setSelectedIndex(0);
+		mainFrame.ddmTestType.setSelectedIndex(0);
 	}
 }
