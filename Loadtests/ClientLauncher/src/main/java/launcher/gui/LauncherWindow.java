@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Color;
 
 public class LauncherWindow {
 
@@ -237,6 +238,12 @@ public class LauncherWindow {
 		ddmFramework.setFont(new Font("Arial", Font.PLAIN, 14));
 		ddmFramework.setBounds(370, 9, 134, 20);
 		settingsPanel.add(ddmFramework);
+		
+		JLabel lblValidationSummary = new JLabel("");
+		lblValidationSummary.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
+		lblValidationSummary.setForeground(Color.RED);
+		lblValidationSummary.setBounds(0, 219, 543, 30);
+		settingsPanel.add(lblValidationSummary);
 		frmClientLauncher.setVisible(true);
 	}
 }
