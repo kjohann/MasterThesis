@@ -21,7 +21,7 @@ public class InputOutputUtil {
 		return val != null && val > 0;
 	}
 	
-	private static Integer getIntValue(String value) {
+	public static Integer getIntValue(String value) {
 		try {
 			return Integer.parseInt(value);
 		} catch(NumberFormatException e) {

@@ -7,24 +7,27 @@ import launcher.gui.LauncherWindow;
 
 public class Processor {
 	private List<FirefoxBrowser> browsers;
+	private String serverUrl, nrOfBrowsers, framework, chartUrl, transport,
+	spacing, numberOfClientsInBrowser, totalNumberOfClients, numberOfMessagesPrClient,
+	connectionInterval, typeOfTest, messageInterval;
 	
 	public Processor() {
 		browsers = new ArrayList<>();
 	}
 	
 	public boolean handleInputAndValidate(LauncherWindow mainFrame) {
-		String serverUrl = InputOutputUtil.getValueFromTextField(mainFrame.txtServerUrl);
-		String nrOfBrowsers = InputOutputUtil.getValueFromTextField(mainFrame.txtNumberOfBrowsers);
-		String framework = InputOutputUtil.getSelectedValueFromComboBox(mainFrame.ddmFramework);
-		String chartUrl = InputOutputUtil.getValueFromTextField(mainFrame.txtChartUrl);
-		String transport = InputOutputUtil.getValueFromTextField(mainFrame.txtTransport);
-		String spacing = InputOutputUtil.getValueFromTextField(mainFrame.txtSpacing);
-		String numberOfClientsInBrowser = InputOutputUtil.getValueFromTextField(mainFrame.txtNumClientsInBrowser);
-		String totalNumberOfClients = InputOutputUtil.getValueFromTextField(mainFrame.txtNumberOfClientsTotal);
-		String numberOfMessagesPrClient = InputOutputUtil.getValueFromTextField(mainFrame.txtNumMessagesClient);
-		String connectionInterval = InputOutputUtil.getValueFromTextField(mainFrame.txtConnInterval);
-		String typeOfTest = InputOutputUtil.getSelectedValueFromComboBox(mainFrame.ddmTestType);
-		String messageInterval = InputOutputUtil.getValueFromTextField(mainFrame.txtMessageInterval);
+		serverUrl = InputOutputUtil.getValueFromTextField(mainFrame.txtServerUrl);
+		nrOfBrowsers = InputOutputUtil.getValueFromTextField(mainFrame.txtNumberOfBrowsers);
+		framework = InputOutputUtil.getSelectedValueFromComboBox(mainFrame.ddmFramework);
+		chartUrl = InputOutputUtil.getValueFromTextField(mainFrame.txtChartUrl);
+		transport = InputOutputUtil.getValueFromTextField(mainFrame.txtTransport);
+		spacing = InputOutputUtil.getValueFromTextField(mainFrame.txtSpacing);
+		numberOfClientsInBrowser = InputOutputUtil.getValueFromTextField(mainFrame.txtNumClientsInBrowser);
+		totalNumberOfClients = InputOutputUtil.getValueFromTextField(mainFrame.txtNumberOfClientsTotal);
+		numberOfMessagesPrClient = InputOutputUtil.getValueFromTextField(mainFrame.txtNumMessagesClient);
+		connectionInterval = InputOutputUtil.getValueFromTextField(mainFrame.txtConnInterval);
+		typeOfTest = InputOutputUtil.getSelectedValueFromComboBox(mainFrame.ddmTestType);
+		messageInterval = InputOutputUtil.getValueFromTextField(mainFrame.txtMessageInterval);
 		
 		if(!validateStringFields(serverUrl, framework, chartUrl, transport, typeOfTest)) {
 			return false;
@@ -38,6 +41,8 @@ public class Processor {
 		if(!FrameworkTransportMapper.isAvailable(framework, transport)) {
 			return false;
 		}				
+		
+		launchBrowsers();
 		
 		return true;
 	}
@@ -60,5 +65,16 @@ public class Processor {
 		}
 		
 		return true;
+	}
+	
+	private void launchBrowsers() {
+		int numberOfBrowsers = InputOutputUtil.getIntValue(nrOfBrowsers);
+		
+		for(int i = 0; i < numberOfBrowsers; i++) {
+			FirefoxBrowser browser = new FirefoxBrowser();
+			browser.navigate(serverUrl);
+			//fill fields			
+			browsers.add(browser);
+		}
 	}
 }

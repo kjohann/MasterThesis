@@ -13,6 +13,10 @@ public class FirefoxBrowser {
 		firefox = new FirefoxDriver();
 	}
 	
+	public void navigate(String url) {
+		firefox.navigate().to(url);
+	}
+	
 	public void setChartAPIUrl(String url) {
 		fill(find(By.id("chartAPIInput")), url);
 	}
