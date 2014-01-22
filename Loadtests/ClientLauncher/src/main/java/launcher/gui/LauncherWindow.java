@@ -21,7 +21,7 @@ public class LauncherWindow {
 
 	private JFrame frmClientLauncher; 
 	public JTextField txtNumberOfBrowsers, txtChartUrl, txtSpacing, txtNumberOfClientsTotal,
-					txtConnInterval, txtMessageInterval, txtTransport, txtNumClientsInBrowser, txtNumMessagesClient;
+					txtConnInterval, txtMessageInterval, txtTransport, txtNumClientsInBrowser, txtNumMessagesClient, txtServerUrl;
 	public JComboBox ddmTestType, ddmFramework;
 	private EventListener listener;
 
@@ -101,68 +101,68 @@ public class LauncherWindow {
 		
 		JLabel lblNumberOfBrowsers = new JLabel("Number of browsers:");
 		lblNumberOfBrowsers.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblNumberOfBrowsers.setBounds(0, 11, 136, 14);
+		lblNumberOfBrowsers.setBounds(0, 38, 136, 20);
 		settingsPanel.add(lblNumberOfBrowsers);
 		
 		txtNumberOfBrowsers = new JTextField();
 		txtNumberOfBrowsers.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtNumberOfBrowsers.setBounds(146, 9, 26, 20);
+		txtNumberOfBrowsers.setBounds(139, 38, 26, 20);
 		settingsPanel.add(txtNumberOfBrowsers);
 		txtNumberOfBrowsers.setColumns(2);
 		
 		JLabel lblNewLabel = new JLabel("Url for chart API:");
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblNewLabel.setBounds(0, 36, 119, 20);
+		lblNewLabel.setBounds(0, 69, 119, 20);
 		settingsPanel.add(lblNewLabel);
 		
 		txtChartUrl = new JTextField();
 		txtChartUrl.setText("http://localhost/ChartsAPI/api/charts");
 		txtChartUrl.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtChartUrl.setBounds(116, 36, 152, 20);
+		txtChartUrl.setBounds(116, 69, 152, 20);
 		settingsPanel.add(txtChartUrl);
 		txtChartUrl.setColumns(100);
 		
 		JLabel lblSpacingOfXaxis = new JLabel("Spacing of x-axis: ");
 		lblSpacingOfXaxis.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSpacingOfXaxis.setBounds(0, 69, 119, 20);
+		lblSpacingOfXaxis.setBounds(0, 100, 119, 20);
 		settingsPanel.add(lblSpacingOfXaxis);
 		
 		JLabel lblTotalNumberOf = new JLabel("Total number of clients:");
 		lblTotalNumberOf.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblTotalNumberOf.setBounds(0, 103, 152, 20);
+		lblTotalNumberOf.setBounds(0, 138, 152, 20);
 		settingsPanel.add(lblTotalNumberOf);
 		
 		JLabel lblConnectionInterval = new JLabel("Connection interval (in ms):");
 		lblConnectionInterval.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblConnectionInterval.setBounds(0, 138, 193, 20);
+		lblConnectionInterval.setBounds(0, 169, 193, 20);
 		settingsPanel.add(lblConnectionInterval);
 		
 		JLabel lblConnectionInterval_1 = new JLabel("Message interval (in ms):");
 		lblConnectionInterval_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblConnectionInterval_1.setBounds(0, 173, 165, 20);
+		lblConnectionInterval_1.setBounds(0, 200, 165, 20);
 		settingsPanel.add(lblConnectionInterval_1);
 		
 		txtSpacing = new JTextField();
 		txtSpacing.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtSpacing.setBounds(126, 67, 26, 20);
+		txtSpacing.setBounds(129, 100, 26, 20);
 		settingsPanel.add(txtSpacing);
 		txtSpacing.setColumns(2);
 		
 		txtNumberOfClientsTotal = new JTextField();
 		txtNumberOfClientsTotal.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtNumberOfClientsTotal.setBounds(157, 104, 53, 20);
+		txtNumberOfClientsTotal.setBounds(157, 138, 53, 20);
 		settingsPanel.add(txtNumberOfClientsTotal);
 		txtNumberOfClientsTotal.setColumns(4);
 		
 		txtConnInterval = new JTextField();
 		txtConnInterval.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtConnInterval.setBounds(190, 139, 53, 20);
+		txtConnInterval.setBounds(190, 170, 53, 20);
 		settingsPanel.add(txtConnInterval);
 		txtConnInterval.setColumns(3);
 		
 		txtMessageInterval = new JTextField();
 		txtMessageInterval.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtMessageInterval.setBounds(171, 174, 53, 20);
+		txtMessageInterval.setBounds(171, 201, 53, 20);
 		settingsPanel.add(txtMessageInterval);
 		txtMessageInterval.setColumns(4);
 		
@@ -201,7 +201,7 @@ public class LauncherWindow {
 		txtNumMessagesClient = new JTextField();
 		txtNumMessagesClient.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtNumMessagesClient.setColumns(4);
-		txtNumMessagesClient.setBounds(485, 104, 58, 20);
+		txtNumMessagesClient.setBounds(485, 103, 58, 20);
 		settingsPanel.add(txtNumMessagesClient);
 		
 		JButton btnStart = new JButton("Start");
@@ -236,8 +236,19 @@ public class LauncherWindow {
 		JLabel lblValidationSummary = new JLabel("");
 		lblValidationSummary.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
 		lblValidationSummary.setForeground(Color.RED);
-		lblValidationSummary.setBounds(0, 219, 543, 30);
+		lblValidationSummary.setBounds(0, 235, 543, 25);
 		settingsPanel.add(lblValidationSummary);
+		
+		JLabel lblHost = new JLabel("Server url:");
+		lblHost.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblHost.setBounds(0, 12, 136, 14);
+		settingsPanel.add(lblHost);
+		
+		txtServerUrl = new JTextField();
+		txtServerUrl.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtServerUrl.setColumns(100);
+		txtServerUrl.setBounds(78, 10, 190, 20);
+		settingsPanel.add(txtServerUrl);
 		frmClientLauncher.setVisible(true);
 	}
 }
