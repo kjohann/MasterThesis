@@ -26,7 +26,10 @@ public class FirefoxBrowser {
 	}
 	
 	public void setTransport(String transport) {
-		fill(find(By.id("transports")), transport);		
+		WebElement el = find(By.id("transports"));
+		if(!el.getTagName().equals("label")) {
+			fill(el, transport);
+		}
 	}
 	
 	public void setSpacing(String spacing) {

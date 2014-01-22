@@ -15,7 +15,7 @@ public class Processor {
 		browsers = new ArrayList<>();
 	}
 	
-	public boolean handleInputAndValidate(LauncherWindow mainFrame) {
+	public boolean handleInputAndValidate(LauncherWindow mainFrame) throws InterruptedException {
 		serverUrl = InputOutputUtil.getValueFromTextField(mainFrame.txtServerUrl);
 		nrOfBrowsers = InputOutputUtil.getValueFromTextField(mainFrame.txtNumberOfBrowsers);
 		framework = InputOutputUtil.getSelectedValueFromComboBox(mainFrame.ddmFramework);
@@ -73,7 +73,7 @@ public class Processor {
 		return true;
 	}
 	
-	private void launchBrowsers() {
+	private void launchBrowsers() throws InterruptedException {
 		int numberOfBrowsers = InputOutputUtil.getIntValue(nrOfBrowsers);
 		
 		for(int i = 0; i < numberOfBrowsers; i++) {
@@ -96,6 +96,8 @@ public class Processor {
 			browser.clickInitTest();
 			
 			browsers.add(browser);
+			
+			Thread.sleep(getSleepTime());
 		}
 	}
 	
@@ -104,5 +106,12 @@ public class Processor {
 		
 		int id = numberOfClientsPrBrowser * currentIndex;
 		return String.valueOf(id);
+	}
+	
+	private int getSleepTime() {
+		int connInterval = InputOutputUtil.getIntValue(connectionInterval);
+		int numberOfClientsPrBrowser = InputOutputUtil.getIntValue(numberOfClientsInBrowser);
+		
+		return connInterval * numberOfClientsPrBrowser;
 	}
 }

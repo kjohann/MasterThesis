@@ -21,8 +21,12 @@ public class EventListener implements ActionListener, KeyListener  {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getActionCommand() == "Start") {						
 			mainFrame.lblValidationSummary.setText("");
-			if(!processor.handleInputAndValidate(mainFrame)) {
-				mainFrame.lblValidationSummary.setText("One or more fields has errors - check transports!");
+			try {
+				if(!processor.handleInputAndValidate(mainFrame)) {
+					mainFrame.lblValidationSummary.setText("One or more fields has errors - check transports!");
+				}
+			} catch (InterruptedException e) {
+				System.err.println("An exception occured while launching..\n" + e.getMessage());
 			}
 		} else if(event.getActionCommand() == "Reset fields") {
 			resetFields();

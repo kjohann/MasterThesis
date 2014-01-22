@@ -22,6 +22,10 @@ public class FrameworkTransportMapper {
 			throw new IllegalStateException("Need to initialize class first");			
 		}
 		
+		if(!availableTransports.containsKey(framework)) {
+			return true;
+		}
+		
 		for(String t : availableTransports.get(framework)) {
 			if(t.equals(transport)) {
 				return true;
