@@ -12,7 +12,7 @@ service.database.init(require('mysql').createConnection({
     multipleStatements: true //For the sake of testapp, this is ok...
 }));
 
-server.listen(80);
+server.listen(8080);
 
 var pathname = 'C:/Users/Kristian/Documents/GitHub/MasterThesis/TestApplications/Socket.IO_TestApp/Client';
 
