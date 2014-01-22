@@ -1,8 +1,17 @@
 package launcher.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import launcher.gui.LauncherWindow;
 
 public class Processor {
+	private List<FirefoxBrowser> browsers;
+	
+	public Processor() {
+		browsers = new ArrayList<>();
+	}
+	
 	public boolean handleInputAndValidate(LauncherWindow mainFrame) {
 		String serverUrl = InputOutputUtil.getValueFromTextField(mainFrame.txtServerUrl);
 		String nrOfBrowsers = InputOutputUtil.getValueFromTextField(mainFrame.txtNumberOfBrowsers);

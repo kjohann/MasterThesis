@@ -2,18 +2,6 @@ package launcher.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JFrame;
-
-import org.omg.PortableInterceptor.INACTIVE;
-
-import launcher.utils.FirefoxBrowser;
-import launcher.utils.FrameworkTransportMapper;
-import launcher.utils.InputOutputUtil;
 import launcher.utils.Processor;
 
 public class EventListener implements ActionListener  {
