@@ -108,7 +108,8 @@ public class LauncherWindow {
 		txtNumberOfBrowsers = new JTextField();
 		txtNumberOfBrowsers.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtNumberOfBrowsers.setBounds(139, 38, 26, 20);
-		settingsPanel.add(txtNumberOfBrowsers);
+		txtNumberOfBrowsers.addKeyListener(listener);
+		settingsPanel.add(txtNumberOfBrowsers);		
 		txtNumberOfBrowsers.setColumns(2);
 		
 		JLabel lblNewLabel = new JLabel("Url for chart API:");
@@ -150,6 +151,8 @@ public class LauncherWindow {
 		txtSpacing.setColumns(2);
 		
 		txtNumberOfClientsTotal = new JTextField();
+		txtNumberOfClientsTotal.setEnabled(false);
+		txtNumberOfClientsTotal.setEditable(false);
 		txtNumberOfClientsTotal.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtNumberOfClientsTotal.setBounds(157, 138, 53, 20);
 		settingsPanel.add(txtNumberOfClientsTotal);
@@ -197,6 +200,7 @@ public class LauncherWindow {
 		txtNumClientsInBrowser.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtNumClientsInBrowser.setBounds(465, 70, 39, 20);
 		settingsPanel.add(txtNumClientsInBrowser);
+		txtNumClientsInBrowser.addKeyListener(listener);
 		txtNumClientsInBrowser.setColumns(2);
 		
 		txtNumMessagesClient = new JTextField();
