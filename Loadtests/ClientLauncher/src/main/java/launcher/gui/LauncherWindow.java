@@ -207,13 +207,13 @@ public class LauncherWindow {
 		
 		JButton btnStart = new JButton("Start");
 		btnStart.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnStart.setBounds(278, 183, 119, 23);
+		btnStart.setBounds(278, 168, 119, 23);
 		btnStart.addActionListener(listener);
 		settingsPanel.add(btnStart);
 		
 		JButton btnResetFields = new JButton("Reset fields");
 		btnResetFields.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnResetFields.setBounds(407, 183, 119, 23);
+		btnResetFields.setBounds(407, 168, 119, 23);
 		btnResetFields.addActionListener(listener);
 		settingsPanel.add(btnResetFields);
 		
@@ -250,6 +250,12 @@ public class LauncherWindow {
 		txtServerUrl.setColumns(100);
 		txtServerUrl.setBounds(78, 10, 190, 20);
 		settingsPanel.add(txtServerUrl);
+		
+		JButton btnClose = new JButton("Close browsers");
+		btnClose.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnClose.setBounds(335, 200, 136, 23);
+		btnClose.addActionListener(listener);
+		settingsPanel.add(btnClose);
 		frmClientLauncher.setVisible(true);
 	}
 }

@@ -17,6 +17,10 @@ public class FirefoxBrowser {
 		firefox.navigate().to(url);
 	}
 	
+	public void close() {
+		firefox.quit();
+	}
+	
 	public void setChartAPIUrl(String url) {
 		fill(find(By.id("chartAPIInput")), url);
 	}

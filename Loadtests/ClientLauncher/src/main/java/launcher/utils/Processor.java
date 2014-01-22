@@ -47,6 +47,12 @@ public class Processor {
 		return true;
 	}
 	
+	public void closeBrowsers() {
+		for(FirefoxBrowser browser : browsers) {
+			browser.close();
+		}
+	}
+	
 	private boolean validateStringFields(String ...fields) {
 		for(String f : fields) {
 			if(!InputOutputUtil.validateString(f)) {
@@ -73,7 +79,7 @@ public class Processor {
 		for(int i = 0; i < numberOfBrowsers; i++) {
 			FirefoxBrowser browser = new FirefoxBrowser();
 			browser.navigate(serverUrl);
-			//fill fields			
+			
 			browsers.add(browser);
 		}
 	}
