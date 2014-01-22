@@ -33,11 +33,13 @@ public class LauncherWindow {
 	private JTextField txtTransport;
 	private JTextField txtNumClientsInBrowser;
 	private JTextField txtNumMessagesClient;
+	private EventListener listener;
 
 	/**
 	 * Create the application.
 	 */
 	public LauncherWindow() {
+		listener = new EventListener(frmClientLauncher);
 		initialize();
 	}
 
@@ -215,11 +217,13 @@ public class LauncherWindow {
 		JButton btnStart = new JButton("Start");
 		btnStart.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnStart.setBounds(278, 183, 119, 23);
+		btnStart.addActionListener(listener);
 		settingsPanel.add(btnStart);
 		
 		JButton btnResetFields = new JButton("Reset fields");
 		btnResetFields.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnResetFields.setBounds(407, 183, 119, 23);
+		btnResetFields.addActionListener(listener);
 		settingsPanel.add(btnResetFields);
 		
 		JComboBox ddmTestType = new JComboBox();

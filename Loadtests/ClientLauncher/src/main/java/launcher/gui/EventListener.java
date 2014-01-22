@@ -5,46 +5,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class EventListener implements ActionListener, WindowListener  {
+import javax.swing.JFrame;
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-
-	}
-
-	@Override
-	public void windowActivated(WindowEvent arg0) {
-
-	}
-
-	@Override
-	public void windowClosed(WindowEvent arg0) {
-
-	}
-
-	@Override
-	public void windowClosing(WindowEvent arg0) {
-		System.exit(0);		
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent arg0) {
+public class EventListener implements ActionListener  {
+	private JFrame mainFrame;
 	
+	public EventListener(JFrame mainFrame) {
+		this.mainFrame = mainFrame;
 	}
-
-	@Override
-	public void windowDeiconified(WindowEvent arg0) {
 	
-	}
-
 	@Override
-	public void windowIconified(WindowEvent arg0) {
-		
+	public void actionPerformed(ActionEvent event) {
+		if(event.getActionCommand() == "Start") {
+			
+		} else if(event.getActionCommand() == "Reset fields") {
+			
+		}
 	}
-
-	@Override
-	public void windowOpened(WindowEvent arg0) {
-
-	}
-
 }
