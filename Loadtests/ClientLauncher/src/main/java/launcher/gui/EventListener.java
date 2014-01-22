@@ -43,13 +43,17 @@ public class EventListener implements ActionListener, KeyListener  {
 		String numberOfClientsInBrowser = mainFrame.txtNumClientsInBrowser.getText();
 		if(numberOfBrowsers.isEmpty() || 
 				numberOfClientsInBrowser.isEmpty()) {
+			mainFrame.txtNumberOfClientsTotal.setText("");
 			return;
 		}
 		
 		Integer nrOfBrowsers = InputOutputUtil.getIntValue(numberOfBrowsers);
 		Integer nrOfClientsPrBrowser = InputOutputUtil.getIntValue(numberOfClientsInBrowser);
 		
-		if(nrOfBrowsers == null || nrOfClientsPrBrowser == null) return;
+		if(nrOfBrowsers == null || nrOfClientsPrBrowser == null) {
+			mainFrame.txtNumberOfClientsTotal.setText("");
+			return;
+		}
 		
 		mainFrame.txtNumberOfClientsTotal.setText(String.valueOf(nrOfBrowsers * nrOfClientsPrBrowser));		
 	}
