@@ -52,10 +52,6 @@
         $.each(options.clients, function (index, client) {
             if (client.messagesSent++ < options.numberOfMessages) {
                 client.socket.invoke(test, new models.Message("1337", client.clientId, client.messagesSent));
-            } else if(!client.complete) {
-                client.complete = true;
-                loadTest.log("Sending complete for client " + client.clientId);
-                client.socket.invoke('complete', client.clientId);
             }
         });
 
