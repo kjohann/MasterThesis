@@ -1,15 +1,20 @@
-﻿(function(options, root, dom) {
-    root.receiveMessage = function(message) {
+﻿(function (options, root, dom) {
+    root.receiveMessage = function (message) {
         root.findClient(message.ClientId).done(function (foundClient) {
             if (foundClient.messages[message.MessageId] === undefined) {
                 message.ReceivedAtClient = new Date().getTime();
                 foundClient.messages[message.MessageId] = message;
+                foundClient.ownMessagesReceived++;
                 root.registerLatency(message);
+                if (foundClient.ownMessagesReceived == options.numberOfMessages) {
+                    loadTest.log("Sending complete for client with id " + foundClient.ClientId + " time: " + new Date().getTime());
+                    foundClient.socket.invoke('complete', foundClient.clientId);
+                }
             }
         });
     };
 
-    root.harvestComplete = function(data) {
+    root.harvestComplete = function (data) {
         if (options.masterId != 0) { //do only once
             loadTest.log("Harvest complete");
             options.masterId = 0;
@@ -27,7 +32,7 @@
         }).fail(clientNotFound);
     };
 
-    root.getMessages = function(client) {
+    root.getMessages = function (client) {
         var messages = [];
         for (var message in client.messages) {
             messages.push(client.messages[message]);
@@ -36,10 +41,10 @@
         return messages;
     };
 
-    root.findClient = function(clientId) {
+    root.findClient = function (clientId) {
         var deferred = new $.Deferred();
 
-        $.each(options.clients, function(index, currentClient) {
+        $.each(options.clients, function (index, currentClient) {
             if (currentClient.clientId == clientId) {
                 deferred.resolve(currentClient);
             } else if (index == options.clients.length - 1) {
@@ -50,7 +55,7 @@
         return deferred.promise();
     };
 
-    root.registerLatency = function(message) {
+    root.registerLatency = function (message) {
         var latency = message.ReceivedAtClient - message.SentFromClient;
         while (isNaN(options.latencyEvents[message.Key])) {
             options.latencyEvents.push(0);
@@ -59,7 +64,7 @@
         options.latencyEvents[message.Key] += latency;
     };
 
-    function clientNotFound(error) { 
+    function clientNotFound(error) {
         console.log(error.message);
     }
 })(loadTest.options, loadTest.clientFunctions = loadTest.clientFunctions || {}, loadTest.dom)
