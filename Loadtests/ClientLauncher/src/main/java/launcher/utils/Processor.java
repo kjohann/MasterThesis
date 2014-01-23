@@ -29,7 +29,7 @@ public class Processor {
 		typeOfTest = InputOutputUtil.getSelectedValueFromComboBox(mainFrame.ddmTestType);
 		messageInterval = InputOutputUtil.getValueFromTextField(mainFrame.txtMessageInterval);
 		
-		if(!validateStringFields(serverUrl, framework, chartUrl, transport, typeOfTest)) {
+		if(!validateStringFields(serverUrl, framework, chartUrl, typeOfTest)) {
 			return false;
 		} 
 		
@@ -47,10 +47,13 @@ public class Processor {
 		return true;
 	}
 	
-	public void closeBrowsers() {
+	public void clearBrowsers() {
 		for(FirefoxBrowser browser : browsers) {
 			browser.close();
 		}
+		
+		browsers.removeAll(browsers);
+		System.out.println(browsers.size());
 	}
 	
 	private boolean validateStringFields(String ...fields) {
@@ -104,7 +107,7 @@ public class Processor {
 	private String getBrowserId(int currentIndex) {
 		int numberOfClientsPrBrowser = InputOutputUtil.getIntValue(numberOfClientsInBrowser);
 		
-		int id = numberOfClientsPrBrowser * currentIndex;
+		int id = (numberOfClientsPrBrowser * currentIndex) + 1;
 		return String.valueOf(id);
 	}
 	

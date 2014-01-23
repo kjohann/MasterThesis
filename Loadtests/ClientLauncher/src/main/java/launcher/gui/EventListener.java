@@ -31,7 +31,7 @@ public class EventListener implements ActionListener, KeyListener  {
 		} else if(event.getActionCommand() == "Reset fields") {
 			resetFields();
 		} else if(event.getActionCommand() == "Close browsers") {
-			processor.closeBrowsers();
+			processor.clearBrowsers();
 		}
 	}
 

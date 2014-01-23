@@ -256,11 +256,11 @@ public class LauncherWindow {
 		txtServerUrl.setBounds(78, 10, 190, 20);
 		settingsPanel.add(txtServerUrl);
 		
-		JButton btnClose = new JButton("Close browsers");
-		btnClose.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnClose.setBounds(335, 200, 136, 23);
-		btnClose.addActionListener(listener);
-		settingsPanel.add(btnClose);
+		JButton btnClear = new JButton("Clear browsers");
+		btnClear.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnClear.setBounds(335, 200, 136, 23);
+		btnClear.addActionListener(listener);
+		settingsPanel.add(btnClear);
 		frmClientLauncher.setVisible(true);
 	}
 }
