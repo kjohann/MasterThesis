@@ -331,7 +331,7 @@ describe("Communication", function() {
 
         this.clock.restore();
     });
-    it("initTest should call invoke on the clients socket with 'complete' as first argument when the client has sent its specified number of messages", function() {
+    /*it("initTest should call invoke on the clients socket with 'complete' as first argument when the client has sent its specified number of messages", function() {
         this.clock = sinon.useFakeTimers();
         resetOpts();
 
@@ -396,7 +396,7 @@ describe("Communication", function() {
         client.socket.invokeArgs[client.socket.invokeCalled - 1][0].should.equal("complete");
         
         this.clock.restore();
-    });
+    });*/
     it("harvest should only call invoke once", function() {
         resetOpts();
         

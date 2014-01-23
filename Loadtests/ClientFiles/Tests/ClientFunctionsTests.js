@@ -87,6 +87,128 @@ describe("Clientfunctions", function () {
 
         dateStub.restore();
     });
+    it("receiveMessage should increment ownMessagesReceived", function() {
+        var fakeSocket = new FakeSocket();
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(1, fakeSocket));
+
+        var message = new loadTest.models.Message("1337", 1, 1);
+        message.Key = 0;
+
+        loadTest.clientFunctions.receiveMessage(message);
+
+        loadTest.options.clients[0].ownMessagesReceived.should.equal(1);
+
+    });
+
+    it("receiveMessage should increment ownMessagesReceived only once pr message", function() {
+        var fakeSocket = new FakeSocket();
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(1, fakeSocket));
+
+        var message = new loadTest.models.Message("1337", 1, 1);
+        message.Key = 0;
+
+        loadTest.clientFunctions.receiveMessage(message);
+        loadTest.clientFunctions.receiveMessage(message);
+
+        loadTest.options.clients[0].ownMessagesReceived.should.equal(1);
+
+    });
+    it("receiveMessage should increment ownMessagesReceived only when receiving own message", function() {
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(1, new FakeSocket()));
+        loadTest.options.clients.push(new loadTest.models.Client(2, new FakeSocket()));
+
+        var message = new loadTest.models.Message("1337", 1, 1);
+        message.Key = 0;
+
+        loadTest.clientFunctions.receiveMessage(message);
+
+        loadTest.options.clients[0].ownMessagesReceived.should.equal(1);
+        loadTest.options.clients[1].ownMessagesReceived.should.equal(0);
+    });
+    it("receiveMessage should call the clients sockets invoke if ownMessagesReceived equals numberOfMessages (options)", function() {
+        var fakeSocket = new FakeSocket();
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(1, fakeSocket));
+        loadTest.options.numberOfMessages = 1;
+
+        var message = new loadTest.models.Message("1337", 1, 1);
+        message.Key = 0;
+
+        loadTest.clientFunctions.receiveMessage(message);
+
+        fakeSocket.invokeCalled.should.equal(1);
+
+    });    
+    it("receiveMessage should call invoke with 'complete' as first arg when ownMessagesReceived equals numberOfMessages (options)", function() {
+        var fakeSocket = new FakeSocket();
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(1, fakeSocket));
+        loadTest.options.numberOfMessages = 1;
+
+        var message = new loadTest.models.Message("1337", 1, 1);
+        message.Key = 0;
+
+        loadTest.clientFunctions.receiveMessage(message);
+
+        fakeSocket.invokeArgs[0][0].should.equal("complete");
+
+    });
+    it("receiveMessage should not call invoke with when ownMessagesReceived is less than numberOfMessages (options)", function() {
+        var fakeSocket = new FakeSocket();
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(1, fakeSocket));
+        loadTest.options.clients.push(new loadTest.models.Client(2, new FakeSocket()));
+        loadTest.options.numberOfMessages = 2;
+
+        var message = new loadTest.models.Message("1337", 1, 1);
+        message.Key = 0;
+
+        loadTest.clientFunctions.receiveMessage(message);
+
+        fakeSocket.invokeCalled.should.equal(0);
+
+    });
+    it("receiveMessage should call invoke with clientId as second arg when ownMessagesReceived equals numberOfMessages (options)", function() {
+        var fakeSocket = new FakeSocket();
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(1, fakeSocket));
+        loadTest.options.numberOfMessages = 1;
+
+        var message = new loadTest.models.Message("1337", 1, 1);
+        message.Key = 0;
+
+        loadTest.clientFunctions.receiveMessage(message);
+
+        fakeSocket.invokeArgs[0][1].should.equal(1);
+    });
+    it("receiveMessage should only call invoke if for completed client", function() {
+        var fakeSocket1 = new FakeSocket();
+        var fakeSocket2 = new FakeSocket();
+        loadTest.options.clients = [];
+        loadTest.options.clients.push(new loadTest.models.Client(1, fakeSocket1));
+        loadTest.options.clients.push(new loadTest.models.Client(2, fakeSocket2));
+        loadTest.options.numberOfMessages = 2;
+
+        var message1 = new loadTest.models.Message("1337", 1, 1);
+        message1.Key = 0;
+
+        var message2 = new loadTest.models.Message("1337", 2, 1);
+        message2.Key = 0;
+
+        var message3 = new loadTest.models.Message("1337", 1, 2);
+        message3.Key = 0;
+
+        loadTest.clientFunctions.receiveMessage(message1);
+        loadTest.clientFunctions.receiveMessage(message2);
+        loadTest.clientFunctions.receiveMessage(message3);
+
+        fakeSocket1.invokeCalled.should.equal(1);
+        fakeSocket2.invokeCalled.should.equal(0);
+
+    });  
     it("harvestComplete should set masterId to 0 if it is not 0 already", function () {
         var domStub = sinon.stub(loadTest.dom, "changeOnHarvestComplete");
         loadTest.options.masterId = 1;
@@ -188,3 +310,25 @@ describe("Clientfunctions", function () {
 
     });
 });
+
+function FakeSocket() {
+    var self = this;
+    self.bindCalled = 0;
+    self.bindFirstArg = [];
+    self.bindSecondArg = [];
+    self.invokeCalled = 0;
+    self.invokeArgs = [];
+    self.startCalled = 0;
+    self.bind = function(functionName, functionToCall) {
+        self.bindCalled++;
+        self.bindFirstArg[functionName] = functionName;
+        self.bindSecondArg[functionName] = functionToCall;
+    };
+    self.invoke = function() {
+        self.invokeCalled++;
+        self.invokeArgs.push(Array.prototype.slice.call(arguments));
+    };
+    self.start = function() {
+        self.startCalled++;
+    };  
+}

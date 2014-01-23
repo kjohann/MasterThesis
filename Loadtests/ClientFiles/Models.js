@@ -6,6 +6,7 @@
         self.messages = [];
         self.master = false;
         self.messagesSent = 0;
+        self.ownMessagesReceived = 0;
         self.completed = false;
     };
 
