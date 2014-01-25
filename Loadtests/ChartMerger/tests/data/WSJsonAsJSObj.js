@@ -291,5 +291,25 @@ window.merger.wsOjb = [{
                 "YAxisTitle": "Average milliseconds"
             }
         ]
+    }, {
+        "Framework": "SignalR",
+        "Type": "Bytes sent/received",
+        "Data": [64564, 64560, 64568, 64560, 64568, 64560, 64568]
+    }, {
+        "Framework": "Socket.IO",
+        "Type": "Bytes sent/received",
+        "Data": [64664, 64660, 64668, 64660, 64668, 64660, 64668]
+    }, {
+        "Framework": "Play",
+        "Type": "Bytes sent/received",
+        "Data": [64534, 64530, 64538, 64530, 64538, 64530, 64538]
+    },{
+        "Framework": "Lightstreamer",
+        "Type": "Bytes sent/received",
+        "Data": [64764, 64760, 64768, 64760, 64768, 64760, 64768]
+    },{
+        "Framework": "SockJS",
+        "Type": "Bytes sent/received",
+        "Data": [64514, 64510, 64518, 64510, 64518, 64510, 64518]
     }];
 

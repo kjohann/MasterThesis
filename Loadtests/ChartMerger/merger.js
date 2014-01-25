@@ -69,9 +69,11 @@
         var chartsArr = [];
         for(var i = 0; i < chartsArray.length; i++) {
             var charts = chartsArray[i].Charts;
-            for(var j = 0; j < charts.length; j++) {
-                if(charts[j].Title === chartName) {
-                    chartsArr.push(charts[j]);
+            if(charts !== undefined) {
+                for(var j = 0; j < charts.length; j++) {
+                    if(charts[j].Title === chartName) {
+                        chartsArr.push(charts[j]);
+                    }
                 }
             }
         }

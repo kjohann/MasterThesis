@@ -291,4 +291,16 @@ window.merger.lpObj = [{
                 "YAxisTitle": "Average milliseconds"
             }
         ]
+    }, {
+        "Framework": "SignalR",
+        "Type": "Bytes sent/received",
+        "Data": [64564, 64560, 64568, 64560, 64568, 64560, 64568]
+    }, {
+        "Framework": "Socket.IO",
+        "Type": "Bytes sent/received",
+        "Data": [64664, 64660, 64668, 64660, 64668, 64660, 64668]
+    },{
+        "Framework": "SockJS",
+        "Type": "Bytes sent/received",
+        "Data": [64514, 64510, 64518, 64510, 64518, 64510, 64518]
     }];

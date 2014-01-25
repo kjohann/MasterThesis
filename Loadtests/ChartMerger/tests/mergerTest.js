@@ -85,10 +85,11 @@ describe("merger", function() {
     it("arrangeData should place all chart objects of each framework in each entry in the returned array", function() {
         var arr = merger.arrangeData(lpObj);
 
-        arr[socketIO].length.should.equal(4);
-        arr[signalR].length.should.equal(1);
+        arr[socketIO].length.should.equal(5);
+        arr[signalR].length.should.equal(2);
         arr[play].length.should.equal(1);
         arr[ls].length.should.equal(1);
+        arr["SockJS"].length.should.equal(1);
     });
     it("getCalculatedAveragesOfSeries should return an array with length equal to the longest series", function() {
         var chartsArray = [wsObj[0], wsObj[1], wsObj[3], wsObj[4]],
