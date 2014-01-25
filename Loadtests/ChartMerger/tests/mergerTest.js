@@ -167,4 +167,23 @@ describe("merger", function() {
         chart.YAxisTitle.should.equal(expected.YAxisTitle);
         chart.Series[0].Data.shouldAllBeEqual(expected.Series[0].Data);
     });
+    it("calculateAverageInArray should return the average of all values in the provided array", function() {
+        var array = [60, 64, 68, 60, 64, 68, 63, 65]
+
+        var avg = merger.calculateAverageInArray(array);
+
+        avg.should.equal(64);
+    });
+    it("getAverageValueByTypeAndFramework should return 0 if it cannot find the type", function() {
+        var avg = merger.getAverageValueByTypeAndFramework("NonExistentType", "SignalR", lpObj);
+        avg.should.equal(0);
+    });
+    it("getAverageValueByTypeAndFramework should return 0 if it cannot find the framework", function() {
+        var avg = merger.getAverageValueByTypeAndFramework("Bytes sent/received", "Nonexistent", lpObj);
+        avg.should.equal(0);
+    });
+    it("getAverageValueByTypeAndFramework should return the average value of the data type of the given framework", function() {
+        var avg = merger.getAverageValueByTypeAndFramework("Bytes sent/received", "SignalR", lpObj);
+        avg.should.equal(64564);
+    });
 });

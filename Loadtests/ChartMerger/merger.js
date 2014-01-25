@@ -123,6 +123,25 @@
         return getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing);
     };
 
+    root.calculateAverageInArray = function(array) {
+        var avg = 0;
+        for(var i = 0; i < array.length; i++) {
+            avg += array[i];
+        }
+
+        return avg / array.length;
+    }
+
+    root.getAverageValueByTypeAndFramework = function(type, framework, allDataArray) {
+        for(var i= 0; i < allDataArray.length; i++) {
+            if(allDataArray[i].Type === type && allDataArray[i].Framework === framework) {
+                return root.calculateAverageInArray(allDataArray[i].Data);
+            }
+        }
+
+        return 0;
+    }
+
     function getCombinedChart(charts, spacing) {
         var chart = {Title: charts[0].Title, YAxisTitle: charts[0].YAxisTitle, Series: []};
         for(var i = 0; i < charts.length; i++) {
