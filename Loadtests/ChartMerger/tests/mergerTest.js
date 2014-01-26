@@ -167,6 +167,36 @@ describe("merger", function() {
         chart.YAxisTitle.should.equal(expected.YAxisTitle);
         chart.Series[0].Data.shouldAllBeEqual(expected.Series[0].Data);
     });
+    it("getManualDataChart should get a chart with given type as title", function() {
+        var frameworks = ["SignalR", "Play", "SockJS", "Lightstreamer", "Socket.IO"];
+        merger.getManualDataChart("Bytes sent/received", frameworks, ["Websockets", "Http-Streaming", "Long-Polling"], "Bytes", mdObj)
+            .title.should.equal("Bytes sent/received");
+    });
+    it("getManualDataChart should get a chart with given frameworks as xAxis", function() {
+        var frameworks = ["SignalR", "Play", "SockJS", "Lightstreamer", "Socket.IO"];
+        merger.getManualDataChart("Bytes sent/received", frameworks, ["Websockets", "Http-Streaming", "Long-Polling"], "Bytes", mdObj)
+            .xAxis.shouldAllBeEqual(frameworks);
+    });
+    it("getManualDataChart should get a chart with given yAxisTitle as yAxisTitle and as unit but lower cased", function() {
+        var frameworks = ["SignalR", "Play", "SockJS", "Lightstreamer", "Socket.IO"];
+        var chart = merger.getManualDataChart("Bytes sent/received", frameworks, ["Websockets", "Http-Streaming", "Long-Polling"], "Bytes", mdObj);
+
+        chart.yAxisTitle.should.equal("Bytes");
+        chart.unit.should.equal("bytes");
+    });
+    it("getManualDataChart should get a chart with one series pr. framework containing avg data", function() {
+        var frameworks = ["SignalR", "Play", "SockJS", "Lightstreamer", "Socket.IO"];
+        var chart = merger.getManualDataChart("Bytes sent/received", frameworks, ["Websockets", "Http-Streaming", "Long-Polling"], "Bytes", mdObj);
+
+        chart.series.length.should.equal(3);
+        chart.series[0].name.should.equal("Websockets");
+        chart.series[0].data.shouldAllBeEqual([64564, 64534, 64514, 64764, 64664]);
+        chart.series[1].name.should.equal("Http-Streaming");
+        chart.series[1].data.shouldAllBeEqual([0, 84534, 0, 0, 0]);
+        chart.series[2].name.should.equal("Long-Polling");
+        chart.series[2].data.shouldAllBeEqual([84564, 0, 84514, 84764, 84664]);
+
+    });
     it("getAverageManualDataSeriesByTypeAndTransport should get a series comprised of the avg values of all provided frameworks for the given type for the transport", function() {
         var frameworks = ["SignalR", "Play", "SockJS", "Lightstreamer", "Socket.IO"];
         var series = merger.getAverageManualDataSeriesByTypeAndTransport("Peak processor usage", frameworks, "Long-Polling", mdObj);

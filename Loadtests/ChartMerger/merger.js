@@ -123,6 +123,23 @@
         return getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing);
     };
 
+    root.getManualDataChart = function(type, frameworks, transports, yAxisTitle, allDataArray) {
+        var chart = {
+            title: type,
+            xAxis: frameworks,
+            yAxisTitle: yAxisTitle,
+            unit: yAxisTitle.toLowerCase(),
+            series: []
+        };
+
+        for(var i = 0; i < transports.length; i++) {
+            var serie = root.getAverageManualDataSeriesByTypeAndTransport(type, frameworks, transports[i], allDataArray);
+            chart.series.push(serie);
+        }
+
+        return chart;
+    }
+
     root.getAverageManualDataSeriesByTypeAndTransport = function(type, frameworks, transport, allDataArray) {
         var series = [];
         for(var i = 0; i < frameworks.length; i++) {
