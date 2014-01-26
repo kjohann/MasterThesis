@@ -167,6 +167,18 @@ describe("merger", function() {
         chart.YAxisTitle.should.equal(expected.YAxisTitle);
         chart.Series[0].Data.shouldAllBeEqual(expected.Series[0].Data);
     });
+    it("getAverageManualDataSeriesByTypeAndTransport should get a series comprised of the avg values of all provided frameworks for the given type for the transport", function() {
+        var frameworks = ["SignalR", "Play", "SockJS", "Lightstreamer", "Socket.IO"];
+        var series = merger.getAverageManualDataSeriesByTypeAndTransport("Peak processor usage", frameworks, "Long-Polling", mdObj);
+
+        series.data.shouldAllBeEqual([57, 0, 12.5, 0, 12]);
+    });
+    it("getAverageManualDataSeriesByTypeAndTransport should get a series with name equal to the given transport", function() {
+        var frameworks = ["SignalR", "Play", "SockJS", "Lightstreamer", "Socket.IO"];
+        var series = merger.getAverageManualDataSeriesByTypeAndTransport("Peak processor usage", frameworks, "Long-Polling", mdObj);
+
+        series.name.should.equal("Long-Polling");
+    });
     it("getAverageValueByTypeTransportAndFramework should return 0 if it cannot find the type", function() {
         var avg = merger.getAverageValueByTypeTransportAndFramework("NonExistentType", "Websockets", "SignalR", mdObj);
         avg.should.equal(0);

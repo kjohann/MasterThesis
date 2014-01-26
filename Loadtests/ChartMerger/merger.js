@@ -123,8 +123,17 @@
         return getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing);
     };
 
-    root.getAverageManualDataSeries = function(type, frameworks, allDataArray) {
+    root.getAverageManualDataSeriesByTypeAndTransport = function(type, frameworks, transport, allDataArray) {
+        var series = [];
+        for(var i = 0; i < frameworks.length; i++) {
+            var avg = root.getAverageValueByTypeTransportAndFramework(type, transport, frameworks[i], allDataArray);
+            series.push(avg);
+        }
 
+        return {
+            name: transport,
+            data: series
+        }
     }
 
     root.getAverageValueByTypeTransportAndFramework = function(type, transport, framework, allDataArray) {
