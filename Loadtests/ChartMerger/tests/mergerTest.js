@@ -167,13 +167,6 @@ describe("merger", function() {
         chart.YAxisTitle.should.equal(expected.YAxisTitle);
         chart.Series[0].Data.shouldAllBeEqual(expected.Series[0].Data);
     });
-    it("calculateAverageInArray should return the average of all values in the provided array", function() {
-        var array = [60, 64, 68, 60, 64, 68, 63, 65]
-
-        var avg = merger.calculateAverageInArray(array);
-
-        avg.should.equal(64);
-    });
     it("getAverageValueByTypeAndFramework should return 0 if it cannot find the type", function() {
         var avg = merger.getAverageValueByTypeAndFramework("NonExistentType", "SignalR", mdObj);
         avg.should.equal(0);
@@ -183,7 +176,17 @@ describe("merger", function() {
         avg.should.equal(0);
     });
     it("getAverageValueByTypeAndFramework should return the average value of the data type of the given framework", function() {
-        var avg = merger.getAverageValueByTypeAndFramework("Bytes sent/received", "SignalR", mdObj);
-        avg.should.equal(64564);
+        var avg1 = merger.getAverageValueByTypeAndFramework("Bytes sent/received", "SignalR", mdObj);
+        avg1.should.equal(64564);
+
+        var avg2 = merger.getAverageValueByTypeAndFramework("Peak processor usage", "SignalR", mdObj);
+        avg2.should.equal(57);
+    });
+    it("calculateAverageInArray should return the average of all values in the provided array", function() {
+        var array = [60, 64, 68, 60, 64, 68, 63, 65]
+
+        var avg = merger.calculateAverageInArray(array);
+
+        avg.should.equal(64);
     });
 });
