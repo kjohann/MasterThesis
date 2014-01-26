@@ -167,19 +167,23 @@ describe("merger", function() {
         chart.YAxisTitle.should.equal(expected.YAxisTitle);
         chart.Series[0].Data.shouldAllBeEqual(expected.Series[0].Data);
     });
-    it("getAverageValueByTypeAndFramework should return 0 if it cannot find the type", function() {
-        var avg = merger.getAverageValueByTypeAndFramework("NonExistentType", "SignalR", mdObj);
+    it("getAverageValueByTypeTransportAndFramework should return 0 if it cannot find the type", function() {
+        var avg = merger.getAverageValueByTypeTransportAndFramework("NonExistentType", "Websockets", "SignalR", mdObj);
         avg.should.equal(0);
     });
-    it("getAverageValueByTypeAndFramework should return 0 if it cannot find the framework", function() {
-        var avg = merger.getAverageValueByTypeAndFramework("Bytes sent/received", "Nonexistent", mdObj);
+    it("getAverageValueByTypeTransportAndFramework should return 0 if it cannot find the framework", function() {
+        var avg = merger.getAverageValueByTypeTransportAndFramework("Bytes sent/received", "Websockets" , "Nonexistent", mdObj);
         avg.should.equal(0);
     });
-    it("getAverageValueByTypeAndFramework should return the average value of the data type of the given framework", function() {
-        var avg1 = merger.getAverageValueByTypeAndFramework("Bytes sent/received", "SignalR", mdObj);
+    it("getAverageValueByTypeTransportAndFramework should return 0 if it cannot find the transport", function() {
+        var avg = merger.getAverageValueByTypeTransportAndFramework("Bytes sent/received", "Long-Polling" , "Play", mdObj);
+        avg.should.equal(0);
+    });
+    it("getAverageValueByTypeTransportAndFramework should return the average value of the data type of the given framework", function() {
+        var avg1 = merger.getAverageValueByTypeTransportAndFramework("Bytes sent/received", "Websockets", "SignalR", mdObj);
         avg1.should.equal(64564);
 
-        var avg2 = merger.getAverageValueByTypeAndFramework("Peak processor usage", "SignalR", mdObj);
+        var avg2 = merger.getAverageValueByTypeTransportAndFramework("Peak processor usage", "Websockets", "SignalR", mdObj);
         avg2.should.equal(57);
     });
     it("calculateAverageInArray should return the average of all values in the provided array", function() {

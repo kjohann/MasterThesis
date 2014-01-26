@@ -123,9 +123,14 @@
         return getAveragesChart(chartTitle, yAxisTitle, chartsArray, seriesNames, spacing);
     };
 
-    root.getAverageValueByTypeAndFramework = function(type, framework, allDataArray) {
+    root.getAverageManualDataSeries = function(type, frameworks, allDataArray) {
+
+    }
+
+    root.getAverageValueByTypeTransportAndFramework = function(type, transport, framework, allDataArray) {
         for(var i= 0; i < allDataArray.length; i++) {
-            if(allDataArray[i].Type === type && allDataArray[i].Framework === framework) {
+            var data = allDataArray[i];
+            if(data.Type === type && data.Transport == transport && data.Framework === framework) {
                 return root.calculateAverageInArray(allDataArray[i].Data);
             }
         }
