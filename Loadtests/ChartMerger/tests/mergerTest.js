@@ -1,6 +1,7 @@
 var should = chai.should();
 var wsObj = window.merger.wsOjb;
 var lpObj = window.merger.lpObj;
+var mdObj = window.merger.manDObj;
 var socketIO = "Socket.IO", signalR = "SignalR", play = "Play", ls = "Lightstreamer";
 
 describe("merger", function() {
@@ -85,11 +86,10 @@ describe("merger", function() {
     it("arrangeData should place all chart objects of each framework in each entry in the returned array", function() {
         var arr = merger.arrangeData(lpObj);
 
-        arr[socketIO].length.should.equal(5);
-        arr[signalR].length.should.equal(2);
+        arr[socketIO].length.should.equal(4);
+        arr[signalR].length.should.equal(1);
         arr[play].length.should.equal(1);
         arr[ls].length.should.equal(1);
-        arr["SockJS"].length.should.equal(1);
     });
     it("getCalculatedAveragesOfSeries should return an array with length equal to the longest series", function() {
         var chartsArray = [wsObj[0], wsObj[1], wsObj[3], wsObj[4]],
@@ -175,15 +175,15 @@ describe("merger", function() {
         avg.should.equal(64);
     });
     it("getAverageValueByTypeAndFramework should return 0 if it cannot find the type", function() {
-        var avg = merger.getAverageValueByTypeAndFramework("NonExistentType", "SignalR", lpObj);
+        var avg = merger.getAverageValueByTypeAndFramework("NonExistentType", "SignalR", mdObj);
         avg.should.equal(0);
     });
     it("getAverageValueByTypeAndFramework should return 0 if it cannot find the framework", function() {
-        var avg = merger.getAverageValueByTypeAndFramework("Bytes sent/received", "Nonexistent", lpObj);
+        var avg = merger.getAverageValueByTypeAndFramework("Bytes sent/received", "Nonexistent", mdObj);
         avg.should.equal(0);
     });
     it("getAverageValueByTypeAndFramework should return the average value of the data type of the given framework", function() {
-        var avg = merger.getAverageValueByTypeAndFramework("Bytes sent/received", "SignalR", lpObj);
+        var avg = merger.getAverageValueByTypeAndFramework("Bytes sent/received", "SignalR", mdObj);
         avg.should.equal(64564);
     });
 });
