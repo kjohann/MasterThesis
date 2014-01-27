@@ -30,7 +30,9 @@
                 var charts = merger.getAverageChartsOfSingleFramework(frameworks[0], merger.rawBrowserData, merger.spacing);
                 chartsHelper.displayBrowserDataCharts(charts);
             }
-            var transports = $("#transports").val();
+
+            var transports = $("#transports").val() ? $("#transports").val() : util.getDefaultTransports();
+
             if(!merger.rawManualData) {
                 console.log("No manual data file selected");
             } else {
@@ -44,16 +46,26 @@
         });
 
         $("#all").click(function() {
+            var frameworks = $("#frameworks").val();
+            var transports = $("#transports").val() ? $("#transports").val() : util.getDefaultTransports();
+
             if(!merger.rawBrowserData) {
-                alert("Select file!");
-                return;
+                console.log("No browser data file selected");
+            } else {
+                var charts = merger.getAverageChartsCombined(merger.rawBrowserData, merger.spacing, frameworks);
+                chartsHelper.displayBrowserDataCharts(charts);
             }
 
-            var frameworks = $("#frameworks").val();
+            if(!merger.rawManualData) {
+                console.log("No manual data file selected");
+            } else {
+                var charts = [];
+                charts.push(merger.getManualDataChart("Bytes sent/received", frameworks, transports, "Bytes", merger.rawManualData));
+                charts.push(merger.getManualDataChart("Peak processor usage", frameworks, transports, "%", merger.rawManualData));
+                charts.push(merger.getManualDataChart("Max memory consumtion", frameworks, transports, "Bytes", merger.rawManualData));
 
-            var charts = merger.getAverageChartsCombined(merger.rawBrowserData, merger.spacing, frameworks);
-
-            chartsHelper.displayBrowserDataCharts(charts);
+                chartsHelper.displayManualDataChart(charts)
+            }
         });
     });
 })(merger, merger.util, merger.charts);

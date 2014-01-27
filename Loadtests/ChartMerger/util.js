@@ -16,4 +16,8 @@
 
         return deferred.promise();
     };
+
+    root.getDefaultTransports = function() {
+        return ["Websockets", "Server Sent Events", "Http-Streaming", "Long-Polling", "Polling"];
+    }
 })(merger.util = merger.util || {});
