@@ -18,11 +18,7 @@
         });
 
         $("#first").click(function() {
-            var frameworks = $("#frameworks").val();
-            if(!frameworks) {
-                alert("Select a framework!");
-                return;
-            }
+            var frameworks = $("#frameworks").val() ? $("#frameworks").val() : util.getDefaultFrameworks();
 
             if(!merger.rawBrowserData) {
                 console.log("No browser data file selected");
@@ -46,7 +42,7 @@
         });
 
         $("#all").click(function() {
-            var frameworks = $("#frameworks").val();
+            var frameworks = $("#frameworks").val() ? $("#frameworks").val() : util.getDefaultFrameworks();
             var transports = $("#transports").val() ? $("#transports").val() : util.getDefaultTransports();
 
             if(!merger.rawBrowserData) {

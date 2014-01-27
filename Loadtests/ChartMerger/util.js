@@ -19,5 +19,10 @@
 
     root.getDefaultTransports = function() {
         return ["Websockets", "Server Sent Events", "Http-Streaming", "Long-Polling", "Polling"];
+    };
+
+    root.getDefaultFrameworks = function() {
+        return ["SignalR", "Socket.IO", "Play", "Lightstreamer", "SockJS"];
     }
+
 })(merger.util = merger.util || {});
