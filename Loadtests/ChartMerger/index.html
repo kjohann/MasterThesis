@@ -14,14 +14,25 @@
 </head>
 <body>
     <div>
-        <label for="fileInput">Select a file: </label>
-        <input type="file" id="fileInput">      <br>
+        <label for="browserFileInput">Select a file for browser data: </label>
+        <input type="file" id="browserFileInput">      <br>
+        <label for="manualFileInput">Select a file for manual data: </label>
+        <input type="file" id="manualFileInput">      <br>
         <label for="frameworks">Select frameworks:</label> <br>
-        <select multiple id="frameworks">
+        <select multiple id="frameworks" style="height: 90px">
             <option value="SignalR">SignalR</option>
             <option value="Socket.IO">Socket.IO</option>
             <option value="Play">Play</option>
             <option value="Lightstreamer">Lightstreamer</option>
+            <option value="SockJS">SockJS</option>
+        </select>                                                  <br> <br>
+        <label for="transports">Select transports (for manual data)</label>  <br>
+        <select multiple id="transports" style="height: 90px">
+            <option value="Websockets">Websockets</option>
+            <option value="Server Sent Events">Server Sent Events</option>
+            <option value="Http-Streaming">Http-Streaming</option>
+            <option value="Long-Polling">Long-Polling</option>
+            <option value="Polling">Polling</option>
         </select>                                               <br> <br>
         <button id="first">Get average data for first selected</button>
         <button id="all">Get average data for all</button>
@@ -30,6 +41,9 @@
         <div id="messagesSentReceivedChart" style="height:400px;"></div>
         <div id="messagesSentFromServerChart" style="height:400px;"></div>
         <div id="averageLatencyChart" style="height:400px;"></div>
+        <div id="peakProcessorChart" style="height:400px;"></div>
+        <div id="maxMemoryConsumtionChart" style="height:400px;"></div>
+        <div id="bytesSentReceivedChart" style="height:400px;"></div>
     </div>
 
 </body>
