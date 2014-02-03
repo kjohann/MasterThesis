@@ -1,0 +1,20 @@
+[
+	{
+    	"Framework": "SignalR",
+    	"Type": "Bytes sent/received",
+    	"Transport": "Websockets",
+    	"Data": [40586750, 35685025, 41116826, 40793992, 34748579]
+    },
+    {
+    	"Framework": "SignalR",
+    	"Type": "Peak processor usage",
+    	"Transport": "Websockets",
+    	"Data": [35, 36, 37, 36, 38]
+    },
+    {
+    	"Framework": "SignalR",
+    	"Type": "Max memory consumtion",
+    	"Transport": "Websockets",
+    	"Data": [172288, 164912, 150552, 170248, 170084]
+    }
+]
