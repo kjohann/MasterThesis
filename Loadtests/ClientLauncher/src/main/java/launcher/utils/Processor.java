@@ -78,7 +78,7 @@ public class Processor {
 	
 	private void launchBrowsers() throws InterruptedException {
 		int numberOfBrowsers = InputOutputUtil.getIntValue(nrOfBrowsers);
-		
+		System.out.println(numberOfBrowsers);
 		for(int i = 0; i < numberOfBrowsers; i++) {
 			FirefoxBrowser browser = new FirefoxBrowser();
 			browser.navigate(serverUrl);

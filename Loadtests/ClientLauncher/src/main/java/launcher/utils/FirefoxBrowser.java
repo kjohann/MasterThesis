@@ -10,6 +10,7 @@ public class FirefoxBrowser {
 	private static WebDriver firefox;
 	
 	public FirefoxBrowser() {
+		System.out.println("Starting browser!");
 		firefox = new FirefoxDriver();
 	}
 	
