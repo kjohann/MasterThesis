@@ -135,7 +135,7 @@ public class LoadAdapter implements SmartDataProvider {
     			response.put("cid", cid);
     			ObjectNode dataObj = JSONHelper.newObject();
     			dataObj.put("Duration", _monitor.duration);
-    			dataObj.put("StartTime", _monitor.startTime);
+    			dataObj.put("StartTime", _monitor.clientStartTime);
     			dataObj.put("SentFromClientEvents", JSONHelper.writeListToJson(_monitor.sentFromClientEvents));
     			dataObj.put("ReceivedAtServerEvents", JSONHelper.writeListToJson(_monitor.receivedAtServerEvents));
     			dataObj.put("SentFromServerEvents", JSONHelper.writeListToJson(_monitor.sentFromServerEvents));

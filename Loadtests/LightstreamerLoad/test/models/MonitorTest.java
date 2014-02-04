@@ -17,7 +17,8 @@ public class MonitorTest {
 		_monitor.reset();
 		Calendar c = Calendar.getInstance();
 		c.set(2014, 1, 9);
-		_monitor.startTime = c.getTimeInMillis();
+		_monitor.clientStartTime = c.getTimeInMillis();
+		_monitor.serverStartTime = _monitor.clientStartTime;
 		_monitor.numberOfClients = 100;
 	}
 	
@@ -78,14 +79,14 @@ public class MonitorTest {
 
 	@Test
     public void registerSentFromClientEvent_should_return_the_corresponding_key_for_the_event_with_spacing_one() {
-		long startLong = _monitor.startTime;
+		long startLong = _monitor.clientStartTime;
 		int key = _monitor.registerSentFromClientEvent(startLong + 999);
 		assertEquals(key, 0);
     }
 
 	@Test
     public void registerSentFromClientEvent_should_return_the_corresponding_key_for_the_event_with_spacing_more_than_one() {
-		long startLong = _monitor.startTime;
+		long startLong = _monitor.clientStartTime;
 		int key = _monitor.registerSentFromClientEvent(startLong + 100000, 10);
 		assertEquals(key, 10);
     }
@@ -191,7 +192,7 @@ public class MonitorTest {
 	private List<Long> getDummyMillisecondValues(int eventInterval, int totalNumber) {
 		List<Long> values = new ArrayList<Long>();
 		
-		long startLong = _monitor.startTime;
+		long startLong = _monitor.clientStartTime;
 
         for (int i = 0; i < totalNumber; i++)
         {

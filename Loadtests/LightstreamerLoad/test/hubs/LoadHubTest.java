@@ -22,9 +22,10 @@ public class LoadHubTest {
 		_monitor = Monitor.getInstance();
 		_monitor.reset();
 		_monitor.numberOfClients = 100;
-		_monitor.startTime = Calendar.getInstance().getTimeInMillis();
+		_monitor.clientStartTime = Calendar.getInstance().getTimeInMillis();
+		_monitor.serverStartTime = _monitor.clientStartTime;
 		_message = new Message();
-		_message.SentFromClient = _monitor.startTime + 50;
+		_message.SentFromClient = _monitor.clientStartTime + 50;
 		_monitor.spacing = 1;
 	}
 	
@@ -59,7 +60,7 @@ public class LoadHubTest {
     	long startTime = Calendar.getInstance().getTimeInMillis() + 50;
     	_loadHub.initTest("echo", numberOfClients, 10, startTime);
     	
-    	assertEquals(startTime, _monitor.startTime);
+    	assertEquals(startTime, _monitor.clientStartTime);
     }
 
     @Test
