@@ -19,7 +19,8 @@ namespace SignalRLoadUnitTests.Models
         {
             _monitor = Monitor.GetInstance();
             _monitor.Reset();
-            _monitor.StartTime = new DateTime(2013, 11, 3, 13, 37, 0);
+            _monitor.ClientStartTime = new DateTime(2013, 11, 3, 13, 37, 0);
+            _monitor.ServerStartTime = _monitor.ClientStartTime;
             _monitor.NumberOfClients = 100;
         }
 
@@ -83,14 +84,14 @@ namespace SignalRLoadUnitTests.Models
         [Test]
         public void RegisterSentFromClientEvent_should_return_the_corresponding_key_for_the_event_with_spacing_one()
         {
-            var startLong = _monitor.StartTime.ToMilliseconds();
+            var startLong = _monitor.ClientStartTime.ToMilliseconds();
             _monitor.RegisterSentFromClientEvent(startLong + 999).Should().Be(0);
         }
 
         [Test]
         public void RegisterSentFromClientEvent_should_return_the_corresponding_key_for_the_event_with_spacing_more_than_one()
         {
-            var startLong = _monitor.StartTime.ToMilliseconds();
+            var startLong = _monitor.ClientStartTime.ToMilliseconds();
             _monitor.RegisterSentFromClientEvent(startLong + 100000, 10).Should().Be(10);
         }
 
@@ -199,7 +200,7 @@ namespace SignalRLoadUnitTests.Models
         private IEnumerable<long> GetDummyMillisecondValues(int eventInterval, int totalNumber)
         {
             var values = new List<long>();
-            var startLong = _monitor.StartTime.ToMilliseconds();
+            var startLong = _monitor.ClientStartTime.ToMilliseconds();
 
             for (var i = 0; i < totalNumber; i++)
             {

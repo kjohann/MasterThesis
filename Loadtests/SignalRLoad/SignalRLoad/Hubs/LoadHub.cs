@@ -15,14 +15,15 @@ namespace SignalRLoad.Hubs
         {
             _monitor = Monitor.GetInstance();
         }
-     
+
         public void InitTest(string testToRun, int numberOfClients, int spacing, long startTime)
         {
             _monitor.Reset();
             _monitor.NumberOfClients = numberOfClients;
             _monitor.Spacing = spacing;
 
-            _monitor.StartTime = DateUtils.FromMillisecondsSinceEpoch(startTime); //One hour time difference from client for some reason
+            _monitor.ClientStartTime = DateUtils.FromMillisecondsSinceEpoch(startTime); //One hour time difference from client for some reason
+            _monitor.ServerStartTime = DateTime.UtcNow;
             Clients.All.initTest(testToRun);
         }
 
@@ -46,7 +47,7 @@ namespace SignalRLoad.Hubs
 
             if (!_monitor.Complete()) return;
 
-            _monitor.Duration = DateTime.UtcNow.ToMilliseconds() - _monitor.StartTime.ToMilliseconds();
+            _monitor.Duration = DateTime.UtcNow.ToMilliseconds() - _monitor.ClientStartTime.ToMilliseconds();
             Clients.All.harvest();
         }
 
@@ -60,7 +61,7 @@ namespace SignalRLoad.Hubs
                 Clients.All.harvestComplete(new
                 {
                     Duration = _monitor.Duration,
-                    StartTime = _monitor.StartTime.ToMilliseconds(),
+                    StartTime = _monitor.ClientStartTime.ToMilliseconds(),
                     SentFromClientEvents = _monitor.SentFromClientEvents,
                     ReceivedAtServerEvents = _monitor.ReceivedAtServerEvents,
                     SentFromServerEvents = _monitor.SentFromServerEvents,

@@ -13,7 +13,8 @@ namespace SignalRLoad.Models
         public HashSet<string> CompletedClients { get; set; }
         public long Duration { get; set; }
         public List<TestDataEntity> TestDataEntities { get; set; }
-        public DateTime StartTime { get; set; }
+        public DateTime ClientStartTime { get; set; }
+        public DateTime ServerStartTime { get; set; }
         public int Spacing { get; set; }
         public int Harvested { get; set; }
 
@@ -25,7 +26,7 @@ namespace SignalRLoad.Models
 
         public int RegisterSentFromClientEvent(long millisecondsSinceEpoch, int spacing = 1)
         {
-            var key = GetKey(millisecondsSinceEpoch, spacing);
+            var key = GetKey(millisecondsSinceEpoch, spacing, true);
             AddEvent(SentFromClientEvents, key);
             return key;
         }
@@ -43,9 +44,9 @@ namespace SignalRLoad.Models
             AddEvent(SentFromServerEvents, key, nrOfEvents);
         }
 
-        private int GetKey(long millisecondsSinceEpoch, int spacing)
+        private int GetKey(long millisecondsSinceEpoch, int spacing, bool client = false)
         {
-            var start = StartTime.ToMilliseconds();
+            var start = client ? ClientStartTime.ToMilliseconds() : ServerStartTime.ToMilliseconds();
             var milliSecondsSinceStart = millisecondsSinceEpoch - start;
             var seconds = Round(false, (double)milliSecondsSinceStart / 1000);
             return Round(false, (double)seconds / spacing);

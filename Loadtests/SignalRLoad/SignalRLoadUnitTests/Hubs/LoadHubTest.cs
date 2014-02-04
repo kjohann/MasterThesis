@@ -24,8 +24,9 @@ namespace SignalRLoadUnitTests.Hubs
             _monitor = Monitor.GetInstance();            
             _monitor.Reset();
             _monitor.NumberOfClients = 100;
-            _monitor.StartTime = DateTime.UtcNow;
-            _message = new Message { SentFromClient = _monitor.StartTime.AddMilliseconds(50).ToMilliseconds() };
+            _monitor.ClientStartTime = DateTime.UtcNow;
+            _monitor.ServerStartTime = _monitor.ClientStartTime;
+            _message = new Message { SentFromClient = _monitor.ClientStartTime.AddMilliseconds(50).ToMilliseconds() };
             _monitor.Spacing = 1;
         }
 
@@ -59,7 +60,7 @@ namespace SignalRLoadUnitTests.Hubs
             const int numberOfClients = 1000;
             var startTime = DateTime.UtcNow;
             _loadHub.InitTest("echo", numberOfClients, 10, startTime.ToMilliseconds());
-            _monitor.StartTime.ToMilliseconds().ShouldBeEquivalentTo(startTime.ToMilliseconds());
+            _monitor.ClientStartTime.ToMilliseconds().ShouldBeEquivalentTo(startTime.ToMilliseconds());
         }
 
         [Test]
