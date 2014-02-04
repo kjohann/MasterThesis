@@ -60,7 +60,7 @@ function routeMessage(args, conn) {
         if(hub.getData(testData, numberOfClientsPrBrowser)) {
             conn.write(JSON.stringify(['harvestComplete', {
                 Duration: hub.monitor.duration,
-                StartTime: hub.monitor.startTime,
+                StartTime: hub.monitor.clientStartTime,
                 SentFromClientEvents: hub.monitor.sentFromClientEvents,
                 ReceivedAtServerEvents: hub.monitor.receivedAtServerEvents,
                 SentFromServerEvents: hub.monitor.sentFromServerEvents,

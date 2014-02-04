@@ -5,7 +5,8 @@ require("./Util/AssertionUtil.js");
 describe("monitor", function() {
     beforeEach(function() {
         monitor.reset();
-        monitor.startTime = new Date("2014-1-8").getTime();
+        monitor.clientStartTime = new Date("2014-1-8").getTime();
+        monitor.serverStartTime = monitor.clientStartTime;
         monitor.numberOfClients = 100;
     });
     it("reset sets all public fields of the monitor exept startTime back to inital values", function() {
@@ -56,11 +57,11 @@ describe("monitor", function() {
         monitor.sentFromClientEvents.shouldAllBeEqual(expectedData);
     });
     it("registerSentFromClientEvent should return the corresponding key for the event with spacing one", function() {
-        var startLong = monitor.startTime;
+        var startLong = monitor.clientStartTime;
         monitor.registerSentFromClientEvent(startLong + 999).should.equal(0);
     });
     it("registerSentFromClientEvent should return the corresponding key for the event with spacing more than one", function() {
-        var startLong = monitor.startTime;
+        var startLong = monitor.clientStartTime;
         monitor.registerSentFromClientEvent(startLong + 100000, 10).should.equal(10);
     });
     it("registerReceivedAtServerEvent should register an event within the correct interval", function() {
@@ -145,7 +146,7 @@ describe("monitor", function() {
 
 function getDummyMillisecondValues(eventInterval, totalNumber) {
     var values = [];
-    var startLong = monitor.startTime;
+    var startLong = monitor.clientStartTime;
 
     for (var i = 0; i < totalNumber; i++)
     {
