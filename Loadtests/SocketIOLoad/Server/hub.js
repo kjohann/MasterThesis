@@ -4,7 +4,8 @@ exports.initTest = function(testToRun, numberOfClients, spacing, startTime) {
     monitor.reset();
     monitor.numberOfClients= numberOfClients;
     monitor.spacing = spacing;
-    monitor.startTime = startTime; //startTime will only be inn milliseconds
+    monitor.clientStartTime = startTime; //startTime will only be inn milliseconds
+    monitor.serverStartTime = new Date().getTime();
 }
 
 exports.echo = function(message) {
@@ -22,7 +23,7 @@ exports.complete = function(clientId) {
 
     if(!monitor.complete()) return false;
 
-    monitor.duration = new Date().getTime() - monitor.startTime;
+    monitor.duration = new Date().getTime() - monitor.serverStartTime;
     return true;
 }
 
@@ -31,8 +32,6 @@ exports.getData = function(testData, numberOfClientsInBrowser) {
     monitor.harvested += numberOfClientsInBrowser;
 
     return monitor.harvestedAll();
-
-    //Or: if(monitor.harvestedAll() callback(obj);
 }
 
 function registerReceivedAndSentFromClientEvents(message) {

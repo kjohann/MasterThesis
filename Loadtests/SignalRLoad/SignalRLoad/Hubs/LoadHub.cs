@@ -47,7 +47,7 @@ namespace SignalRLoad.Hubs
 
             if (!_monitor.Complete()) return;
 
-            _monitor.Duration = DateTime.UtcNow.ToMilliseconds() - _monitor.ClientStartTime.ToMilliseconds();
+            _monitor.Duration = DateTime.UtcNow.ToMilliseconds() - _monitor.ServerStartTime.ToMilliseconds();
             Clients.All.harvest();
         }
 

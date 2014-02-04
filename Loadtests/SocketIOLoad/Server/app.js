@@ -50,7 +50,7 @@ io.sockets.on('connection', function(socket) {
         if(hub.getData(testData, numberOfClientsPrBrowser)) {
             io.sockets.emit('harvestComplete', {
                 Duration: hub.monitor.duration,
-                StartTime: hub.monitor.startTime,
+                StartTime: hub.monitor.clientStartTime,
                 SentFromClientEvents: hub.monitor.sentFromClientEvents,
                 ReceivedAtServerEvents: hub.monitor.receivedAtServerEvents,
                 SentFromServerEvents: hub.monitor.sentFromServerEvents,

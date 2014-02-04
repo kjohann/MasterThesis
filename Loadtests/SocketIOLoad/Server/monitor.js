@@ -4,7 +4,8 @@ var Monitor = function() {
     self.completedClients = [];
     self.duration = 0;
     self.testDataEntities = [];
-    self.startTime = 0;
+    self.clientStartTime = 0;
+    self.serverStartTime = 0;
     self.spacing = 0;
     self.harvested = 0;
     self.sentFromClientEvents = [];
@@ -27,20 +28,20 @@ Monitor.prototype.reset = function() {
 
 Monitor.prototype.registerSentFromClientEvent = function(millisecondsSinceEpoch, spacing) {
     var sp = spacing ? spacing : 1;
-    var key = getKey(millisecondsSinceEpoch, sp, this);
+    var key = getKey(millisecondsSinceEpoch, sp, this, true);
     this.addEvent(this.sentFromClientEvents, key);
     return key;
 }
 
 Monitor.prototype.registerReceivedAtServerEvent = function(millisecondsSinceEpoch, spacing) {
     var sp = spacing ? spacing : 1;
-    var key = getKey(millisecondsSinceEpoch, sp, this);
+    var key = getKey(millisecondsSinceEpoch, sp, this, false);
     this.addEvent(this.receivedAtServerEvents, key);
 }
 
 Monitor.prototype.registerSentFromServerEvent = function(millisecondsSinceEpoch, broadCast, spacing) {
     var sp = spacing ? spacing : 1;
-    var key = getKey(millisecondsSinceEpoch, sp, this);
+    var key = getKey(millisecondsSinceEpoch, sp, this, false);
     var nrOfEvents = broadCast ? this.numberOfClients : 1;
     this.addEvent(this.sentFromServerEvents, key, nrOfEvents);
 }
@@ -66,8 +67,9 @@ Monitor.prototype.harvestedAll = function() {
     return this.harvested === this.numberOfClients;
 }
 
-function getKey(millisecondsSinceEpoch, spacing, monitor) {
-    var millisecondsSinceStart = millisecondsSinceEpoch - monitor.startTime;
+function getKey(millisecondsSinceEpoch, spacing, monitor, client) {
+    var start = client ? monitor.clientStartTime : monitor.serverStartTime;
+    var millisecondsSinceStart = millisecondsSinceEpoch - start;
     var seconds = round(false, millisecondsSinceStart / 1000);
     return round(false, seconds / spacing);
 }

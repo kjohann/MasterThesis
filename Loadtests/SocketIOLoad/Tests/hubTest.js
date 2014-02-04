@@ -7,8 +7,9 @@ describe("hub", function() {
     beforeEach(function() {
         hub.monitor.reset();
         hub.monitor.numberOfClients = 100;
-        hub.monitor.startTime = new Date().getTime();
-        message = {SentFromClient: hub.monitor.startTime + 50};
+        hub.monitor.clientStartTime = new Date().getTime();
+        hub.monitor.serverStartTime = hub.monitor.clientStartTime;
+        message = {SentFromClient: hub.monitor.clientStartTime + 50};
         hub.monitor.spacing = 1;
     });
     it("initTest resets monitor", function() {
@@ -30,7 +31,7 @@ describe("hub", function() {
         var nrOfClients = 1000;
         var start = new Date().getTime();
         hub.initTest("echo", nrOfClients, 10, start);
-        hub.monitor.startTime.should.equal(start);
+        hub.monitor.clientStartTime.should.equal(start);
     });
     it("echo should set ReceivedAtServer in message", function() {
         hub.echo(message);
