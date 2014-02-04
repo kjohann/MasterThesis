@@ -19,7 +19,7 @@
         self.commObj = new SockJS("http://127.0.0.1:1337/load", null, {protocols_whitelist: [transport]});
 
         self.commObj.onopen = function() {
-            console.log("Connected");
+            loadTest.log("Connected");
         };
         self.commObj.onmessage = function(e) {
             onMessage(JSON.parse(e.data), self);

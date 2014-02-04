@@ -21,8 +21,9 @@ io.set('transports', [
     , 'xhr-polling'
     , 'jsonp-polling'
 ]);
-
+var connections = 0;
 io.sockets.on('connection', function(socket) {
+    console.log("Connected: " + (++connections));
     socket.on('initTest', function(args) {
         var testToRun = args[0], numberOfClients = args[1],
             spacing = args[2], startTime = args[3];

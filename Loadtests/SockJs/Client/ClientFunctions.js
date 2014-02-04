@@ -7,7 +7,7 @@
                 foundClient.ownMessagesReceived++;
                 root.registerLatency(message);
                 if(foundClient.ownMessagesReceived == options.numberOfMessages) {
-                    loadTest.log("Sending complete for client with id " + foundClient.ClientId + " time: " + new Date().getTime());
+                    loadTest.log("Sending complete for client with id " + foundClient.clientId + " time: " + new Date().getTime());
                     foundClient.socket.invoke('complete', foundClient.clientId);
                 }
             }

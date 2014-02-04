@@ -7,6 +7,10 @@
             'force new connection': true
         });
 
+        socketIO.on("connect", function() {
+            loadTest.log("Connected");
+        });
+
         self.bind = function(functionName, functionToCall) {
             socketIO.on(functionName, functionToCall);
         };
@@ -20,7 +24,7 @@
         };
 
         self.start = function() {
-            loadTest.log("Connected");
+
         };
     };
 
