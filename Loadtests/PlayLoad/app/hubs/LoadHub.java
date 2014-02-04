@@ -20,7 +20,8 @@ public class LoadHub { //yes, I'm stealing terminology from SignalR - more for t
         _monitor.numberOfClients = numberOfClients;
         _monitor.spacing = spacing;
 
-        _monitor.startTime = startTime;
+        _monitor.clientStartTime = startTime;
+        _monitor.serverStartTime = Calendar.getInstance().getTimeInMillis();
 	}
 
 	public void echo(Message message) {
@@ -38,7 +39,7 @@ public class LoadHub { //yes, I'm stealing terminology from SignalR - more for t
 
         if (!_monitor.complete()) return false;
 
-        _monitor.duration = Calendar.getInstance().getTimeInMillis() - _monitor.startTime;
+        _monitor.duration = Calendar.getInstance().getTimeInMillis() - _monitor.serverStartTime;
         return true;
 	}
 

@@ -9,7 +9,8 @@ public class Monitor {
 
 	private static Monitor _instance;
 	
-	public long startTime;
+	public long clientStartTime;
+	public long serverStartTime;
 	public int numberOfClients;
 	public List<TestDataEntity> testDataEntities;
 	public int spacing;
@@ -49,7 +50,7 @@ public class Monitor {
 	}
 	
 	public int registerSentFromClientEvent(long millisecondsSinceEpoch, int spacing) {
-		int key = getKey(millisecondsSinceEpoch, spacing);
+		int key = getKey(millisecondsSinceEpoch, spacing, true);
 		addEvent(sentFromClientEvents, key);
 		return key;
 	}
@@ -59,7 +60,7 @@ public class Monitor {
 	}
 
 	public void registerReceivedAtServerEvent(long millisecondsSinceEpoch, int spacing) {
-		int key = getKey(millisecondsSinceEpoch, spacing);
+		int key = getKey(millisecondsSinceEpoch, spacing, false);
 		addEvent(receivedAtServerEvents, key);
 	}
 
@@ -68,7 +69,7 @@ public class Monitor {
 	}
 	
 	public void registerSentFromServerEvent(long millisecondsSinceEpoch, boolean broadcast, int spacing) {
-		int key = getKey(millisecondsSinceEpoch, spacing);
+		int key = getKey(millisecondsSinceEpoch, spacing, false);
 		int nrOfEvents = broadcast ? numberOfClients : 1;
 		addEvent(sentFromServerEvents, key, nrOfEvents);
 	}
@@ -91,8 +92,9 @@ public class Monitor {
 		
 	}
 	
-	private int getKey(long millisecondsSinceEpoch, int spacing) {
-		long millisecondsSinceStart = millisecondsSinceEpoch - startTime;
+	private int getKey(long millisecondsSinceEpoch, int spacing, boolean client) {
+		long start = client ? clientStartTime : serverStartTime;
+		long millisecondsSinceStart = millisecondsSinceEpoch - start;
 		int seconds = round(false, (double)(millisecondsSinceStart/1000));
 		return round(false, (double)(seconds/spacing));
 	}
