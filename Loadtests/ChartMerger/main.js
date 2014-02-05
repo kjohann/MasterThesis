@@ -35,7 +35,7 @@
                 var charts = [];
                 charts.push(merger.getManualDataChart("Bytes sent/received", [frameworks[0]], transports, "Bytes", merger.rawManualData));
                 charts.push(merger.getManualDataChart("Peak processor usage", [frameworks[0]], transports, "%", merger.rawManualData));
-                charts.push(merger.getManualDataChart("Max memory consumtion", [frameworks[0]], transports, "Bytes", merger.rawManualData));
+                charts.push(merger.getManualDataChart("Max memory consumtion", [frameworks[0]], transports, "KBytes", merger.rawManualData));
 
                 chartsHelper.displayManualDataChart(charts)
             }
@@ -58,7 +58,7 @@
                 var charts = [];
                 charts.push(merger.getManualDataChart("Bytes sent/received", frameworks, transports, "Bytes", merger.rawManualData));
                 charts.push(merger.getManualDataChart("Peak processor usage", frameworks, transports, "%", merger.rawManualData));
-                charts.push(merger.getManualDataChart("Max memory consumtion", frameworks, transports, "Bytes", merger.rawManualData));
+                charts.push(merger.getManualDataChart("Max memory consumtion", frameworks, transports, "KBytes", merger.rawManualData));
 
                 chartsHelper.displayManualDataChart(charts)
             }
