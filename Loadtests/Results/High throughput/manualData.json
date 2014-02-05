@@ -3,19 +3,19 @@
     	"Framework": "SignalR",
     	"Type": "Bytes sent/received",
     	"Transport": "Websockets",
-    	"Data": [40586750, 35685025, 41116826, 40793992, 34748579, 41508901, 35029890, 35219025, 41692502, 34977081]
+    	"Data": [42835739, 42749112, 46329889, 45749763, 46882101, 45964636, 46210361, 45339839, 45265583, 46320864]
     },
     {
     	"Framework": "SignalR",
-    	"Type": "Peak processor usage",
+    	"Type": "Median processor usage",
     	"Transport": "Websockets",
-    	"Data": [35, 36, 37, 36, 38, 38, 34, 35, 34, 35]
+    	"Data": [37, 40, 35, 39, 40, 40, 38, 37, 36, 37]
     },
     {
     	"Framework": "SignalR",
     	"Type": "Max memory consumtion",
     	"Transport": "Websockets",
-    	"Data": [172288, 164912, 150552, 170248, 170084, 152068, 172296, 171384, 155816, 164600]
+    	"Data": [145612, 148196, 148608, 132892, 142612, 147944, 143584, 143908, 129076, 155040]
     },
         {
         "Framework": "SignalR",
@@ -25,7 +25,7 @@
     },
     {
         "Framework": "SignalR",
-        "Type": "Peak processor usage",
+        "Type": "Median processor usage",
         "Transport": "Server Sent Events",
         "Data": []
     },
