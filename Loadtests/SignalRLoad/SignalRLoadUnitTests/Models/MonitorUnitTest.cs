@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
@@ -31,9 +32,9 @@ namespace SignalRLoadUnitTests.Models
             _monitor.Duration = 1000;
             _monitor.Harvested = 10;
             _monitor.NumberOfClients = 10;
-            _monitor.ReceivedAtServerEvents.Add(5);
-            _monitor.SentFromClientEvents.Add(5);
-            _monitor.SentFromServerEvents.Add(25);
+            _monitor.ReceivedAtServerEvents.TryAdd(0,5);
+            _monitor.SentFromClientEvents.TryAdd(0,5);
+            _monitor.SentFromServerEvents.TryAdd(0,25);
             _monitor.Spacing = 10;            
             _monitor.TestDataEntities.Add(new TestDataEntity());
 
@@ -58,7 +59,7 @@ namespace SignalRLoadUnitTests.Models
 
             var expectedData = new[] {4, 5, 5, 5, 1};
 
-            _monitor.SentFromClientEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.SentFromClientEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -68,7 +69,7 @@ namespace SignalRLoadUnitTests.Models
             RegisterSentFromClientEvents(values, 5);
 
             var expectedData = new[] {24, 16};
-            _monitor.SentFromClientEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.SentFromClientEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -78,7 +79,7 @@ namespace SignalRLoadUnitTests.Models
             RegisterSentFromClientEvents(values, 10);
 
             var expectedData = new[] {99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1};
-            _monitor.SentFromClientEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.SentFromClientEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -103,7 +104,7 @@ namespace SignalRLoadUnitTests.Models
 
             var expectedData = new[] { 4, 5, 5, 5, 1 };
 
-            _monitor.ReceivedAtServerEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.ReceivedAtServerEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -113,7 +114,7 @@ namespace SignalRLoadUnitTests.Models
             RegisterReceivedAtServerEvents(values, 5);
 
             var expectedData = new[] { 24, 16 };
-            _monitor.ReceivedAtServerEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.ReceivedAtServerEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -123,7 +124,7 @@ namespace SignalRLoadUnitTests.Models
             RegisterReceivedAtServerEvents(values, 10);
 
             var expectedData = new[] { 99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1 };
-            _monitor.ReceivedAtServerEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.ReceivedAtServerEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -134,7 +135,7 @@ namespace SignalRLoadUnitTests.Models
 
             var expectedData = new[] { 4, 5, 5, 5, 1 };
 
-            _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.SentFromServerEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -145,7 +146,7 @@ namespace SignalRLoadUnitTests.Models
 
             var expectedData = new[] { 400, 500, 500, 500, 100 };
 
-            _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.SentFromServerEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -155,7 +156,7 @@ namespace SignalRLoadUnitTests.Models
             RegisterSentFromServerEvents(values, false, 5);
 
             var expectedData = new[] { 24, 16 };
-            _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.SentFromServerEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -165,7 +166,7 @@ namespace SignalRLoadUnitTests.Models
             RegisterSentFromServerEvents(values, true, 5);
 
             var expectedData = new[] { 2400, 1600 };
-            _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.SentFromServerEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -175,7 +176,7 @@ namespace SignalRLoadUnitTests.Models
             RegisterSentFromServerEvents(values, false, 10);
 
             var expectedData = new[] { 99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1 };
-            _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.SentFromServerEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
@@ -185,16 +186,18 @@ namespace SignalRLoadUnitTests.Models
             RegisterSentFromServerEvents(values, true, 10);
 
             var expectedData = new[] { 9900, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 100 };
-            _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expectedData);
+            _monitor.SentFromServerEvents.Values.ShouldAllBeEquivalentTo(expectedData);
         }
 
         [Test]
         public void AddEvent_should_fill_in_zero_events_if_key_points_to_an_out_of_bounds_index()
         {
-            var eventStore = new List<int> {1, 2};
+            var eventStore = new ConcurrentDictionary<int, int>();
+            eventStore.TryAdd(0, 1);
+            eventStore.TryAdd(1, 2);
             _monitor.AddEvent(eventStore, 10);
             var expected = new[] {1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1};
-            eventStore.ShouldAllBeEquivalentTo(expected);
+            eventStore.Values.ShouldAllBeEquivalentTo(expected);
         }
 
         private IEnumerable<long> GetDummyMillisecondValues(int eventInterval, int totalNumber)

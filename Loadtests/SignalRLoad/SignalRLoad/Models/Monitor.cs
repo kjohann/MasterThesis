@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Shared.Extensions;
@@ -8,21 +9,24 @@ namespace SignalRLoad.Models
 {
     public class Monitor
     {
-        private static Monitor _instance;
+        private static readonly Lazy<Monitor> _instance = new Lazy<Monitor>(() => new Monitor());
         public int NumberOfClients { get; set; }
-        public HashSet<string> CompletedClients { get; set; }
+        public BlockingCollection<string> CompletedClients { get; set; }
         public long Duration { get; set; }
-        public List<TestDataEntity> TestDataEntities { get; set; }
+        public BlockingCollection<TestDataEntity> TestDataEntities { get; set; }
         public DateTime ClientStartTime { get; set; }
         public DateTime ServerStartTime { get; set; }
         public int Spacing { get; set; }
         public int Harvested { get; set; }
 
+        private Object _insertLock = new Object();
+
         // key: reprecents number of seconds * wanted spacing from startTime
         //value: the number of messages in that interval
-        public List<int> SentFromClientEvents { get; set; }
-        public List<int> ReceivedAtServerEvents { get; set; }
-        public List<int> SentFromServerEvents { get; set; }
+        public ConcurrentDictionary<int, int> SentFromClientEvents { get; set; }
+        public ConcurrentDictionary<int, int> ReceivedAtServerEvents { get; set; }
+        public ConcurrentDictionary<int, int> SentFromServerEvents { get; set; }
+
 
         public int RegisterSentFromClientEvent(long millisecondsSinceEpoch, int spacing = 1)
         {
@@ -57,20 +61,24 @@ namespace SignalRLoad.Models
             return up ? (int)Math.Ceiling(value) : (int)Math.Floor(value);
         }
 
-        public void AddEvent(List<int> eventStore, int key, int nrOfEvents = 1)
+        public void AddEvent(ConcurrentDictionary<int, int> eventStore, int key, int nrOfEvents = 1)
         {
-            while (key > eventStore.Count) //cope with intervals without events in them (unlikely, but still..)
-            {
-                eventStore.Add(0);
-            }
-            if (eventStore.Count == key)
-            {
-                eventStore.Add(nrOfEvents);
-            }
-            else
-            {
-                eventStore[key] += nrOfEvents;
-            }
+            //lock (_insertLock)
+            //{
+                while (key > eventStore.Count) //cope with intervals without events in them (unlikely, but still..)
+                {
+                    eventStore.AddOrUpdate(eventStore.Count, 0, (k, old) => old);
+                }
+                if (eventStore.Count == key)
+                {
+                    eventStore.TryAdd(key,nrOfEvents);
+                }
+                else
+                {
+                    //eventStore[key] += nrOfEvents;
+                    eventStore.AddOrUpdate(key, nrOfEvents, (k, old) => old + nrOfEvents);
+                }
+            //}
         }
 
         private Monitor()
@@ -80,7 +88,7 @@ namespace SignalRLoad.Models
 
         public static Monitor GetInstance()
         {
-            return _instance ?? (_instance = new Monitor());
+            return _instance.Value;
         }
 
         public bool Complete()
@@ -96,12 +104,12 @@ namespace SignalRLoad.Models
         public void Reset()
         {
             NumberOfClients = 0;
-            CompletedClients = new HashSet<string>();
+            CompletedClients = new BlockingCollection<string>();
             Duration = 0;
-            TestDataEntities = new List<TestDataEntity>();
-            SentFromClientEvents = new List<int>();
-            ReceivedAtServerEvents = new List<int>();
-            SentFromServerEvents = new List<int>();
+            TestDataEntities = new BlockingCollection<TestDataEntity>();
+            SentFromClientEvents = new ConcurrentDictionary<int, int>();
+            ReceivedAtServerEvents = new ConcurrentDictionary<int, int>();
+            SentFromServerEvents = new ConcurrentDictionary<int, int>();
             Spacing = 0;
             Harvested = 0;
         }

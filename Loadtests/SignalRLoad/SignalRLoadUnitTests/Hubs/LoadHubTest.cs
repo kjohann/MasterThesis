@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using FluentAssertions;
 using NUnit.Framework;
@@ -75,7 +76,7 @@ namespace SignalRLoadUnitTests.Hubs
         {
             _loadHub.Echo(_message);
             var expected = new[] {1};
-            _monitor.ReceivedAtServerEvents.ShouldAllBeEquivalentTo(expected);
+            _monitor.ReceivedAtServerEvents.Values.ShouldAllBeEquivalentTo(expected);
         }
 
         [Test]
@@ -83,7 +84,7 @@ namespace SignalRLoadUnitTests.Hubs
         {
             _loadHub.Echo(_message);
             var expected = new[] {1};
-            _monitor.SentFromClientEvents.ShouldAllBeEquivalentTo(expected);
+            _monitor.SentFromClientEvents.Values.ShouldAllBeEquivalentTo(expected);
         }
 
         [Test]
@@ -91,7 +92,7 @@ namespace SignalRLoadUnitTests.Hubs
         {
             _loadHub.Echo(_message);
             var expected = new[] {1};
-            _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expected);
+            _monitor.SentFromServerEvents.Values.ShouldAllBeEquivalentTo(expected);
         }
 
         [Test]
@@ -114,7 +115,7 @@ namespace SignalRLoadUnitTests.Hubs
         {
             _loadHub.Broadcast(_message);
             var expected = new[] { 1 };
-            _monitor.ReceivedAtServerEvents.ShouldAllBeEquivalentTo(expected);
+            _monitor.ReceivedAtServerEvents.Values.ShouldAllBeEquivalentTo(expected);
         }
 
         [Test]
@@ -122,7 +123,7 @@ namespace SignalRLoadUnitTests.Hubs
         {
             _loadHub.Broadcast(_message);
             var expected = new[] { 1 };
-            _monitor.SentFromClientEvents.ShouldAllBeEquivalentTo(expected);
+            _monitor.SentFromClientEvents.Values.ShouldAllBeEquivalentTo(expected);
         }
 
         [Test]
@@ -130,7 +131,7 @@ namespace SignalRLoadUnitTests.Hubs
         {
             _loadHub.Broadcast(_message);
             var expected = new[] { 100 };
-            _monitor.SentFromServerEvents.ShouldAllBeEquivalentTo(expected);
+            _monitor.SentFromServerEvents.Values.ShouldAllBeEquivalentTo(expected);
         }
 
         [Test]
@@ -171,7 +172,7 @@ namespace SignalRLoadUnitTests.Hubs
 
             _loadHub.GetData(testData, 5);
 
-            _monitor.TestDataEntities[0].Should().Be(testData);
+            _monitor.TestDataEntities.ElementAt(0).Should().Be(testData);
         }
 
         [Test]
