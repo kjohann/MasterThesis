@@ -21,18 +21,18 @@
         "Framework": "SignalR",
         "Type": "Bytes sent/received",
         "Transport": "Server Sent Events",
-        "Data": []
+        "Data": [46013797, 45322986, 45631073, 45839911, 43507747, 45633178, 45882592, 45404673, 45344715, 45975517]
     },
     {
         "Framework": "SignalR",
         "Type": "Median processor usage",
         "Transport": "Server Sent Events",
-        "Data": []
+        "Data": [35, 34, 38, 41, 36, 39, 40, 37, 37, 39]
     },
     {
         "Framework": "SignalR",
         "Type": "Max memory consumtion",
         "Transport": "Server Sent Events",
-        "Data": []
+        "Data": [162724, 152540, 164820, 160160, 171124, 158972, 174212, 163668, 169204, 168220]
     }
 ]
