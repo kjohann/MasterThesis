@@ -38,5 +38,41 @@
 	{
 	    "Framework": "SignalR",
 	    "Charts": [{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[7200,7140,7140,7200,7140,7200,7200,7200,7140,7200,7200,7200,7200,7200,7200],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[117,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[203.82,188.83,225.31,157.52,163.23,165.8,139.93,152.48,144.37,162.68,156.83,178.47,180.3,148.13,160.87],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"}]
+	},
+	{
+	    "Framework": "Socket.IO",
+	    "Charts": [{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[83.18,57.61,48.98,55.66,57.58,50.93,62.73,50.23,61.41,60.79,51.38,51.52,60.39,50.28,60.36],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"}]
+	},
+	{
+	    "Framework": "Socket.IO",
+	    "Charts":
+	}, {
+	    "Framework": "Socket.IO",
+	    "Charts":
+	},
+	{
+	    "Framework": "Socket.IO",
+	    "Charts":
+	}, {
+	    "Framework": "Socket.IO",
+	    "Charts":
+	},
+	{
+	    "Framework": "Socket.IO",
+	    "Charts":
+	},
+	{
+	    "Framework": "Socket.IO",
+	    "Charts":
+	}, {
+	    "Framework": "Socket.IO",
+	    "Charts":
+	},
+	{
+	    "Framework": "Socket.IO",
+	    "Charts":
+	}, {
+	    "Framework": "Socket.IO",
+	    "Charts":
 	}
 ]
