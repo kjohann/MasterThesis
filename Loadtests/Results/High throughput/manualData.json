@@ -34,5 +34,24 @@
         "Type": "Max memory consumtion",
         "Transport": "Server Sent Events",
         "Data": [162724, 152540, 164820, 160160, 171124, 158972, 174212, 163668, 169204, 168220]
+    },
+
+    {
+        "Framework": "SignalR",
+        "Type": "Bytes sent/received",
+        "Transport": "Long-Polling",
+        "Data": [48249152, 52615028, 50943397, 48674618, 47547527, 51926144, 47479482, 51058929, 48678938, 47360430]
+    },
+    {
+        "Framework": "SignalR",
+        "Type": "Median processor usage",
+        "Transport": "Long-Polling",
+        "Data": [53, 74, 65, 58, 53, 66, 53, 60, 55, 50]
+    },
+    {
+        "Framework": "SignalR",
+        "Type": "Max memory consumtion",
+        "Transport": "Long-Polling",
+        "Data": [171704, 167884, 171480, 169108, 169952, 180168, 172848, 170992, 169560, 166816]
     }
 ]
