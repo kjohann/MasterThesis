@@ -93,18 +93,18 @@
         "Framework": "Socket.IO",
         "Type": "Bytes sent/received",
         "Transport": "Long-Polling",
-        "Data": []
+        "Data": [30957449, 30708388, 30930532, 30369199, 30737803, 31259337, 31504527, 30387741, 30545315, 30914556]
     },
     {
         "Framework": "Socket.IO",
         "Type": "Median processor usage",
         "Transport": "Long-Polling",
-        "Data": []
+        "Data": [7, 7, 9, 8, 10, 8, 9, 7, 10, 7]
     },
     {
         "Framework": "Socket.IO",
         "Type": "Max memory consumtion",
         "Transport": "Long-Polling",
-        "Data": []
+        "Data": [31924, 32276,32732, 31040, 31576, 31460, 31332, 32556, 31872, 31320]
     }
 ]
