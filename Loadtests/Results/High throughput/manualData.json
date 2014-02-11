@@ -147,18 +147,18 @@
         "Framework": "SockJS",
         "Type": "Bytes sent/received",
         "Transport": "Long-Polling",
-        "Data": []
+        "Data": [27436121, 27456225, 27436247, 27438176, 27446998, 27427487, 27455923, 27440001, 27444663, 27449120]
     },
     {
         "Framework": "SockJS",
         "Type": "Median processor usage",
         "Transport": "Long-Polling",
-        "Data": []
+        "Data": [11, 10, 10, 9, 11, 10, 12, 11, 11, 12]
     },
     {
         "Framework": "SockJS",
         "Type": "Max memory consumtion",
         "Transport": "Long-Polling",
-        "Data": []
+        "Data": [32276, 32368, 32320, 31044, 31816, 30824, 30896, 31968, 31176, 32524]
     }
 ]
