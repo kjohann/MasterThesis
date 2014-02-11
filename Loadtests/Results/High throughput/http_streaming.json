@@ -1,0 +1,81 @@
+[
+{
+    "Framework": "SockJS",
+    "Charts": [{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,120,114,120,89,133,120,120,24],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,114,120,102,120,120,120,24],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,7200,6840,7200,5340,7980,7200,7200,1440],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],"YAxis":null,"Series":[{"Data":[195.85,147.09,146.07,151.51,148.95,180.83,181.8,125.62,101.66,91.33,96.26,235.01,66.33,67.76,82.96,138.08],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"}]
+},
+{
+    "Framework": "SockJS",
+    "Charts": [{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,112,126,114,102,122,119,111,28,6],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,118,118,104,118,120,110,26,6],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],"YAxis":null,"Series":[{"Data":[174.93,146.62,148.35,142.66,140.96,187.98,131.93,146.33,172.22,112,92.32,93.91,55.72,74.28,78.31,188.46,220.67],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"},{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,6720,7560,6840,6120,7320,7140,6660,1680,360],"Name":"Messages"}],"YAxisTitle":"Messages"}]
+},
+{
+    "Framework": "SockJS",
+    "Charts": [{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,6900,7260,7200,7200,7200,240],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],"YAxis":null,"Series":[{"Data":[177.47,145.91,147.91,146.83,141.76,185.58,139.09,144.66,125.8,275.7,114.63,80.24,56.87,56.55,68.49,103.5],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"},{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,120,120,115,121,120,120,120,4],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,120,118,118,120,120,120,4],"Name":"Sent from clients"}],"YAxisTitle":"Messages"}]
+},
+{
+    "Framework": "SockJS",
+    "Charts": [{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[177.5,156.76,155.89,151.62,136.77,185.1,129.63,142.33,130.23,127.74,129.48,148.88,127,136.75,237.97],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"},{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200],"Name":"Messages"}],"YAxisTitle":"Messages"}]
+}, 
+{
+    "Framework": "SockJS",
+    "Charts": [{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[172.74,146.18,150.82,153.13,148.24,188.33,140.34,159.15,133.82,133.49,135.73,155.41,125.93,124.23,164.53],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"}]
+},
+{
+    "Framework": "SockJS",
+    "Charts": [{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],"YAxis":null,"Series":[{"Data":[170.77,117.63,108.73,112.93,93.67,138.66,87.69,83.48,69.33,70.83,75.23,84.32,50.9,95,154.89,67.19],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"},{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,6240,7080,1080],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,104,118,18],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,110,114,16],"Name":"Sent from clients"}],"YAxisTitle":"Messages"}]
+},
+{
+    "Framework": "SockJS",
+    "Charts": [{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[183.74,135,135.99,137.5,117.38,160.41,107.93,113.66,99.13,98.66,98.55,115.03,95.75,94.19,101.21],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"}]
+}, 
+{
+    "Framework": "SockJS",
+    "Charts": [{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[177.87,149.06,147.56,154.42,146.23,182.42,135.82,150.89,127.29,124.68,126.33,145.02,122.09,115.63,132.97],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"},{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Sent from clients"}],"YAxisTitle":"Messages"}]
+},
+{
+    "Framework": "SockJS",
+    "Charts": [{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[168.76,139.22,136.24,132.49,131.81,164.88,112.58,117.58,102.39,97.43,97.61,116.11,92.58,85.95,105.53],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"},{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200],"Name":"Messages"}],"YAxisTitle":"Messages"}]
+}, 
+{
+    "Framework": "SockJS",
+    "Charts": [{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Received by server"},{"Data":[120,120,120,120,120,120,120,120,120,120,120,120,120,120,120],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"YAxis":null,"Series":[{"Data":[178.65,138.08,128.15,132.48,119.3,155.15,102.52,113.27,93.12,92.08,91.62,95.51,71.66,75.6,85.49],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"}]
+},
+{
+    "Framework": "Play",
+    "Charts":
+},
+{
+    "Framework": "Play",
+    "Charts":
+},
+{
+    "Framework": "Play",
+    "Charts":
+},
+{
+    "Framework": "Play",
+    "Charts":
+}, {
+    "Framework": "Play",
+    "Charts":
+},
+{
+    "Framework": "Play",
+    "Charts":
+},
+{
+    "Framework": "Play",
+    "Charts":
+}, 
+{
+    "Framework": "Play",
+    "Charts":
+},
+{
+    "Framework": "Play",
+    "Charts":
+}, 
+{
+    "Framework": "Play",
+    "Charts":
+}
+]

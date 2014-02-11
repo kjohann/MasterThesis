@@ -124,5 +124,41 @@
         "Type": "Max memory consumtion",
         "Transport": "Websockets",
         "Data": [31844, 32552, 31424, 31780, 32268, 32068, 31376, 32384, 31720, 32368]
+    },    
+    {
+        "Framework": "SockJS",
+        "Type": "Bytes sent/received",
+        "Transport": "Http-Streaming",
+        "Data": [26744004, 26728619, 26711596, 26700879, 26714581, 26680317, 26694337, 26704284, 26688787, 26668112]
+    },
+    {
+        "Framework": "SockJS",
+        "Type": "Median processor usage",
+        "Transport": "Http-Streaming",
+        "Data": [21, 22, 24, 23, 21, 22, 21, 22, 21, 22]
+    },
+    {
+        "Framework": "SockJS",
+        "Type": "Max memory consumtion",
+        "Transport": "Http-Streaming",
+        "Data": [30564, 30860, 30400, 30820, 31580, 30764, 30584, 30588, 30424, 30380]
+    },    
+    {
+        "Framework": "SockJS",
+        "Type": "Bytes sent/received",
+        "Transport": "Long-Polling",
+        "Data": []
+    },
+    {
+        "Framework": "SockJS",
+        "Type": "Median processor usage",
+        "Transport": "Long-Polling",
+        "Data": []
+    },
+    {
+        "Framework": "SockJS",
+        "Type": "Max memory consumtion",
+        "Transport": "Long-Polling",
+        "Data": []
     }
 ]
