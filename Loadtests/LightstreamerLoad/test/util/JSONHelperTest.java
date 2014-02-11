@@ -3,6 +3,8 @@ package util;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import models.Message;
 import models.TestDataEntity;
@@ -20,7 +22,6 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.junit.*;
 
 import static org.junit.Assert.*;
-
 import util.JSONHelper;
 
 public class JSONHelperTest {
@@ -206,22 +207,22 @@ public class JSONHelperTest {
 	}
 	
 	@Test
-	public void writeListToJson_should_be_able_to_handle_a_list_of_integers() throws JsonGenerationException, JsonMappingException, IOException {
+	public void writeConcListToJson_should_be_able_to_handle_a_list_of_integers() throws JsonGenerationException, JsonMappingException, IOException {
 		JsonFactory factory = new JsonFactory();
 		ObjectMapper om = new ObjectMapper(factory);
 		ArrayNode arrayNode = om.createArrayNode();
 		arrayNode.add(100); arrayNode.add(100); arrayNode.add(100);
 		
-		List<Integer> list = new ArrayList<>();
+		BlockingQueue<Integer> list = new LinkedBlockingQueue<>();
 		list.add(100); list.add(100); list.add(100);
 		
-		ArrayNode node = JSONHelper.writeListToJson(list); 
+		ArrayNode node = JSONHelper.writeConcListToJson(list); 
 		
 		assertEquals(arrayNode, node);
 	}
 	
 	@Test
-	public void writeListToJson_should_be_able_to_handle_a_list_of_TestDataEntities() throws JsonGenerationException, JsonMappingException, IOException {
+	public void writeConcListToJson_should_be_able_to_handle_a_list_of_TestDataEntities() throws JsonGenerationException, JsonMappingException, IOException {
 		JsonFactory factory = new JsonFactory();
 		ObjectMapper om = new ObjectMapper(factory);
 		ArrayNode arrayNode = om.createArrayNode();
@@ -230,10 +231,10 @@ public class JSONHelperTest {
 		TestDataEntity entity2 = new TestDataEntity(); entity2.LatencyData.add(101); entity2.LatencyData.add(1990);
 		arrayNode.add(JSONHelper.writeObjectToJson(entity2));
 		
-		List<TestDataEntity> entities = new ArrayList<>();
+		BlockingQueue<TestDataEntity> entities = new LinkedBlockingQueue<TestDataEntity>();
 		entities.add(entity1); entities.add(entity2);
 		
-		ArrayNode node = JSONHelper.writeListToJson(entities);
+		ArrayNode node = JSONHelper.writeConcListToJson(entities);
 		
 		assertEquals(arrayNode, node);		
 	}

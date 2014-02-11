@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Monitor {
 
@@ -12,14 +16,14 @@ public class Monitor {
 	public long clientStartTime;
 	public long serverStartTime;
 	public int numberOfClients;
-	public List<TestDataEntity> testDataEntities;
+	public BlockingQueue<TestDataEntity> testDataEntities;
 	public int spacing;
-	public List<Integer> sentFromServerEvents;
-	public List<Integer> sentFromClientEvents;
-	public List<Integer> receivedAtServerEvents;
+	public ConcurrentHashMap<Integer, Integer> sentFromServerEvents;
+	public ConcurrentHashMap<Integer, Integer> sentFromClientEvents;
+	public ConcurrentHashMap<Integer, Integer> receivedAtServerEvents;
 	public int harvested;
 	public long duration;
-	public Set<String> completedClients;
+	public BlockingQueue<String> completedClients;
 
 	public static Monitor getInstance() {
 		if(_instance == null) {
@@ -35,14 +39,14 @@ public class Monitor {
 
 	public void reset() {
 		numberOfClients = 0;
-		testDataEntities = new ArrayList<>();
+		testDataEntities = new LinkedBlockingQueue<TestDataEntity>();
 		spacing = 0;
-		sentFromServerEvents = new ArrayList<>();
-		sentFromClientEvents = new ArrayList<>();
-		receivedAtServerEvents = new ArrayList<>();
+		sentFromServerEvents = new ConcurrentHashMap<Integer, Integer>();
+		sentFromClientEvents = new ConcurrentHashMap<Integer, Integer>();
+		receivedAtServerEvents = new ConcurrentHashMap<Integer, Integer>();
 		harvested = 0;
 		duration = 0;
-		completedClients = new HashSet<>();		
+		completedClients = new LinkedBlockingQueue<>();		
 	}
 
 	public int registerSentFromClientEvent(long millisecondsSinceEpoch) {
@@ -74,20 +78,20 @@ public class Monitor {
 		addEvent(sentFromServerEvents, key, nrOfEvents);
 	}
 	
-	public void addEvent(List<Integer> eventStore, int key) {
+	public void addEvent(ConcurrentHashMap<Integer, Integer> eventStore, int key) {
 		addEvent(eventStore, key, 1);		
 	}
 
-	public void addEvent(List<Integer> eventStore, int key, int nrOfEvents) {
-		while(key > eventStore.size()) {
-			eventStore.add(0);			
+	public void addEvent(ConcurrentHashMap<Integer, Integer> eventStore, int key, int nrOfEvents) {
+		while(key > eventStore.values().size()) {
+			eventStore.put(eventStore.values().size(), 0);			
 		}
-		if(eventStore.size() == key) {
-			eventStore.add(nrOfEvents);
+		if(eventStore.values().size() == key) {
+			eventStore.put(key, nrOfEvents);
 		} else {
 			int value = eventStore.get(key);
 			value += nrOfEvents;
-			eventStore.set(key, value);
+			eventStore.replace(key, value);
 		}
 		
 	}

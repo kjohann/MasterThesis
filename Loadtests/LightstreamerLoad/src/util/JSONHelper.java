@@ -1,8 +1,16 @@
 package util;
 
 import java.io.IOException;
+import java.util.AbstractCollection;
+import java.util.AbstractQueue;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+
+import models.TestDataEntity;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
@@ -79,12 +87,24 @@ public class JSONHelper {
 		return mapper.convertValue(toWrite, JsonNode.class);		
 	}
 	
-	public static <T> ArrayNode writeListToJson(List<T> toWrite) throws JsonGenerationException, JsonMappingException, IOException {
+	public static <T> ArrayNode writeListToJson(Collection<T> collection) throws JsonGenerationException, JsonMappingException, IOException {
 		JsonFactory factory = new JsonFactory();
 		ObjectMapper om = new ObjectMapper(factory);
 		ArrayNode arrayNode = om.createArrayNode();
 		
-		for(T value : toWrite) {
+		for(T value : collection) {
+			arrayNode.add(writeObjectToJson(value));			
+		}
+		
+		return arrayNode;
+	}	
+	
+	public static <T> ArrayNode writeConcListToJson(BlockingQueue<T> testDataEntities) throws JsonGenerationException, JsonMappingException, IOException {
+		JsonFactory factory = new JsonFactory();
+		ObjectMapper om = new ObjectMapper(factory);
+		ArrayNode arrayNode = om.createArrayNode();
+		
+		for(T value : testDataEntities) {
 			arrayNode.add(writeObjectToJson(value));			
 		}
 		
@@ -98,6 +118,5 @@ public class JSONHelper {
 	
 	public static ObjectNode newObject() {
 		return new ObjectNode(JsonNodeFactory.instance);
-	}
-	
+	}		
 }

@@ -19,6 +19,7 @@ import play.mvc.*;
 
 import views.html.*;
 import models.*;
+import util.ConcurrentHelper;
 import util.JSONHelper;
 
 public class Application extends Controller {	
@@ -152,9 +153,9 @@ public class Application extends Controller {
     			ObjectNode dataObj = Json.newObject();
     			dataObj.put("Duration", _monitor.duration);
     			dataObj.put("StartTime", _monitor.clientStartTime);
-    			dataObj.put("SentFromClientEvents", JSONHelper.writeListToJson(_monitor.sentFromClientEvents));
-    			dataObj.put("ReceivedAtServerEvents", JSONHelper.writeListToJson(_monitor.receivedAtServerEvents));
-    			dataObj.put("SentFromServerEvents", JSONHelper.writeListToJson(_monitor.sentFromServerEvents));
+    			dataObj.put("SentFromClientEvents", JSONHelper.writeListToJson(ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromClientEvents)));
+    			dataObj.put("ReceivedAtServerEvents", JSONHelper.writeListToJson(ConcurrentHelper.getListFromConcHashMap(_monitor.receivedAtServerEvents)));
+    			dataObj.put("SentFromServerEvents", JSONHelper.writeListToJson(ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromServerEvents)));
     			dataObj.put("Spacing", _monitor.spacing);
     			dataObj.put("TestDataEntities", JSONHelper.writeListToJson(_monitor.testDataEntities));    			
     			

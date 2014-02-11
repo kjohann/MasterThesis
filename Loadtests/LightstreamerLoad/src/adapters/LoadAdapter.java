@@ -15,9 +15,9 @@ import org.codehaus.jackson.node.ObjectNode;
 import models.Message;
 import models.Monitor;
 import models.TestDataEntity;
-
 import subscriptions.JsonSubscription;
 import subscriptions.listeners.JsonSubscriptionListener;
+import util.ConcurrentHelper;
 import util.JSONHelper;
 
 import com.lightstreamer.interfaces.data.DataProviderException;
@@ -136,11 +136,11 @@ public class LoadAdapter implements SmartDataProvider {
     			ObjectNode dataObj = JSONHelper.newObject();
     			dataObj.put("Duration", _monitor.duration);
     			dataObj.put("StartTime", _monitor.clientStartTime);
-    			dataObj.put("SentFromClientEvents", JSONHelper.writeListToJson(_monitor.sentFromClientEvents));
-    			dataObj.put("ReceivedAtServerEvents", JSONHelper.writeListToJson(_monitor.receivedAtServerEvents));
-    			dataObj.put("SentFromServerEvents", JSONHelper.writeListToJson(_monitor.sentFromServerEvents));
+    			dataObj.put("SentFromClientEvents", JSONHelper.writeListToJson(ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromClientEvents)));
+    			dataObj.put("ReceivedAtServerEvents", JSONHelper.writeListToJson(ConcurrentHelper.getListFromConcHashMap(_monitor.receivedAtServerEvents)));
+    			dataObj.put("SentFromServerEvents", JSONHelper.writeListToJson(ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromServerEvents)));
     			dataObj.put("Spacing", _monitor.spacing);
-    			dataObj.put("TestDataEntities", JSONHelper.writeListToJson(_monitor.testDataEntities));    			
+    			dataObj.put("TestDataEntities", JSONHelper.writeConcListToJson(_monitor.testDataEntities));    			
     			
     			response.put("data", dataObj);
     			

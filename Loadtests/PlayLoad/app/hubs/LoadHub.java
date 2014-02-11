@@ -1,18 +1,17 @@
 package hubs;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import models.*;
 
-public class LoadHub { //yes, I'm stealing terminology from SignalR - more for the sake of consistency really.
+public class LoadHub { 
 	private Monitor _monitor;
-	public Map<String, Socket> members;
+	public ConcurrentHashMap<String, Socket> members;
 	
 	public LoadHub() {
 		_monitor = Monitor.getInstance();
-		members = new HashMap<>(); 
+		members = new ConcurrentHashMap<>();
 	}
 	
 	public void initTest(String testTorRun, int numberOfClients, int spacing, long startTime) {

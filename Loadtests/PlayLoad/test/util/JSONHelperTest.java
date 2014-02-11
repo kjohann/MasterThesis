@@ -3,6 +3,8 @@ package util;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import models.Message;
 import models.TestDataEntity;
@@ -11,15 +13,15 @@ import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.junit.*;
 
-import play.libs.Json;
 import static org.junit.Assert.*;
-
 import util.JSONHelper;
 
 public class JSONHelperTest {
@@ -27,7 +29,7 @@ public class JSONHelperTest {
 			
 	@Test
 	public void getMessageKind_should_return_the_messageKind_field() {
-		ObjectNode event = Json.newObject();
+		ObjectNode event = new ObjectNode(JsonNodeFactory.instance);
 		event.put("messageKind", "test");
 		
 		_helper = new JSONHelper(event);
@@ -37,14 +39,14 @@ public class JSONHelperTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void getMessageKind_should_throw_IllegalArgumentException_if_messageKind_field_is_not_present() {		
-		_helper = new JSONHelper(Json.newObject());
+		_helper = new JSONHelper(new ObjectNode(JsonNodeFactory.instance));
 		
 		_helper.getMessageKind();
 	}
 	
 	@Test
 	public void getCid_should_return_the_cid_field() {
-		ObjectNode event = Json.newObject();
+		ObjectNode event = new ObjectNode(JsonNodeFactory.instance);
 		event.put("cid", "test");
 		
 		_helper = new JSONHelper(event);
@@ -54,7 +56,7 @@ public class JSONHelperTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void getCid_should_throw_IllegalArgumentException_if_cid_field_is_not_present() {		
-		_helper = new JSONHelper(Json.newObject());
+		_helper = new JSONHelper(new ObjectNode(JsonNodeFactory.instance));
 		
 		_helper.getCid();
 	}
@@ -66,7 +68,7 @@ public class JSONHelperTest {
 		ArrayNode arrayNode = om.createArrayNode();
 		arrayNode.add("string1"); arrayNode.add(1); arrayNode.add(2); arrayNode.add(100L);
 		
-		ObjectNode event = Json.newObject();
+		ObjectNode event = new ObjectNode(JsonNodeFactory.instance);
 		event.put("array", arrayNode);
 		
 		_helper = new JSONHelper(event);
@@ -78,14 +80,14 @@ public class JSONHelperTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void getArrayNode_should_throw_IllegalArgumentException_if_the_specified_field_is_not_present() {		
-		_helper = new JSONHelper(Json.newObject());
+		_helper = new JSONHelper(new ObjectNode(JsonNodeFactory.instance));
 		
 		_helper.getArrayNode("noooo");
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void getArrayNode_should_throw_IllegalArgumentException_if_the_specified_field_is_not_an_array() {
-		ObjectNode event = Json.newObject();
+		ObjectNode event = new ObjectNode(JsonNodeFactory.instance);;
 		event.put("messageKind", "test");
 		
 		_helper = new JSONHelper(event);
@@ -117,7 +119,7 @@ public class JSONHelperTest {
 	
 	@Test
 	public void getObject_should_get_the_object_instance_from_the_provided_JsonNode() throws JsonParseException, JsonMappingException, IOException {
-		ObjectNode event = Json.newObject();
+		ObjectNode event =new ObjectNode(JsonNodeFactory.instance);
 		Message input = new Message(1, 1, "1337", "1", "c:1m:2");
 		input.Key = 1;
 		event.put("SentFromClient", input.SentFromClient);
@@ -135,7 +137,7 @@ public class JSONHelperTest {
 	
 	@Test
 	public void getObject_should_get_the_object_instance_from_the_provided_JsonNode_also_with_some_fields_not_specified() throws JsonParseException, JsonMappingException, IOException {
-		ObjectNode event = Json.newObject();
+		ObjectNode event = new ObjectNode(JsonNodeFactory.instance);
 		Message input = new Message(1, 1, "1337", "1", "c:1m:2");
 		event.put("SentFromClient", input.SentFromClient);
 		event.put("ReceivedAtServer", input.ReceivedAtServer);
@@ -150,7 +152,7 @@ public class JSONHelperTest {
 	
 	@Test
 	public void getObject_should_get_the_object_instance_from_the_provided_JsonNode_when_the_instance_has_an_ArrayList_prop() throws JsonParseException, JsonMappingException, IOException {
-		ObjectNode event = Json.newObject();
+		ObjectNode event = new ObjectNode(JsonNodeFactory.instance);
 		
 		JsonFactory factory = new JsonFactory();
 		ObjectMapper om = new ObjectMapper(factory);
@@ -170,7 +172,7 @@ public class JSONHelperTest {
 	@Test
 	public void writeObjectToJson_should_write_a_message_to_an_ObjectNode() throws JsonGenerationException, JsonMappingException, IOException {
 		Message message = new Message(1, 1, "test", "1", "c:1m:100");
-		ObjectNode event = Json.newObject();
+		ObjectNode event = new ObjectNode(JsonNodeFactory.instance);
 		
 		event.put("SentFromClient", message.SentFromClient);
 		event.put("ReceivedAtServer", message.ReceivedAtServer);
@@ -187,7 +189,7 @@ public class JSONHelperTest {
 	
 	@Test
 	public void writeObjectToJson_should_write_a_TestDataEntity_to_an_ObjectNode() throws JsonGenerationException, JsonMappingException, IOException {
-		ObjectNode event = Json.newObject();
+		ObjectNode event = new ObjectNode(JsonNodeFactory.instance);
 		
 		JsonFactory factory = new JsonFactory();
 		ObjectMapper om = new ObjectMapper(factory);
@@ -205,22 +207,22 @@ public class JSONHelperTest {
 	}
 	
 	@Test
-	public void writeListToJson_should_be_able_to_handle_a_list_of_integers() throws JsonGenerationException, JsonMappingException, IOException {
+	public void writeConcListToJson_should_be_able_to_handle_a_list_of_integers() throws JsonGenerationException, JsonMappingException, IOException {
 		JsonFactory factory = new JsonFactory();
 		ObjectMapper om = new ObjectMapper(factory);
 		ArrayNode arrayNode = om.createArrayNode();
 		arrayNode.add(100); arrayNode.add(100); arrayNode.add(100);
 		
-		List<Integer> list = new ArrayList<>();
+		BlockingQueue<Integer> list = new LinkedBlockingQueue<>();
 		list.add(100); list.add(100); list.add(100);
 		
-		ArrayNode node = JSONHelper.writeListToJson(list); 
+		ArrayNode node = JSONHelper.writeConcListToJson(list); 
 		
 		assertEquals(arrayNode, node);
 	}
 	
 	@Test
-	public void writeListToJson_should_be_able_to_handle_a_list_of_TestDataEntities() throws JsonGenerationException, JsonMappingException, IOException {
+	public void writeConcListToJson_should_be_able_to_handle_a_list_of_TestDataEntities() throws JsonGenerationException, JsonMappingException, IOException {
 		JsonFactory factory = new JsonFactory();
 		ObjectMapper om = new ObjectMapper(factory);
 		ArrayNode arrayNode = om.createArrayNode();
@@ -229,13 +231,27 @@ public class JSONHelperTest {
 		TestDataEntity entity2 = new TestDataEntity(); entity2.LatencyData.add(101); entity2.LatencyData.add(1990);
 		arrayNode.add(JSONHelper.writeObjectToJson(entity2));
 		
-		List<TestDataEntity> entities = new ArrayList<>();
+		BlockingQueue<TestDataEntity> entities = new LinkedBlockingQueue<TestDataEntity>();
 		entities.add(entity1); entities.add(entity2);
 		
-		ArrayNode node = JSONHelper.writeListToJson(entities);
+		ArrayNode node = JSONHelper.writeConcListToJson(entities);
 		
 		assertEquals(arrayNode, node);		
 	}
 	
+	@Test
+	public void getJsonNodeFromJson_should_be_able_to_retrieve_json_as_JsonNode() throws JsonProcessingException, IOException {
+		ObjectNode event = new ObjectNode(JsonNodeFactory.instance);
+		ObjectNode subNode = new ObjectNode(JsonNodeFactory.instance);
+		subNode.put("sub", "SubZero");
+		event.put("test1", 1337);
+		event.put("subObj", subNode);
+		
+		String json = event.toString();
+		
+		ObjectNode node = (ObjectNode)JSONHelper.getJsonNodeFromJson(json);
+		
+		assertEquals(event, node);
+	}
 }
 	

@@ -8,6 +8,8 @@ import models.Monitor;
 import models.TestDataEntity;
 
 import org.junit.*;
+
+import util.ConcurrentHelper;
 import static org.junit.Assert.*;
 import static util.AssertUtils.*;
 
@@ -74,7 +76,7 @@ public class LoadHubTest {
     	_loadHub.echo(_message);
     	List<Integer> expectedData = getList(1);
     	
-    	assertListEquals(expectedData, _monitor.receivedAtServerEvents);
+    	assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.receivedAtServerEvents));
     }
 
     @Test
@@ -82,7 +84,7 @@ public class LoadHubTest {
     	_loadHub.echo(_message);
     	List<Integer> expectedData = getList(1);
     	
-    	assertListEquals(expectedData, _monitor.sentFromClientEvents);
+    	assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromClientEvents));
     }
 
     @Test
@@ -90,7 +92,7 @@ public class LoadHubTest {
     	_loadHub.echo(_message);
     	List<Integer> expectedData = getList(1);
     	
-    	assertListEquals(expectedData, _monitor.sentFromServerEvents);
+    	assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromServerEvents));
     }
 
     @Test
@@ -113,7 +115,7 @@ public class LoadHubTest {
     	_loadHub.broadcast(_message);
     	List<Integer> expectedData = getList(1);
     	
-    	assertListEquals(expectedData, _monitor.receivedAtServerEvents);
+    	assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.receivedAtServerEvents));
     }
 
     @Test
@@ -121,7 +123,7 @@ public class LoadHubTest {
     	_loadHub.broadcast(_message);
     	List<Integer> expectedData = getList(1);
     	
-    	assertListEquals(expectedData, _monitor.sentFromClientEvents);
+    	assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromClientEvents));
     }
 
     @Test
@@ -129,7 +131,7 @@ public class LoadHubTest {
     	_loadHub.broadcast(_message);
     	List<Integer> expectedData = getList(100);
     	
-    	assertListEquals(expectedData, _monitor.sentFromServerEvents);
+    	assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromServerEvents));
     }
 
     @Test
@@ -166,7 +168,7 @@ public class LoadHubTest {
         
         _loadHub.getData(testData, 5);
         
-        assertEquals(testData, _monitor.testDataEntities.get(0));
+        assertEquals(testData, _monitor.testDataEntities.peek());
     }
     
     @Test

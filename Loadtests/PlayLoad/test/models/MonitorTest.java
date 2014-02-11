@@ -3,8 +3,11 @@ package models;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.*;
+
+import util.ConcurrentHelper;
 import static org.junit.Assert.*;
 import static util.AssertUtils.*;
 
@@ -28,9 +31,9 @@ public class MonitorTest {
         _monitor.duration = 1000;
         _monitor.harvested = 10;
         _monitor.numberOfClients = 10;
-        _monitor.receivedAtServerEvents.add(5);
-        _monitor.sentFromClientEvents.add(5);
-        _monitor.sentFromServerEvents.add(25);
+        _monitor.receivedAtServerEvents.put(0,5);
+        _monitor.sentFromClientEvents.put(0,5);
+        _monitor.sentFromServerEvents.put(0,25);
         _monitor.spacing = 10;            
         _monitor.testDataEntities.add(new TestDataEntity());
         
@@ -54,7 +57,7 @@ public class MonitorTest {
 		
 		List<Integer> expectedData = getList(4, 5, 5, 5, 1);
 		
-		assertListEquals(expectedData, _monitor.sentFromClientEvents);
+		assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromClientEvents));
 	}
 	
 	@Test
@@ -64,7 +67,7 @@ public class MonitorTest {
 		
 		List<Integer> expectedData = getList(24, 16);
 		
-		assertListEquals(expectedData, _monitor.sentFromClientEvents);
+		assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromClientEvents));
     }
 
 	@Test
@@ -74,7 +77,7 @@ public class MonitorTest {
         
         List<Integer> expectedData = getList(99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1);
         
-        assertListEquals(expectedData, _monitor.sentFromClientEvents);
+        assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromClientEvents));
     }
 
 	@Test
@@ -98,7 +101,7 @@ public class MonitorTest {
           
           List<Integer> expectedData = getList(4, 5, 5, 5, 1);
           
-          assertListEquals(expectedData, _monitor.receivedAtServerEvents);
+          assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.receivedAtServerEvents));
     }
 
 	@Test
@@ -108,7 +111,7 @@ public class MonitorTest {
         
         List<Integer> expectedData = getList(24, 16);
         
-        assertListEquals(expectedData, _monitor.receivedAtServerEvents);
+        assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.receivedAtServerEvents));
     }
 
 	@Test
@@ -118,7 +121,7 @@ public class MonitorTest {
         
         List<Integer> expectedData = getList(99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1);
         
-        assertListEquals(expectedData, _monitor.receivedAtServerEvents);
+        assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.receivedAtServerEvents));
 	}
 
 	@Test
@@ -128,7 +131,7 @@ public class MonitorTest {
         
         List<Integer> expectedData = getList(4, 5, 5, 5, 1);
         
-        assertListEquals(expectedData, _monitor.sentFromServerEvents);
+        assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromServerEvents));
     }
 
 	@Test
@@ -138,7 +141,7 @@ public class MonitorTest {
         
         List<Integer> expectedData = getList(400, 500, 500, 500, 100);
         
-        assertListEquals(expectedData, _monitor.sentFromServerEvents);
+        assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromServerEvents));
 	}
 
 	@Test
@@ -148,7 +151,7 @@ public class MonitorTest {
         
         List<Integer> expectedData = getList(24, 16);
         
-        assertListEquals(expectedData, _monitor.sentFromServerEvents);
+        assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromServerEvents));
     }
 
 	@Test
@@ -158,7 +161,7 @@ public class MonitorTest {
         
         List<Integer> expectedData = getList(2400, 1600);
         
-        assertListEquals(expectedData, _monitor.sentFromServerEvents);
+        assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromServerEvents));
     }
 
 	@Test
@@ -168,7 +171,7 @@ public class MonitorTest {
         
         List<Integer> expectedData = getList(99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 1);
         
-        assertListEquals(expectedData, _monitor.sentFromServerEvents);
+        assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromServerEvents));
     }
 
 	@Test
@@ -178,15 +181,16 @@ public class MonitorTest {
         
         List<Integer> expectedData = getList(9900, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 100);
         
-        assertListEquals(expectedData, _monitor.sentFromServerEvents);
+        assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(_monitor.sentFromServerEvents));
     }
 
 	@Test
     public void addEvent_should_fill_in_zero_events_if_key_points_to_an_out_of_bounds_index() {
-    	List<Integer> eventStore = getList(1, 2);
+    	ConcurrentHashMap<Integer, Integer> eventStore = new ConcurrentHashMap<>(); 
+    	eventStore.put(0, 1); eventStore.put(1, 2);
     	_monitor.addEvent(eventStore, 10);
     	List<Integer> expectedData = getList(1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1);
-    	assertListEquals(expectedData, eventStore);
+    	assertListEquals(expectedData, ConcurrentHelper.getListFromConcHashMap(eventStore));
     }
 	
 	private List<Long> getDummyMillisecondValues(int eventInterval, int totalNumber) {
