@@ -165,18 +165,36 @@
         "Framework": "Play",
         "Type": "Bytes sent/received",
         "Transport": "Websockets",
-        "Data": [25385208, 25401362, 25461837, 25417857, 25397125, 25426232, 25456295, 25410156, 25398289, 25440311]
+        "Data": [25424209, 25379750, 25454112, 25428162, 25421480, 25418745, 25465792, 25422967, 25485381, 25427741]
     },
     {
         "Framework": "Play",
         "Type": "Median processor usage",
         "Transport": "Websockets",
-        "Data": [60, 62, 65, 60, 63, 55, 60, 55, 62, 55]
+        "Data": [50, 55, 60, 55, 52, 55, 50, 58, 50, 50]
     },
     {
         "Framework": "Play",
         "Type": "Max memory consumtion",
         "Transport": "Websockets",
-        "Data": [381248, 377000, 375804, 391432, 386812, 368396, 368096, 369720, 368320, 371208]
-    }
+        "Data": [169212, 167592, 226744, 164112, 226432, 164432, 168660, 164156, 170556, 193704]
+    },    
+    {
+        "Framework": "Play",
+        "Type": "Bytes sent/received",
+        "Transport": "Http-Streaming",
+        "Data": []
+    },
+    {
+        "Framework": "Play",
+        "Type": "Median processor usage",
+        "Transport": "Http-Streaming",
+        "Data": []
+    },
+    {
+        "Framework": "Play",
+        "Type": "Max memory consumtion",
+        "Transport": "Http-Streaming",
+        "Data": []
+    }    
 ]
