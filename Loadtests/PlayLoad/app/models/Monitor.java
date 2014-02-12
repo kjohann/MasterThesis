@@ -12,7 +12,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Monitor {
 
 	private static Monitor _instance;
-	
+	private Object sentCMut = new Object(), sentSeMut = new Object(), recMut = new Object();
+	public long connected = 0;
 	public long clientStartTime;
 	public long serverStartTime;
 	public int numberOfClients;
@@ -55,7 +56,10 @@ public class Monitor {
 	
 	public int registerSentFromClientEvent(long millisecondsSinceEpoch, int spacing) {
 		int key = getKey(millisecondsSinceEpoch, spacing, true);
-		addEvent(sentFromClientEvents, key);
+		synchronized (sentCMut) {
+			addEvent(sentFromClientEvents, key);
+		}
+		
 		return key;
 	}
 	
@@ -65,7 +69,9 @@ public class Monitor {
 
 	public void registerReceivedAtServerEvent(long millisecondsSinceEpoch, int spacing) {
 		int key = getKey(millisecondsSinceEpoch, spacing, false);
-		addEvent(receivedAtServerEvents, key);
+		synchronized (recMut) {
+			addEvent(receivedAtServerEvents, key);	
+		}
 	}
 
 	public void registerSentFromServerEvent(long millisecondsSinceEpoch, boolean broadcast) {
@@ -75,7 +81,9 @@ public class Monitor {
 	public void registerSentFromServerEvent(long millisecondsSinceEpoch, boolean broadcast, int spacing) {
 		int key = getKey(millisecondsSinceEpoch, spacing, false);
 		int nrOfEvents = broadcast ? numberOfClients : 1;
-		addEvent(sentFromServerEvents, key, nrOfEvents);
+		synchronized (sentSeMut) {
+			addEvent(sentFromServerEvents, key, nrOfEvents);	
+		}
 	}
 	
 	public void addEvent(ConcurrentHashMap<Integer, Integer> eventStore, int key) {
