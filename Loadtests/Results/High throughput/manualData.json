@@ -160,5 +160,23 @@
         "Type": "Max memory consumtion",
         "Transport": "Long-Polling",
         "Data": [32276, 32368, 32320, 31044, 31816, 30824, 30896, 31968, 31176, 32524]
+    },    
+    {
+        "Framework": "Play",
+        "Type": "Bytes sent/received",
+        "Transport": "Websockets",
+        "Data": [25385208, 25401362, 25461837, 25417857, 25397125, 25426232, 25456295, 25410156, 25398289, 25440311]
+    },
+    {
+        "Framework": "Play",
+        "Type": "Median processor usage",
+        "Transport": "Websockets",
+        "Data": [60, 62, 65, 60, 63, 55, 60, 55, 62, 55]
+    },
+    {
+        "Framework": "Play",
+        "Type": "Max memory consumtion",
+        "Transport": "Websockets",
+        "Data": [381248, 377000, 375804, 391432, 386812, 368396, 368096, 369720, 368320, 371208]
     }
 ]
