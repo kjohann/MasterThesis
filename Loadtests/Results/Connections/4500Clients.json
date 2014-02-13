@@ -1,0 +1,19 @@
+[  
+{
+    "Framework": "SignalR",
+    "Charts": [{"Title":"Average Latency","XAxis":["0"],"YAxis":null,"Series":[{"Data":[1582.17],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"},{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1"],"YAxis":null,"Series":[{"Data":[3750,749],"Name":"Received by server"},{"Data":[4500],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from server pr. second","XAxis":["0","1"],"YAxis":null,"Series":[{"Data":[3750,750],"Name":"Messages"}],"YAxisTitle":"Messages"}]
+},
+{
+	"Framework": "Socket.IO",
+	"Charts": [{"Title":"Messages sent from server pr. second","XAxis":["0","1","2"],"YAxis":null,"Series":[{"Data":[877,1092,2531],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0"],"YAxis":null,"Series":[{"Data":[1830.78],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"},{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2"],"YAxis":null,"Series":[{"Data":[877,1092,2531],"Name":"Received by server"},{"Data":[4500],"Name":"Sent from clients"}],"YAxisTitle":"Messages"}]
+},
+{
+	"Framework": "SockJS",
+	"Charts": [{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1"],"YAxis":null,"Series":[{"Data":[1508,2992],"Name":"Received by server"},{"Data":[4500],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from server pr. second","XAxis":["0","1"],"YAxis":null,"Series":[{"Data":[1508,2992],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0"],"YAxis":null,"Series":[{"Data":[990.02],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"}]
+},
+{
+	"Framework": "Play",
+	"Charts": [{"Title":"Messages sent from clients and received by server pr. second","XAxis":["0","1","2","3","4"],"YAxis":null,"Series":[{"Data":[44,411,505,468,3072],"Name":"Received by server"},{"Data":[4500],"Name":"Sent from clients"}],"YAxisTitle":"Messages"},{"Title":"Messages sent from server pr. second","XAxis":["0","1","2","3","4"],"YAxis":null,"Series":[{"Data":[44,411,505,467,3073],"Name":"Messages"}],"YAxisTitle":"Messages"},{"Title":"Average Latency","XAxis":["0"],"YAxis":null,"Series":[{"Data":[5510.67],"Name":"Average latency (ms)"}],"YAxisTitle":"Average milliseconds"}]
+}
+]
+]
