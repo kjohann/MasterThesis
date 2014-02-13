@@ -180,21 +180,21 @@
         "Data": [169212, 167592, 226744, 164112, 226432, 164432, 168660, 164156, 170556, 193704]
     },    
     {
-        "Framework": "Play",
+        "Framework": "Lightstreamer",
         "Type": "Bytes sent/received",
-        "Transport": "Http-Streaming",
-        "Data": []
+        "Transport": "Websockets",
+        "Data": [26341580, 26654831, 26633689, 27025264]
     },
     {
-        "Framework": "Play",
+        "Framework": "Lightstreamer",
         "Type": "Median processor usage",
-        "Transport": "Http-Streaming",
-        "Data": []
+        "Transport": "Websockets",
+        "Data": [35, 45, 40, 50]
     },
     {
-        "Framework": "Play",
+        "Framework": "Lightstreamer",
         "Type": "Max memory consumtion",
-        "Transport": "Http-Streaming",
-        "Data": []
+        "Transport": "Websockets",
+        "Data": [117268, 107768, 104152, 105840]
     }    
 ]
