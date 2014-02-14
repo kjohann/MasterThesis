@@ -17,20 +17,20 @@
 
 ###From clients to server###
 
-* InitTest message:  132 bytes (packet no 746)
-* Broadcast message: 231 bytes (packet no 753 is the first). 1800 x 231 = 415800 bytes total
-* Complete message: 105 bytes (packet no 866). 105 x 60 = 6300 bytes
-* GetData message: 128 bytes (packet no 876) in capture => 186 after correction to account for larger latencyData array.
-  186 bytes * 30 = 5580 bytes
+* InitTest message:  192 bytes (packet no 746 adn 747)
+* Broadcast message: 393 bytes (packet no 753, 758, 763 and 766 is the first). 1800 x 393 = 707400 bytes total
+* Complete message: 267 bytes (packet no 866, 869, 872 and 875). 105 x 60 = 16020 bytes
+* GetData message: 236 bytes (packet no 876, 879 and 884) in capture => 294 after correction to account for larger latencyData array.
+  294 bytes * 30 = 8820 bytes
 
-Total: 132 + 415800 + 6300 + 5580 = 427680 bytes.
+Total: 192 + 707400 + 16020 + 8820 = 732432 bytes.
 
 ###From server to clients###
 
 * InitTest message: 319 bytes (packet no 748-751). 319 x 60 = 19140 bytes.
-* ReceiveMessage: (varies) 713 bytes (packet no 756, 757, 759-762, 764 and 765) for the first reply only.
+* ReceiveMessage: (varies) 773 bytes (packet no 755-757, 759-762, 764 and 765) for the first reply only.
   597 bytes (packet no 768-769 and 771-774)
-  Using 597 as basis as the number varies: 597 x 7200 = 4298400 bytes.
+  Using 597 as basis, the number varies: 597 x 7200 = 4298400 bytes.
 * Harvest message: 433 bytes (packet no 867, 868, 870, 871, 873 and 874). 433 * 60 = 25980 bytes
 * Harvest complete message: 632 bytes (packet no 877, 878 and 880-883) in capture => 874 bytes after correction to account for larger data arrays.
   874 bytes * 60 = 52440 bytes.
@@ -58,7 +58,8 @@ Total: 19140 + 4298400 + 25980 + 52440 = 4395960 bytes.
 NOTE: Messages vary a couple of bytes depending on message and client ids.
 Should have made it a more static format (ex. m0001c0001 instead of m1c1)
 
-NOTE: Hard to predict exact behavior with WS - can vary up to 120, maybe 180 bytes for each "response", can be 3-8 packets. 120 * 7200 = 864000 bytes
+NOTE: Hard to predict exact behavior with WS - can vary up to 120, maybe 180 bytes for each "response", can be 3-8 packets. 120 * 7200 = 864000 bytes. 
+There are also some sporadic TCP messages going from the server from the client. These are 60 bytes each.
 
 NOTE: Some of the variation is due to SignalR cursor messages
 
