@@ -183,18 +183,18 @@
         "Framework": "Lightstreamer",
         "Type": "Bytes sent/received",
         "Transport": "Websockets",
-        "Data": [26341580, 26654831, 26633689, 27025264]
+        "Data": [29291609, 30154166, 29784599, 29093138, 29117854, 25123469, 28440809, 28556467, 28634462, 27779353]
     },
     {
         "Framework": "Lightstreamer",
         "Type": "Median processor usage",
         "Transport": "Websockets",
-        "Data": [35, 45, 40, 50]
+        "Data": [19, 25, 17, 15, 21, 25, 22, 26, 25, 21]
     },
     {
         "Framework": "Lightstreamer",
         "Type": "Max memory consumtion",
         "Transport": "Websockets",
-        "Data": [117268, 107768, 104152, 105840]
+        "Data": [116680, 110832, 106460, 113120, 105512, 109424, 108724, 107924, 107676, 109348]
     }    
 ]
