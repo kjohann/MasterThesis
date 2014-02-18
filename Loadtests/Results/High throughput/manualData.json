@@ -92,19 +92,19 @@
     {
         "Framework": "Socket.IO",
         "Type": "Bytes sent/received",
-        "Transport": "Long-Polling",
+        "Transport": "Polling",
         "Data": [30957449, 30708388, 30930532, 30369199, 30737803, 31259337, 31504527, 30387741, 30545315, 30914556]
     },
     {
         "Framework": "Socket.IO",
         "Type": "Median processor usage",
-        "Transport": "Long-Polling",
+        "Transport": "Polling",
         "Data": [7, 7, 9, 8, 10, 8, 9, 7, 10, 7]
     },
     {
         "Framework": "Socket.IO",
         "Type": "Max memory consumtion",
-        "Transport": "Long-Polling",
+        "Transport": "Polling",
         "Data": [31924, 32276,32732, 31040, 31576, 31460, 31332, 32556, 31872, 31320]
     },    
     {
@@ -196,5 +196,41 @@
         "Type": "Max memory consumtion",
         "Transport": "Websockets",
         "Data": [116680, 110832, 106460, 113120, 105512, 109424, 108724, 107924, 107676, 109348]
-    }    
+    },    
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Bytes sent/received",
+        "Transport": "Http-Streaming",
+        "Data": [36145377, 32721520, 33290134, 31592718, 31897375, 31757526, 30388352, 30383815, 34457205, 32071639]
+    },
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Median processor usage",
+        "Transport": "Http-Streaming",
+        "Data": [25, 30, 27, 25, 28, 27, 25, 26, 24, 25]
+    },
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Max memory consumtion",
+        "Transport": "Http-Streaming",
+        "Data": [106008, 105444, 107312, 106084, 106196, 108244, 110688, 108804, 106860, 106472]
+    }      ,    
+    {
+        "Framework": "Lightstreamer WS-POLLING",
+        "Type": "Bytes sent/received",
+        "Transport": "Polling",
+        "Data": [42350332, 32495482, 28126714, 37396138, 33889767, 39636003, 39903645, 34790363, 33767212, 37737888]
+    },
+    {
+        "Framework": "Lightstreamer WS-POLLING",
+        "Type": "Median processor usage",
+        "Transport": "Polling",
+        "Data": [45, 45, 48, 50, 50, 48, 51, 48, 47, 46]
+    },
+    {
+        "Framework": "Lightstreamer WS-POLLING",
+        "Type": "Max memory consumtion",
+        "Transport": "Polling",
+        "Data": [137920, 624204, 152464, 168700, 164308, 157376, 176680, 161376, 167408, 183140]
+    }
 ]
