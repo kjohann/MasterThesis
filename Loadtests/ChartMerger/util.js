@@ -18,11 +18,11 @@
     };
 
     root.getDefaultTransports = function() {
-        return ["Websockets", "Server Sent Events", "Http-Streaming", "Long-Polling", "Polling"];
+        return ["Websockets", "Server Sent Events", "Http-Streaming", "Long-Polling", "Polling", "WS-Polling"];
     };
 
     root.getDefaultFrameworks = function() {
-        return ["SignalR", "Socket.IO", "Play", "Lightstreamer", "SockJS"];
+        return ["SignalR", "Socket.IO", "Play", "Lightstreamer", "SockJS", "Lightstreamer WS-POLLING"];
     }
 
 })(merger.util = merger.util || {});

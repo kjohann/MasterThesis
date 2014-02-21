@@ -17,9 +17,9 @@
             var highChart = getManualDataChart(chart);
             if(chart.title === "Bytes sent/received") {
                 $("#bytesSentReceivedChart").highcharts(highChart);
-            } else if(chart.title === "Peak processor usage") {
+            } else if(chart.title === "Median processor usage") {
                 $("#peakProcessorChart").highcharts(highChart);
-            } else if(chart.title === "Max memory consumtion") {
+            } else if(chart.title === "Max memory consumption") {
                 $("#maxMemoryConsumtionChart").highcharts(highChart);
             }
         });

@@ -57,8 +57,8 @@
             } else {
                 var charts = [];
                 charts.push(merger.getManualDataChart("Bytes sent/received", frameworks, transports, "Bytes", merger.rawManualData));
-                charts.push(merger.getManualDataChart("Peak processor usage", frameworks, transports, "%", merger.rawManualData));
-                charts.push(merger.getManualDataChart("Max memory consumtion", frameworks, transports, "KBytes", merger.rawManualData));
+                charts.push(merger.getManualDataChart("Median processor usage", frameworks, transports, "%", merger.rawManualData));
+                charts.push(merger.getManualDataChart("Max memory consumption", frameworks, transports, "KBytes", merger.rawManualData));
 
                 chartsHelper.displayManualDataChart(charts)
             }
