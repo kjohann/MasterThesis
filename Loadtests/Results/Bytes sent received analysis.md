@@ -86,6 +86,29 @@ Total: 223996620 bytes.
 
 Total bytes in test capture counting from the connect call: 45879
 
+#Socket.IO#
+
+##WebSockets##
+
+###From clients to server###
+
+* InitTest message (1 msg): 124 bytes (packet no 793)
+* Broadcast message (1800 msgs): 223 bytes (packet no 795). 223 x 1800 = 401400 bytes.
+* Complete message (60 msgs): 96 bytes (packet no 825). 96 x 60 = 5760 bytes.
+* GetData message (30 msgs): 119 bytes (packet no 827). 119 x 30 = 3570 bytes.
+
+Total: 410854 bytes
+
+###From server to clients###
+
+* InitTest message (60 msgs): 100 bytes (packet no 794). 100 x 60 = 6000 bytes
+* ReceiveMessage (108000 msgs): 242 bytes (packet no 796). 242 x 108000 = 26136000 bytes
+* Harvest message (60 msgs): 78 bytes (packet no 826). 78 x 60 = 4680 bytes.
+* Harvest complete message (60 msgs): 287 bytes (packet no 828). 287 x 60 = 17220 bytes.
+
+Total: 26163900 bytes.
+
+Total bytes in test capture counting from the connect call: 6979
 
 ####Template (delete this)####
 
