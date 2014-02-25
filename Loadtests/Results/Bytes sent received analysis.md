@@ -218,6 +218,105 @@ Overall: 36303118
 
 Total bytes in test capture counting from the connect call: 21668
 
+#Lightstreamer#
+
+##WebSockets##
+
+###From clients to server###
+
+* InitTest message (1 msg): 162 bytes (packet no 462).
+* Broadcast message (1800 msgs): 262 bytes (packet no 470). 262 x 1800 = 471600 bytes.
+* Complete message (60 msgs): 134 bytes (packet no 500). 134 x 60 = 8040 bytes.
+* GetData message (30 msgs): 161 bytes (packet no 502). 161 x 30 = 4830 bytes.
+
+Total: 484632
+
+###From server to clients###
+
+* InitTest message (60 msgs): 188 bytes (packet no 468 and 469). 188 x 60 = 11280 bytes.
+* ReceiveMessage (108000 msgs): 267 (packet no 472 -> a 60 byte TCP package is sent along with the first message, but none of the others).
+  267 x 108000 = 28836000 bytes.
+* Harvest message (60 msgs): 102 bytes (packet no 501). 102 x 60 = 6120 bytes.
+* Harvest complete message (60 msgs): 316 bytes (packet no 503). 316 x 60 = 18960 bytes.
+
+Total: 28872360
+
+Overall: 29356992
+
+Total bytes in test capture counting from the connect call: 12735
+
+##Http-Streaming##
+
+###From clients to server###
+
+* InitTest message (1 msg): 1466 bytes (packet no 384 and 385).
+* Broadcast message (1800 msgs): 1615 bytes (packet no 390 and 391). 1615 x 1800 = 2907000 bytes.
+* Complete message (60 msgs): 1429 bytes (packet no 446 and 447). 1429 x 60 = 85740 bytes.
+* GetData message (30 msgs): 1476 bytes (packet no 451 and 452). 1476 x 30 = 44280 bytes.
+
+Total: 3038486
+
+###From server to clients###
+
+* InitTest message (60 msgs): 225 bytes (packet no 386 and 389). 225 x 60 = 13500 bytes.
+* ReceiveMessage (108000 msgs): 362 bytes (packet no 392 and 394). 362 x 108000 = 39096000 bytes.
+* Harvest message (60 msgs): 200 bytes (packet no 448 and 449). 200 x 60 = 12000 bytes
+* Harvest complete message (60 msgs): 413 bytes (packet no 453 and 454). 413 x 60 = 24780 bytes.
+
+Total: 39146280
+
+Overall: 42184766
+
+Total bytes in test capture counting from the connect call: 34364
+
+##WS-Polling##
+
+###From clients to server###
+
+* InitTest message (1 msg): 162 bytes (packet no 317).
+* Broadcast message (1800 msgs): 262 bytes (packet no 321). 262 x 1800 = 471600 bytes.
+* Complete message (60 msgs): 134 bytes (packet no 361). 134 x 60 = 8040 bytes.
+* GetData message (30 msgs): 161 bytes (packet no 365). 161 x 30 = 4830 bytes.
+
+Total: 484632
+
+###From server to clients###
+
+* InitTest message (60 msgs): 491 bytes (packet no 313, 318 and 319). 491 x 60 = 29460 bytes.
+* ReceiveMessage (108000 msgs): 628 bytes (packet no 320, 322 and 323). 628 x 108000 = 67824000 bytes.
+* Harvest message (60 msgs): 465 bytes (packet no 360, 362 and 363). 465 x 60 = 27900 bytes.
+* Harvest complete message (60 msgs): 677 (packet no 364, 366 and 367). 677 x 60 = 40620 bytes.
+
+Total: 67921980
+
+Overall: 68406612
+
+Total bytes in test capture counting from the connect call: 17458
+
+##Polling##
+
+###From clients to server###
+
+* InitTest message (1 msg): 1466 bytes (packet no 345 and 346). 
+* Broadcast message (1800 msgs): 1615 bytes (packet no 353 and 354). 1615 x 1800 = 2907000 bytes.
+* Complete message (60 msgs): 1429 bytes (packet no 429 and 430). 1429 x 60 = 85740 bytes.
+* GetData message (30 msgs): 1476 bytes (packet no 435 and 436). 1476 x 30 = 44280 bytes.
+
+Total: 3038486
+
+###From server to clients###
+
+* InitTest message (60 msgs): 1581 bytes (packet no 348, 349 and 351). 1581 x 60 = 94860 bytes.
+* ReceiveMessage (108000 msgs): 1718 bytes (packet no 356, 357 and 359). 1718 x 108000 = 185544000 bytes.
+* Harvest message (60 msgs): 1495 bytes (packet no 432 and 433). 1495 x 60 = 89700 bytes.
+* Harvest complete message (60 msgs): 1707 bytes (packet no 438 and 439). 1707 x 60 = 102420 bytes.
+
+Total: 185830980
+
+Overall: 188869466
+
+Total bytes in test capture counting from the connect call: 72617
+
 ####Template (delete this)####
 
 ###From clients to server###
@@ -253,6 +352,4 @@ NOTE: Some of the variation is due to SignalR cursor messages
 
 NOTE: There are some sporadic TCP packets going from the client to the server. These seem to be similar across all the transports (54 bytes) and at same interval.
 
-NOTE: GetData message is less in capture with one browser. A full test will contain an array more like this: [911,285,519,447,418,428,357,256] totalling 58 extra bytes pr message.
-
-NOTE: Harvest complete message is also less in capture with one browser. A full test will contain arrays for sent/received like this: [120, 120, 120, 120 ,120 ,120 ,120 ,120 ,120 ,120 ,120 ,120 ,120 ,120 ,120] - with spaces for some reason. Sent from server will be this: [7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200,7200] whilst the latencyData will be like in the NOTE above. Totally, this will accumulate an extra 242 bytes pr. message.
+NOTE: WS-Polling keeps the initial WS-connection open - what is the benefit of using this transport then?
