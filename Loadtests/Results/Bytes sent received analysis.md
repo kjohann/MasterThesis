@@ -19,11 +19,11 @@
 ###From clients to server### 
 
 * InitTest (1 msg) message:  132 bytes (packet no 746)
-* Broadcast message (1800 msgs): 231 bytes (packet no 753 is the first). 1800 x 231 = 415800 bytes total
+* Broadcast message (1800 msgs): 231 bytes (packet no 753). 1800 x 231 = 415800 bytes total
 * Complete message (60 msgs): 105 bytes (packet no 866). 105 x 60 = 6300 bytes
 * GetData message (30 msgs): 128 bytes (packet no 876). 128 bytes x 30 = 3840 bytes
 
-Total: 132 + 415800 + 6300 + 3840 = 425940 bytes.
+Total: 425940 bytes.
 
 ###From server to clients###
 
@@ -34,55 +34,61 @@ Total: 132 + 415800 + 6300 + 3840 = 425940 bytes.
 * Harvest message (60 msgs): 433 bytes (packet no 867, 868, 870, 871, 873 and 874). 433 x 60 = 25980 bytes
 * Harvest complete message (60 msgs): 632 bytes (packet no 877, 878 and 880-883) in capture 632 bytes x 60 = 52440 bytes.
 
-Total: 19140 + 64476000 + 25980 + 52440 = 64556360 bytes.
+Total: 64556360 bytes.
 
-Total bytes in test capture counting from the connect call: 14352
+Overall: 64982300
+
+Total bytes in test capture counting from the connect call: 14960
 
 ##Server Sent Events##
 
 ###From clients to server###
 
-* InitTest message (1 msg): 965 bytes (packet no 331).
-* Broadcast message (1800 msgs): 1114 bytes (packet no 337 is the first). 1800 x 1114 bytes = 2005200
-* Complete message (60 msgs): 927 bytes (packet no 422). 927 x 60 = 55602 bytes
-* GetData message (30 msgs): 973 bytes (packet no 430). 973 x 30 = 29190
+* InitTest message (1 msg): 1025 bytes (packet no 331 and 339).
+* Broadcast message (1800 msgs): 1174 bytes (packet no 337 and 346). 1800 x 1174 bytes = 2113200
+* Complete message (60 msgs): 987 bytes (packet no 422 and 428). 987 x 60 = 59220 bytes
+* GetData message (30 msgs): 1033 bytes (packet no 430 and 436). 1033 x 30 = 30990
 
-Total: 965 + 2005200 + 55602 + 29190 = 2090957 bytes.
+Total: 2204435 bytes.
 
 ###From server to clients###
 
-* InitTest message (60 msgs): 336 bytes (packet no 332-334 and 336)
-* ReceiveMessage (108000 msgs): (varies) 1272 bytes (packet no 338, 339, 341-343, 345 and 346) for the first reply only.
-  845 bytes (packet no 349-351, 353 and 354)
-  Using 845 bytes as basis as the number varies. 845 x 108000 = 91260000 bytes.
-* Harvest message (60 msgs): 692 bytes (packet no 423, 424 and 426-428). 692 x 60 = 41520 bytes.
-* Harvest complete message (60 msgs): 893 bytes (packet no 431 - 433, 435 and 436). 893 x 60 = 53580.
+* InitTest message (60 msgs): 336 bytes (packet no 332-334 and 336). 336 x 60 = 20160 bytes
+* ReceiveMessage (108000 msgs): (varies) 1152 bytes (packet no 338, 341-343 and 345) for the first reply only.
+  785 bytes (packet no 349-351 and 353)
+  Using 785 bytes as basis as the number varies. 785 x 108000 = 84780000 bytes.
+* Harvest message (60 msgs): 632 bytes (packet no 423, 424, 426 and 427). 632 x 60 = 37920 bytes.
+* Harvest complete message (60 msgs): 833 bytes (packet no 431 - 433 and 435). 833 x 60 = 49980.
 
-Total: 336 + 91260000 + 41520 + 53580 = 91355436 bytes.
+Total: 84888060 bytes.
 
-Total bytes in test capture counting from the connect call: 28458
+Overall: 87092495
+
+Total bytes in test capture counting from the connect call: 29066
 
 ##Long-Polling##
 
 ###From clients to server###
 
-* InitTest message (1 msg): 956 bytes (packet no 253).
-* Broadcast message (1800 msgs): 1105 bytes ( packet no 260) 1105 x 1800 = 1989000 bytes.
-* Complete message (60 msgs): 918 bytes (packet no 391) 918 x 60 = 55080 bytes.
-* GetData message (30 msgs): 965 bytes (packet no 401). 965 x 30 = 28950 bytes.
+* InitTest message (1 msg): 1016 bytes (packet no 253 and 259).
+* Broadcast message (1800 msgs): 1165 bytes (packet no 260 and 263) 1165 x 1800 = 2097000 bytes.
+* Complete message (60 msgs): 978 bytes (packet no 391 and 398) 978 x 60 = 58680 bytes.
+* GetData message (30 msgs): 1025 bytes (packet no 401 and 409). 1025 x 30 = 30750 bytes.
 
-Total: 2073986 bytes
+Total: 2187446 bytes
 
 ###From server to clients###
 
-* InitTest message (60 msgs): 1561 bytes (packet no 247, 248 (poll request), 254 - 257 and 259). 1561 x 60 = 93660 bytes.
-* ReceiveMessage (108000 msgs): (varies): 2437 (packet no 261 - 263, 266, 267, 269, 270, 272 and 273) for the first reply only.
-  2071 bytes (packet no 276, 277, 279-281, 283, 284 and 286).
-  Using 2071 bytes as basis as the number varies. 2071 x 108000 = 223668000
-* Harvest message (60 msgs): 1857 bytes (packet no 392 - 396, 398 and 400). 1857 x 60 = 111420.
-* Harvest complete message (60 msgs): 2059 (packet no 402, 405 - 407 and 409 - 411). 2059 x 60 = 123540 bytes.
+* InitTest message (60 msgs): 1501 bytes (packet no 247, 248 and 254 - 257). 1501 x 60 = 90060 bytes.
+* ReceiveMessage (108000 msgs): (varies): 2377 (packet no 261, 262, 266, 267, 269, 270, 272 and 273) for the first reply only.
+  2011 bytes (packet no 276, 277, 279-281, 283, and 286).
+  Using 2011 bytes as basis as the number varies. 2011 x 108000 = 217188000
+* Harvest message (60 msgs): 1797 bytes (packet no 392 - 396, and 400). 1797 x 60 = 107820.
+* Harvest complete message (60 msgs): 1999 (packet no 402, 405 - 407, 410 and 411). 1999 x 60 = 119940 bytes.
 
-Total: 223996620 bytes.
+Total: 217505820 bytes.
+
+Overall: 219693266
 
 Total bytes in test capture counting from the connect call: 45879
 
@@ -108,7 +114,59 @@ Total: 410854 bytes
 
 Total: 26163900 bytes.
 
+Overall: 26574754
+
 Total bytes in test capture counting from the connect call: 6979
+
+##Long-Polling##
+
+###From clients to server###
+
+* InitTest message (1 msg): 871 bytes (packet no 456 and 457).
+* Broadcast message (1800 msgs): 969 bytes (packet no 459 and 461). 969 x 1800 = 1744200 bytes.
+* Complete message (60 msgs): 843 bytes (packet no 514 and 516). 843 x 60 = 50580 bytes.
+* GetData message (30 msgs): 866 bytes (packet no 518 and 520). 866 x 30 = 25980 bytes.
+
+Total: 1821632 bytes.
+
+###From server to clients###
+
+* InitTest message (60 msgs): 807 bytes (packet no 452, 453, and 458). 807 x 60 = 48420 bytes
+* ReceiveMessage (108000 msgs): 948 bytes (packet no 460, 462 and 464). 948 x 108000 = 102384000 bytes.
+* Harvest message (60 msgs): 725 bytes (packet no 515 and 517). 725 x 60 = 43500 bytes.
+* Harvest complete message (60 msgs): 933 (packet no 519 and 521). 933 x 60 = 55980 bytes.
+
+Total: 102531900 bytes.
+
+Overall: 104353532
+
+Total bytes in test capture counting from the connect call: 26541
+
+##Polling##
+
+###From clients to server###
+
+* InitTest message (1 msg): 922 bytes (packet no 396 and 397).
+* Broadcast message (1800 msgs): 1113 bytes (packet no 400 and 401). 1113 x 1800 = 2003400 bytes.
+* Complete message (60 msgs): 877 bytes (packet no 458 and 459). 877 x 60 = 52620 bytes.
+* GetData message (30 msgs): 926 bytes (packet no 462 and 463). 926 x 30 = 27780 bytes.
+
+Total: 2084722
+
+###From server to clients###
+
+* InitTest message (60 msgs): 799 bytes (packet no 392, 393 and 398). 799 x 60 = 47940 bytes.
+* ReceiveMessage (108000 msgs): 956 bytes (packet no 399 402 and 404) 956 x 108000 = 103248000 bytes.
+* Harvest message (60 msgs): 713 bytes (packet no 457 and 460). 713 x 60 = 42780 bytes.
+* Harvest complete message (60 msgs): 940 bytes (packet no 462 and 464). 940 x 60 = 56400 bytes.
+
+Total: 103395120
+
+Overall: 105479842
+
+Total bytes in test capture counting from the connect call: 28274
+
+
 
 ####Template (delete this)####
 
@@ -129,6 +187,8 @@ Total:
 * Harvest complete message (60 msgs):
 
 Total:
+
+Overall: 
 
 Total bytes in test capture counting from the connect call:
 
