@@ -166,7 +166,57 @@ Overall: 105479842
 
 Total bytes in test capture counting from the connect call: 28274
 
+#Play#
 
+##WebSockets##
+
+###From clients to server###
+
+* InitTest message (1 msg): 136 bytes (packet no 474).
+* Broadcast message (1800 msgs): 235 bytes (packet no 477). 235 x 1800 = 423000 bytes.
+* Complete message (60 msgs): 108 bytes (packet no 498). 108 x 60 = 6480 bytes.
+* GetData message (30 msgs): 132 bytes (packet no 500). 132 x 30 = 3960 bytes.
+
+Total: 433576
+
+###From server to clients###
+
+* InitTest message (60 msgs): 177 bytes (packet no 475 and 476). 117 x 60 = 10620 bytes.
+* ReceiveMessage (108000 msgs): 256 bytes (packet no 479 -> a 60 byte TCP package is sent along with the first message, but none of the others).
+  256 x 108000 = 27648000 bytes.
+* Harvest message (60 msgs): 92 bytes (packet no 499). 92 x 60 = 5520 bytes.
+* Harvest complete message (60 msgs): 300 bytes (packet no 501). 300 x 60 = 18000 bytes.
+
+Total: 27682140
+
+Overall: 28115716
+
+Total bytes in test capture counting from the connect call: 6949
+
+##Http-Streaming##
+
+###From clients to server###
+
+* InitTest message (1 msg): 748 bytes (packet no 370 and 373).
+* Broadcast message (1800 msgs): 846 bytes (packet no 374 and 376). 846 x 1800 = 1522800 bytes.
+* Complete message (60 msgs): 720 bytes (packet no 418 and 419). 720 x 60 = 43200 bytes.
+* GetData message (30 msgs): 745 bytes (packet no 422 and 423). 745 x 30 = 22350 bytes.
+
+Total: 1589098
+
+###From server to clients###
+
+* InitTest message (60 msgs): 243 bytes (packet no 371 and 372). 243 x 60 = 14580 bytes.
+* ReceiveMessage (108000 msgs): 321 bytes (packet no 378 -> -> a 60 byte TCP package is sent along with the first message, but none of the others).
+  321 x 108000 = 34668000 bytes.
+* Harvest message (60 msgs): 158 bytes (packet 421). 158 x 60 = 9480 bytes.
+* Harvest complete message (60 msgs): 366 bytes (packet no 425). 366 x 60 = 21960 bytes.
+
+Total: 34714020
+
+Overall: 36303118
+
+Total bytes in test capture counting from the connect call: 21668
 
 ####Template (delete this)####
 
