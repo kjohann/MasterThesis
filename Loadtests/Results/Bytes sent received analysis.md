@@ -92,6 +92,34 @@ Overall: 219693266
 
 Total bytes in test capture counting from the connect call: 45879
 
+##Http-Streaming using IE##
+
+###From clients to server###
+
+NOTE: There is a TCP packet of 744 (in one case 743) being sent along with each post. I believe that this is part of the post request.
+
+* InitTest message (1 msg): 991 bytes (packet no 89, 90 and 100).
+* Broadcast message (1800 msgs): 1140 bytes (packet no 96, 97 and 104). 1140 x 1800 = 2052000 bytes.
+* Complete message (60 msgs): 953 bytes (packet no 213, 214 and 223). 953 x 60 = 57180 bytes.
+* GetData message (30 msgs): 1000 bytes (packet no 225, 226 and 238). 1000 x 30 = 30000 bytes.
+
+Total: 2140171
+
+###From server to clients###
+
+* InitTest message (60 msgs): 294 bytes (packet no 92-94). 294 x 60 = 17640 bytes.
+* ReceiveMessage (108000 msgs): (varies): 1230 (packet no 98, 99, 102, 103, 105 and 106) for the first reply only.
+  863 bytes (packet no 112, 113 and 115 - 117).
+  Using 863 bytes as basis as the number varies. 863 x 108000 = 93204000
+* Harvest message (60 msgs): 710 bytes (packet no 215-217, 219 and 220). 710 x 60 = 42600 bytes.
+* Harvest complete message (60 msgs): 912 bytes (packet no 227, 232 - 234 and 236). 912 x 60 = 54720 bytes.
+
+Total: 93301614
+
+Overall: 95441785
+
+Total bytes in test capture counting from the connect call: 30353
+
 #Socket.IO#
 
 ##WebSockets##
@@ -391,6 +419,30 @@ Total: 123095580
 Overall: 125086097
 
 Total bytes in test capture counting from the connect call: 31269
+
+##Server Sent Events using Opera##
+
+###From clients to server###
+
+* InitTest message (1 msg): 944 bytes (packet no 147 and 148)
+* Broadcast message (1800 msgs): 1056 bytes (packet no 159 and 162). 1056 x 1800 = 1900800 bytes.
+* Complete message (60 msgs): 914 bytes (packet no 285 and 286). 914 x 60 = 54840 bytes.
+* GetData message (30 msgs): 943 bytes (packet no 296 and 297). 943 x 30 = 28290 bytes.
+
+Total: 1984874
+
+###From server to clients###
+
+* InitTest message (60 msgs): 349 bytes (packet no 149, 152, 153, 155 and 156). 349 x 60 = 20940 bytes.
+* ReceiveMessage (108000 msgs): 625 bytes (packet no 160, 164, 165, 168, 170, 172 and 173). 625 x 108000 = 67500000 bytes.
+* Harvest message (60 msgs): 274 bytes (packet no 288, 289, 292 and 294). 274 x 60 = 16440 bytes.
+* Harvest complete message (60 msgs): 426 bytes (packet no 299, 300 and 303). 426 x 60 = 25560 bytes.
+
+Total: 67562940
+
+Overall: 69547814
+
+Total bytes in test capture counting from the connect call: 25533
 
 ####Template (delete this)####
 

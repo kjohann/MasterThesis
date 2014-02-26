@@ -54,6 +54,12 @@
         "Data": [171704, 167884, 171480, 169108, 169952, 180168, 172848, 170992, 169560, 166816]
     },
     {
+        "Framework": "SignalR",
+        "Type": "Bytes sent/received",
+        "Transport": "Http-Streaming",
+        "Data": [95441785]
+    },
+    {
         "Framework": "Socket.IO",
         "Type": "Bytes sent/received",
         "Transport": "Websockets",
@@ -160,7 +166,13 @@
         "Type": "Max memory consumption",
         "Transport": "Long-Polling",
         "Data": [32276, 32368, 32320, 31044, 31816, 30824, 30896, 31968, 31176, 32524]
-    },    
+    },   
+    {
+        "Framework": "SockJS",
+        "Type": "Bytes sent/received",
+        "Transport": "Server Sent Events",
+        "Data": [69547814]
+    }, 
     {
         "Framework": "Play",
         "Type": "Bytes sent/received",
