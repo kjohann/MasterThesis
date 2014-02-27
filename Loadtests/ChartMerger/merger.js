@@ -180,8 +180,9 @@
         for(var i = 0; i < charts.length; i++) {
             var longestSeries = 0;
             for(var j = 0; j < charts[i].Series.length; j++) {
+                var seriesName = charts[i].Series[1] ? charts[i].framework + "-" + charts[i].Series[j].Name : charts[i].framework;
                 chart.Series.push({
-                    Name: charts[i].framework + "-" + charts[i].Series[j].Name,
+                    Name: seriesName,
                     Data: charts[i].Series[j].Data
                 });
 
