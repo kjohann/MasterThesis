@@ -143,7 +143,7 @@
     root.getAverageManualDataSeriesByTypeAndTransport = function(type, frameworks, transport, allDataArray) {
         var series = [];
         for(var i = 0; i < frameworks.length; i++) {
-            if(frameworks[i] != "Lightstreamer WS-POLLING") {
+            if(frameworks[i] != "Lightstreamer WSP") {
                 var avg = root.getAverageValueByTypeTransportAndFramework(type, transport, frameworks[i], allDataArray);
                 series.push(avg);
             }

@@ -22,7 +22,7 @@
     };
 
     root.getDefaultFrameworks = function() {
-        return ["SignalR", "Socket.IO", "Play", "Lightstreamer", "SockJS", "Lightstreamer WS-POLLING"];
+        return ["SignalR", "Socket.IO", "Play", "Lightstreamer", "SockJS", "Lightstreamer WSP"];
     }
 
 })(merger.util = merger.util || {});

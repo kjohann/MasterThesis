@@ -27,29 +27,65 @@
 
     function getBrowserDataChart(chart) {
         return {
+            colors: [ '#2f7ed8',
+                '#0d233a',
+                '#8bbc21',
+                '#910000',
+                '#1aadce',
+                '#CC0066',
+                '#f28f43',
+                '#000000',
+                '#FF00FF',
+                '#0000CC'
+            ],
             title: {
                 text: chart.Title,
-                x: -20
+                x: -20,
+                style: {
+                    fontSize: '30px'
+                }
             },
             xAxis: {
-                categories: chart.XAxis
+                categories: chart.XAxis,
+                labels: {
+                    style: {
+                        fontSize:'20px'
+                    }
+                }
             },
             yAxis: {
                 title: {
-                    text: chart.YAxisTitle
+                    text: chart.YAxisTitle,
+                    style: {
+                        fontSize: '16px'
+                    }
                 },
                 plotLines: [{
                     width: 1,
                     color: '#808080'
-                }]
+                }],
+                labels: {
+                    style: {
+                        fontSize:'20px'
+                    }
+                }
             },
             legend: {
                 layout: 'vertical',
                 align: 'right',
                 verticalAlign: 'middle',
-                borderWidth: 0
+                borderWidth: 0,
+                itemStyle: {
+                    fontSize: '26px'
+                }
             },
-            series: mapSeries(chart)
+            series: mapSeries(chart),
+            exporting: {
+                filename: chart.Title,
+                sourceHeight: 550,
+                sourceWidth: 1337
+            }
+
         };
     }
 
@@ -59,15 +95,31 @@
                 type: 'column'
             },
             title: {
-                text: chart.title
+                text: chart.title,
+                style: {
+                    fontSize: '24px'
+                }
             },
             xAxis: {
-                categories: chart.xAxis
+                categories: chart.xAxis,
+                labels: {
+                    style: {
+                        fontSize:'20px'
+                    }
+                }
             },
             yAxis: {
                 min: 0,
                 title: {
-                    text: chart.yAxisTitle
+                    text: chart.yAxisTitle,
+                    style: {
+                        fontSize: '16px'
+                    }
+                },
+                labels: {
+                    style: {
+                        fontSize:'20px'
+                    }
                 }
             },
             tooltip: {
@@ -84,7 +136,18 @@
                     borderWidth: 0
                 }
             },
-            series: chart.series
+            series: chart.series,
+            legend: {
+                borderWidth: 0,
+                itemStyle: {
+                    fontSize: '26px'
+                }
+            },
+            exporting: {
+                filename: chart.title,
+                sourceHeight: 550,
+                sourceWidth: 1337
+            }
         };
     }
 
