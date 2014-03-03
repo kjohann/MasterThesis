@@ -30,7 +30,7 @@ Total: 425940 bytes.
 * InitTest message (60 msgs): 319 bytes (packet no 748-751). 319 x 60 = 19140 bytes.
 * ReceiveMessage (108000 msgs): (varies) 713 bytes (packet no 756, 757, 759-762, 764 and 765) for the first reply only.
   597 bytes (packet no 768-769 and 771-774)
-  Using 597 as basis as the number varies: 597 x 109000 = 64476000 bytes.
+  Using 597 as basis as the number varies only for the first: 597 x 109000 = 64476000 bytes.
 * Harvest message (60 msgs): 433 bytes (packet no 867, 868, 870, 871, 873 and 874). 433 x 60 = 25980 bytes
 * Harvest complete message (60 msgs): 632 bytes (packet no 877, 878 and 880-883) in capture 632 bytes x 60 = 52440 bytes.
 
@@ -55,14 +55,14 @@ Total: 2204435 bytes.
 
 * InitTest message (60 msgs): 336 bytes (packet no 332-334 and 336). 336 x 60 = 20160 bytes
 * ReceiveMessage (108000 msgs): (varies) 1152 bytes (packet no 338, 341-343 and 345) for the first reply only.
-  785 bytes (packet no 349-351 and 353)
-  Using 785 bytes as basis as the number varies. 785 x 108000 = 84780000 bytes.
+  845 bytes (packet no 349-351 and 353)
+  Using 845 bytes as basis as the number varies only for the first. 845 x 108000 = 91260000 bytes.
 * Harvest message (60 msgs): 632 bytes (packet no 423, 424, 426 and 427). 632 x 60 = 37920 bytes.
 * Harvest complete message (60 msgs): 833 bytes (packet no 431 - 433 and 435). 833 x 60 = 49980.
 
-Total: 84888060 bytes.
+Total: 91368060 bytes.
 
-Overall: 87092495
+Overall: 93572495
 
 Total bytes in test capture counting from the connect call: 29066
 
@@ -82,7 +82,7 @@ Total: 2187446 bytes
 * InitTest message (60 msgs): 1501 bytes (packet no 247, 248 and 254 - 257). 1501 x 60 = 90060 bytes.
 * ReceiveMessage (108000 msgs): (varies): 2377 (packet no 261, 262, 266, 267, 269, 270, 272 and 273) for the first reply only.
   2011 bytes (packet no 276, 277, 279-281, 283, and 286).
-  Using 2011 bytes as basis as the number varies. 2011 x 108000 = 217188000
+  Using 2011 bytes as basis as the number varies only for the first. 2011 x 108000 = 217188000
 * Harvest message (60 msgs): 1797 bytes (packet no 392 - 396, and 400). 1797 x 60 = 107820.
 * Harvest complete message (60 msgs): 1999 (packet no 402, 405 - 407, 410 and 411). 1999 x 60 = 119940 bytes.
 
@@ -110,7 +110,7 @@ Total: 2140171
 * InitTest message (60 msgs): 294 bytes (packet no 92-94). 294 x 60 = 17640 bytes.
 * ReceiveMessage (108000 msgs): (varies): 1230 (packet no 98, 99, 102, 103, 105 and 106) for the first reply only.
   863 bytes (packet no 112, 113 and 115 - 117).
-  Using 863 bytes as basis as the number varies. 863 x 108000 = 93204000
+  Using 863 bytes as basis as the number varies only for the first. 863 x 108000 = 93204000
 * Harvest message (60 msgs): 710 bytes (packet no 215-217, 219 and 220). 710 x 60 = 42600 bytes.
 * Harvest complete message (60 msgs): 912 bytes (packet no 227, 232 - 234 and 236). 912 x 60 = 54720 bytes.
 
