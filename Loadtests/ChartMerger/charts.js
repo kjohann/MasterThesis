@@ -46,6 +46,12 @@
                 }
             },
             xAxis: {
+                title: {
+                    text: 'Seconds',
+                    style: {
+                        fontSize: '16px'
+                    }
+                },
                 categories: chart.XAxis,
                 labels: {
                     style: {
