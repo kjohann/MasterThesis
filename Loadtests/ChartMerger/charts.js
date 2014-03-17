@@ -21,6 +21,8 @@
                 $("#peakProcessorChart").highcharts(highChart);
             } else if(chart.title === "Max memory consumption") {
                 $("#maxMemoryConsumtionChart").highcharts(highChart);
+            } else {
+                $("#totalAvgLatencyChart").highcharts(highChart);
             }
         });
     }
