@@ -17,7 +17,13 @@
     	"Transport": "Websockets",
     	"Data": [145612, 148196, 148608, 132892, 142612, 147944, 143584, 143908, 129076, 155040]
     },
-        {
+    {
+        "Framework": "SignalR",
+        "Type": "Total average latency",
+        "Transport": "Websockets",
+        "Data": [18.412]
+    },
+    {
         "Framework": "SignalR",
         "Type": "Bytes sent/received",
         "Transport": "Server Sent Events",
@@ -37,6 +43,12 @@
     },
     {
         "Framework": "SignalR",
+        "Type": "Total average latency",
+        "Transport": "Server Sent Events",
+        "Data": [18.093]
+    },
+    {
+        "Framework": "SignalR",
         "Type": "Bytes sent/received",
         "Transport": "Long-Polling",
         "Data": [219693266]
@@ -52,6 +64,12 @@
         "Type": "Max memory consumption",
         "Transport": "Long-Polling",
         "Data": [171704, 167884, 171480, 169108, 169952, 180168, 172848, 170992, 169560, 166816]
+    },  
+    {
+        "Framework": "SignalR",
+        "Type": "Total average latency",
+        "Transport": "Long-Polling",
+        "Data": [134.838]
     },
     {
         "Framework": "SignalR",
@@ -76,7 +94,13 @@
         "Type": "Max memory consumption",
         "Transport": "Websockets",
         "Data": [37296, 33308, 36516, 32992, 33220, 36908, 37488, 33292, 37276, 33268]
-    },    
+    },
+    {
+        "Framework": "Socket.IO",
+        "Type": "Total average latency",
+        "Transport": "Websockets",
+        "Data": [6.053]
+    },         
     {
         "Framework": "Socket.IO",
         "Type": "Bytes sent/received",
@@ -94,7 +118,13 @@
         "Type": "Max memory consumption",
         "Transport": "Long-Polling",
         "Data": [33268, 31852, 32592, 31444, 31052, 31836, 32732, 31352, 31536, 31716]
-    },    
+    },
+    {
+        "Framework": "Socket.IO",
+        "Type": "Total average latency",
+        "Transport": "Long-Polling",
+        "Data": [52.598]
+    },         
     {
         "Framework": "Socket.IO",
         "Type": "Bytes sent/received",
@@ -113,6 +143,12 @@
         "Transport": "Polling",
         "Data": [31924, 32276,32732, 31040, 31576, 31460, 31332, 32556, 31872, 31320]
     },    
+    {
+        "Framework": "Socket.IO",
+        "Type": "Total average latency",
+        "Transport": "Polling",
+        "Data": [605.581]
+    },     
     {
         "Framework": "SockJS",
         "Type": "Bytes sent/received",
@@ -133,6 +169,12 @@
     },    
     {
         "Framework": "SockJS",
+        "Type": "Total average latency",
+        "Transport": "Websockets",
+        "Data": [61.183]
+    },     
+    {
+        "Framework": "SockJS",
         "Type": "Bytes sent/received",
         "Transport": "Http-Streaming",
         "Data": [29018477]
@@ -148,7 +190,13 @@
         "Type": "Max memory consumption",
         "Transport": "Http-Streaming",
         "Data": [30564, 30860, 30400, 30820, 31580, 30764, 30584, 30588, 30424, 30380]
-    },    
+    },
+    {
+        "Framework": "SockJS",
+        "Type": "Total average latency",
+        "Transport": "Http-Streaming",
+        "Data": [120.049]
+    },           
     {
         "Framework": "SockJS",
         "Type": "Bytes sent/received",
@@ -167,6 +215,12 @@
         "Transport": "Long-Polling",
         "Data": [32276, 32368, 32320, 31044, 31816, 30824, 30896, 31968, 31176, 32524]
     },   
+    {
+        "Framework": "SockJS",
+        "Type": "Total average latency",
+        "Transport": "Long-Polling",
+        "Data": [198.636]
+    },       
     {
         "Framework": "SockJS",
         "Type": "Bytes sent/received",
@@ -193,6 +247,12 @@
     },    
     {
         "Framework": "Play",
+        "Type": "Total average latency",
+        "Transport": "Websockets",
+        "Data": [75.973]
+    },       
+    {
+        "Framework": "Play",
         "Type": "Bytes sent/received",
         "Transport": "Http-Streaming",
         "Data": [36303118]
@@ -214,7 +274,13 @@
         "Type": "Max memory consumption",
         "Transport": "Websockets",
         "Data": [116680, 110832, 106460, 113120, 105512, 109424, 108724, 107924, 107676, 109348]
-    },    
+    },   
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Total average latency",
+        "Transport": "Websockets",
+        "Data": [17.759]
+    },        
     {
         "Framework": "Lightstreamer",
         "Type": "Bytes sent/received",
@@ -235,6 +301,12 @@
     },    
     {
         "Framework": "Lightstreamer",
+        "Type": "Total average latency",
+        "Transport": "Http-Streaming",
+        "Data": [33.079]
+    },            
+    {
+        "Framework": "Lightstreamer",
         "Type": "Bytes sent/received",
         "Transport": "WS-Polling",
         "Data": [68406612]
@@ -253,6 +325,12 @@
     },
     {
         "Framework": "Lightstreamer",
+        "Type": "Total average latency",
+        "Transport": "WS-Polling",
+        "Data": [61.78]
+    },            
+    {
+        "Framework": "Lightstreamer",
         "Type": "Bytes sent/received",
         "Transport": "Polling",
         "Data": [188869466]
@@ -268,5 +346,11 @@
         "Type": "Max memory consumption",
         "Transport": "Polling",
         "Data": [996036, 893572, 850808, 848064, 785952, 845236, 852900, 969156, 924076, 920080]
-    }
+    },
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Total average latency",
+        "Transport": "Polling",
+        "Data": [161.729]
+    }            
 ]
