@@ -90,6 +90,7 @@ public class JsonSubscription {
 			@Override
 			public void run() {
 				try {
+					//Triggers synchronized code:
 					localListener.broadcast(cid, message);			
 				} catch (IOException e) {
 					e.printStackTrace();
