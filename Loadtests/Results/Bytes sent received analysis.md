@@ -444,31 +444,6 @@ Overall: 69547814
 
 Total bytes in test capture counting from the connect call: 25533
 
-####Template (delete this)####
-
-###From clients to server###
-
-* InitTest message (1 msg):
-* Broadcast message (1800 msgs):
-* Complete message (60 msgs):
-* GetData message (30 msgs):
-
-Total:
-
-###From server to clients###
-
-* InitTest message (60 msgs):
-* ReceiveMessage (108000 msgs):
-* Harvest message (60 msgs):
-* Harvest complete message (60 msgs):
-
-Total:
-
-Overall: 
-
-Total bytes in test capture counting from the connect call:
-
-
 NOTE: Messages vary a couple of bytes depending on message and client ids.
 Should have made it a more static format (ex. m0001c0001 instead of m1c1)
 
