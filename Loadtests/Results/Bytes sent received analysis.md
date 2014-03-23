@@ -1,3 +1,9 @@
+#Basis for calculations of theoretical throughput#
+This document shows the basis for how the theoretical throughput of each framework/transport was calculated.
+All are based on a single network capture where one client sent 10 messages to the server.
+The package numbers are indicated in the data below.
+
+
 #How the test works#
 1. "initTest" message is sent from the master client to the server (1 message only)
 2. "initTest" message is broadcasted from the server to all clients (60 messages).
