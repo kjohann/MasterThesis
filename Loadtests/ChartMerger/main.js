@@ -45,6 +45,13 @@
             var frameworks = $("#frameworks").val() ? $("#frameworks").val() : util.getDefaultFrameworks();
             var transports = $("#transports").val() ? $("#transports").val() : util.getDefaultTransports();
 
+            $.each(getExtraFrameworks(), function(i, f) {
+                if(f) {
+                    console.log(f);
+                    frameworks.push(f);
+                }
+            })
+
             if(!merger.rawBrowserData) {
                 console.log("No browser data file selected");
             } else {
@@ -57,11 +64,16 @@
             } else {
                 var charts = [];
                 charts.push(merger.getManualDataChart("Bytes sent/received", frameworks, transports, "Bytes", merger.rawManualData));
-                charts.push(merger.getManualDataChart("Peak processor usage", frameworks, transports, "%", merger.rawManualData));
-                charts.push(merger.getManualDataChart("Max memory consumtion", frameworks, transports, "KBytes", merger.rawManualData));
+                charts.push(merger.getManualDataChart("Median processor usage", frameworks, transports, "%", merger.rawManualData));
+                charts.push(merger.getManualDataChart("Max memory consumption", frameworks, transports, "KBytes", merger.rawManualData));
+                charts.push(merger.getManualDataChart("Total average latency", frameworks, transports, "Milliseconds", merger.rawManualData));
 
                 chartsHelper.displayManualDataChart(charts)
             }
         });
     });
+
+    function getExtraFrameworks() {
+        return $("#extraFrameworks").val().split(",");
+    }
 })(merger, merger.util, merger.charts);

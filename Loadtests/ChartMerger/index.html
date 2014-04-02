@@ -10,6 +10,8 @@
     <script src="charts.js"></script>
     <script src="main.js"></script>
 
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
 
 </head>
 <body>
@@ -25,7 +27,9 @@
             <option value="Play">Play</option>
             <option value="Lightstreamer">Lightstreamer</option>
             <option value="SockJS">SockJS</option>
-        </select>                                                  <br> <br>
+        </select>
+        <label>Add frameworks</label><input id="extraFrameworks" type="text" /><br> <br>
+
         <label for="transports">Select transports (for manual data - default = all)</label>  <br>
         <select multiple id="transports" style="height: 90px">
             <option value="Websockets">Websockets</option>
@@ -38,12 +42,13 @@
         <button id="all">Get average data for all</button>
     </div>                                                 <br>
     <div id="charts">
-        <div id="messagesSentReceivedChart" style="height:400px;"></div>
-        <div id="messagesSentFromServerChart" style="height:400px;"></div>
-        <div id="averageLatencyChart" style="height:400px;"></div>
-        <div id="peakProcessorChart" style="height:400px;"></div>
-        <div id="maxMemoryConsumtionChart" style="height:400px;"></div>
-        <div id="bytesSentReceivedChart" style="height:400px;"></div>
+        <div id="messagesSentReceivedChart" style="height:500px;"></div>
+        <div id="messagesSentFromServerChart" style="height:500px;"></div>
+        <div id="averageLatencyChart" style="height:500px;"></div>
+        <div id="peakProcessorChart" style="height:500px;"></div>
+        <div id="maxMemoryConsumtionChart" style="height:500px;"></div>
+        <div id="bytesSentReceivedChart" style="height:500px;"></div>
+        <div id="totalAvgLatencyChart" style="height:500px;"></div>
     </div>
 
 </body>

@@ -41,11 +41,11 @@ describe("merger", function() {
         allComb[0].Series[4].Data.shouldAllBeEqual([50, 50, 30, 50, 20]);
 
         allComb[1].Series.length.should.equal(4);
-        allComb[1].Series[3].Name.should.equal("Lightstreamer-Messages");
+        allComb[1].Series[3].Name.should.equal("Lightstreamer");
         allComb[1].Series[1].Data.shouldAllBeEqual([1000, 1000, 600, 1000, 400, 400, 600]);
 
         allComb[2].Series.length.should.equal(4);
-        allComb[2].Series[0].Name.should.equal("SignalR-Average latency (ms)");
+        allComb[2].Series[0].Name.should.equal("SignalR");
         allComb[2].Series[2].Data.shouldAllBeEqual([110.10, 96.08, 263.64, 108.50, 108.50]);
 
     });

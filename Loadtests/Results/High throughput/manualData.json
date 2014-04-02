@@ -13,7 +13,7 @@
     },
     {
     	"Framework": "SignalR",
-    	"Type": "Max memory consumtion",
+    	"Type": "Max memory consumption",
     	"Transport": "Websockets",
     	"Data": [145612, 148196, 148608, 132892, 142612, 147944, 143584, 143908, 129076, 155040]
     },
@@ -31,7 +31,7 @@
     },
     {
         "Framework": "SignalR",
-        "Type": "Max memory consumtion",
+        "Type": "Max memory consumption",
         "Transport": "Server Sent Events",
         "Data": [162724, 152540, 164820, 160160, 171124, 158972, 174212, 163668, 169204, 168220]
     },
@@ -49,7 +49,7 @@
     },
     {
         "Framework": "SignalR",
-        "Type": "Max memory consumtion",
+        "Type": "Max memory consumption",
         "Transport": "Long-Polling",
         "Data": [171704, 167884, 171480, 169108, 169952, 180168, 172848, 170992, 169560, 166816]
     },
@@ -67,7 +67,7 @@
     },
     {
         "Framework": "Socket.IO",
-        "Type": "Max memory consumtion",
+        "Type": "Max memory consumption",
         "Transport": "Websockets",
         "Data": [37296, 33308, 36516, 32992, 33220, 36908, 37488, 33292, 37276, 33268]
     },    
@@ -85,26 +85,26 @@
     },
     {
         "Framework": "Socket.IO",
-        "Type": "Max memory consumtion",
+        "Type": "Max memory consumption",
         "Transport": "Long-Polling",
         "Data": [33268, 31852, 32592, 31444, 31052, 31836, 32732, 31352, 31536, 31716]
     },    
     {
         "Framework": "Socket.IO",
         "Type": "Bytes sent/received",
-        "Transport": "Long-Polling",
+        "Transport": "Polling",
         "Data": [30957449, 30708388, 30930532, 30369199, 30737803, 31259337, 31504527, 30387741, 30545315, 30914556]
     },
     {
         "Framework": "Socket.IO",
         "Type": "Median processor usage",
-        "Transport": "Long-Polling",
+        "Transport": "Polling",
         "Data": [7, 7, 9, 8, 10, 8, 9, 7, 10, 7]
     },
     {
         "Framework": "Socket.IO",
-        "Type": "Max memory consumtion",
-        "Transport": "Long-Polling",
+        "Type": "Max memory consumption",
+        "Transport": "Polling",
         "Data": [31924, 32276,32732, 31040, 31576, 31460, 31332, 32556, 31872, 31320]
     },    
     {
@@ -121,7 +121,7 @@
     },
     {
         "Framework": "SockJS",
-        "Type": "Max memory consumtion",
+        "Type": "Max memory consumption",
         "Transport": "Websockets",
         "Data": [31844, 32552, 31424, 31780, 32268, 32068, 31376, 32384, 31720, 32368]
     },    
@@ -139,7 +139,7 @@
     },
     {
         "Framework": "SockJS",
-        "Type": "Max memory consumtion",
+        "Type": "Max memory consumption",
         "Transport": "Http-Streaming",
         "Data": [30564, 30860, 30400, 30820, 31580, 30764, 30584, 30588, 30424, 30380]
     },    
@@ -157,7 +157,7 @@
     },
     {
         "Framework": "SockJS",
-        "Type": "Max memory consumtion",
+        "Type": "Max memory consumption",
         "Transport": "Long-Polling",
         "Data": [32276, 32368, 32320, 31044, 31816, 30824, 30896, 31968, 31176, 32524]
     },    
@@ -165,19 +165,19 @@
         "Framework": "Play",
         "Type": "Bytes sent/received",
         "Transport": "Websockets",
-        "Data": [25424209, 25379750, 25454112, 25428162, 25421480, 25418745, 25465792, 25422967, 25485381, 25427741]
+        "Data": [26363325, 25845802, 26347235, 25881602, 25875548, 25845998, 25815273, 26510201, 24998923, 26650251]
     },
     {
         "Framework": "Play",
         "Type": "Median processor usage",
         "Transport": "Websockets",
-        "Data": [50, 55, 60, 55, 52, 55, 50, 58, 50, 50]
+        "Data": [31, 31, 32, 32, 31, 35, 33, 31, 32, 33]
     },
     {
         "Framework": "Play",
-        "Type": "Max memory consumtion",
+        "Type": "Max memory consumption",
         "Transport": "Websockets",
-        "Data": [169212, 167592, 226744, 164112, 226432, 164432, 168660, 164156, 170556, 193704]
+        "Data": [143628, 144228, 103696, 142344, 150336, 144988, 102664, 102800, 231536, 102156]
     },    
     {
         "Framework": "Lightstreamer",
@@ -193,8 +193,62 @@
     },
     {
         "Framework": "Lightstreamer",
-        "Type": "Max memory consumtion",
+        "Type": "Max memory consumption",
         "Transport": "Websockets",
         "Data": [116680, 110832, 106460, 113120, 105512, 109424, 108724, 107924, 107676, 109348]
-    }    
+    },    
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Bytes sent/received",
+        "Transport": "Http-Streaming",
+        "Data": [36145377, 32721520, 33290134, 31592718, 31897375, 31757526, 30388352, 30383815, 34457205, 32071639]
+    },
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Median processor usage",
+        "Transport": "Http-Streaming",
+        "Data": [25, 30, 27, 25, 28, 27, 25, 26, 24, 25]
+    },
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Max memory consumption",
+        "Transport": "Http-Streaming",
+        "Data": [106008, 105444, 107312, 106084, 106196, 108244, 110688, 108804, 106860, 106472]
+    },    
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Bytes sent/received",
+        "Transport": "WS-Polling",
+        "Data": [42350332, 32495482, 28126714, 37396138, 33889767, 39636003, 39903645, 34790363, 33767212, 37737888]
+    },
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Median processor usage",
+        "Transport": "WS-Polling",
+        "Data": [45, 45, 48, 50, 50, 48, 51, 48, 47, 46]
+    },
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Max memory consumption",
+        "Transport": "WS-Polling",
+        "Data": [137920, 624204, 152464, 168700, 164308, 157376, 176680, 161376, 167408, 183140]
+    },
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Bytes sent/received",
+        "Transport": "Polling",
+        "Data": [63839258, 56464800, 69215798, 50666557, 58875181, 67551142, 68271517, 79927635, 71824229, 62315861]
+    },
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Median processor usage",
+        "Transport": "Polling",
+        "Data": [73, 75, 72, 67, 60, 75, 72, 68, 66, 74]
+    },
+    {
+        "Framework": "Lightstreamer",
+        "Type": "Max memory consumption",
+        "Transport": "Polling",
+        "Data": [996036, 893572, 850808, 848064, 785952, 845236, 852900, 969156, 924076, 920080]
+    }
 ]

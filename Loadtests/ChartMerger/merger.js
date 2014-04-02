@@ -143,8 +143,10 @@
     root.getAverageManualDataSeriesByTypeAndTransport = function(type, frameworks, transport, allDataArray) {
         var series = [];
         for(var i = 0; i < frameworks.length; i++) {
-            var avg = root.getAverageValueByTypeTransportAndFramework(type, transport, frameworks[i], allDataArray);
-            series.push(avg);
+            if(frameworks[i] != "Lightstreamer WSP") {
+                var avg = root.getAverageValueByTypeTransportAndFramework(type, transport, frameworks[i], allDataArray);
+                series.push(avg);
+            }
         }
 
         return {
@@ -178,8 +180,9 @@
         for(var i = 0; i < charts.length; i++) {
             var longestSeries = 0;
             for(var j = 0; j < charts[i].Series.length; j++) {
+                var seriesName = charts[i].Series[1] ? charts[i].framework + "-" + charts[i].Series[j].Name : charts[i].framework;
                 chart.Series.push({
-                    Name: charts[i].framework + "-" + charts[i].Series[j].Name,
+                    Name: seriesName,
                     Data: charts[i].Series[j].Data
                 });
 
@@ -245,4 +248,5 @@
 
         return axis;
     }
+
 })(merger);
