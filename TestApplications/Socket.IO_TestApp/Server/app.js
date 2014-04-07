@@ -11,7 +11,7 @@ service.database.init(require('mysql').createConnection({
     database: 'auctionhouse',
     multipleStatements: true //For the sake of testapp, this is ok...
 }));
-
+io.set('browser client minification', true);
 server.listen(8080);
 
 var pathname = 'C:/Users/Kristian/Documents/GitHub/MasterThesis/TestApplications/Socket.IO_TestApp/Client';

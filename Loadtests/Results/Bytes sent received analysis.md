@@ -449,15 +449,3 @@ Total: 67562940
 Overall: 69547814
 
 Total bytes in test capture counting from the connect call: 25533
-
-NOTE: Messages vary a couple of bytes depending on message and client ids.
-Should have made it a more static format (ex. m0001c0001 instead of m1c1)
-
-NOTE: Hard to predict exact behavior with WS - can vary up to 120, maybe 180 bytes for each "response", can be 3-8 packets. 120 * 7200 = 864000 bytes.
-This variation seems to be with other transports as well, but the insecurity in ignoring some of these, will not be significant. It is mostly a set behavior.
-
-NOTE: Some of the variation is due to SignalR cursor messages
-
-NOTE: There are some sporadic TCP packets going from the client to the server. These seem to be similar across all the transports (54 bytes) and at same interval.
-
-NOTE: WS-Polling keeps the initial WS-connection open - what is the benefit of using this transport then?
