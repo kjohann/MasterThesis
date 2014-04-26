@@ -4,7 +4,15 @@ This folder contains all code and results concerning the second part of my proje
 
 
 ##Problem statements##
-Two problem statements from the thesis is about this part. The following text is from the thesis itself:
+Three problem statements from the thesis is about this part. The following text is from the thesis itself:
+
+<b>II: Which of the frameworks have the best performance in terms of
+message frequency, latency, network usage and server resource
+consumption?</b>
+<br>Sometimes, performance is an alpha omega requirement for a project. Even if it isn’t,
+one will want a framework with good performance most of the time. The performance
+aspects measured in this thesis are the ones I deem most important for real time web
+applications.
 
 <b>IV: Does WebSockets outperform the old, established HTTP methods for
 real time in terms of network usage, message latency and use of machine

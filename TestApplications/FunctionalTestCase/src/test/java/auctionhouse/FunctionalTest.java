@@ -31,7 +31,8 @@ public class FunctionalTest {
 	private static final String username = "Testuser";
 	
 	
-	//run with mvn test -DargLine="-Dhost=[host] -Dport=[port] -DpageUrl=[(optional)url] -DincludeTemplate=[(default=false)]" 
+	//Run with mvn test -DargLine="-Dhost=[host] -Dport=[port] -DpageUrl=[(optional)url] -DincludeTemplate=[(default=false)]"
+	//The option "includeTemplate is about Lightstreamer only (set to true). Otherwise test number 8 will fail."
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		verifyUrl();
