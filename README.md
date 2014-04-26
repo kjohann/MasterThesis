@@ -16,3 +16,5 @@ The various folders contain different parts of the thesis work.
 * TestApplications: Contains all files regarding the first part of the project's work.
 * Thesis: Contains the thesis itself as well as various working documents.
 * Utils: Contains a utility library for handling database operations with JDBC. 
+
+<b>Further information can be found within the other folders</b>
