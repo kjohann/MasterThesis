@@ -9,10 +9,10 @@ Two problem statements from the thesis is about this part. The following text is
 <b>IV: Does WebSockets outperform the old, established HTTP methods for
 real time in terms of network usage, message latency and use of machine
 resources? </b>
-If it turns out that WebSockets doesn’t perform better, is it something we need?
+<br>If it turns out that WebSockets doesn’t perform better, is it something we need?
 
 <b>V: Can WebSockets be the foundation for the next generation of HTTP?</b>
-The answer to this is coupled with the previous question. If WebSockets is just as
+<br>The answer to this is coupled with the previous question. If WebSockets is just as
 good as HTTP performancewise, it will not be the foundation for the next generation
 of HTTP. However, if it is better, can it change the way browsers communicate with
 servers in more aspects than real time?
