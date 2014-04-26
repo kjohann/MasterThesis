@@ -1,21 +1,18 @@
 README
 ======
 
-This repository will be the host of all applications and pherhaps also documentation
- of my master thesis at the University of Oslo. Main reports may be excluded from repository.
+This repository contains my Master's thesis. The thesis is part of my degree in <i>Informatics: Programming and
+Networks</i> at the Department of Informatics, University of Oslo.
 
-Description of project:
+The thesis' title is: "Real Time Web Applications: Comparing frameworks and transport mechanisms".
+
+Description of repository:
 -----------------------
 
-I am going to test different frameworks for asynch client/server applications like Node.js and SignalR.
-They will be compared based on a set of criterias I have yet to define. 
+The various folders contain different parts of the thesis work.
 
-The work will include a testapplication that is to be implemented in each framework. This application
-will be an auctionhouse. In this app users should be able to:
-
-* log in/register
-* add items for sale
-* make bids on items
-* get real-time info about items
-
-More specs will possibly be added.
+* Essay: Contains the mandatory essay written in the first semester of the thesis (spring 2013).
+* Loadtests: Contains all files regarding the second part of the project's work.
+* TestApplications: Contains all files regarding the first part of the project's work.
+* Thesis: Contains the thesis itself as well as various working documents.
+* Utils: Contains a utility library for handling database operations with JDBC. 
